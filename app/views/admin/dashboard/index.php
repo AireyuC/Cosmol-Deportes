@@ -23,6 +23,12 @@
     <div class="container-fluid">
 
         <!-- Banner de la Olimpiada Activa -->
+        <?php 
+            $olimpiada = isset($olimpiada) ? $olimpiada : ['nombre' => '', 'lema' => '', 'estado' => '']; 
+            $kpis = isset($kpis) ? $kpis : ['disciplinas' => 0, 'delegaciones' => 0, 'equipos' => 0, 'partidos_hoy' => 0, 'sanciones_act' => 0];
+            $medallero_top = isset($medallero_top) ? $medallero_top : [];
+            $disciplinas = isset($disciplinas) ? $disciplinas : [];
+        ?>
         <div class="callout callout-info bg-white shadow-sm mb-4">
             <div class="row align-items-center">
                 <div class="col-md-8">

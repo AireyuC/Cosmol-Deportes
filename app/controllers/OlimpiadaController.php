@@ -81,6 +81,8 @@ class OlimpiadaController extends Controller {
 
     /**
      * Formulario de edición
+     *
+     * @param int $id ID de la Olimpiada a editar
      */
     public function edit($id) {
         AuthHelper::requireAdmin();
@@ -100,6 +102,8 @@ class OlimpiadaController extends Controller {
 
     /**
      * Actualiza la Olimpiada
+     *
+     * @param int $id ID de la Olimpiada a actualizar
      */
     public function update($id) {
         AuthHelper::requireAdmin();
@@ -128,6 +132,8 @@ class OlimpiadaController extends Controller {
 
     /**
      * Elimina una Olimpiada
+     *
+     * @param int $id ID de la Olimpiada a eliminar
      */
     public function delete($id) {
         AuthHelper::requireAdmin();
