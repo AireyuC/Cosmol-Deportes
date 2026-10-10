@@ -89,6 +89,7 @@ class OlimpiadaController extends Controller {
         if (!$olimpiada) {
             Session::setFlash('error', 'Olimpiada no encontrada.');
             $this->redirect('/olimpiadas');
+            return;
         }
 
         $this->view('admin/olimpiadas/edit', [

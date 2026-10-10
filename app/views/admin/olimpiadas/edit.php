@@ -1,3 +1,12 @@
+<?php
+/**
+ * Vista de Edición de Olimpiada
+ * Variables inyectadas desde OlimpiadaController::edit() vía extract():
+ *
+ * @var array  $olimpiada  Datos de la olimpiada a editar
+ * @var string $pageTitle  Título de la página
+ */
+?>
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
