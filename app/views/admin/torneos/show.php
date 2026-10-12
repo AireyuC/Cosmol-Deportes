@@ -34,7 +34,7 @@
         <div class="card card-outline card-warning shadow-sm mb-4">
             <div class="card-body py-3">
                 <div class="row text-center text-md-left align-items-center">
-                    <div class="col-md-3 mb-2 mb-md-0">
+                    <div class="col-md-2 mb-2 mb-md-0">
                         <span class="text-muted d-block text-xs text-uppercase font-weight-bold">Rama / Categoría</span>
                         <?php if ($torneo['rama'] === 'Masculino'): ?>
                             <span class="badge badge-primary px-3 py-1"><i class="fas fa-mars mr-1"></i> Masculino</span>
@@ -51,7 +51,7 @@
                         </span>
                         <small class="text-muted d-block">(<?php echo ($torneo['modalidad'] === 'Solo_Ida') ? 'Solo Ida' : 'Ida y Vuelta'; ?>)</small>
                     </div>
-                    <div class="col-md-3 mb-2 mb-md-0">
+                    <div class="col-md-2 mb-2 mb-md-0">
                         <span class="text-muted d-block text-xs text-uppercase font-weight-bold">Estado Actual</span>
                         <?php 
                             $badgeColors = [
@@ -67,8 +67,14 @@
                             <?php echo str_replace('_', ' ', e($torneo['estado'])); ?>
                         </span>
                     </div>
-                    <div class="col-md-3 text-md-right">
+                    <div class="col-md-5 text-md-right">
+                        <a href="<?php echo BASE_URL; ?>/partidos?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-outline-info font-weight-bold mr-1">
+                            <i class="fas fa-calendar-alt mr-1"></i> Fixture
+                        </a>
                         <?php if (AuthHelper::isAdmin()): ?>
+                            <a href="<?php echo BASE_URL; ?>/partidos/crear?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-outline-primary font-weight-bold mr-1">
+                                <i class="fas fa-clock mr-1"></i> Programar Partido
+                            </a>
                             <button type="button" class="btn btn-sm btn-success font-weight-bold mr-1" data-toggle="modal" data-target="#modalNuevoGrupo">
                                 <i class="fas fa-plus mr-1"></i> Crear Grupo
                             </button>

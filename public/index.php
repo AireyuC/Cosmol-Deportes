@@ -123,8 +123,23 @@ Router::post('/jugadores/{id}/actualizar', 'JugadorController@update');
 Router::post('/jugadores/{id}/cambiar-estado', 'JugadorController@cambiarEstado');
 Router::post('/jugadores/{id}/eliminar', 'JugadorController@delete');
 
-// Rutas de siguientes fases (preparadas para Fase 6, 7 y 8)
-Router::get('/partidos', 'DashboardController@index');
+// 5. Módulo de Fixture y Programación de Partidos (Fase 6)
+Router::get('/partidos', 'PartidoController@index');
+Router::get('/partidos/crear', 'PartidoController@create');
+Router::post('/partidos/guardar', 'PartidoController@store');
+Router::get('/partidos/{id}', 'PartidoController@show');
+Router::get('/partidos/{id}/editar', 'PartidoController@edit');
+Router::post('/partidos/{id}/actualizar', 'PartidoController@update');
+Router::post('/partidos/{id}/eliminar', 'PartidoController@delete');
+Router::get('/partidos/{id}/acta', 'PartidoController@acta');
+Router::post('/partidos/{id}/resultado', 'PartidoController@guardarResultado');
+Router::post('/partidos/{id}/sets/guardar', 'PartidoController@guardarSet');
+Router::post('/partidos/{id}/sets/eliminar', 'PartidoController@eliminarSet');
+Router::post('/partidos/{id}/incidencias/guardar', 'PartidoController@guardarIncidencia');
+Router::post('/partidos/{id}/incidencias/eliminar', 'PartidoController@eliminarIncidencia');
+Router::get('/api/torneos/{id}/equipos', 'PartidoController@apiEquiposPorTorneo');
+
+// Rutas de siguientes fases (preparadas para Fase 7 y 8)
 Router::get('/sanciones', 'DashboardController@index');
 Router::get('/medallero', 'DashboardController@index');
 Router::get('/posiciones', 'DashboardController@index');

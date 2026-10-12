@@ -183,21 +183,22 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 ### FASE 6: Fixture, Programación de Encuentros y Actas de Partidos
 > **Objetivo:** Generar el cronograma unificado de partidos y registrar los resultados e incidencias.
 
-- [ ] **6.1. Programación y Fixture (`FixtureController.php`):**
+- [x] **6.1. Programación y Fixture (`PartidoController.php` + `Partido.php`):**
   - Programación de partidos: selección de Torneo, Grupo/Fase, Local, Visitante, Sede, Cancha, Fecha y Hora.
-  - Detección de colisiones de horario en canchas y cruce de partidos para un mismo equipo.
-  - Visualización del fixture filtrable por fecha, sede, disciplina o grupo.
+  - Detección de colisiones de horario en canchas y cruce de partidos para un mismo equipo (ventana de 90 minutos).
+  - Visualización del fixture filtrable por torneo, estado, fecha y jornada.
   - **Visualización del Lugar del Partido y Ruta GPS ("Cómo llegar"):**
     - Cada partido muestra claramente el complejo deportivo y la cancha donde se juega.
-    - Al hacer clic sobre la cancha o el botón "Cómo llegar", el sistema obtiene la ubicación actual del usuario (`navigator.geolocation.getCurrentPosition()`) y traza la ruta guiada en Google Maps / Waze hacia las coordenadas GPS (`latitud`, `longitud`) de la sede/cancha.
-- [ ] **6.2. Actas de Partidos y Marcadores (`PartidoController.php`):**
-  - Registro de resultados:
-    - Marcador global (goles/puntos).
-    - Desglose por sets (en voleibol) o tiempos/cuartos (en básquetbol).
-  - Cambio de estados del encuentro (`Programado`, `En Juego`, `Finalizado`, `Suspendido`, `W.O.`).
+    - Al hacer clic en el botón "Cómo llegar (GPS)", el sistema obtiene la ubicación actual del usuario (`navigator.geolocation.getCurrentPosition()`) y traza la ruta guiada en Google Maps en tiempo real hacia las coordenadas GPS (`latitud`, `longitud`) de la sede.
+- [x] **6.2. Actas de Partidos, Marcadores y Sets (`PartidoSet.php` + `Incidencia.php`):**
+  - Registro de resultados y control de cierre (`marcador_local`, `marcador_visitante`).
+  - Desglose por sets para voleibol y disciplinas con cómputo automático de sets ganados.
+  - Cronología de incidencias: registro de goles, puntos canasta, tarjetas amarillas, rojas y faltas con vinculación a la plantilla de jugadores.
+  - Cambio de estados del encuentro (`Programado`, `En_Juego`, `Finalizado`, `Suspendido`, `WO`).
 
 **Entregables:**
-- Sistema de calendario deportivo interactivo, actas de partidos y navegación asistida por GPS a las canchas.
+- Sistema de calendario deportivo interactivo, actas digitales de partidos y navegación asistida por GPS a las canchas.
+- Documento de auditoría y entrega en `Docs/ENTREGA_FASE_6.md`.
 
 ---
 
