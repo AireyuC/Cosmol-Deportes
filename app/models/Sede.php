@@ -45,6 +45,8 @@ class Sede extends Model {
             'nombre'    => trim($data['nombre']),
             'direccion' => isset($data['direccion']) ? trim($data['direccion']) : null,
             'telefono'  => isset($data['telefono']) ? trim($data['telefono']) : null,
+            'latitud'   => (!empty($data['latitud']) || (isset($data['latitud']) && is_numeric($data['latitud']))) ? (float)$data['latitud'] : null,
+            'longitud'  => (!empty($data['longitud']) || (isset($data['longitud']) && is_numeric($data['longitud']))) ? (float)$data['longitud'] : null,
             'estado'    => isset($data['estado']) ? $data['estado'] : 'Activa'
         ];
 
@@ -63,6 +65,8 @@ class Sede extends Model {
             'nombre'    => trim($data['nombre']),
             'direccion' => isset($data['direccion']) ? trim($data['direccion']) : null,
             'telefono'  => isset($data['telefono']) ? trim($data['telefono']) : null,
+            'latitud'   => (!empty($data['latitud']) || (isset($data['latitud']) && is_numeric($data['latitud']))) ? (float)$data['latitud'] : null,
+            'longitud'  => (!empty($data['longitud']) || (isset($data['longitud']) && is_numeric($data['longitud']))) ? (float)$data['longitud'] : null,
             'estado'    => isset($data['estado']) ? $data['estado'] : 'Activa'
         ];
 

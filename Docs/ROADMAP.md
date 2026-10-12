@@ -111,24 +111,26 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 ---
 
 ### FASE 3: Seguridad, Autenticación y Control de Acceso
-> **Objetivo:** Implementar el sistema de login, control de sesiones, protección CSRF y control de roles (ADMIN vs USUARIO).
+> **Objetivo:** Implementar el sistema de login por nombre de usuario (`username`), control de sesiones, protección CSRF y control de roles (ADMIN vs USUARIO).
 
 - [x] **3.1. Clases Auxiliares de Seguridad:**
   - `Session.php`: Inicio de sesión seguro, regeneración de ID, manejo de mensajes Flash (`success`, `error`, `warning`).
   - `CsrfHelper.php`: Generación y validación de tokens anti-CSRF para formularios `POST`.
-  - `AuthHelper.php`: Métodos estáticos de verificación (`isLogged()`, `isAdmin()`, `requireLogin()`, `requireAdmin()`).
-  - `Validator.php`: Sanitización y validación de entradas de formularios.
+  - `AuthHelper.php`: Métodos estáticos de verificación (`isLogged()`, `isAdmin()`, `requireLogin()`, `requireAdmin()`, `username()`).
+  - `Validator.php`: Sanitización y validación de entradas de formularios (soporte para regla `alpha_dash` para nombres de usuario).
   - `Env.php` y `.env` / `.env.example`: Gestión segura de variables de entorno y protección en `.gitignore`.
 - [x] **3.2. Modelo `Usuario.php`:**
-  - Búsqueda por email, verificación de credenciales con `password_verify()`, registro de nuevos usuarios.
+  - Búsqueda por nombre de usuario (`findByUsername`), búsqueda alternativa por email, verificación de credenciales con `password_verify()`, registro de nuevos usuarios con rol `USUARIO` por defecto.
 - [x] **3.3. Controlador y Vistas de Autenticación (`AuthController.php`):**
+  - Autenticación mediante **Nombre de Usuario (`username`)** y contraseña.
+  - Formulario de Registro claro y validado: Nombre completo, Nombre de usuario único (alfanumérico y guiones), Correo electrónico (opcional para contacto), Contraseña y confirmación.
   - Vistas con estilo AdminLTE: `views/auth/login.php` y `views/auth/register.php`.
   - Manejo de inicio de sesión, cierre de sesión y redirección según rol.
 - [x] **3.4. Protección de Rutas:**
   - Middleware / filtro de rutas para impedir el acceso no autorizado al panel administrativo.
 
 **Entregables:**
-- Flujo de login/registro completamente funcional y protegido contra accesos indebidos.
+- Flujo de login por nombre de usuario y registro de cuentas completamente funcional, validado y protegido.
 
 ---
 
@@ -142,8 +144,9 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
   - Listado y creación de disciplinas deportivas con iconos de FontAwesome.
   - Configuración de puntaje: puntos por victoria, empate, derrota, derrota ajustada/presentación, y formato de sets o cuartos.
 - [x] **4.3. Módulo de Sedes y Canchas (`SedeController.php` + `Sede.php` + `Cancha.php`):**
-  - CRUD de complejos deportivos / sedes.
+  - CRUD de complejos deportivos / sedes, incluyendo coordenadas GPS (`latitud`, `longitud`) para navegación de rutas y cálculo de trayecto.
   - Administración de canchas asociadas por sede (nombre de cancha, tipo de superficie, disponibilidad).
+  - Botón "Cómo llegar" en la tabla de sedes para abrir ruta directa desde la ubicación actual.
 - [x] **4.4. Módulo de Delegaciones (`DelegacionController.php` + `Delegacion.php`):**
   - CRUD de delegaciones institucionales (áreas o departamentos de la institución).
   - Configuración de colores representativos, alias y delegados responsables.
@@ -183,6 +186,9 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
   - Programación de partidos: selección de Torneo, Grupo/Fase, Local, Visitante, Sede, Cancha, Fecha y Hora.
   - Detección de colisiones de horario en canchas y cruce de partidos para un mismo equipo.
   - Visualización del fixture filtrable por fecha, sede, disciplina o grupo.
+  - **Visualización del Lugar del Partido y Ruta GPS ("Cómo llegar"):**
+    - Cada partido muestra claramente el complejo deportivo y la cancha donde se juega.
+    - Al hacer clic sobre la cancha o el botón "Cómo llegar", el sistema obtiene la ubicación actual del usuario (`navigator.geolocation.getCurrentPosition()`) y traza la ruta guiada en Google Maps / Waze hacia las coordenadas GPS (`latitud`, `longitud`) de la sede/cancha.
 - [ ] **6.2. Actas de Partidos y Marcadores (`PartidoController.php`):**
   - Registro de resultados:
     - Marcador global (goles/puntos).
@@ -190,7 +196,7 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
   - Cambio de estados del encuentro (`Programado`, `En Juego`, `Finalizado`, `Suspendido`, `W.O.`).
 
 **Entregables:**
-- Sistema de calendario deportivo interactivo y formulario de actas de partidos.
+- Sistema de calendario deportivo interactivo, actas de partidos y navegación asistida por GPS a las canchas.
 
 ---
 
@@ -246,6 +252,7 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
   - Vista pública del Medallero Olímpico interactivo con gráficos o tarjetas visuales.
   - Consulta de calendarios de juego y resultados en tiempo real.
   - Visualización de tablas de posiciones por disciplina y grupo.
+  - Asistente de ruta "Cómo llegar a la cancha del partido" accesible con 1 clic para espectadores desde dispositivos móviles.
 - [ ] **9.2. Ajustes Responsive y Pulido UI (AdminLTE):**
   - Pruebas de usabilidad en resoluciones móviles y pantallas de escritorio.
   - Optimización de tablas responsivas (`table-responsive`) y modales.

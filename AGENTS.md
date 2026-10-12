@@ -144,10 +144,11 @@ Control total sobre la olimpiada y sus torneos:
 - Controlar el **Medallero Olímpico** y la tabla acumulada por delegación.
 
 ### 4.2. Rol Usuario General / Espectador / Delegado (USUARIO)
-- Registro y autenticación de usuarios.
+- Registro y autenticación mediante **Nombre de Usuario** (`username`) y contraseña.
 - Visualización interactiva del **Medallero Olímpico** en tiempo real.
 - Consulta de **tablas de posiciones por grupos** y fases de cada disciplina.
 - Consulta del **cronograma general / fixture** (partidos por jugar, resultados en vivo y finalizados).
+- Visualización del **lugar del partido (sede y cancha)** con función interactiva para obtener la **ruta de navegación GPS ("Cómo llegar")** desde la ubicación actual del usuario.
 - Visualización de la plantilla de jugadores por equipo y tabla de goleadores/figuras.
 - Consulta del boletín de sanciones disciplinarias activas.
 
@@ -207,8 +208,12 @@ El sistema debe llevar un estricto expediente disciplinario:
   - Opciones de levantamiento: `Anulada por apelación`, `Error arbitral corregido`, `Cumplimiento anticipado/Indulto`.
   - La sanción queda marcada como `Inactiva / Levantada`, restaurando inmediatamente la habilitación del jugador para jugar, dejando trazabilidad de quién y por qué la levantó.
 
-### 5.6. Módulo de Fixtures y Programación
-- Asignación de fecha, hora, sede y cancha específica para cada encuentro.
+### 5.6. Módulo de Fixtures, Programación y Geolocalización de Canchas
+- **Asignación de Encuentros:** Asignación de fecha, hora, sede y cancha específica para cada encuentro.
+- **Visualización del Lugar del Partido:**
+  - Cada partido programado debe mostrar explícitamente el recinto deportivo (**Sede**) y el campo de juego (**Cancha**) donde se disputará el encuentro.
+- **Ruta Interactiva desde Ubicación Actual ("Cómo llegar"):**
+  - Al hacer clic en la cancha o sede del partido, el sistema activará la geolocalización del navegador del usuario (`navigator.geolocation.getCurrentPosition()`) y abrirá el trazado de la ruta (a través de Google Maps / Waze / OpenStreetMap) hacia las coordenadas geográficas (`latitud`, `longitud`) o la dirección exacta de la sede/cancha, permitiendo al espectador, delegado o deportista saber de forma precisa cómo llegar desde el lugar donde se encuentra en ese instante.
 - Detección de colisiones de horario (alertar si una cancha ya está ocupada o si un equipo tiene partidos superpuestos).
 - Estados de partido: `Programado`, `En Calentamiento`, `En Juego`, `Finalizado`, `Suspendido`, `W.O.`.
 
@@ -225,7 +230,7 @@ El sistema debe llevar un estricto expediente disciplinario:
 
 Estructura esencial de tablas para MySQL/MariaDB (InnoDB):
 
-1. `usuarios` (id, nombre, email, password, rol: 'ADMIN'/'USUARIO', estado, created_at)
+1. `usuarios` (id, nombre, username, email, password, rol: 'ADMIN'/'USUARIO', estado, created_at, updated_at)
 2. `olimpiadas` (id, nombre, anio, lema, fecha_inicio, fecha_fin, estado: 'Planificada'/'En Curso'/'Finalizada')
 3. `delegaciones` (id, nombre, alias, color_representativo, logo_url, responsable)
 4. `disciplinas` (id, nombre, descripcion, icono, estado)
@@ -234,9 +239,9 @@ Estructura esencial de tablas para MySQL/MariaDB (InnoDB):
 7. `torneo_grupos` (id, torneo_id, nombre_grupo: 'Grupo A'/'Grupo B', orden)
 8. `equipos` (id, delegacion_id, torneo_id, grupo_id, nombre, nombre_corto, logo_url, delegado_contacto)
 9. `jugadores` (id, equipo_id, documento, nombres, apellidos, dorsal, posicion, foto_url, estado: 'Habilitado'/'Suspendido'/'Inactivo')
-10. `sedes` (id, nombre, direccion, telefono, estado)
-11. `canchas` (id, sede_id, nombre_cancha, tipo_superficie, estado)
-12. `partidos` (id, torneo_id, grupo_id, fase: 'Grupos'/'Cuartos'/'Semifinal'/'Tercer_Puesto'/'Final', jornada, equipo_local_id, equipo_visitante_id, cancha_id, fecha_partido, hora_partido, marcador_local, marcador_visitante, estado: 'Programado'/'En_Juego'/'Finalizado'/'Suspendido'/'WO')
+10. `sedes` (id, nombre, direccion, telefono, latitud, longitud, estado, created_at)
+11. `canchas` (id, sede_id, nombre_cancha, tipo_superficie, estado, created_at)
+12. `partidos` (id, torneo_id, grupo_id, fase: 'Grupos'/'Cuartos'/'Semifinal'/'Tercer_Puesto'/'Final', jornada, equipo_local_id, equipo_visitante_id, cancha_id, fecha_partido, hora_partido, marcador_local, marcador_visitante, estado: 'Programado'/'En_Juego'/'Finalizado'/'Suspendido'/'WO', observaciones, created_at)
 13. `partido_sets` (id, partido_id, numero_set, puntos_local, puntos_visitante)
 14. `partido_incidencias` (id, partido_id, equipo_id, jugador_id, tipo: 'GOL'/'PUNTO'/'AMARILLA'/'ROJA'/'FALTA', minuto_tiempo, observaciones)
 15. `sanciones` (id, jugador_id, partido_id, torneo_id, tipo_sancion: 'AMARILLA'/'ROJA'/'PARTIDOS_SUSPENSION'/'EXPULSION', partidos_suspension, partidos_cumplidos, motivo, estado: 'Activa'/'Cumplida'/'Levantada', motivo_levantamiento, fecha_levantamiento, created_at)

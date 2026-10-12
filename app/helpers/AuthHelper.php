@@ -17,7 +17,8 @@ class AuthHelper {
         Session::init();
         Session::set('user_id', (int)$user['id']);
         Session::set('user_nombre', $user['nombre']);
-        Session::set('user_email', $user['email']);
+        Session::set('user_username', isset($user['username']) ? $user['username'] : '');
+        Session::set('user_email', isset($user['email']) ? $user['email'] : '');
         Session::set('user_rol', $user['rol']);
     }
 
@@ -28,6 +29,7 @@ class AuthHelper {
         Session::init();
         Session::remove('user_id');
         Session::remove('user_nombre');
+        Session::remove('user_username');
         Session::remove('user_email');
         Session::remove('user_rol');
     }
@@ -63,10 +65,11 @@ class AuthHelper {
         }
 
         return [
-            'id'     => Session::get('user_id'),
-            'nombre' => Session::get('user_nombre'),
-            'email'  => Session::get('user_email'),
-            'rol'    => Session::get('user_rol')
+            'id'       => Session::get('user_id'),
+            'nombre'   => Session::get('user_nombre'),
+            'username' => Session::get('user_username'),
+            'email'    => Session::get('user_email'),
+            'rol'      => Session::get('user_rol')
         ];
     }
 
@@ -86,6 +89,15 @@ class AuthHelper {
      */
     public static function nombre() {
         return Session::get('user_nombre', 'Invitado');
+    }
+
+    /**
+     * Retorna el nombre de usuario (username) del usuario activo
+     *
+     * @return string
+     */
+    public static function username() {
+        return Session::get('user_username', 'invitado');
     }
 
     /**

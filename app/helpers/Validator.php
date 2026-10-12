@@ -67,6 +67,12 @@ class Validator {
                         }
                         break;
 
+                    case 'alpha_dash':
+                        if ($value !== '' && !preg_match('/^[a-zA-Z0-9_.-]+$/', $value)) {
+                            $this->addError($field, "El campo " . $this->formatFieldName($field) . " solo puede contener letras, números, puntos, guiones y guiones bajos.");
+                        }
+                        break;
+
                     case 'matches':
                         $targetField = isset($params[0]) ? $params[0] : '';
                         $targetValue = isset($data[$targetField]) ? trim($data[$targetField]) : '';
@@ -103,6 +109,7 @@ class Validator {
     private function formatFieldName($field) {
         $labels = [
             'nombre'                => 'Nombre',
+            'username'              => 'Nombre de Usuario',
             'email'                 => 'Correo Electrónico',
             'password'              => 'Contraseña',
             'password_confirmation' => 'Confirmación de Contraseña',

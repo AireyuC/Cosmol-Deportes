@@ -42,7 +42,7 @@
 
                 <!-- Nombre Completo -->
                 <div class="input-group mb-3">
-                    <input type="text" name="nombre" class="form-control" placeholder="Nombre completo" required value="<?php echo isset($old['nombre']) ? e($old['nombre']) : ''; ?>">
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre completo (ej. Juan Pérez)" required autofocus value="<?php echo isset($old['nombre']) ? e($old['nombre']) : ''; ?>">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user text-muted"></span>
@@ -50,9 +50,19 @@
                     </div>
                 </div>
 
-                <!-- Correo Electrónico -->
+                <!-- Nombre de Usuario (Username) -->
                 <div class="input-group mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Correo electrónico" required value="<?php echo isset($old['email']) ? e($old['email']) : ''; ?>">
+                    <input type="text" name="username" class="form-control" placeholder="Nombre de usuario (ej. jperez, carlos99)" required pattern="[a-zA-Z0-9_.-]+" title="Solo letras, números, puntos y guiones" value="<?php echo isset($old['username']) ? e($old['username']) : ''; ?>">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-id-badge text-muted"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Correo Electrónico (Opcional de contacto) -->
+                <div class="input-group mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Correo electrónico (opcional)" value="<?php echo isset($old['email']) ? e($old['email']) : ''; ?>">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope text-muted"></span>

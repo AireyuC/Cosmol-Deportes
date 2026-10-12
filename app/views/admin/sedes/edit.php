@@ -43,6 +43,17 @@
 
                     <div class="row">
                         <div class="col-md-6 form-group">
+                            <label for="latitud"><i class="fas fa-map-pin text-danger mr-1"></i> Latitud GPS</label>
+                            <input type="text" name="latitud" id="latitud" class="form-control" placeholder="-17.7833" value="<?php echo isset($sede['latitud']) ? e($sede['latitud']) : ''; ?>">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label for="longitud"><i class="fas fa-map-pin text-primary mr-1"></i> Longitud GPS</label>
+                            <input type="text" name="longitud" id="longitud" class="form-control" placeholder="-63.1821" value="<?php echo isset($sede['longitud']) ? e($sede['longitud']) : ''; ?>">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group">
                             <label for="telefono">Teléfono / Celular de Contacto</label>
                             <input type="text" name="telefono" id="telefono" class="form-control" value="<?php echo e($sede['telefono']); ?>">
                         </div>

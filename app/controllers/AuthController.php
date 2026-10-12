@@ -43,29 +43,30 @@ class AuthController extends Controller {
 
         $validator = new Validator();
         $isValid = $validator->validate($_POST, [
-            'email'    => 'required|email',
+            'username' => 'required|min:3',
             'password' => 'required'
         ]);
 
         if (!$isValid) {
             Session::setFlash('error', $validator->getFirstError());
             $this->view('auth/login', [
-                'pageTitle' => 'Iniciar Sesión',
-                'oldEmail'  => isset($_POST['email']) ? $_POST['email'] : ''
+                'pageTitle'   => 'Iniciar Sesión',
+                'oldUsername' => isset($_POST['username']) ? $_POST['username'] : ''
             ], null);
             return;
         }
 
-        $email = strtolower(trim($_POST['email']));
+        $username = strtolower(trim($_POST['username']));
         $password = $_POST['password'];
 
-        $user = $this->usuarioModel->findByEmail($email);
+        // Buscar por nombre de usuario (o permitir correo como identificador alternativo)
+        $user = $this->usuarioModel->findByUsernameOrEmail($username);
 
         if (!$user || !$this->usuarioModel->verifyPassword($password, $user['password'])) {
             Session::setFlash('error', 'Las credenciales proporcionadas no son válidas.');
             $this->view('auth/login', [
-                'pageTitle' => 'Iniciar Sesión',
-                'oldEmail'  => $email
+                'pageTitle'   => 'Iniciar Sesión',
+                'oldUsername' => $username
             ], null);
             return;
         }
@@ -104,13 +105,20 @@ class AuthController extends Controller {
             $this->redirect('/registro');
         }
 
-        $validator = new Validator();
-        $isValid = $validator->validate($_POST, [
+        $rules = [
             'nombre'                => 'required|min:3|max:100',
-            'email'                 => 'required|email|max:150',
+            'username'              => 'required|alpha_dash|min:3|max:50',
             'password'              => 'required|min:6',
             'password_confirmation' => 'required|matches:password'
-        ]);
+        ];
+
+        // Validar email si fue proporcionado
+        if (!empty($_POST['email'])) {
+            $rules['email'] = 'email|max:150';
+        }
+
+        $validator = new Validator();
+        $isValid = $validator->validate($_POST, $rules);
 
         if (!$isValid) {
             Session::setFlash('error', $validator->getFirstError());
@@ -121,12 +129,13 @@ class AuthController extends Controller {
             return;
         }
 
-        $email = strtolower(trim($_POST['email']));
+        $username = strtolower(trim($_POST['username']));
+        $email = !empty($_POST['email']) ? strtolower(trim($_POST['email'])) : null;
 
-        // Verificar si ya existe el correo
-        $existing = $this->usuarioModel->findByEmail($email);
-        if ($existing) {
-            Session::setFlash('error', 'El correo electrónico ya está registrado.');
+        // Verificar si ya existe el nombre de usuario
+        $existingUsername = $this->usuarioModel->findByUsername($username);
+        if ($existingUsername) {
+            Session::setFlash('error', 'El nombre de usuario "' . htmlspecialchars($username, ENT_QUOTES, 'UTF-8') . '" ya está en uso. Por favor, elija otro.');
             $this->view('auth/register', [
                 'pageTitle' => 'Registro de Usuario',
                 'old'       => $_POST
@@ -134,9 +143,23 @@ class AuthController extends Controller {
             return;
         }
 
+        // Verificar si ya existe el correo (si fue ingresado)
+        if ($email !== null) {
+            $existingEmail = $this->usuarioModel->findByEmail($email);
+            if ($existingEmail) {
+                Session::setFlash('error', 'El correo electrónico ya está registrado.');
+                $this->view('auth/register', [
+                    'pageTitle' => 'Registro de Usuario',
+                    'old'       => $_POST
+                ], null);
+                return;
+            }
+        }
+
         // Crear usuario con rol USUARIO
         $newUserId = $this->usuarioModel->create([
             'nombre'   => $_POST['nombre'],
+            'username' => $username,
             'email'    => $email,
             'password' => $_POST['password'],
             'rol'      => 'USUARIO',

@@ -56,7 +56,18 @@
                                         <i class="fas fa-landmark text-secondary mr-1"></i>
                                         <?php echo e($s['nombre']); ?>
                                     </td>
-                                    <td class="text-muted text-sm"><?php echo e($s['direccion']); ?></td>
+                                    <td class="text-muted text-sm">
+                                        <?php echo e($s['direccion']); ?>
+                                        <?php if (!empty($s['latitud']) && !empty($s['longitud'])): ?>
+                                            <a href="https://www.google.com/maps/dir/?api=1&destination=<?php echo $s['latitud']; ?>,<?php echo $s['longitud']; ?>" target="_blank" class="badge badge-light border text-danger ml-1" title="Ver ruta desde mi ubicación">
+                                                <i class="fas fa-directions mr-1"></i> Cómo llegar
+                                            </a>
+                                        <?php elseif (!empty($s['direccion'])): ?>
+                                            <a href="https://www.google.com/maps/dir/?api=1&destination=<?php echo urlencode($s['direccion'] . ' ' . $s['nombre']); ?>" target="_blank" class="badge badge-light border text-info ml-1" title="Ver ruta en mapa">
+                                                <i class="fas fa-directions mr-1"></i> Cómo llegar
+                                            </a>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="text-muted text-sm"><?php echo e($s['telefono']); ?></td>
                                     <td class="text-center">
                                         <span class="badge badge-info px-2 py-1">
