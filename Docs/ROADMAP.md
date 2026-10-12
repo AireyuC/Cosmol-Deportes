@@ -159,44 +159,46 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 ### FASE 5: Torneos, Creación de Grupos, Equipos y Nómina de Jugadores
 > **Objetivo:** Configurar la estructura de competencia de cada disciplina, la distribución de grupos y el padrón de atletas.
 
-- [ ] **5.1. Módulo de Torneos por Disciplina (`TorneoController.php`):**
+- [x] **5.1. Módulo de Torneos por Disciplina (`TorneoController.php` + `Torneo.php`):**
   - Creación de torneo vinculado a la Olimpiada activa, disciplina y rama (Masculino, Femenino, Mixto).
   - Modalidad: Fase de Grupos + Playoffs, Liga directa, Eliminación directa, ida o ida/vuelta.
-- [ ] **5.2. Módulo de Gestión de Grupos (`GrupoController.php`):**
+- [x] **5.2. Módulo de Gestión de Grupos (`GrupoController.php` + `Grupo.php`):**
   - Crear grupos dentro de un torneo (`Grupo A`, `Grupo B`, `Grupo C`, etc.).
   - Asignar y desasignar equipos a cada grupo.
   - Visualización del listado de grupos con los equipos participantes.
-- [ ] **5.3. Módulo de Equipos (`EquipoController.php`):**
+- [x] **5.3. Módulo de Equipos (`EquipoController.php` + `Equipo.php`):**
   - Registrar equipo vinculado a una delegación y a un torneo/grupo.
   - Asignación de delegado, color de camiseta y escudo.
-- [ ] **5.4. Módulo de Nómina de Jugadores (`JugadorController.php`):**
+- [x] **5.4. Módulo de Nómina de Jugadores (`JugadorController.php` + `Jugador.php`):**
   - CRUD de jugadores por equipo (documento, nombres, apellidos, dorsal, posición, foto).
   - Validación de dorsales únicos por equipo.
   - Control de estado del jugador (`Habilitado`, `Suspendido`, `Inactivo`).
 
 **Entregables:**
 - Formularios interactivos para armar grupos de competencia y registrar las plantillas oficiales de jugadores.
+- Documento de auditoría y entrega en `Docs/ENTREGA_FASE_5.md`.
 
 ---
 
 ### FASE 6: Fixture, Programación de Encuentros y Actas de Partidos
 > **Objetivo:** Generar el cronograma unificado de partidos y registrar los resultados e incidencias.
 
-- [ ] **6.1. Programación y Fixture (`FixtureController.php`):**
+- [x] **6.1. Programación y Fixture (`PartidoController.php` + `Partido.php`):**
   - Programación de partidos: selección de Torneo, Grupo/Fase, Local, Visitante, Sede, Cancha, Fecha y Hora.
-  - Detección de colisiones de horario en canchas y cruce de partidos para un mismo equipo.
-  - Visualización del fixture filtrable por fecha, sede, disciplina o grupo.
+  - Detección de colisiones de horario en canchas y cruce de partidos para un mismo equipo (ventana de 90 minutos).
+  - Visualización del fixture filtrable por torneo, estado, fecha y jornada.
   - **Visualización del Lugar del Partido y Ruta GPS ("Cómo llegar"):**
     - Cada partido muestra claramente el complejo deportivo y la cancha donde se juega.
-    - Al hacer clic sobre la cancha o el botón "Cómo llegar", el sistema obtiene la ubicación actual del usuario (`navigator.geolocation.getCurrentPosition()`) y traza la ruta guiada en Google Maps / Waze hacia las coordenadas GPS (`latitud`, `longitud`) de la sede/cancha.
-- [ ] **6.2. Actas de Partidos y Marcadores (`PartidoController.php`):**
-  - Registro de resultados:
-    - Marcador global (goles/puntos).
-    - Desglose por sets (en voleibol) o tiempos/cuartos (en básquetbol).
-  - Cambio de estados del encuentro (`Programado`, `En Juego`, `Finalizado`, `Suspendido`, `W.O.`).
+    - Al hacer clic en el botón "Cómo llegar (GPS)", el sistema obtiene la ubicación actual del usuario (`navigator.geolocation.getCurrentPosition()`) y traza la ruta guiada en Google Maps en tiempo real hacia las coordenadas GPS (`latitud`, `longitud`) de la sede.
+- [x] **6.2. Actas de Partidos, Marcadores y Sets (`PartidoSet.php` + `Incidencia.php`):**
+  - Registro de resultados y control de cierre (`marcador_local`, `marcador_visitante`).
+  - Desglose por sets para voleibol y disciplinas con cómputo automático de sets ganados.
+  - Cronología de incidencias: registro de goles, puntos canasta, tarjetas amarillas, rojas y faltas con vinculación a la plantilla de jugadores.
+  - Cambio de estados del encuentro (`Programado`, `En_Juego`, `Finalizado`, `Suspendido`, `WO`).
 
 **Entregables:**
-- Sistema de calendario deportivo interactivo, actas de partidos y navegación asistida por GPS a las canchas.
+- Sistema de calendario deportivo interactivo, actas digitales de partidos y navegación asistida por GPS a las canchas.
+- Documento de auditoría y entrega en `Docs/ENTREGA_FASE_6.md`.
 
 ---
 
@@ -274,8 +276,8 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 | **Fase 2** | Base de Datos Relacional Completa (Schema y Seeds) | ✅ Completada | Crítica |
 | **Fase 3** | Seguridad, Autenticación y Control de Roles | ✅ Completada | Crítica |
 | **Fase 4** | Módulos Maestros (Olimpiadas, Deportes, Sedes, Delegaciones) | ✅ Completada | Alta |
-| **Fase 5** | Torneos, Creación de Grupos, Equipos y Jugadores | ⏳ Pendiente | Alta |
-| **Fase 6** | Fixture, Programación y Actas de Partidos | ⏳ Pendiente | Alta |
+| **Fase 5** | Torneos, Creación de Grupos, Equipos y Jugadores | ✅ Completada | Alta |
+| **Fase 6** | Fixture, Programación y Actas de Partidos | ✅ Completada | Alta |
 | **Fase 7** | Régimen Disciplinario (Anotar y Quitar Sanciones) | ⏳ Pendiente | Alta |
 | **Fase 8** | Cálculo de Posiciones y Medallero Olímpico | ⏳ Pendiente | Alta |
 | **Fase 9** | Vistas Públicas, Auditoría PHP 7.3 y Documentación | ⏳ Pendiente | Media |

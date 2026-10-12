@@ -84,11 +84,62 @@ Router::get('/delegaciones/{id}/editar', 'DelegacionController@edit');
 Router::post('/delegaciones/{id}/actualizar', 'DelegacionController@update');
 Router::post('/delegaciones/{id}/eliminar', 'DelegacionController@delete');
 
-// Rutas de siguientes fases (preparadas para Fase 5, 6, 7 y 8)
-Router::get('/torneos', 'DashboardController@index');
-Router::get('/equipos', 'DelegacionController@index');
-Router::get('/jugadores', 'DashboardController@index');
-Router::get('/partidos', 'DashboardController@index');
+// ==========================================
+// FASE 5: Torneos, Grupos, Equipos y Jugadores
+// ==========================================
+
+// 1. Módulo de Torneos
+Router::get('/torneos', 'TorneoController@index');
+Router::get('/torneos/crear', 'TorneoController@create');
+Router::post('/torneos/guardar', 'TorneoController@store');
+Router::get('/torneos/{id}', 'TorneoController@show');
+Router::get('/torneos/{id}/editar', 'TorneoController@edit');
+Router::post('/torneos/{id}/actualizar', 'TorneoController@update');
+Router::post('/torneos/{id}/eliminar', 'TorneoController@delete');
+
+// 2. Módulo de Gestión de Grupos
+Router::post('/torneos/{id}/grupos/guardar', 'GrupoController@store');
+Router::post('/grupos/asignar-equipo', 'GrupoController@asignarEquipo');
+Router::post('/grupos/desasignar-equipo/{id}', 'GrupoController@desasignarEquipo');
+Router::post('/grupos/{id}/eliminar', 'GrupoController@delete');
+Router::get('/api/torneos/{id}/grupos', 'EquipoController@gruposJson');
+
+// 3. Módulo de Equipos
+Router::get('/equipos', 'EquipoController@index');
+Router::get('/equipos/crear', 'EquipoController@create');
+Router::post('/equipos/guardar', 'EquipoController@store');
+Router::get('/equipos/{id}/editar', 'EquipoController@edit');
+Router::post('/equipos/{id}/actualizar', 'EquipoController@update');
+Router::post('/equipos/{id}/eliminar', 'EquipoController@delete');
+
+// 4. Módulo de Nómina de Jugadores
+Router::get('/jugadores', 'JugadorController@index');
+Router::get('/equipos/{id}/jugadores', 'JugadorController@porEquipo');
+Router::get('/jugadores/crear', 'JugadorController@create');
+Router::post('/jugadores/guardar', 'JugadorController@store');
+Router::get('/jugadores/{id}', 'JugadorController@show');
+Router::get('/jugadores/{id}/editar', 'JugadorController@edit');
+Router::post('/jugadores/{id}/actualizar', 'JugadorController@update');
+Router::post('/jugadores/{id}/cambiar-estado', 'JugadorController@cambiarEstado');
+Router::post('/jugadores/{id}/eliminar', 'JugadorController@delete');
+
+// 5. Módulo de Fixture y Programación de Partidos (Fase 6)
+Router::get('/partidos', 'PartidoController@index');
+Router::get('/partidos/crear', 'PartidoController@create');
+Router::post('/partidos/guardar', 'PartidoController@store');
+Router::get('/partidos/{id}', 'PartidoController@show');
+Router::get('/partidos/{id}/editar', 'PartidoController@edit');
+Router::post('/partidos/{id}/actualizar', 'PartidoController@update');
+Router::post('/partidos/{id}/eliminar', 'PartidoController@delete');
+Router::get('/partidos/{id}/acta', 'PartidoController@acta');
+Router::post('/partidos/{id}/resultado', 'PartidoController@guardarResultado');
+Router::post('/partidos/{id}/sets/guardar', 'PartidoController@guardarSet');
+Router::post('/partidos/{id}/sets/eliminar', 'PartidoController@eliminarSet');
+Router::post('/partidos/{id}/incidencias/guardar', 'PartidoController@guardarIncidencia');
+Router::post('/partidos/{id}/incidencias/eliminar', 'PartidoController@eliminarIncidencia');
+Router::get('/api/torneos/{id}/equipos', 'PartidoController@apiEquiposPorTorneo');
+
+// Rutas de siguientes fases (preparadas para Fase 7 y 8)
 Router::get('/sanciones', 'DashboardController@index');
 Router::get('/medallero', 'DashboardController@index');
 Router::get('/posiciones', 'DashboardController@index');

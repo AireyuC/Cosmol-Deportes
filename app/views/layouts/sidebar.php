@@ -73,6 +73,13 @@ $currentUri = Router::currentUri();
                     </a>
                 </li>
 
+                <!-- Equipos Deportivos -->
+                <li class="nav-item">
+                    <a href="<?php echo BASE_URL; ?>/equipos" class="nav-link <?php echo (strpos($currentUri, '/equipos') === 0) ? 'active' : ''; ?>">
+                        <p>Equipos</p>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/delegaciones" class="nav-link <?php echo (strpos($currentUri, '/delegaciones') === 0) ? 'active' : ''; ?>">
                         <p>Delegaciones</p>

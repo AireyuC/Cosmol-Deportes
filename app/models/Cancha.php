@@ -77,4 +77,18 @@ class Cancha extends Model {
     public function deleteCancha($id) {
         return $this->delete('canchas', 'id = :id', ['id' => (int)$id]);
     }
+
+    /**
+     * Obtiene todas las canchas con la información de su sede
+     *
+     * @return array
+     */
+    public function getAllConSede() {
+        $sql = "SELECT c.*, s.nombre AS sede_nombre, s.direccion, s.latitud, s.longitud 
+                FROM canchas c 
+                JOIN sedes s ON c.sede_id = s.id 
+                WHERE c.estado != 'Inactiva' AND s.estado = 'Activa'
+                ORDER BY s.nombre ASC, c.nombre_cancha ASC";
+        return $this->fetchAll($sql);
+    }
 }
