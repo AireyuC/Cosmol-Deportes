@@ -52,15 +52,14 @@ class Router {
     }
 
     /**
-     * Procesa la solicitud HTTP y despacha al controlador correspondiente
+    /**
+     * Obtiene la URI limpia de la solicitud actual
+     *
+     * @return string
      */
-    public static function dispatch() {
-        $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : 'GET';
-        
-        // Obtener la URI solicitada
-        $requestUri = '/';
+    public static function currentUri() {
         if (isset($_GET['url'])) {
-            $requestUri = '/' . trim($_GET['url'], '/');
+            $uri = '/' . trim($_GET['url'], '/');
         } else {
             $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
             // Remover query string
@@ -74,12 +73,24 @@ class Router {
             if ($scriptName !== '/' && strpos($uri, $scriptName) === 0) {
                 $uri = substr($uri, strlen($scriptName));
             }
-            $requestUri = '/' . trim($uri, '/');
+            $uri = '/' . trim($uri, '/');
         }
 
-        if ($requestUri !== '/' && substr($requestUri, -1) === '/') {
-            $requestUri = rtrim($requestUri, '/');
+        if ($uri !== '/' && substr($uri, -1) === '/') {
+            $uri = rtrim($uri, '/');
         }
+
+        return $uri === '' ? '/' : $uri;
+    }
+
+    /**
+     * Procesa la solicitud HTTP y despacha al controlador correspondiente
+     */
+    public static function dispatch() {
+        $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : 'GET';
+        
+        // Obtener la URI solicitada
+        $requestUri = self::currentUri();
 
         foreach (self::$routes as $route) {
             if ($route['method'] !== $requestMethod) {

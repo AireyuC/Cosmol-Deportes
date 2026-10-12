@@ -1,139 +1,127 @@
+<?php
+$currentUri = Router::currentUri();
+?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="<?php echo BASE_URL; ?>/" class="brand-link bg-dark">
-        <i class="fas fa-trophy brand-image ml-2 text-warning" style="font-size: 1.5rem; line-height: 1.8;"></i>
-        <span class="brand-text font-weight-bold">COSMOL <span class="text-warning">DEPORTES</span></span>
+    <!-- Brand Logo Institucional -->
+    <a href="<?php echo BASE_URL; ?>/" class="brand-link">
+        <img src="<?php echo BASE_URL; ?>/images/LogoCosmolCuadrado.png" alt="COSMOL" class="brand-image" style="border-radius: 4px; background-color: #FFFFFF; padding: 2px;">
+        <span class="brand-text font-weight-bold">
+            COSMOL <span class="brand-accent">DEPORTES</span>
+        </span>
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar px-2">
         <!-- Sidebar user panel -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
-            <div class="image">
-                <?php if (AuthHelper::isAdmin()): ?>
-                    <i class="fas fa-user-shield text-warning fa-2x"></i>
-                <?php elseif (AuthHelper::isLogged()): ?>
-                    <i class="fas fa-user text-info fa-2x"></i>
-                <?php else: ?>
-                    <i class="fas fa-user-circle text-muted fa-2x"></i>
-                <?php endif; ?>
-            </div>
-            <div class="info">
-                <a href="<?php echo AuthHelper::isLogged() ? '#' : BASE_URL . '/login'; ?>" class="d-block font-weight-bold">
+        <div class="user-panel mt-2 pb-2 mb-2 d-flex align-items-center">
+            <div class="info w-100 p-0">
+                <a href="<?php echo AuthHelper::isLogged() ? '#' : BASE_URL . '/login'; ?>" class="d-block font-weight-bold text-truncate mb-1">
                     <?php echo e(AuthHelper::nombre()); ?>
                 </a>
-                <span class="badge badge-<?php echo AuthHelper::isAdmin() ? 'danger' : (AuthHelper::isLogged() ? 'success' : 'secondary'); ?>">
-                    <i class="fas fa-circle text-xs mr-1"></i> <?php echo e(AuthHelper::rol()); ?>
-                </span>
+                <div class="d-flex align-items-center justify-content-between">
+                    <span class="badge px-2 py-1 font-weight-bold" style="<?php echo AuthHelper::isAdmin() ? 'background-color: #EF4444; color: #FFFFFF;' : (AuthHelper::isLogged() ? 'background-color: #00A3E0; color: #FFFFFF;' : 'background-color: #64748B; color: #FFFFFF;'); ?>">
+                        <?php echo e(AuthHelper::rol()); ?>
+                    </span>
+                    <span class="user-status text-xs">
+                        ● <?php echo AuthHelper::isLogged() ? 'En línea' : 'Invitado'; ?>
+                    </span>
+                </div>
             </div>
         </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/" class="nav-link active">
-                        <i class="nav-icon fas fa-tachometer-alt text-info"></i>
+                    <a href="<?php echo BASE_URL; ?>/" class="nav-link <?php echo ($currentUri === '/' || $currentUri === '/dashboard') ? 'active' : ''; ?>">
                         <p>Dashboard</p>
                     </a>
                 </li>
 
-                <li class="nav-header font-weight-bold text-uppercase text-secondary">Gestión Olímpica</li>
+                <!-- SECCIÓN 1: Gestión Olímpica -->
+                <li class="nav-header nav-header-cosmol">
+                    <span class="nav-header-title">Gestión Olímpica</span>
+                </li>
 
-                <!-- Macro-Evento Olimpiada -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/olimpiadas" class="nav-link">
-                        <i class="nav-icon fas fa-medal text-warning"></i>
+                    <a href="<?php echo BASE_URL; ?>/olimpiadas" class="nav-link <?php echo (strpos($currentUri, '/olimpiadas') === 0) ? 'active' : ''; ?>">
                         <p>Olimpiadas</p>
                     </a>
                 </li>
 
-                <!-- Medallero General -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/medallero" class="nav-link">
-                        <i class="nav-icon fas fa-award text-danger"></i>
+                    <a href="<?php echo BASE_URL; ?>/medallero" class="nav-link <?php echo (strpos($currentUri, '/medallero') === 0) ? 'active' : ''; ?>">
                         <p>Medallero Oficial</p>
                     </a>
                 </li>
 
-                <!-- Disciplinas y Reglas -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/disciplinas" class="nav-link">
-                        <i class="nav-icon fas fa-volleyball-ball text-success"></i>
+                    <a href="<?php echo BASE_URL; ?>/disciplinas" class="nav-link <?php echo (strpos($currentUri, '/disciplinas') === 0) ? 'active' : ''; ?>">
                         <p>Disciplinas & Reglas</p>
                     </a>
                 </li>
 
-                <!-- Sedes y Canchas -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/sedes" class="nav-link">
-                        <i class="nav-icon fas fa-map-marker-alt text-primary"></i>
+                    <a href="<?php echo BASE_URL; ?>/sedes" class="nav-link <?php echo (strpos($currentUri, '/sedes') === 0) ? 'active' : ''; ?>">
                         <p>Sedes & Canchas</p>
                     </a>
                 </li>
 
-                <li class="nav-header font-weight-bold text-uppercase text-secondary">Torneos y Equipos</li>
+                <!-- SECCIÓN 2: Torneos y Equipos -->
+                <li class="nav-header nav-header-cosmol">
+                    <span class="nav-header-title">Torneos y Equipos</span>
+                </li>
 
-                <!-- Torneos y Grupos -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/torneos" class="nav-link">
-                        <i class="nav-icon fas fa-sitemap text-warning"></i>
+                    <a href="<?php echo BASE_URL; ?>/torneos" class="nav-link <?php echo (strpos($currentUri, '/torneos') === 0) ? 'active' : ''; ?>">
                         <p>Torneos & Grupos</p>
                     </a>
                 </li>
 
                 <!-- Equipos Deportivos -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/equipos" class="nav-link">
-                        <i class="nav-icon fas fa-shield-alt text-success"></i>
+                    <a href="<?php echo BASE_URL; ?>/equipos" class="nav-link <?php echo (strpos($currentUri, '/equipos') === 0) ? 'active' : ''; ?>">
                         <p>Equipos</p>
                     </a>
                 </li>
 
-                <!-- Delegaciones -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/delegaciones" class="nav-link">
-                        <i class="nav-icon fas fa-building text-info"></i>
+                    <a href="<?php echo BASE_URL; ?>/delegaciones" class="nav-link <?php echo (strpos($currentUri, '/delegaciones') === 0) ? 'active' : ''; ?>">
                         <p>Delegaciones</p>
                     </a>
                 </li>
 
-                <!-- Nómina de Jugadores -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/jugadores" class="nav-link">
-                        <i class="nav-icon fas fa-users text-light"></i>
+                    <a href="<?php echo BASE_URL; ?>/jugadores" class="nav-link <?php echo (strpos($currentUri, '/jugadores') === 0) ? 'active' : ''; ?>">
                         <p>Nómina de Jugadores</p>
                     </a>
                 </li>
 
-                <li class="nav-header font-weight-bold text-uppercase text-secondary">Competencia y Disciplina</li>
+                <!-- SECCIÓN 3: Competencia y Disciplina -->
+                <li class="nav-header nav-header-cosmol">
+                    <span class="nav-header-title">Competencia y Disciplina</span>
+                </li>
 
-                <!-- Fixture y Partidos -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/partidos" class="nav-link">
-                        <i class="nav-icon fas fa-calendar-alt text-primary"></i>
+                    <a href="<?php echo BASE_URL; ?>/partidos" class="nav-link <?php echo (strpos($currentUri, '/partidos') === 0) ? 'active' : ''; ?>">
                         <p>Fixture & Partidos</p>
                     </a>
                 </li>
 
-                <!-- Régimen Disciplinario / Sanciones -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/sanciones" class="nav-link">
-                        <i class="nav-icon fas fa-exclamation-circle text-danger"></i>
+                    <a href="<?php echo BASE_URL; ?>/sanciones" class="nav-link <?php echo (strpos($currentUri, '/sanciones') === 0) ? 'active' : ''; ?>">
                         <p>
                             Sanciones
-                            <span class="badge badge-danger right">Control</span>
+                            <span class="badge badge-danger right" style="background-color: #EF4444;">Control</span>
                         </p>
                     </a>
                 </li>
 
-                <!-- Tablas de Posiciones -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/posiciones" class="nav-link">
-                        <i class="nav-icon fas fa-list-ol text-success"></i>
+                    <a href="<?php echo BASE_URL; ?>/posiciones" class="nav-link <?php echo (strpos($currentUri, '/posiciones') === 0) ? 'active' : ''; ?>">
                         <p>Tablas de Posiciones</p>
                     </a>
                 </li>

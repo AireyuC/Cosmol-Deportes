@@ -6,33 +6,83 @@
     <title>Registro de Usuario | <?php echo APP_NAME; ?></title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=fallback">
     <!-- Theme style: AdminLTE 3.2.0 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-</head>
-<body class="hold-transition register-page bg-light">
-<div class="register-box">
-    <!-- Logo -->
-    <div class="register-logo mb-3">
-        <a href="<?php echo BASE_URL; ?>/" class="font-weight-bold text-dark">
-            <i class="fas fa-trophy text-warning mr-1"></i>
-            COSMOL <span class="text-success">DEPORTES</span>
-        </a>
-        <div class="text-muted" style="font-size: 0.9rem;">Registro de Nuevo Usuario</div>
-    </div>
 
-    <div class="card card-outline card-success shadow-sm">
+    <style>
+        :root {
+            --cosmol-azul: #0066B2;
+            --cosmol-celeste: #00A3E0;
+            --cosmol-fondo: #F0F6FA;
+            --cosmol-blanco: #FFFFFF;
+        }
+        body.register-page {
+            background-color: var(--cosmol-fondo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        .register-box {
+            width: 440px;
+        }
+        .card-cosmol {
+            border-top: 4px solid var(--cosmol-azul);
+            border-radius: 8px;
+            box-shadow: 0 4px 18px rgba(0, 102, 178, 0.12);
+        }
+        .btn-cosmol {
+            background-color: var(--cosmol-azul);
+            border-color: var(--cosmol-azul);
+            color: #FFFFFF;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-cosmol:hover, .btn-cosmol:focus {
+            background-color: #004d87;
+            border-color: #004d87;
+            color: #FFFFFF;
+        }
+        .link-cosmol {
+            color: var(--cosmol-azul);
+            font-weight: 600;
+        }
+        .link-cosmol:hover {
+            color: var(--cosmol-celeste);
+            text-decoration: underline;
+        }
+        .logo-register {
+            max-width: 90px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+    </style>
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+
+    <div class="card card-cosmol bg-white">
         <div class="card-body register-card-body p-4">
-            <p class="login-box-msg font-weight-bold text-secondary">
-                Crear una cuenta para seguir la Olimpiada
-            </p>
+
+            <!-- Logo Institucional -->
+            <div class="text-center mb-3">
+                <a href="<?php echo BASE_URL; ?>/">
+                    <img src="<?php echo BASE_URL; ?>/images/LogoCosmolCuadrado.png" alt="COSMOL R.L." class="logo-register">
+                </a>
+                <h5 class="font-weight-bold mb-0" style="color: #0066B2 !important;">
+                    COSMOL R.L.
+                </h5>
+                <span class="text-muted text-sm font-weight-normal">
+                    Crear Nueva Cuenta de Usuario
+                </span>
+            </div>
 
             <!-- Alertas Flash -->
             <?php if (Session::hasFlash('error')): ?>
-                <div class="alert alert-danger py-2 px-3 text-sm">
-                    <i class="fas fa-exclamation-circle mr-1"></i>
+                <div class="alert alert-danger py-2 px-3 text-sm mb-3">
                     <?php echo e(Session::getFlash('error')); ?>
                 </div>
             <?php endif; ?>
@@ -41,76 +91,56 @@
                 <?php echo CsrfHelper::field(); ?>
 
                 <!-- Nombre Completo -->
-                <div class="input-group mb-3">
-                    <input type="text" name="nombre" class="form-control" placeholder="Nombre completo (ej. Juan Pérez)" required autofocus value="<?php echo isset($old['nombre']) ? e($old['nombre']) : ''; ?>">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user text-muted"></span>
-                        </div>
-                    </div>
+                <div class="form-group mb-2">
+                    <label for="nombre" class="text-sm font-weight-normal text-secondary mb-1">Nombre y Apellidos</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej: Juan Carlos Pérez" required autofocus value="<?php echo isset($old['nombre']) ? e($old['nombre']) : ''; ?>">
                 </div>
 
-                <!-- Nombre de Usuario (Username) -->
-                <div class="input-group mb-3">
-                    <input type="text" name="username" class="form-control" placeholder="Nombre de usuario (ej. jperez, carlos99)" required pattern="[a-zA-Z0-9_.-]+" title="Solo letras, números, puntos y guiones" value="<?php echo isset($old['username']) ? e($old['username']) : ''; ?>">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-id-badge text-muted"></span>
-                        </div>
-                    </div>
+                <!-- Nombre de Usuario -->
+                <div class="form-group mb-2">
+                    <label for="username" class="text-sm font-weight-normal text-secondary mb-1">Nombre de usuario</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Ej: jperez, carlos99" required pattern="[a-zA-Z0-9_.-]+" title="Solo letras, números, puntos y guiones" value="<?php echo isset($old['username']) ? e($old['username']) : ''; ?>">
+                    <small class="text-muted text-xs">Identificador único para iniciar sesión.</small>
                 </div>
 
-                <!-- Correo Electrónico (Opcional de contacto) -->
-                <div class="input-group mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Correo electrónico (opcional)" value="<?php echo isset($old['email']) ? e($old['email']) : ''; ?>">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope text-muted"></span>
-                        </div>
-                    </div>
+                <!-- Correo Electrónico -->
+                <div class="form-group mb-2">
+                    <label for="email" class="text-sm font-weight-normal text-secondary mb-1">Correo electrónico <span class="text-muted text-xs">(opcional)</span></label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="correo@ejemplo.com" value="<?php echo isset($old['email']) ? e($old['email']) : ''; ?>">
                 </div>
 
                 <!-- Contraseña -->
-                <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Contraseña (mínimo 6 caracteres)" required minlength="6">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock text-muted"></span>
-                        </div>
+                <div class="row">
+                    <div class="col-md-6 form-group mb-2">
+                        <label for="password" class="text-sm font-weight-normal text-secondary mb-1">Contraseña</label>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Mínimo 6 caracteres" required minlength="6">
+                    </div>
+                    <div class="col-md-6 form-group mb-2">
+                        <label for="password_confirmation" class="text-sm font-weight-normal text-secondary mb-1">Confirmar</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Repita la contraseña" required minlength="6">
                     </div>
                 </div>
 
-                <!-- Confirmar Contraseña -->
-                <div class="input-group mb-3">
-                    <input type="password" name="password_confirmation" class="form-control" placeholder="Confirmar contraseña" required minlength="6">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock text-muted"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-success btn-block font-weight-bold">
-                            Registrarme <i class="fas fa-check-circle ml-1"></i>
-                        </button>
-                    </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-cosmol btn-block">
+                        Registrarme
+                    </button>
                 </div>
             </form>
 
-            <div class="text-center mt-3">
-                <p class="mb-1">
-                    <a href="<?php echo BASE_URL; ?>/login" class="text-primary font-weight-bold">
-                        <i class="fas fa-sign-in-alt mr-1"></i> Ya tengo una cuenta, iniciar sesión
+            <div class="text-center mt-3 pt-2">
+                <p class="mb-1 text-sm">
+                    <a href="<?php echo BASE_URL; ?>/login" class="link-cosmol">
+                        ¿Ya tiene una cuenta? Iniciar sesión
                     </a>
                 </p>
-                <p class="mb-0">
-                    <a href="<?php echo BASE_URL; ?>/" class="text-secondary text-sm">
-                        <i class="fas fa-arrow-left mr-1"></i> Volver a la portada
+                <p class="mb-0 text-xs">
+                    <a href="<?php echo BASE_URL; ?>/" class="text-muted">
+                        Volver a la portada
                     </a>
                 </p>
             </div>
+
         </div>
     </div>
 </div>
