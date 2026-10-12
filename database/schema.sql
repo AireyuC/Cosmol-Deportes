@@ -35,7 +35,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE `usuarios` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `nombre` VARCHAR(100) NOT NULL,
-  `email` VARCHAR(150) NOT NULL UNIQUE,
+  `username` VARCHAR(50) NOT NULL UNIQUE,
+  `email` VARCHAR(150) NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   `rol` ENUM('ADMIN', 'USUARIO') NOT NULL DEFAULT 'USUARIO',
   `estado` ENUM('Activo', 'Inactivo') NOT NULL DEFAULT 'Activo',
@@ -206,6 +207,8 @@ CREATE TABLE `sedes` (
   `nombre` VARCHAR(150) NOT NULL,
   `direccion` VARCHAR(255) NULL,
   `telefono` VARCHAR(50) NULL,
+  `latitud` DECIMAL(10, 8) NULL,
+  `longitud` DECIMAL(11, 8) NULL,
   `estado` ENUM('Activa', 'Inactiva') NOT NULL DEFAULT 'Activa',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

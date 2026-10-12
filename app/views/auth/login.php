@@ -56,10 +56,10 @@
                 <?php echo CsrfHelper::field(); ?>
 
                 <div class="input-group mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Correo electrónico" required value="<?php echo isset($oldEmail) ? e($oldEmail) : ''; ?>">
+                    <input type="text" name="username" class="form-control" placeholder="Nombre de usuario" required autofocus value="<?php echo isset($oldUsername) ? e($oldUsername) : ''; ?>">
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-envelope text-muted"></span>
+                            <span class="fas fa-user text-muted"></span>
                         </div>
                     </div>
                 </div>
@@ -92,12 +92,12 @@
 
             <div class="social-auth-links text-center mb-3 mt-4">
                 <hr>
-                <p class="text-sm text-muted mb-2">Credenciales de prueba:</p>
+                <p class="text-sm text-muted mb-2 font-weight-bold">Credenciales de prueba:</p>
                 <div class="badge badge-light p-2 border d-block text-left text-xs mb-1">
-                    <strong>Admin:</strong> admin@cosmol.com / admin123
+                    <strong>Admin:</strong> usuario: <code class="text-primary font-weight-bold">admin</code> / clave: <code class="text-dark">admin123</code>
                 </div>
                 <div class="badge badge-light p-2 border d-block text-left text-xs">
-                    <strong>Usuario:</strong> usuario@cosmol.com / usuario123
+                    <strong>Usuario:</strong> usuario: <code class="text-success font-weight-bold">usuario</code> / clave: <code class="text-dark">usuario123</code>
                 </div>
             </div>
 

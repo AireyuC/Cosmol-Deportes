@@ -1,8 +1,8 @@
 -- =====================================================================
 -- Datos Semilla (Seeds): Cosmol-Deportes (Edición Olimpiadas)
 -- Credenciales por defecto:
---   Administrador: admin@cosmol.com / admin123
---   Usuario:       usuario@cosmol.com / usuario123
+--   Administrador: usuario 'admin' / contraseña 'admin123' (o 'password')
+--   Usuario:       usuario 'usuario' / contraseña 'usuario123' (o 'password')
 -- =====================================================================
 
 USE `cosmol_deportes`;
@@ -12,9 +12,9 @@ USE `cosmol_deportes`;
 -- Hash bcrypt para 'admin123': $2y$10$wT8m9MvFh6LhLdZ7L8G8m.YqV9x6o1c8v3w8qM4u1w2e3r4t5y6u7
 -- Hash bcrypt para 'password': $2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
 -- -----------------------------------------------------
-INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`, `estado`) VALUES
-(1, 'Administrador General', 'admin@cosmol.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', 'Activo'),
-(2, 'Delegado Comercial', 'usuario@cosmol.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'Activo');
+INSERT INTO `usuarios` (`id`, `nombre`, `username`, `email`, `password`, `rol`, `estado`) VALUES
+(1, 'Administrador General', 'admin', 'admin@cosmol.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', 'Activo'),
+(2, 'Delegado Comercial', 'usuario', 'usuario@cosmol.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'Activo');
 
 -- -----------------------------------------------------
 -- 2. Macro-Evento: Olimpiada
@@ -52,9 +52,9 @@ INSERT INTO `reglas_puntuacion` (`id`, `disciplina_id`, `pts_victoria`, `pts_emp
 -- -----------------------------------------------------
 -- 6. Sedes y Canchas
 -- -----------------------------------------------------
-INSERT INTO `sedes` (`id`, `nombre`, `direccion`, `telefono`, `estado`) VALUES
-(1, 'Complejo Deportivo Central Cosmol', 'Av. Principal #450', '33445566', 'Activa'),
-(2, 'Coliseo Polideportivo Municipal', 'Calle Bolívar esq. Sucre', '33221100', 'Activa');
+INSERT INTO `sedes` (`id`, `nombre`, `direccion`, `telefono`, `latitud`, `longitud`, `estado`) VALUES
+(1, 'Complejo Deportivo Central Cosmol', 'Av. Principal #450', '33445566', -17.78330000, -63.18210000, 'Activa'),
+(2, 'Coliseo Polideportivo Municipal', 'Calle Bolívar esq. Sucre', '33221100', -17.78620000, -63.18120000, 'Activa');
 
 INSERT INTO `canchas` (`id`, `sede_id`, `nombre_cancha`, `tipo_superficie`, `estado`) VALUES
 (1, 1, 'Cancha Principal de Césped Natural', 'Césped Natural', 'Disponible'),
