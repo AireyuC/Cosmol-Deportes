@@ -1,4 +1,12 @@
 <?php
+/**
+ * Layout Principal de AdminLTE 3
+ *
+ * @var string $content Contenido HTML inyectado dinámicamente desde el controlador
+ * @var string|null $pageTitle Título de la página actual
+ */
+$content = isset($content) ? $content : '';
+
 require_once __DIR__ . '/header.php';
 require_once __DIR__ . '/navbar.php';
 require_once __DIR__ . '/sidebar.php';
@@ -40,7 +48,7 @@ require_once __DIR__ . '/sidebar.php';
     </div>
 
     <!-- Contenido Principal Inyectado por la Vista -->
-    <?php echo $content; ?>
+    <?php echo isset($content) ? $content : ''; ?>
 </div>
 
 <?php
