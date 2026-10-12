@@ -1,61 +1,382 @@
 /**
- * Estilos personalizados para Cosmol-Deportes
- * Complemento sobre AdminLTE 3
+ * ====================================================================
+ * Estilos Corporativos COSMOL R.L. - Sistema de Olimpiadas Deportivas
+ * Paleta Institucional:
+ *   - Azul Principal:  #0066B2
+ *   - Blanco:          #FFFFFF
+ *   - Celeste Cosmol:  #00A3E0
+ *   - Celeste Suave:   #EAF4FB
+ * ====================================================================
  */
 
-/* Ajuste sutil para enlaces de la barra lateral */
-.main-sidebar .nav-sidebar .nav-link p {
-    font-size: 0.92rem;
+:root {
+    --cosmol-azul: #0066B2;
+    --cosmol-azul-dark: #004D87;
+    --cosmol-azul-deep: #00335A;
+    --cosmol-celeste: #00A3E0;
+    --cosmol-celeste-light: #EAF4FB;
+    --cosmol-celeste-border: #BFE2F7;
+    --cosmol-blanco: #FFFFFF;
+    --cosmol-gris-texto: #334155;
+    --cosmol-gris-claro: #F8FAFC;
+    --cosmol-borde: #E2E8F0;
 }
 
-/* Colores para medallas olímpicas */
+/* ----------------------------------------------------
+   1. Tipografía y Estructura General
+---------------------------------------------------- */
+body {
+    color: var(--cosmol-gris-texto);
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #F4F7FA;
+}
+
+a {
+    color: var(--cosmol-azul);
+    transition: color 0.15s ease-in-out;
+}
+
+a:hover {
+    color: var(--cosmol-celeste);
+    text-decoration: none;
+}
+
+/* ----------------------------------------------------
+   2. Barra Superior (Navbar)
+---------------------------------------------------- */
+.main-header.navbar {
+    background-color: var(--cosmol-blanco) !important;
+    border-bottom: 2px solid var(--cosmol-celeste-border) !important;
+    box-shadow: 0 1px 4px rgba(0, 102, 178, 0.06);
+}
+
+.main-header .navbar-nav .nav-link {
+    color: var(--cosmol-azul) !important;
+    font-weight: 600;
+}
+
+.main-header .navbar-nav .nav-link:hover {
+    color: var(--cosmol-celeste) !important;
+}
+
+/* ----------------------------------------------------
+   3. Barra Lateral (Sidebar)
+---------------------------------------------------- */
+.main-sidebar {
+    background-color: #002244 !important; /* Azul marino profundo institucional */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Encabezado del Logo y Título Institucional */
+.main-sidebar .brand-link {
+    background-color: #001B36 !important; /* Fondo sobrio y de alto contraste */
+    border-bottom: 2px solid var(--cosmol-celeste) !important;
+    padding: 0.8125rem 0.8rem !important;
+    display: block !important;
+    line-height: 1.5 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.main-sidebar .brand-link:hover {
+    background-color: #00142A !important;
+    text-decoration: none !important;
+}
+
+.main-sidebar .brand-link .brand-image {
+    max-height: 33px !important;
+    width: auto !important;
+    float: left !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0.75rem !important;
+    margin-top: -3px !important;
+    border-radius: 4px !important;
+    background-color: #FFFFFF !important;
+    padding: 2px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.main-sidebar .brand-link .brand-text {
+    color: #FFFFFF !important;
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    display: inline-block !important;
+}
+
+.main-sidebar .brand-link .brand-text .brand-accent {
+    color: #38BDF8 !important; /* Celeste institucional luminoso */
+    font-weight: 800 !important;
+}
+
+/* Panel de Usuario */
+.main-sidebar .user-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 10px 12px;
+    border: 1px solid rgba(0, 163, 224, 0.25) !important;
+    margin: 10px 6px 8px 6px;
+}
+
+.main-sidebar .user-panel .info a {
+    color: #FFFFFF !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.main-sidebar .user-panel .user-status {
+    color: #4ADE80 !important; /* Indicador en línea nítido */
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Separadores de Sección en Sidebar con Bordes Clave */
+.nav-sidebar .nav-header.nav-header-cosmol {
+    margin: 14px 6px 4px 6px !important;
+    padding: 8px 8px 4px 8px !important;
+    border-top: 1px solid rgba(0, 163, 224, 0.28) !important; /* Borde superior divisor */
+    background: transparent !important;
+}
+
+.nav-header-cosmol .nav-header-title {
+    display: block !important;
+    color: #38BDF8 !important; /* Celeste institucional brillante */
+    font-size: 0.74rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.9px !important;
+    text-transform: uppercase !important;
+    border-left: 3px solid var(--cosmol-celeste) !important; /* Borde indicador lateral */
+    padding-left: 8px !important;
+    line-height: 1.2 !important;
+}
+
+/* Enlaces del Menú de Navegación */
+.nav-sidebar .nav-link {
+    color: #E2E8F0 !important;
+    border-radius: 6px;
+    margin: 2px 6px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    border-left: 3px solid transparent;
+}
+
+.nav-sidebar .nav-link:hover {
+    background-color: rgba(0, 163, 224, 0.16) !important;
+    color: #FFFFFF !important;
+    border-left: 3px solid var(--cosmol-celeste) !important;
+    padding-left: 1rem;
+}
+
+.nav-sidebar .nav-link.active {
+    background: linear-gradient(90deg, #0066B2 0%, #004D87 100%) !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    border-left: 4px solid var(--cosmol-celeste) !important;
+    box-shadow: 0 2px 8px rgba(0, 102, 178, 0.35);
+}
+
+.nav-sidebar .nav-link p {
+    margin-bottom: 0;
+}
+
+/* ----------------------------------------------------
+   4. Botones con Estilo COSMOL
+---------------------------------------------------- */
+.btn-primary, .btn-cosmol {
+    background-color: var(--cosmol-azul) !important;
+    border-color: var(--cosmol-azul) !important;
+    color: #FFFFFF !important;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-cosmol:hover, .btn-cosmol:focus {
+    background-color: var(--cosmol-azul-dark) !important;
+    border-color: var(--cosmol-azul-dark) !important;
+    color: #FFFFFF !important;
+}
+
+.btn-outline-primary {
+    border-color: var(--cosmol-azul) !important;
+    color: var(--cosmol-azul) !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--cosmol-azul) !important;
+    color: #FFFFFF !important;
+}
+
+.btn-info, .btn-celeste {
+    background-color: var(--cosmol-celeste) !important;
+    border-color: var(--cosmol-celeste) !important;
+    color: #FFFFFF !important;
+}
+
+.btn-info:hover, .btn-celeste:hover {
+    background-color: #0088BE !important;
+    border-color: #0088BE !important;
+    color: #FFFFFF !important;
+}
+
+/* ----------------------------------------------------
+   5. Tarjetas (Cards)
+---------------------------------------------------- */
+.card {
+    border: 1px solid var(--cosmol-borde);
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.card.card-primary.card-outline, .card.card-cosmol {
+    border-top: 3px solid var(--cosmol-azul) !important;
+}
+
+.card.card-info.card-outline {
+    border-top: 3px solid var(--cosmol-celeste) !important;
+}
+
+.card-header {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--cosmol-borde);
+    padding: 0.85rem 1.25rem;
+}
+
+.card-title {
+    color: var(--cosmol-azul) !important;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+/* Callout institucional */
+.callout.callout-info {
+    border-left-color: var(--cosmol-azul) !important;
+    background-color: var(--cosmol-blanco) !important;
+    border-top: 1px solid var(--cosmol-borde);
+    border-right: 1px solid var(--cosmol-borde);
+    border-bottom: 1px solid var(--cosmol-borde);
+}
+
+/* ----------------------------------------------------
+   6. Cajas de Estadísticas (Small Boxes)
+---------------------------------------------------- */
+.small-box {
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 102, 178, 0.08);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.small-box.box-cosmol-azul {
+    background-color: var(--cosmol-azul) !important;
+    color: #FFFFFF !important;
+}
+
+.small-box.box-cosmol-celeste {
+    background-color: var(--cosmol-celeste) !important;
+    color: #FFFFFF !important;
+}
+
+.small-box.box-cosmol-oscuro {
+    background-color: var(--cosmol-azul-dark) !important;
+    color: #FFFFFF !important;
+}
+
+.small-box.box-cosmol-alerta {
+    background-color: #C0392B !important;
+    color: #FFFFFF !important;
+}
+
+.small-box .inner {
+    padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+}
+
+.small-box .inner h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.small-box .inner p {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+    opacity: 0.95;
+    font-weight: 600;
+}
+
+.small-box-footer {
+    display: block;
+    padding: 6px 12px;
+    background-color: rgba(0, 0, 0, 0.12) !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: right;
+    transition: background-color 0.2s ease;
+}
+
+.small-box-footer:hover {
+    background-color: rgba(0, 0, 0, 0.22) !important;
+    color: #FFFFFF !important;
+}
+
+/* ----------------------------------------------------
+   7. Insignias y Medallas (Badges)
+---------------------------------------------------- */
+.badge-cosmol-azul {
+    background-color: var(--cosmol-azul);
+    color: #FFFFFF;
+}
+
+.badge-cosmol-celeste {
+    background-color: var(--cosmol-celeste);
+    color: #FFFFFF;
+}
+
 .badge-oro {
-    background-color: #ffd700;
-    color: #212529;
-    font-weight: bold;
+    background-color: #F59E0B;
+    color: #FFFFFF;
+    font-weight: 700;
 }
 
 .badge-plata {
-    background-color: #c0c0c0;
-    color: #212529;
-    font-weight: bold;
+    background-color: #94A3B8;
+    color: #FFFFFF;
+    font-weight: 700;
 }
 
 .badge-bronce {
-    background-color: #cd7f32;
-    color: #ffffff;
-    font-weight: bold;
+    background-color: #B45309;
+    color: #FFFFFF;
+    font-weight: 700;
 }
 
-/* Estilos de tarjetas de grupos */
-.card-grupo {
-    border-top: 3px solid #17a2b8;
-    transition: transform 0.2s ease-in-out;
+/* ----------------------------------------------------
+   8. Tablas Limpias
+---------------------------------------------------- */
+.table thead.thead-cosmol th {
+    background-color: var(--cosmol-celeste-light);
+    color: var(--cosmol-azul);
+    font-weight: 700;
+    border-bottom: 2px solid var(--cosmol-celeste-border);
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 
-.card-grupo:hover {
-    transform: translateY(-2px);
+.table tbody tr:hover {
+    background-color: rgba(234, 244, 251, 0.5) !important;
 }
 
-/* Sanciones destacadas */
-.badge-sancion-activa {
-    background-color: #dc3545;
-    color: #fff;
-    animation: pulse-danger 2s infinite;
-}
-
-@keyframes pulse-danger {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
-
-/* Tablas responsivas en pantallas pequeñas */
-@media (max-width: 767.98px) {
-    .content-header h1 {
-        font-size: 1.4rem;
-    }
-    .small-box .inner h3 {
-        font-size: 1.8rem;
-    }
+/* ----------------------------------------------------
+   9. Footer
+---------------------------------------------------- */
+.main-footer {
+    background-color: var(--cosmol-blanco) !important;
+    border-top: 1px solid var(--cosmol-borde) !important;
+    color: #64748B;
+    font-size: 0.85rem;
 }

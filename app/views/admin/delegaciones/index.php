@@ -1,15 +1,16 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-shield-alt text-info mr-2"></i> Delegaciones Institucionales
+                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
+                    Delegaciones Institucionales
                 </h1>
+                <span class="text-muted text-sm">Áreas, departamentos y sindicatos de COSMOL R.L.</span>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
-                    <a href="<?php echo BASE_URL; ?>/delegaciones/crear" class="btn btn-info">
-                        <i class="fas fa-plus mr-1"></i> Nueva Delegación
+                    <a href="<?php echo BASE_URL; ?>/delegaciones/crear" class="btn btn-primary font-weight-bold">
+                        Nueva Delegación
                     </a>
                 <?php endif; ?>
             </div>
@@ -19,22 +20,22 @@
 
 <div class="content">
     <div class="container-fluid">
-        <div class="card card-outline card-info shadow-sm">
+        <div class="card card-cosmol shadow-sm mb-4">
             <div class="card-header">
-                <h3 class="card-title font-weight-bold">Áreas, Departamentos y Secciones Participantes</h3>
+                <h3 class="card-title mb-0">Áreas y Secciones Participantes</h3>
             </div>
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover table-striped">
-                    <thead class="thead-light">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="thead-cosmol">
                         <tr>
-                            <th style="width: 50px;">Color</th>
+                            <th style="width: 50px;" class="text-center">Color</th>
                             <th>Nombre de la Delegación</th>
                             <th>Alias</th>
                             <th>Delegado Responsable</th>
                             <th>Teléfono</th>
-                            <th class="text-center">Equipos Inscritos</th>
+                            <th class="text-center">Equipos</th>
                             <?php if (AuthHelper::isAdmin()): ?>
-                                <th class="text-center" style="width: 140px;">Acciones</th>
+                                <th class="text-center" style="width: 160px;">Acciones</th>
                             <?php endif; ?>
                         </tr>
                     </thead>
@@ -47,33 +48,32 @@
                             <?php foreach ($delegaciones as $d): ?>
                                 <tr>
                                     <td class="text-center">
-                                        <span class="badge border shadow-sm p-2" style="background-color: <?php echo e($d['color_representativo']); ?>; border-radius: 50%; display: inline-block; width: 24px; height: 24px;">&nbsp;</span>
+                                        <span class="d-inline-block rounded-circle border shadow-sm" style="background-color: <?php echo e($d['color_representativo']); ?>; width: 18px; height: 18px;"></span>
                                     </td>
                                     <td class="font-weight-bold text-dark">
                                         <?php echo e($d['nombre']); ?>
                                     </td>
-                                    <td><span class="badge badge-light border"><?php echo e($d['alias']); ?></span></td>
-                                    <td>
-                                        <i class="fas fa-user-tie text-muted mr-1"></i>
-                                        <?php echo !empty($d['responsable']) ? e($d['responsable']) : 'Sin asignar'; ?>
+                                    <td><span class="badge py-1 px-2 font-weight-bold" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;"><?php echo e($d['alias']); ?></span></td>
+                                    <td class="text-dark">
+                                        <?php echo !empty($d['responsable']) ? e($d['responsable']) : '<span class="text-muted">Sin asignar</span>'; ?>
                                     </td>
-                                    <td class="text-sm">
-                                        <?php echo !empty($d['telefono']) ? '<i class="fas fa-phone mr-1 text-muted"></i> ' . e($d['telefono']) : '-'; ?>
+                                    <td class="text-muted text-sm">
+                                        <?php echo !empty($d['telefono']) ? e($d['telefono']) : '-'; ?>
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge badge-primary px-2 py-1">
-                                            <i class="fas fa-users mr-1"></i> <?php echo e($d['total_equipos']); ?> Equipos
+                                        <span class="badge py-1 px-2" style="background-color: #00A3E0; color: #FFFFFF;">
+                                            <?php echo e($d['total_equipos']); ?> Equipos
                                         </span>
                                     </td>
                                     <?php if (AuthHelper::isAdmin()): ?>
                                         <td class="text-center">
-                                            <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo $d['id']; ?>/editar" class="btn btn-sm btn-info" title="Editar">
-                                                <i class="fas fa-edit"></i>
+                                            <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo $d['id']; ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                Editar
                                             </a>
                                             <form action="<?php echo BASE_URL; ?>/delegaciones/<?php echo $d['id']; ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar esta delegación?');">
                                                 <?php echo CsrfHelper::field(); ?>
-                                                <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
-                                                    <i class="fas fa-trash"></i>
+                                                <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Eliminar">
+                                                    Eliminar
                                                 </button>
                                             </form>
                                         </td>
