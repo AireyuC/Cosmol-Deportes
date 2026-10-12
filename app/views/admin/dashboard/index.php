@@ -9,15 +9,12 @@
             $medallero_top = isset($medallero_top) ? $medallero_top : [];
             $disciplinas = isset($disciplinas) ? $disciplinas : [];
         ?>
-        <div class="callout callout-info bg-white shadow-sm mb-4">
+        <div class="callout bg-white shadow-sm mb-4">
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <h4 class="font-weight-bold mb-1" style="color: #0066B2;">
                         <?php echo e($olimpiada['nombre']); ?>
                     </h4>
-                    <p class="text-muted mb-0 font-italic text-sm">
-                        "<?php echo e($olimpiada['lema']); ?>"
-                    </p>
                 </div>
                 <div class="col-md-4 text-md-right mt-3 mt-md-0">
                     <span class="badge px-3 py-2 text-uppercase text-white font-weight-bold" style="background-color: #00A3E0; font-size: 0.8rem;">
@@ -85,9 +82,9 @@
         <div class="row">
             <!-- Columna Izquierda: Medallero General -->
             <div class="col-lg-7">
-                <div class="card card-cosmol shadow-sm mb-4">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h3 class="card-title mb-0">
+                        <h3 class="card-title mb-0 card-title-cosmol">
                             Medallero Olímpico Oficial
                         </h3>
                         <div class="card-tools ml-auto">
@@ -138,7 +135,7 @@
 
             <!-- Columna Derecha: Disciplinas y Accesos Rápidos -->
             <div class="col-lg-5">
-                <div class="card card-cosmol shadow-sm mb-4">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header">
                         <h3 class="card-title mb-0">
                             Disciplinas en Competencia
@@ -169,9 +166,9 @@
                 </div>
 
                 <!-- Card de Acciones Rápidas (Sin iconos innecesarios) -->
-                <div class="card shadow-sm mb-4" style="border-top: 3px solid #00A3E0;">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header">
-                        <h3 class="card-title mb-0" style="color: #00A3E0 !important;">
+                        <h3 class="card-title mb-0 card-title-cosmol">
                             Acciones Rápidas
                         </h3>
                     </div>

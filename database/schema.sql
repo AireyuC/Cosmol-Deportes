@@ -7,6 +7,10 @@
 CREATE DATABASE IF NOT EXISTS `cosmol_deportes` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `cosmol_deportes`;
 
+-- Forzar codificación utf8mb4 en la sesión de importación
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
 -- Desactivar temporalmente verificación de claves foráneas para recreación limpia si aplica
 SET FOREIGN_KEY_CHECKS = 0;
 

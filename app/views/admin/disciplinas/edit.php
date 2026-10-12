@@ -7,13 +7,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-edit text-info mr-2"></i> Editar Disciplina y Reglas
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Editar Disciplina y Reglas
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="<?php echo BASE_URL; ?>/disciplinas" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver al listado
+                    <i class="fas fa-arrow-left mr-1"></i> Volver
                 </a>
             </div>
         </div>

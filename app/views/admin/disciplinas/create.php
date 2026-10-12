@@ -2,13 +2,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-plus-circle text-success mr-2"></i> Registrar Disciplina y Reglas
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Registrar Nueva Disciplina
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="<?php echo BASE_URL; ?>/disciplinas" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver al listado
+                    <i class="fas fa-arrow-left mr-1"></i> Volver
                 </a>
             </div>
         </div>
@@ -23,7 +23,7 @@
             <div class="row">
                 <!-- Columna Izquierda: Datos del Deporte -->
                 <div class="col-md-6">
-                    <div class="card card-success card-outline shadow-sm">
+                    <div class="card card-outline shadow-sm">
                         <div class="card-header">
                             <h3 class="card-title font-weight-bold">
                                 <i class="fas fa-info-circle mr-1"></i> Información General
@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="nombre">Nombre de la Disciplina <span class="text-danger">*</span></label>
-                                <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ej: Futsal, Voleibol, Básquetbol" required value="<?php echo isset($old['nombre']) ? e($old['nombre']) : ''; ?>">
+                                <input type="text" name="nombre" id="nombre" class="form-control" required value="<?php echo isset($old['nombre']) ? e($old['nombre']) : ''; ?>">
                             </div>
 
                             <div class="form-group">
@@ -41,11 +41,6 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label for="icono">Icono FontAwesome</label>
-                                    <input type="text" name="icono" id="icono" class="form-control" placeholder="Ej: futbol, running, basketball-ball" value="<?php echo isset($old['icono']) ? e($old['icono']) : 'trophy'; ?>">
-                                    <small class="text-muted">Nombre del icono sin prefijo (ej: futbol, volleyball-ball)</small>
-                                </div>
                                 <div class="col-md-6 form-group">
                                     <label for="estado">Estado</label>
                                     <select name="estado" id="estado" class="form-control">
@@ -60,7 +55,7 @@
 
                 <!-- Columna Derecha: Esquema de Puntuación -->
                 <div class="col-md-6">
-                    <div class="card card-primary card-outline shadow-sm">
+                    <div class="card card-outline shadow-sm">
                         <div class="card-header">
                             <h3 class="card-title font-weight-bold">
                                 <i class="fas fa-calculator mr-1"></i> Esquema de Puntuación
@@ -116,7 +111,7 @@
                 <div class="card-body text-right">
                     <a href="<?php echo BASE_URL; ?>/disciplinas" class="btn btn-secondary mr-2">Cancelar</a>
                     <button type="submit" class="btn btn-success font-weight-bold px-4">
-                        <i class="fas fa-save mr-1"></i> Guardar Disciplina y Puntuación
+                        Guardar Disciplina y Puntuación
                     </button>
                 </div>
             </div>

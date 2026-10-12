@@ -7,6 +7,10 @@
 
 USE `cosmol_deportes`;
 
+-- Forzar codificación utf8mb4 en la sesión de importación
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
 -- -----------------------------------------------------
 -- 1. Usuarios Iniciales
 -- Hash bcrypt para 'admin123': $2y$10$wT8m9MvFh6LhLdZ7L8G8m.YqV9x6o1c8v3w8qM4u1w2e3r4t5y6u7

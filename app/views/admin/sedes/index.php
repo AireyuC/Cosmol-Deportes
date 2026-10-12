@@ -12,7 +12,6 @@
                 <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
                     Sedes y Recintos Deportivos
                 </h1>
-                <span class="text-muted text-sm">Complejos habilitados para las Olimpiadas COSMOL</span>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
@@ -38,7 +37,6 @@
                             <th style="width: 60px;">ID</th>
                             <th>Nombre del Complejo</th>
                             <th>Dirección / Ubicación</th>
-                            <th>Teléfono</th>
                             <th class="text-center">Canchas</th>
                             <th class="text-center">Estado</th>
                             <th class="text-center" style="width: 200px;">Acciones</th>
@@ -68,7 +66,6 @@
                                             </a>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="text-muted text-sm"><?php echo e($s['telefono']); ?></td>
                                     <td class="text-center">
                                         <span class="badge py-1 px-2" style="background-color: #00A3E0; color: #FFFFFF;">
                                             <?php echo e($s['total_canchas']); ?> Canchas
@@ -81,7 +78,7 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="<?php echo BASE_URL; ?>/sedes/<?php echo $s['id']; ?>/canchas" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Administrar Canchas">
-                                            Canchas
+                                            Cancha
                                         </a>
                                         <?php if (AuthHelper::isAdmin()): ?>
                                             <a href="<?php echo BASE_URL; ?>/sedes/<?php echo $s['id']; ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
