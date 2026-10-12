@@ -1,26 +1,3 @@
-<!-- Content Header (Page header) -->
-<div class="content-header pb-2">
-    <div class="container-fluid">
-        <div class="row mb-2 align-items-center">
-            <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
-                    Dashboard Olímpico
-                </h1>
-                <span class="text-muted text-sm">
-                    Cooperativa de Servicios Públicos Montero - COSMOL R.L.
-                </span>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right bg-transparent p-0 text-sm">
-                    <li class="breadcrumb-item"><a href="<?php echo BASE_URL; ?>/">Inicio</a></li>
-                    <li class="breadcrumb-item active text-secondary">Dashboard</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.content-header -->
-
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
@@ -62,7 +39,7 @@
                         <p>Disciplinas Deportivas</p>
                     </div>
                     <a href="<?php echo BASE_URL; ?>/disciplinas" class="small-box-footer">
-                        Administrar &rsaquo;
+                        Ver &rsaquo;
                     </a>
                 </div>
             </div>
@@ -74,7 +51,7 @@
                         <p>Delegaciones</p>
                     </div>
                     <a href="<?php echo BASE_URL; ?>/delegaciones" class="small-box-footer">
-                        Ver Delegaciones &rsaquo;
+                        Ver &rsaquo;
                     </a>
                 </div>
             </div>
@@ -86,7 +63,7 @@
                         <p>Equipos en Grupos</p>
                     </div>
                     <a href="<?php echo BASE_URL; ?>/torneos" class="small-box-footer">
-                        Ver Grupos &rsaquo;
+                        Ver &rsaquo;
                     </a>
                 </div>
             </div>
@@ -98,7 +75,7 @@
                         <p>Sanciones Activas</p>
                     </div>
                     <a href="<?php echo BASE_URL; ?>/sanciones" class="small-box-footer">
-                        Control Disciplinario &rsaquo;
+                        Ver &rsaquo;
                     </a>
                 </div>
             </div>
@@ -115,7 +92,7 @@
                         </h3>
                         <div class="card-tools ml-auto">
                             <a href="<?php echo BASE_URL; ?>/medallero" class="btn btn-sm btn-outline-primary py-1 px-2 text-xs font-weight-bold">
-                                Detalle Completo
+                                Detalle
                             </a>
                         </div>
                     </div>

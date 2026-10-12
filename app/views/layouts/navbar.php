@@ -5,14 +5,9 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?php echo BASE_URL; ?>/" class="nav-link font-weight-bold" style="color: #0066B2 !important;">
-                Cosmol-Deportes
-            </a>
-        </li>
         <li class="nav-item d-none d-md-inline-block">
             <span class="nav-link text-muted text-sm">
-                COSMOL R.L. &bull; Edición Olimpiadas
+                Olimpiadas 2026
             </span>
         </li>
     </ul>
@@ -23,12 +18,6 @@
         <!-- Menú de Usuario -->
         <?php if (AuthHelper::isLogged()): ?>
             <li class="nav-item dropdown user-menu">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    <span class="d-none d-md-inline font-weight-bold text-dark mr-1"><?php echo e(AuthHelper::nombre()); ?></span>
-                    <span class="badge badge-<?php echo AuthHelper::isAdmin() ? 'danger' : 'info'; ?>" style="<?php echo !AuthHelper::isAdmin() ? 'background-color: #00A3E0;' : ''; ?>">
-                        <?php echo e(AuthHelper::rol()); ?>
-                    </span>
-                </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow-sm border-0">
                     <!-- User header -->
                     <li class="user-header" style="background-color: #0066B2; color: #FFFFFF;">

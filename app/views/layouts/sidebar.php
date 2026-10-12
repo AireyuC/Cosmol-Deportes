@@ -7,26 +7,18 @@ $currentUri = Router::currentUri();
     <a href="<?php echo BASE_URL; ?>/" class="brand-link">
         <img src="<?php echo BASE_URL; ?>/images/LogoCosmolCuadrado.png" alt="COSMOL" class="brand-image" style="border-radius: 4px; background-color: #FFFFFF; padding: 2px;">
         <span class="brand-text font-weight-bold">
-            COSMOL <span class="brand-accent">DEPORTES</span>
+            Cosmol <span class="brand-accent">Deportes</span>
         </span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar px-2">
         <!-- Sidebar user panel -->
-        <div class="user-panel mt-2 pb-2 mb-2 d-flex align-items-center">
+        <div class="user-panel mt-3 pb-1 mb-1 d-flex align-items-center">
             <div class="info w-100 p-0">
                 <a href="<?php echo AuthHelper::isLogged() ? '#' : BASE_URL . '/login'; ?>" class="d-block font-weight-bold text-truncate mb-1">
                     <?php echo e(AuthHelper::nombre()); ?>
                 </a>
-                <div class="d-flex align-items-center justify-content-between">
-                    <span class="badge px-2 py-1 font-weight-bold" style="<?php echo AuthHelper::isAdmin() ? 'background-color: #EF4444; color: #FFFFFF;' : (AuthHelper::isLogged() ? 'background-color: #00A3E0; color: #FFFFFF;' : 'background-color: #64748B; color: #FFFFFF;'); ?>">
-                        <?php echo e(AuthHelper::rol()); ?>
-                    </span>
-                    <span class="user-status text-xs">
-                        ● <?php echo AuthHelper::isLogged() ? 'En línea' : 'Invitado'; ?>
-                    </span>
-                </div>
             </div>
         </div>
 
@@ -43,7 +35,7 @@ $currentUri = Router::currentUri();
 
                 <!-- SECCIÓN 1: Gestión Olímpica -->
                 <li class="nav-header nav-header-cosmol">
-                    <span class="nav-header-title">Gestión Olímpica</span>
+                    <span class="nav-header-title">Gestión de Olimpíadas</span>
                 </li>
 
                 <li class="nav-item">
@@ -54,19 +46,19 @@ $currentUri = Router::currentUri();
 
                 <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/medallero" class="nav-link <?php echo (strpos($currentUri, '/medallero') === 0) ? 'active' : ''; ?>">
-                        <p>Medallero Oficial</p>
+                        <p>Medallero</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/disciplinas" class="nav-link <?php echo (strpos($currentUri, '/disciplinas') === 0) ? 'active' : ''; ?>">
-                        <p>Disciplinas & Reglas</p>
+                        <p>Disciplinas y Reglas</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/sedes" class="nav-link <?php echo (strpos($currentUri, '/sedes') === 0) ? 'active' : ''; ?>">
-                        <p>Sedes & Canchas</p>
+                        <p>Sedes y Canchas</p>
                     </a>
                 </li>
 
@@ -77,7 +69,7 @@ $currentUri = Router::currentUri();
 
                 <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/torneos" class="nav-link <?php echo (strpos($currentUri, '/torneos') === 0) ? 'active' : ''; ?>">
-                        <p>Torneos & Grupos</p>
+                        <p>Torneos y Grupos</p>
                     </a>
                 </li>
 
@@ -100,7 +92,7 @@ $currentUri = Router::currentUri();
 
                 <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/partidos" class="nav-link <?php echo (strpos($currentUri, '/partidos') === 0) ? 'active' : ''; ?>">
-                        <p>Fixture & Partidos</p>
+                        <p>Fixture y Partidos</p>
                     </a>
                 </li>
 
