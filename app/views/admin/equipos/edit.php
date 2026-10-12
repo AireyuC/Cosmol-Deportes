@@ -1,17 +1,17 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-edit text-info mr-2"></i> Editar Equipo: <?php echo e($equipo['nombre']); ?>
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Editar Equipo: <?php echo e($equipo['nombre']); ?>
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($equipo['id']); ?>/jugadores" class="btn btn-outline-info mr-1">
-                    <i class="fas fa-users mr-1"></i> Ver Nómina
+                <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($equipo['id']); ?>/jugadores" class="btn btn-outline-primary font-weight-bold mr-1">
+                    Ver Nómina
                 </a>
-                <a href="<?php echo BASE_URL; ?>/equipos" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver a Equipos
+                <a href="<?php echo BASE_URL; ?>/equipos" class="btn btn-secondary font-weight-bold">
+                    Volver a Equipos
                 </a>
             </div>
         </div>

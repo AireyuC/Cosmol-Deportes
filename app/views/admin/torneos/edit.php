@@ -1,17 +1,17 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-edit text-warning mr-2"></i> Editar Torneo: <?php echo e($torneo['nombre']); ?>
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Editar Torneo: <?php echo e($torneo['nombre']); ?>
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>" class="btn btn-info mr-1">
-                    <i class="fas fa-eye mr-1"></i> Ver Tablero
+                <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>" class="btn btn-outline-primary font-weight-bold mr-1">
+                    Ver Tablero
                 </a>
-                <a href="<?php echo BASE_URL; ?>/torneos" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver al Listado
+                <a href="<?php echo BASE_URL; ?>/torneos" class="btn btn-secondary font-weight-bold">
+                    Volver a Torneos
                 </a>
             </div>
         </div>

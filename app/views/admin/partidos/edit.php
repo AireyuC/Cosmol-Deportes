@@ -13,14 +13,13 @@
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
+                <h1 class="card-title mb-0 card-title-cosmol">
                     Reprogramar / Editar Encuentro #<?php echo e($partido['id']); ?>
                 </h1>
-                <span class="text-muted text-sm"><?php echo e($partido['local_nombre']); ?> vs <?php echo e($partido['visitante_nombre']); ?></span>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $partido['id']; ?>" class="btn btn-outline-secondary font-weight-bold">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver a la Ficha
+                <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $partido['id']; ?>" class="btn btn-secondary font-weight-bold">
+                    Volver a la Ficha
                 </a>
             </div>
         </div>

@@ -1,27 +1,24 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-7">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-users text-primary mr-2"></i> Plantilla: <?php echo e($equipo['nombre']); ?>
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Plantilla: <?php echo e($equipo['nombre']); ?>
                 </h1>
-                <div class="text-muted text-sm mt-1">
-                    <span class="badge px-2 py-1 mr-2" style="background-color: <?php echo e($equipo['color_representativo']); ?>; color: #fff;">
-                        <?php echo e($equipo['delegacion_nombre']); ?>
-                    </span>
-                    Torneo: <strong><?php echo e($equipo['torneo_nombre']); ?></strong> &bull; <?php echo e($equipo['disciplina_nombre']); ?> (<?php echo e($equipo['torneo_rama']); ?>)
-                </div>
+                <span class="text-muted text-sm ml-2">
+                    <?php echo e($equipo['delegacion_nombre']); ?> &bull; <?php echo e($equipo['torneo_nombre']); ?>
+                </span>
             </div>
-            <div class="col-sm-5 text-right pt-2">
-                <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($equipo['torneo_id']); ?>" class="btn btn-outline-secondary mr-1">
-                    <i class="fas fa-sitemap mr-1"></i> Ver Torneo
+            <div class="col-sm-5 text-right">
+                <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($equipo['torneo_id']); ?>" class="btn btn-outline-primary font-weight-bold mr-1">
+                    Ver Torneo
                 </a>
-                <a href="<?php echo BASE_URL; ?>/equipos" class="btn btn-secondary mr-1">
-                    <i class="fas fa-arrow-left mr-1"></i> Equipos
+                <a href="<?php echo BASE_URL; ?>/equipos" class="btn btn-secondary font-weight-bold mr-1">
+                    Equipos
                 </a>
                 <?php if (AuthHelper::isAdmin()): ?>
                     <a href="<?php echo BASE_URL; ?>/jugadores/crear?equipo_id=<?php echo e($equipo['id']); ?>" class="btn btn-primary font-weight-bold">
-                        <i class="fas fa-user-plus mr-1"></i> Inscribir Atleta
+                        Inscribir Atleta
                     </a>
                 <?php endif; ?>
             </div>

@@ -1,15 +1,15 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-users text-primary mr-2"></i> Nómina Oficial de Atletas
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Nómina Oficial de Atletas
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
                     <a href="<?php echo BASE_URL; ?>/jugadores/crear" class="btn btn-primary font-weight-bold">
-                        <i class="fas fa-user-plus mr-1"></i> Inscribir Atleta
+                        Inscribir Atleta
                     </a>
                 <?php endif; ?>
             </div>

@@ -1,14 +1,14 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-user-plus text-primary mr-2"></i> Inscribir Atleta en Nómina
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Inscribir Atleta en Nómina
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo $equipoId ? BASE_URL . '/equipos/' . $equipoId . '/jugadores' : BASE_URL . '/jugadores'; ?>" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver
+                <a href="<?php echo $equipoId ? BASE_URL . '/equipos/' . $equipoId . '/jugadores' : BASE_URL . '/jugadores'; ?>" class="btn btn-secondary font-weight-bold">
+                    Volver
                 </a>
             </div>
         </div>

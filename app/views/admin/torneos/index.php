@@ -1,15 +1,15 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-sitemap text-warning mr-2"></i> Torneos y Competencias
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Torneos y Competencias
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
-                    <a href="<?php echo BASE_URL; ?>/torneos/crear" class="btn btn-warning font-weight-bold text-dark">
-                        <i class="fas fa-plus mr-1"></i> Nuevo Torneo
+                    <a href="<?php echo BASE_URL; ?>/torneos/crear" class="btn btn-primary font-weight-bold">
+                        Nuevo Torneo
                     </a>
                 <?php endif; ?>
             </div>

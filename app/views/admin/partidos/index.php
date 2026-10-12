@@ -15,15 +15,14 @@
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
+                <h1 class="card-title mb-0 card-title-cosmol">
                     Fixture y Programación de Partidos
                 </h1>
-                <span class="text-muted text-sm">Cronograma general de encuentros y actas de juego</span>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
                     <a href="<?php echo BASE_URL; ?>/partidos/crear<?php echo $filtroTorneo ? '?torneo_id=' . $filtroTorneo : ''; ?>" class="btn btn-primary font-weight-bold">
-                        <i class="fas fa-plus mr-1"></i> Programar Partido
+                        Programar Partido
                     </a>
                 <?php endif; ?>
             </div>

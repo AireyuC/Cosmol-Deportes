@@ -1,15 +1,15 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-shield-alt text-info mr-2"></i> Equipos Deportivos
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Equipos Deportivos
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
-                    <a href="<?php echo BASE_URL; ?>/equipos/crear" class="btn btn-info font-weight-bold">
-                        <i class="fas fa-plus mr-1"></i> Registrar Equipo
+                    <a href="<?php echo BASE_URL; ?>/equipos/crear" class="btn btn-primary font-weight-bold">
+                        Registrar Equipo
                     </a>
                 <?php endif; ?>
             </div>

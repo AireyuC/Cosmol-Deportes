@@ -11,24 +11,24 @@
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
+                <h1 class="card-title mb-0 card-title-cosmol">
                     Encuentro #<?php echo e($partido['id']); ?>: <?php echo e($partido['local_nombre']); ?> vs <?php echo e($partido['visitante_nombre']); ?>
                 </h1>
-                <span class="text-muted text-sm">
-                    <?php echo e($partido['torneo_nombre']); ?> &bull; <?php echo e($partido['disciplina_nombre']); ?> (<?php echo e($partido['torneo_rama']); ?>) &bull; <?php echo e($partido['fase']); ?> - <?php echo e($partido['jornada']); ?>
+                <span class="text-muted text-sm ml-2">
+                    <?php echo e($partido['disciplina_nombre']); ?> &bull; <?php echo e($partido['fase']); ?>
                 </span>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $partido['id']; ?>/acta" class="btn btn-success font-weight-bold mr-1">
-                    <i class="fas fa-clipboard-list mr-1"></i> Acta Digital de Juego
+                    Acta Digital
                 </a>
                 <?php if (AuthHelper::isAdmin()): ?>
                     <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $partido['id']; ?>/editar" class="btn btn-outline-primary font-weight-bold mr-1">
-                        <i class="fas fa-edit mr-1"></i> Editar
+                        Editar
                     </a>
                 <?php endif; ?>
-                <a href="<?php echo BASE_URL; ?>/partidos" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left mr-1"></i> Fixture
+                <a href="<?php echo BASE_URL; ?>/partidos" class="btn btn-secondary font-weight-bold">
+                    Fixture
                 </a>
             </div>
         </div>

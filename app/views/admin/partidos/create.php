@@ -13,14 +13,13 @@
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
+                <h1 class="card-title mb-0 card-title-cosmol">
                     Programar Encuentro Deportivo
                 </h1>
-                <span class="text-muted text-sm">Asignación de equipos, sede, fecha y franja horaria</span>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo BASE_URL; ?>/partidos" class="btn btn-outline-secondary font-weight-bold">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver al Fixture
+                <a href="<?php echo BASE_URL; ?>/partidos" class="btn btn-secondary font-weight-bold">
+                    Volver al Fixture
                 </a>
             </div>
         </div>

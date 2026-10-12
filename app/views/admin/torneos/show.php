@@ -1,25 +1,21 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-7">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <span class="badge badge-warning p-2 rounded-circle mr-2">
-                        <i class="fas fa-<?php echo e(!empty($torneo['disciplina_icono']) ? $torneo['disciplina_icono'] : 'trophy'); ?> text-dark"></i>
-                    </span>
+                <h1 class="card-title mb-0 card-title-cosmol">
                     <?php echo e($torneo['nombre']); ?>
                 </h1>
-                <div class="text-muted text-sm mt-1">
-                    <i class="fas fa-medal mr-1 text-warning"></i> <?php echo e($torneo['olimpiada_nombre']); ?> (<?php echo e($torneo['olimpiada_anio']); ?>) 
-                    &bull; Disciplina: <strong><?php echo e($torneo['disciplina_nombre']); ?></strong>
-                </div>
+                <span class="text-muted text-sm ml-2">
+                    <?php echo e($torneo['olimpiada_nombre']); ?> &bull; <?php echo e($torneo['disciplina_nombre']); ?>
+                </span>
             </div>
-            <div class="col-sm-5 text-right pt-2">
-                <a href="<?php echo BASE_URL; ?>/torneos" class="btn btn-secondary mr-1">
-                    <i class="fas fa-arrow-left mr-1"></i> Lista de Torneos
+            <div class="col-sm-5 text-right">
+                <a href="<?php echo BASE_URL; ?>/torneos" class="btn btn-secondary font-weight-bold mr-1">
+                    Volver a Torneos
                 </a>
                 <?php if (AuthHelper::isAdmin()): ?>
-                    <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>/editar" class="btn btn-warning text-dark font-weight-bold">
-                        <i class="fas fa-edit mr-1"></i> Editar
+                    <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>/editar" class="btn btn-primary font-weight-bold">
+                        Editar
                     </a>
                 <?php endif; ?>
             </div>

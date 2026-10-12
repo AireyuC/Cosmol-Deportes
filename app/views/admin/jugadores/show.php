@@ -1,18 +1,18 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-id-badge text-primary mr-2"></i> Ficha del Atleta
+                <h1 class="card-title mb-0 card-title-cosmol">
+                    Ficha del Atleta: <?php echo e($jugador['nombres']); ?> <?php echo e($jugador['apellidos']); ?>
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($jugador['equipo_id']); ?>/jugadores" class="btn btn-secondary mr-1">
-                    <i class="fas fa-arrow-left mr-1"></i> Plantilla del Equipo
+                <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($jugador['equipo_id']); ?>/jugadores" class="btn btn-secondary font-weight-bold mr-1">
+                    Plantilla del Equipo
                 </a>
                 <?php if (AuthHelper::isAdmin()): ?>
-                    <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($jugador['id']); ?>/editar" class="btn btn-warning text-dark font-weight-bold">
-                        <i class="fas fa-edit mr-1"></i> Editar Ficha
+                    <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($jugador['id']); ?>/editar" class="btn btn-primary font-weight-bold">
+                        Editar Ficha
                     </a>
                 <?php endif; ?>
             </div>
