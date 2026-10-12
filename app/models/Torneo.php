@@ -105,10 +105,20 @@ class Torneo extends Model {
      * @return int
      */
     public function updateTorneo($id, $data) {
+        // Si no se proporcionó regla_puntuacion_id, buscar la asociada a la disciplina
+        $reglaId = !empty($data['regla_puntuacion_id']) ? (int)$data['regla_puntuacion_id'] : null;
+        if (!$reglaId && !empty($data['disciplina_id'])) {
+            $sqlRegla = "SELECT id FROM reglas_puntuacion WHERE disciplina_id = :d_id LIMIT 1";
+            $regla = $this->fetch($sqlRegla, ['d_id' => (int)$data['disciplina_id']]);
+            if ($regla) {
+                $reglaId = (int)$regla['id'];
+            }
+        }
+
         $updateData = [
             'olimpiada_id'        => (int)$data['olimpiada_id'],
             'disciplina_id'       => (int)$data['disciplina_id'],
-            'regla_puntuacion_id' => !empty($data['regla_puntuacion_id']) ? (int)$data['regla_puntuacion_id'] : null,
+            'regla_puntuacion_id' => $reglaId,
             'nombre'              => trim($data['nombre']),
             'rama'                => isset($data['rama']) ? $data['rama'] : 'Masculino',
             'tipo_torneo'         => isset($data['tipo_torneo']) ? $data['tipo_torneo'] : 'Grupos_Playoff',
