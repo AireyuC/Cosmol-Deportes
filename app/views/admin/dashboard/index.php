@@ -114,10 +114,9 @@
                                     <?php foreach ($medallero_top as $m): ?>
                                     <tr>
                                         <td class="font-weight-bold text-center text-secondary">
-                                            #<?php echo e($m['pos']); ?>
+                                            <?php echo e($m['pos']); ?>
                                         </td>
                                         <td>
-                                            <span class="d-inline-block rounded-circle mr-2" style="width: 10px; height: 10px; background-color: <?php echo e($m['color']); ?>;"></span>
                                             <span class="font-weight-bold text-dark"><?php echo e($m['delegacion']); ?></span>
                                         </td>
                                         <td class="text-center font-weight-bold"><?php echo e($m['oro']); ?></td>
@@ -149,7 +148,7 @@
                                     <a href="<?php echo BASE_URL; ?>/torneos" class="font-weight-bold d-block" style="color: #0066B2;">
                                         <?php echo e($d['nombre']); ?>
                                     </a>
-                                    <small class="text-muted">Ramas Masculino, Femenino y Mixto</small>
+                                    <small class="text-muted">Masculino y Femenino</small>
                                 </div>
                                 <span class="badge py-1 px-2 font-weight-bold" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;">
                                     <?php echo e($d['torneos']); ?> Torneos

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=fallback">
     <!-- Theme style: AdminLTE 3.2.0 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
 
     <style>
         :root {
@@ -26,7 +27,7 @@
             padding: 20px 0;
         }
         .register-box {
-            width: 440px;
+            width: 460px;
         }
         .card-cosmol {
             border-top: 4px solid var(--cosmol-azul);
@@ -54,10 +55,11 @@
             text-decoration: underline;
         }
         .logo-register {
-            max-width: 90px;
+            max-width: 130px;
             height: auto;
             display: block;
             margin: 0 auto 10px auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 102, 178, 0.15));
         }
     </style>
 </head>
@@ -70,7 +72,7 @@
             <!-- Logo Institucional -->
             <div class="text-center mb-3">
                 <a href="<?php echo BASE_URL; ?>/">
-                    <img src="<?php echo BASE_URL; ?>/images/LogoCosmolCuadrado.png" alt="COSMOL R.L." class="logo-register">
+                    <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL R.L." class="logo-register">
                 </a>
                 <h5 class="font-weight-bold mb-0" style="color: #0066B2 !important;">
                     COSMOL R.L.

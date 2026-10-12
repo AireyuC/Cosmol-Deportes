@@ -86,16 +86,15 @@ a:hover {
 }
 
 .main-sidebar .brand-link .brand-image {
-    max-height: 33px !important;
+    max-height: 38px !important;
     width: auto !important;
     float: left !important;
     margin-left: 0.5rem !important;
     margin-right: 0.75rem !important;
-    margin-top: -3px !important;
-    border-radius: 4px !important;
-    background-color: #FFFFFF !important;
-    padding: 2px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    margin-top: -4px !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
 }
 
 .main-sidebar .brand-link .brand-text {
