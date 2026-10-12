@@ -11,7 +11,7 @@
             </div>
             <div class="col-sm-5 text-right">
                 <a href="<?php echo BASE_URL; ?>/torneos" class="btn btn-secondary font-weight-bold mr-1">
-                    Volver a Torneos
+                    <i class="fa fa-arrow-left mr-1"></i> Volver
                 </a>
                 <?php if (AuthHelper::isAdmin()): ?>
                     <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>/editar" class="btn btn-primary font-weight-bold">
@@ -27,11 +27,11 @@
     <div class="container-fluid">
 
         <!-- Barra de Estado y Metadatos -->
-        <div class="card card-outline card-warning shadow-sm mb-4">
+        <div class="card card-outline shadow-sm mb-4">
             <div class="card-body py-3">
                 <div class="row text-center text-md-left align-items-center">
                     <div class="col-md-2 mb-2 mb-md-0">
-                        <span class="text-muted d-block text-xs text-uppercase font-weight-bold">Rama / Categoría</span>
+                        <span class="text-muted d-block text-xs text-uppercase font-weight-bold">Categoría</span>
                         <?php if ($torneo['rama'] === 'Masculino'): ?>
                             <span class="badge badge-primary px-3 py-1"><i class="fas fa-mars mr-1"></i> Masculino</span>
                         <?php elseif ($torneo['rama'] === 'Femenino'): ?>
@@ -41,7 +41,7 @@
                         <?php endif; ?>
                     </div>
                     <div class="col-md-3 mb-2 mb-md-0">
-                        <span class="text-muted d-block text-xs text-uppercase font-weight-bold">Formato & Modalidad</span>
+                        <span class="text-muted d-block text-xs text-uppercase font-weight-bold">Formato y Modalidad</span>
                         <span class="font-weight-bold text-dark">
                             <?php echo str_replace('_', ' ', e($torneo['tipo_torneo'])); ?>
                         </span>
@@ -65,17 +65,17 @@
                     </div>
                     <div class="col-md-5 text-md-right">
                         <a href="<?php echo BASE_URL; ?>/partidos?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-outline-info font-weight-bold mr-1">
-                            <i class="fas fa-calendar-alt mr-1"></i> Fixture
+                            Fixture
                         </a>
                         <?php if (AuthHelper::isAdmin()): ?>
                             <a href="<?php echo BASE_URL; ?>/partidos/crear?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-outline-primary font-weight-bold mr-1">
-                                <i class="fas fa-clock mr-1"></i> Programar Partido
+                                Programar Partido
                             </a>
                             <button type="button" class="btn btn-sm btn-success font-weight-bold mr-1" data-toggle="modal" data-target="#modalNuevoGrupo">
-                                <i class="fas fa-plus mr-1"></i> Crear Grupo
+                                Crear Grupo
                             </button>
                             <a href="<?php echo BASE_URL; ?>/equipos/crear?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-primary font-weight-bold">
-                                <i class="fas fa-shield-alt mr-1"></i> Inscribir Equipo
+                                Inscribir Equipo
                             </a>
                         <?php endif; ?>
                     </div>

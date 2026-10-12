@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6 text-right">
                 <a href="<?php echo $torneoId ? BASE_URL . '/torneos/' . $torneoId : BASE_URL . '/equipos'; ?>" class="btn btn-secondary font-weight-bold">
-                    Volver
+                    <i class="fas fa-arrow-left mr-1"></i>Volver
                 </a>
             </div>
         </div>
@@ -17,10 +17,7 @@
 
 <div class="content">
     <div class="container-fluid">
-        <div class="card card-outline card-info shadow-sm">
-            <div class="card-header">
-                <h3 class="card-title font-weight-bold text-dark">Ficha de Inscripción del Equipo</h3>
-            </div>
+        <div class="card card-outline card-cosmol shadow-sm">
             <form action="<?php echo BASE_URL; ?>/equipos/guardar" method="post">
                 <?php echo CsrfHelper::field(); ?>
                 <?php if ($torneoId): ?>
@@ -32,7 +29,7 @@
                         <!-- Nombre del Equipo -->
                         <div class="col-md-8 form-group">
                             <label for="nombre">Nombre Oficial del Equipo <span class="text-danger">*</span></label>
-                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ej. Comercial FC, Operaciones United" required autofocus>
+                            <input type="text" name="nombre" id="nombre" class="form-control" required autofocus>
                         </div>
 
                         <!-- Nombre Corto / Alias -->
@@ -47,7 +44,7 @@
                         <div class="col-md-6 form-group">
                             <label for="delegacion_id">Delegación Institucional que Representa <span class="text-danger">*</span></label>
                             <select name="delegacion_id" id="delegacion_id" class="form-control" required>
-                                <option value="">-- Seleccionar Delegación --</option>
+                                <option value="">Seleccionar Delegación</option>
                                 <?php foreach ($delegaciones as $del): ?>
                                     <option value="<?php echo e($del['id']); ?>">
                                         <?php echo e($del['nombre']); ?> (<?php echo e($del['alias']); ?>)
@@ -58,9 +55,9 @@
 
                         <!-- Torneo de Competencia -->
                         <div class="col-md-6 form-group">
-                            <label for="torneo_id">Torneo en el que Compite <span class="text-danger">*</span></label>
+                            <label for="torneo_id">Disciplina en la que compite<span class="text-danger">*</span></label>
                             <select name="torneo_id" id="torneo_id" class="form-control" required onchange="cargarGruposPorTorneo(this.value)">
-                                <option value="">-- Seleccionar Torneo --</option>
+                                <option value="">Seleccionar Disciplina</option>
                                 <?php foreach ($torneos as $tor): ?>
                                     <option value="<?php echo e($tor['id']); ?>" <?php echo ($torneoId == $tor['id']) ? 'selected' : ''; ?>>
                                         <?php echo e($tor['nombre']); ?> (<?php echo e($tor['disciplina_nombre']); ?> - <?php echo e($tor['rama']); ?>)
@@ -85,8 +82,8 @@
 
                         <!-- Color de Indumentaria -->
                         <div class="col-md-6 form-group">
-                            <label for="color_indumentaria">Color de Camiseta / Indumentaria</label>
-                            <input type="text" name="color_indumentaria" id="color_indumentaria" class="form-control" placeholder="Ej. Azul y Blanco, Verde con franja negra">
+                            <label for="color_indumentaria">Color de Camiseta</label>
+                            <input type="text" name="color_indumentaria" id="color_indumentaria" class="form-control">
                         </div>
                     </div>
 
@@ -94,13 +91,13 @@
                         <!-- Delegado Contacto -->
                         <div class="col-md-6 form-group">
                             <label for="delegado_contacto">Nombre del Delegado Responsable</label>
-                            <input type="text" name="delegado_contacto" id="delegado_contacto" class="form-control" placeholder="Persona a cargo del equipo">
+                            <input type="text" name="delegado_contacto" id="delegado_contacto" class="form-control">
                         </div>
 
                         <!-- Teléfono Contacto -->
                         <div class="col-md-6 form-group">
                             <label for="telefono_contacto">Teléfono de Contacto</label>
-                            <input type="text" name="telefono_contacto" id="telefono_contacto" class="form-control" placeholder="Número de celular o WhatsApp">
+                            <input type="text" name="telefono_contacto" id="telefono_contacto" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -108,7 +105,7 @@
                 <div class="card-footer bg-light text-right">
                     <a href="<?php echo $torneoId ? BASE_URL . '/torneos/' . $torneoId : BASE_URL . '/equipos'; ?>" class="btn btn-secondary mr-2">Cancelar</a>
                     <button type="submit" class="btn btn-info font-weight-bold">
-                        <i class="fas fa-save mr-1"></i> Inscribir Equipo
+                        Inscribir Equipo
                     </button>
                 </div>
             </form>

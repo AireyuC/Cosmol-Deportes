@@ -8,7 +8,10 @@
             </div>
             <div class="col-sm-6 text-right">
                 <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($jugador['equipo_id']); ?>/jugadores" class="btn btn-secondary font-weight-bold">
-                    Volver a Plantilla
+                    <i class="fas fa-arrow-left mr-1"></i> Volver a Plantilla
+                </a>
+                <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($jugador['id']); ?>" class="btn btn-secondary font-weight-bold">
+                    <i class="fas fa-arrow-left mr-1"></i> Volver a Perfil
                 </a>
             </div>
         </div>
@@ -104,7 +107,7 @@
                 <div class="card-footer bg-light text-right">
                     <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($jugador['equipo_id']); ?>/jugadores" class="btn btn-secondary mr-2">Cancelar</a>
                     <button type="submit" class="btn btn-primary font-weight-bold">
-                        <i class="fas fa-sync mr-1"></i> Actualizar Atleta
+                        Actualizar Información
                     </button>
                 </div>
             </form>

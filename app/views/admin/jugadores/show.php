@@ -1,13 +1,16 @@
 <div class="content-header pb-2">
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <h1 class="card-title mb-0 card-title-cosmol">
-                    Ficha del Atleta: <?php echo e($jugador['nombres']); ?> <?php echo e($jugador['apellidos']); ?>
+                    Perfil del Atleta
                 </h1>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($jugador['equipo_id']); ?>/jugadores" class="btn btn-secondary font-weight-bold mr-1">
+            <div class="col-sm-7 text-right">
+                <a href="<?php echo BASE_URL; ?>/jugadores" class="btn btn-secondary font-weight-bold mr-1">
+                    <i class="fas fa-arrow-left mr-1"></i> Volver a la Nómina
+                </a>
+                <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($jugador['equipo_id']); ?>/jugadores" class="btn btn-outline-primary font-weight-bold mr-1">
                     Plantilla del Equipo
                 </a>
                 <?php if (AuthHelper::isAdmin()): ?>
@@ -37,18 +40,18 @@
                             <?php echo e($jugador['nombres']); ?> <?php echo e($jugador['apellidos']); ?>
                         </h3>
                         <p class="text-muted mb-2 font-weight-bold">
-                            <i class="fas fa-id-card mr-1"></i> CI/Documento: <?php echo e($jugador['documento']); ?>
+                            CI: <?php echo e($jugador['documento']); ?>
                         </p>
 
                         <!-- Estado de Habilitación -->
                         <div class="mb-4">
                             <?php if ($jugador['estado'] === 'Habilitado'): ?>
                                 <span class="badge badge-success px-3 py-2" style="font-size: 0.95rem;">
-                                    <i class="fas fa-check-circle mr-1"></i> Habilitado para Competir
+                                    <i class="fas fa-check-circle mr-1"></i> Habilitado
                                 </span>
                             <?php elseif ($jugador['estado'] === 'Suspendido'): ?>
                                 <span class="badge badge-danger px-3 py-2" style="font-size: 0.95rem;">
-                                    <i class="fas fa-ban mr-1"></i> Suspendido / Inhabilitado
+                                    <i class="fas fa-ban mr-1"></i> Inhabilitado
                                 </span>
                             <?php else: ?>
                                 <span class="badge badge-secondary px-3 py-2" style="font-size: 0.95rem;">
@@ -60,27 +63,27 @@
                         <!-- Detalles Deportivos -->
                         <ul class="list-group list-group-unbordered text-left mb-4">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <b><i class="fas fa-shield-alt text-info mr-2"></i> Equipo:</b>
+                                <b>Equipo:</b>
                                 <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($jugador['equipo_id']); ?>/jugadores" class="font-weight-bold text-dark">
                                     <?php echo e($jugador['equipo_nombre']); ?>
                                 </a>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <b><i class="fas fa-building text-primary mr-2"></i> Delegación Institucional:</b>
+                                <b>Delegación:</b>
                                 <span class="badge px-2 py-1 font-weight-bold" style="background-color: <?php echo e($jugador['color_representativo']); ?>; color: #fff;">
                                     <?php echo e($jugador['delegacion_nombre']); ?>
                                 </span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <b><i class="fas fa-trophy text-warning mr-2"></i> Torneo:</b>
+                                <b>Disciplina Deportiva:</b>
                                 <span class="font-weight-bold"><?php echo e($jugador['torneo_nombre']); ?> (<?php echo e($jugador['torneo_rama']); ?>)</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <b><i class="fas fa-running text-success mr-2"></i> Posición en Campo:</b>
+                                <b>Posición:</b>
                                 <span class="text-dark font-weight-bold"><?php echo !empty($jugador['posicion']) ? e($jugador['posicion']) : 'No asignada'; ?></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <b><i class="fas fa-birthday-cake text-danger mr-2"></i> Fecha de Nacimiento:</b>
+                                <b>Fecha Nacimiento:</b>
                                 <span><?php echo !empty($jugador['fecha_nacimiento']) ? e($jugador['fecha_nacimiento']) : 'No registrada'; ?></span>
                             </li>
                         </ul>

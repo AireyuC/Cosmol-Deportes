@@ -7,11 +7,8 @@
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>" class="btn btn-outline-primary font-weight-bold mr-1">
-                    Ver Tablero
-                </a>
                 <a href="<?php echo BASE_URL; ?>/torneos" class="btn btn-secondary font-weight-bold">
-                    Volver a Torneos
+                    <i class="fa fa-arrow-left mr-1"></i> Volver
                 </a>
             </div>
         </div>
@@ -20,10 +17,7 @@
 
 <div class="content">
     <div class="container-fluid">
-        <div class="card card-outline card-warning shadow-sm">
-            <div class="card-header">
-                <h3 class="card-title font-weight-bold text-dark">Modificar Parámetros del Torneo</h3>
-            </div>
+        <div class="card card-outline card-cosmol shadow-sm">
             <form action="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>/actualizar" method="post">
                 <?php echo CsrfHelper::field(); ?>
 
@@ -119,8 +113,8 @@
 
                 <div class="card-footer bg-light text-right">
                     <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>" class="btn btn-secondary mr-2">Cancelar</a>
-                    <button type="submit" class="btn btn-warning font-weight-bold text-dark">
-                        <i class="fas fa-sync mr-1"></i> Actualizar Torneo
+                    <button type="submit" class="btn btn-primary font-weight-bold">
+                        Actualizar Torneo
                     </button>
                 </div>
             </form>

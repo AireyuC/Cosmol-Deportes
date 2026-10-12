@@ -21,10 +21,10 @@
     <div class="container-fluid">
 
         <!-- Filtro por Olimpiada -->
-        <div class="card card-outline card-secondary shadow-sm mb-3">
+        <div class="card card-outline shadow-sm mb-3">
             <div class="card-body py-2">
                 <form action="<?php echo BASE_URL; ?>/torneos" method="get" class="form-inline">
-                    <label class="mr-2 text-muted font-weight-bold"><i class="fas fa-filter mr-1"></i> Filtrar por Olimpiada:</label>
+                    <label class="mr-2 text-muted font-weight-bold">Filtrar por Olimpiada:</label>
                     <select name="olimpiada_id" class="form-control form-control-sm mr-2" onchange="this.form.submit()">
                         <option value="">Todas las Olimpiadas</option>
                         <?php foreach ($olimpiadas as $olimp): ?>
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div class="card card-outline card-warning shadow-sm">
+        <div class="card card-outline card-cosmol shadow-sm">
             <div class="card-header">
                 <h3 class="card-title font-weight-bold text-dark">
                     <i class="fas fa-trophy mr-1 text-warning"></i> Torneos Registrados
@@ -138,14 +138,14 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($t['id']); ?>" class="btn btn-xs btn-info" title="Ver Grupos y Equipos">
-                                            <i class="fas fa-eye mr-1"></i> Grupos
+                                            Grupos
                                         </a>
                                         <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($t['id']); ?>/editar" class="btn btn-xs btn-warning text-dark ml-1" title="Editar">
-                                                <i class="fas fa-edit"></i>
+                                            <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($t['id']); ?>/editar" class="btn btn-xs btn-primary text-dark ml-1" title="Editar">
+                                                Editar
                                             </a>
                                             <button type="button" class="btn btn-xs btn-danger ml-1" data-toggle="modal" data-target="#modalDelete<?php echo e($t['id']); ?>" title="Eliminar">
-                                                <i class="fas fa-trash"></i>
+                                                Eliminar
                                             </button>
 
                                             <!-- Modal Confirmar Eliminación -->
