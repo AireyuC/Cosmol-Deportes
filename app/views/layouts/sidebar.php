@@ -85,10 +85,18 @@
                     </a>
                 </li>
 
+                <!-- Equipos Deportivos -->
+                <li class="nav-item">
+                    <a href="<?php echo BASE_URL; ?>/equipos" class="nav-link">
+                        <i class="nav-icon fas fa-shield-alt text-success"></i>
+                        <p>Equipos</p>
+                    </a>
+                </li>
+
                 <!-- Delegaciones -->
                 <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/delegaciones" class="nav-link">
-                        <i class="nav-icon fas fa-shield-alt text-info"></i>
+                        <i class="nav-icon fas fa-building text-info"></i>
                         <p>Delegaciones</p>
                     </a>
                 </li>

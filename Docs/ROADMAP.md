@@ -159,23 +159,24 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 ### FASE 5: Torneos, Creación de Grupos, Equipos y Nómina de Jugadores
 > **Objetivo:** Configurar la estructura de competencia de cada disciplina, la distribución de grupos y el padrón de atletas.
 
-- [ ] **5.1. Módulo de Torneos por Disciplina (`TorneoController.php`):**
+- [x] **5.1. Módulo de Torneos por Disciplina (`TorneoController.php` + `Torneo.php`):**
   - Creación de torneo vinculado a la Olimpiada activa, disciplina y rama (Masculino, Femenino, Mixto).
   - Modalidad: Fase de Grupos + Playoffs, Liga directa, Eliminación directa, ida o ida/vuelta.
-- [ ] **5.2. Módulo de Gestión de Grupos (`GrupoController.php`):**
+- [x] **5.2. Módulo de Gestión de Grupos (`GrupoController.php` + `Grupo.php`):**
   - Crear grupos dentro de un torneo (`Grupo A`, `Grupo B`, `Grupo C`, etc.).
   - Asignar y desasignar equipos a cada grupo.
   - Visualización del listado de grupos con los equipos participantes.
-- [ ] **5.3. Módulo de Equipos (`EquipoController.php`):**
+- [x] **5.3. Módulo de Equipos (`EquipoController.php` + `Equipo.php`):**
   - Registrar equipo vinculado a una delegación y a un torneo/grupo.
   - Asignación de delegado, color de camiseta y escudo.
-- [ ] **5.4. Módulo de Nómina de Jugadores (`JugadorController.php`):**
+- [x] **5.4. Módulo de Nómina de Jugadores (`JugadorController.php` + `Jugador.php`):**
   - CRUD de jugadores por equipo (documento, nombres, apellidos, dorsal, posición, foto).
   - Validación de dorsales únicos por equipo.
   - Control de estado del jugador (`Habilitado`, `Suspendido`, `Inactivo`).
 
 **Entregables:**
 - Formularios interactivos para armar grupos de competencia y registrar las plantillas oficiales de jugadores.
+- Documento de auditoría y entrega en `Docs/ENTREGA_FASE_5.md`.
 
 ---
 
@@ -274,7 +275,7 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 | **Fase 2** | Base de Datos Relacional Completa (Schema y Seeds) | ✅ Completada | Crítica |
 | **Fase 3** | Seguridad, Autenticación y Control de Roles | ✅ Completada | Crítica |
 | **Fase 4** | Módulos Maestros (Olimpiadas, Deportes, Sedes, Delegaciones) | ✅ Completada | Alta |
-| **Fase 5** | Torneos, Creación de Grupos, Equipos y Jugadores | ⏳ Pendiente | Alta |
+| **Fase 5** | Torneos, Creación de Grupos, Equipos y Jugadores | ✅ Completada | Alta |
 | **Fase 6** | Fixture, Programación y Actas de Partidos | ⏳ Pendiente | Alta |
 | **Fase 7** | Régimen Disciplinario (Anotar y Quitar Sanciones) | ⏳ Pendiente | Alta |
 | **Fase 8** | Cálculo de Posiciones y Medallero Olímpico | ⏳ Pendiente | Alta |
