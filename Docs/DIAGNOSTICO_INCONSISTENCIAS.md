@@ -183,12 +183,16 @@ Durante la auditoría exhaustiva de las Fases 1 a la 6 se comprobó la plena con
 
 ---
 
-## 📌 Pasos para la Corrección (Post-Fases)
+## 📌 Estado de Correcciones Aplicadas
 
-Cuando concluyan las fases de desarrollo pendientes (Fase 7: Sanciones Disciplinarias y Fase 8: Medallero / Posiciones Públicas), seguir este orden:
+Todas las correcciones documentadas han sido implementadas y validadas al 100%:
 
-- [ ] 1. Aplicar la corrección en `app/models/Partido.php` (parámetros `:eq_local` y `:eq_visitante`).
-- [ ] 2. Aplicar la corrección en `app/views/layouts/navbar.php` (restaurar disparador del dropdown de usuario).
-- [ ] 3. Aplicar la corrección en `app/views/admin/partidos/acta.php` (agregar `break;` en `case 'Finalizado'`).
-- [ ] 4. Confirmar en Git el cambio de `app/models/Torneo.php` (fallback de regla de puntuación).
-- [ ] 5. Realizar prueba funcional conjunta de programación de fixture y acta digital.
+- [x] 1. **`app/models/Partido.php`:** Corregido (parámetros separados en `:eq_local` y `:eq_visitante`, eliminando la excepción `HY093`).
+- [x] 2. **`app/views/layouts/navbar.php`:** Corregido (restaurado enlace disparador con `data-toggle="dropdown"` para cerrar sesión).
+- [x] 3. **`app/views/admin/partidos/acta.php`:** Corregido (agregada sentencia `break;` en `case 'Finalizado'`, restaurando insignia verde).
+- [x] 4. **`app/models/Torneo.php`:** Corregido (fallback automático de regla de puntuación mediante `disciplina_id`).
+- [x] 5. **Prueba funcional:** Ejecutada satisfactoriamente sin errores de sintaxis ni excepciones de PDO.
+
+
+
+borrar la categoria mixto 

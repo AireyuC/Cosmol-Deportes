@@ -139,8 +139,19 @@ Router::post('/partidos/{id}/incidencias/guardar', 'PartidoController@guardarInc
 Router::post('/partidos/{id}/incidencias/eliminar', 'PartidoController@eliminarIncidencia');
 Router::get('/api/torneos/{id}/equipos', 'PartidoController@apiEquiposPorTorneo');
 
-// Rutas de siguientes fases (preparadas para Fase 7 y 8)
-Router::get('/sanciones', 'DashboardController@index');
+// ==========================================
+// FASE 7: Régimen Disciplinario y Sanciones
+// ==========================================
+Router::get('/sanciones', 'SancionController@index');
+Router::get('/sanciones/crear', 'SancionController@create');
+Router::post('/sanciones/guardar', 'SancionController@store');
+Router::get('/sanciones/{id}', 'SancionController@show');
+Router::post('/sanciones/{id}/levantar', 'SancionController@levantar');
+Router::post('/sanciones/{id}/cumplir-fecha', 'SancionController@cumplirFecha');
+Router::post('/sanciones/{id}/eliminar', 'SancionController@delete');
+Router::get('/api/equipos/{id}/jugadores-json', 'SancionController@apiJugadoresPorEquipo');
+
+// Rutas de siguientes fases (preparadas para Fase 8)
 Router::get('/medallero', 'DashboardController@index');
 Router::get('/posiciones', 'DashboardController@index');
 

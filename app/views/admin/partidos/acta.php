@@ -75,6 +75,7 @@
                                 break;
                             case 'Finalizado':
                                 $badgeClass = 'success';
+                                break;
                             case 'Suspendido':
                                 $badgeClass = 'danger';
                                 break;
