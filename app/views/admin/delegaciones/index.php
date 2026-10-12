@@ -2,10 +2,9 @@
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
+                <h1 class="card-title mb-0 card-title-cosmol">
                     Delegaciones Institucionales
                 </h1>
-                <span class="text-muted text-sm">Áreas, departamentos y sindicatos de COSMOL R.L.</span>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
@@ -20,15 +19,11 @@
 
 <div class="content">
     <div class="container-fluid">
-        <div class="card card-cosmol shadow-sm mb-4">
-            <div class="card-header">
-                <h3 class="card-title mb-0">Áreas y Secciones Participantes</h3>
-            </div>
+        <div class="card shadow-sm mb-4 card-cosmol">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped mb-0">
                     <thead class="thead-cosmol">
                         <tr>
-                            <th style="width: 50px;" class="text-center">Color</th>
                             <th>Nombre de la Delegación</th>
                             <th>Alias</th>
                             <th>Delegado Responsable</th>
@@ -42,14 +37,11 @@
                     <tbody>
                         <?php if (empty($delegaciones)): ?>
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-4">No hay delegaciones registradas.</td>
+                                <td colspan="6" class="text-center text-muted py-4">No hay delegaciones registradas.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($delegaciones as $d): ?>
                                 <tr>
-                                    <td class="text-center">
-                                        <span class="d-inline-block rounded-circle border shadow-sm" style="background-color: <?php echo e($d['color_representativo']); ?>; width: 18px; height: 18px;"></span>
-                                    </td>
                                     <td class="font-weight-bold text-dark">
                                         <?php echo e($d['nombre']); ?>
                                     </td>
@@ -67,7 +59,7 @@
                                     </td>
                                     <?php if (AuthHelper::isAdmin()): ?>
                                         <td class="text-center">
-                                            <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo $d['id']; ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                            <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo $d['id']; ?>/editar" class="btn btn-xs btn-cosmol font-weight-bold px-2 py-1" title="Editar">
                                                 Editar
                                             </a>
                                             <form action="<?php echo BASE_URL; ?>/delegaciones/<?php echo $d['id']; ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar esta delegación?');">

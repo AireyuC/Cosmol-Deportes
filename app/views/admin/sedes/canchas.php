@@ -11,12 +11,12 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-futbol text-primary mr-2"></i> Canchas en: <?php echo e($sede['nombre'] ?? ''); ?>
+                    Cancha en: <?php echo e($sede['nombre'] ?? ''); ?>
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="<?php echo BASE_URL; ?>/sedes" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver a Sedes
+                    <i class="fas fa-arrow-left mr-1"></i> Volver
                 </a>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="row">
             <!-- Columna Izquierda: Listado de Canchas de la Sede -->
             <div class="col-lg-7">
-                <div class="card card-outline card-primary shadow-sm">
+                <div class="card card-outline card-cosmol shadow-sm">
                     <div class="card-header">
                         <h3 class="card-title font-weight-bold">Campos de Juego Registrados</h3>
                     </div>
@@ -37,7 +37,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th style="width: 50px;">#</th>
-                                    <th>Nombre del Campo / Cancha</th>
+                                    <th>Nombre de la Cancha</th>
                                     <th>Tipo de Superficie</th>
                                     <th class="text-center">Estado</th>
                                     <?php if (AuthHelper::isAdmin()): ?>
@@ -83,10 +83,10 @@
             <!-- Columna Derecha: Formulario para Agregar Cancha -->
             <?php if (AuthHelper::isAdmin()): ?>
                 <div class="col-lg-5">
-                    <div class="card card-outline card-success shadow-sm">
+                    <div class="card card-outline card-cosmol shadow-sm">
                         <div class="card-header">
                             <h3 class="card-title font-weight-bold">
-                                <i class="fas fa-plus-circle text-success mr-1"></i> Agregar Nueva Cancha
+                                Agregar Nueva Cancha
                             </h3>
                         </div>
                         <form action="<?php echo BASE_URL; ?>/sedes/<?php echo e($sede['id'] ?? ''); ?>/canchas/guardar" method="post">
@@ -94,12 +94,12 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="nombre_cancha">Nombre o Identificador de la Cancha <span class="text-danger">*</span></label>
-                                    <input type="text" name="nombre_cancha" id="nombre_cancha" class="form-control" placeholder="Ej: Cancha 1, Coliseo Parquet, Cancha Sintética" required>
+                                    <input type="text" name="nombre_cancha" id="nombre_cancha" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="tipo_superficie">Tipo de Superficie</label>
-                                    <input type="text" name="tipo_superficie" id="tipo_superficie" class="form-control" placeholder="Ej: Césped Natural, Parquet, Cemento, Sintético">
+                                    <input type="text" name="tipo_superficie" id="tipo_superficie" class="form-control">
                                 </div>
 
                                 <div class="form-group">
@@ -112,8 +112,8 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right bg-light">
-                                <button type="submit" class="btn btn-success font-weight-bold">
-                                    <i class="fas fa-plus mr-1"></i> Agregar Cancha
+                                <button type="submit" class="btn btn-primary font-weight-bold">
+                                    Agregar Cancha
                                 </button>
                             </div>
                         </form>

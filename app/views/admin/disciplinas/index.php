@@ -2,10 +2,9 @@
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
+                <h1 class="card-title mb-0 card-title-cosmol">
                     Disciplinas y Reglas de Puntuación
                 </h1>
-                <span class="text-muted text-sm">Reglamento de cómputo para la Olimpiada COSMOL</span>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
@@ -20,10 +19,7 @@
 
 <div class="content">
     <div class="container-fluid">
-        <div class="card card-cosmol shadow-sm mb-4">
-            <div class="card-header">
-                <h3 class="card-title mb-0">Sistema de Puntuación por Deporte</h3>
-            </div>
+        <div class="card card-cosmol shadow-sm">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped mb-0">
                     <thead class="thead-cosmol">
@@ -64,7 +60,7 @@
                                     </td>
                                     <td class="text-center">
                                         <?php if (!empty($d['formato_sets'])): ?>
-                                            <span class="badge py-1 px-2" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;">A <?php echo e($d['sets_para_ganar']); ?> sets</span>
+                                            <span class="badge py-1 px-2" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;"><?php echo e($d['sets_para_ganar']); ?> sets</span>
                                         <?php else: ?>
                                             <span class="badge badge-light border text-muted py-1 px-2">Tiempo regular / Goles</span>
                                         <?php endif; ?>

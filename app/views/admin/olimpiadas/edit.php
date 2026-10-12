@@ -11,13 +11,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold text-dark">
-                    <i class="fas fa-edit text-info mr-2"></i> Editar Olimpiada
+                <h1 class="m-0 font-weight-bold text-dark card-title">
+                    Editar Olimpiada
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="<?php echo BASE_URL; ?>/olimpiadas" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver al listado
+                    <i class="fas fa-arrow-left mr-1"></i> Volver
                 </a>
             </div>
         </div>
@@ -26,10 +26,7 @@
 
 <div class="content">
     <div class="container-fluid">
-        <div class="card card-info card-outline shadow-sm">
-            <div class="card-header">
-                <h3 class="card-title font-weight-bold">Modificar Datos de la Olimpiada</h3>
-            </div>
+        <div class="card card-cosmol card-outline shadow-sm">
             <form action="<?php echo BASE_URL; ?>/olimpiadas/<?php echo $olimpiada['id']; ?>/actualizar" method="post">
                 <?php echo CsrfHelper::field(); ?>
                 <div class="card-body">
@@ -70,8 +67,8 @@
                 </div>
                 <div class="card-footer text-right bg-light">
                     <a href="<?php echo BASE_URL; ?>/olimpiadas" class="btn btn-secondary mr-2">Cancelar</a>
-                    <button type="submit" class="btn btn-info font-weight-bold">
-                        <i class="fas fa-save mr-1"></i> Actualizar Cambios
+                    <button type="submit" class="btn btn-primary font-weight-bold">
+                        Actualizar Cambios
                     </button>
                 </div>
             </form>

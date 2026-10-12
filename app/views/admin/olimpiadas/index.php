@@ -3,10 +3,9 @@
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
-                <h1 class="m-0 font-weight-bold" style="color: #0066B2;">
+                <h1 class="card-title mb-0 card-title-cosmol">
                     Ediciones de Olimpiadas
                 </h1>
-                <span class="text-muted text-sm">Eventos multideportivos institucionales de COSMOL R.L.</span>
             </div>
             <div class="col-sm-6 text-right">
                 <?php if (AuthHelper::isAdmin()): ?>
@@ -22,7 +21,7 @@
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
-        <div class="card card-cosmol shadow-sm mb-4">
+        <div class="card shadow-sm mb-4 card-cosmol">
             <div class="card-header">
                 <h3 class="card-title mb-0">Historial de Eventos Olímpicos</h3>
             </div>
@@ -49,11 +48,11 @@
                         <?php else: ?>
                             <?php foreach ($olimpiadas as $o): ?>
                                 <tr>
-                                    <td class="font-weight-bold text-secondary">#<?php echo e($o['id']); ?></td>
+                                    <td class="font-weight-bold text-secondary"><?php echo e($o['id']); ?></td>
                                     <td class="font-weight-bold text-dark">
                                         <?php echo e($o['nombre']); ?>
                                     </td>
-                                    <td><span class="badge py-1 px-2 font-weight-bold" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;"><?php echo e($o['anio']); ?></span></td>
+                                    <td><span class="badge py-1 px-2 font-weight-bold "><?php echo e($o['anio']); ?></span></td>
                                     <td class="text-muted font-italic text-sm">"<?php echo e($o['lema']); ?>"</td>
                                     <td class="text-muted text-sm">
                                         <?php echo !empty($o['fecha_inicio']) ? e($o['fecha_inicio']) : 'Por definir'; ?> al 
@@ -70,7 +69,7 @@
                                     </td>
                                     <?php if (AuthHelper::isAdmin()): ?>
                                         <td class="text-center">
-                                            <a href="<?php echo BASE_URL; ?>/olimpiadas/<?php echo $o['id']; ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                            <a href="<?php echo BASE_URL; ?>/olimpiadas/<?php echo $o['id']; ?>/editar" class="btn btn-xs btn-cosmol font-weight-bold px-2 py-1" title="Editar">
                                                 Editar
                                             </a>
                                             <form action="<?php echo BASE_URL; ?>/olimpiadas/<?php echo $o['id']; ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Está seguro de eliminar esta Olimpiada?');">
