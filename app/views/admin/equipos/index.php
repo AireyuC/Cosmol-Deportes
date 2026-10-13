@@ -21,13 +21,13 @@
     <div class="container-fluid">
 
         <!-- Barra de Filtros -->
-        <div class="card card-outline card-secondary shadow-sm mb-3">
+        <div class="card card-outline shadow-sm mb-3">
             <div class="card-body py-2">
                 <form action="<?php echo BASE_URL; ?>/equipos" method="get" class="form-row align-items-center">
                     <div class="col-md-5 my-1">
                         <label class="sr-only">Torneo</label>
                         <select name="torneo_id" class="form-control form-control-sm" onchange="this.form.submit()">
-                            <option value="">-- Todos los Torneos --</option>
+                            <option value="">Todos los Torneos</option>
                             <?php foreach ($torneos as $tor): ?>
                                 <option value="<?php echo e($tor['id']); ?>" <?php echo ($filtroTorneo == $tor['id']) ? 'selected' : ''; ?>>
                                     <?php echo e($tor['nombre']); ?> (<?php echo e($tor['disciplina_nombre']); ?> - <?php echo e($tor['rama']); ?>)
@@ -38,7 +38,7 @@
                     <div class="col-md-5 my-1">
                         <label class="sr-only">Delegación</label>
                         <select name="delegacion_id" class="form-control form-control-sm" onchange="this.form.submit()">
-                            <option value="">-- Todas las Delegaciones --</option>
+                            <option value="">Todas las Delegaciones</option>
                             <?php foreach ($delegaciones as $del): ?>
                                 <option value="<?php echo e($del['id']); ?>" <?php echo ($filtroDelegacion == $del['id']) ? 'selected' : ''; ?>>
                                     <?php echo e($del['nombre']); ?> (<?php echo e($del['alias']); ?>)
@@ -55,22 +55,19 @@
             </div>
         </div>
 
-        <div class="card card-outline card-info shadow-sm">
+        <div class="card card-outline card-cosmol shadow-sm">
             <div class="card-header">
                 <h3 class="card-title font-weight-bold text-dark">
-                    <i class="fas fa-list mr-1 text-info"></i> Directorio de Equipos
+                    <i class="fas fa-list mr-1 text-cosmol"></i> Directorio de Equipos
                 </h3>
-                <div class="card-tools">
-                    <span class="badge badge-secondary"><?php echo count($equipos); ?> Equipos</span>
-                </div>
             </div>
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped align-middle">
                     <thead class="thead-light">
                         <tr>
                             <th>Equipo</th>
-                            <th>Delegación Institucional</th>
-                            <th>Torneo & Rama</th>
+                            <th>Delegación</th>
+                            <th>Torneo / Disciplina</th>
                             <th class="text-center">Grupo</th>
                             <th class="text-center">Plantilla</th>
                             <th>Delegado / Contacto</th>
@@ -92,28 +89,22 @@
                                         <div class="font-weight-bold text-dark">
                                             <?php echo e($eq['nombre']); ?>
                                         </div>
-                                        <?php if (!empty($eq['color_indumentaria'])): ?>
-                                            <small class="text-muted">
-                                                <i class="fas fa-tshirt mr-1"></i> <?php echo e($eq['color_indumentaria']); ?>
-                                            </small>
-                                        <?php endif; ?>
                                     </td>
                                     <td>
-                                        <span class="badge px-2 py-1 font-weight-bold" style="background-color: <?php echo e($eq['color_representativo']); ?>; color: #fff;">
+                                        <div class="text-dark">
                                             <?php echo e($eq['delegacion_nombre']); ?>
-                                        </span>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="text-sm font-weight-bold text-dark">
                                             <i class="fas fa-<?php echo e(!empty($eq['disciplina_icono']) ? $eq['disciplina_icono'] : 'trophy'); ?> text-warning mr-1"></i>
                                             <?php echo e($eq['torneo_nombre']); ?>
                                         </div>
-                                        <small class="text-muted"><?php echo e($eq['disciplina_nombre']); ?> &bull; <?php echo e($eq['torneo_rama']); ?></small>
                                     </td>
                                     <td class="text-center">
                                         <?php if (!empty($eq['nombre_grupo'])): ?>
                                             <span class="badge badge-primary px-2 py-1 font-weight-bold">
-                                                <i class="fas fa-layer-group mr-1"></i> <?php echo e($eq['nombre_grupo']); ?>
+                                                <?php echo e($eq['nombre_grupo']); ?>
                                             </span>
                                         <?php else: ?>
                                             <span class="badge badge-secondary px-2 py-1">Sin Asignar</span>
@@ -121,7 +112,7 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="btn btn-sm btn-outline-info font-weight-bold" title="Gestionar Atletas">
-                                            <i class="fas fa-users mr-1"></i> <?php echo e($eq['total_jugadores']); ?> atletas
+                                            <?php echo e($eq['total_jugadores']); ?> atletas
                                         </a>
                                     </td>
                                     <td>
@@ -129,19 +120,19 @@
                                             <?php echo !empty($eq['delegado_contacto']) ? e($eq['delegado_contacto']) : '<span class="text-muted font-italic">No asignado</span>'; ?>
                                         </div>
                                         <?php if (!empty($eq['telefono_contacto'])): ?>
-                                            <small class="text-muted"><i class="fas fa-phone mr-1"></i> <?php echo e($eq['telefono_contacto']); ?></small>
+                                            <?php echo e($eq['telefono_contacto']); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">
                                         <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="btn btn-xs btn-info" title="Ver Plantilla de Jugadores">
-                                            <i class="fas fa-users"></i> Nómina
+                                            Nómina
                                         </a>
                                         <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-warning text-dark ml-1" title="Editar">
-                                                <i class="fas fa-edit"></i>
+                                            <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-primary ml-1" title="Editar">
+                                                Editar
                                             </a>
                                             <button type="button" class="btn btn-xs btn-danger ml-1" data-toggle="modal" data-target="#modalDeleteEq<?php echo e($eq['id']); ?>" title="Eliminar">
-                                                <i class="fas fa-trash"></i>
+                                                Eliminar
                                             </button>
 
                                             <!-- Modal Confirmar Eliminación -->

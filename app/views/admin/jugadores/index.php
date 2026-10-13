@@ -21,13 +21,13 @@
     <div class="container-fluid">
 
         <!-- Barra de Filtros -->
-        <div class="card card-outline card-secondary shadow-sm mb-3">
+        <div class="card card-outline shadow-sm mb-3">
             <div class="card-body py-2">
                 <form action="<?php echo BASE_URL; ?>/jugadores" method="get" class="form-row align-items-center">
                     <div class="col-md-4 my-1">
                         <label class="sr-only">Equipo</label>
                         <select name="equipo_id" class="form-control form-control-sm" onchange="this.form.submit()">
-                            <option value="">-- Todos los Equipos --</option>
+                            <option value="">Todos los Equipos</option>
                             <?php foreach ($equipos as $eq): ?>
                                 <option value="<?php echo e($eq['id']); ?>" <?php echo ($filtroEquipo == $eq['id']) ? 'selected' : ''; ?>>
                                     <?php echo e($eq['nombre']); ?> (<?php echo e($eq['delegacion_nombre']); ?>)
@@ -39,7 +39,7 @@
                     <div class="col-md-4 my-1">
                         <label class="sr-only">Torneo</label>
                         <select name="torneo_id" class="form-control form-control-sm" onchange="this.form.submit()">
-                            <option value="">-- Todos los Torneos --</option>
+                            <option value="">Todas las Disciplinas</option>
                             <?php foreach ($torneos as $tor): ?>
                                 <option value="<?php echo e($tor['id']); ?>" <?php echo ($filtroTorneo == $tor['id']) ? 'selected' : ''; ?>>
                                     <?php echo e($tor['nombre']); ?>
@@ -51,7 +51,7 @@
                     <div class="col-md-2 my-1">
                         <label class="sr-only">Estado</label>
                         <select name="estado" class="form-control form-control-sm" onchange="this.form.submit()">
-                            <option value="">-- Todos los Estados --</option>
+                            <option value="">Todos los Estados</option>
                             <option value="Habilitado" <?php echo ($filtroEstado === 'Habilitado') ? 'selected' : ''; ?>>Habilitado</option>
                             <option value="Suspendido" <?php echo ($filtroEstado === 'Suspendido') ? 'selected' : ''; ?>>Suspendido</option>
                             <option value="Inactivo" <?php echo ($filtroEstado === 'Inactivo') ? 'selected' : ''; ?>>Inactivo</option>
@@ -70,20 +70,17 @@
         <div class="card card-outline card-primary shadow-sm">
             <div class="card-header">
                 <h3 class="card-title font-weight-bold text-dark">
-                    <i class="fas fa-id-card mr-1 text-primary"></i> Padrón de Deportistas Inscritos
+                    <i class="fas fa-id-card mr-1 text-primary"></i>Deportistas Inscritos
                 </h3>
-                <div class="card-tools">
-                    <span class="badge badge-secondary"><?php echo count($jugadores); ?> Atletas</span>
-                </div>
             </div>
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped align-middle">
                     <thead class="thead-light">
                         <tr>
                             <th style="width: 60px;" class="text-center">Dorsal</th>
-                            <th>Atleta / Documento</th>
-                            <th>Equipo & Delegación</th>
-                            <th>Torneo & Deporte</th>
+                            <th>Atleta</th>
+                            <th>Equipo y Delegación</th>
+                            <th>Disciplina</th>
                             <th>Posición</th>
                             <th class="text-center">Estado</th>
                             <th class="text-center" style="width: 170px;">Acciones</th>
@@ -109,7 +106,6 @@
                                         <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($j['id']); ?>" class="font-weight-bold text-dark d-block">
                                             <?php echo e($j['nombres']); ?> <?php echo e($j['apellidos']); ?>
                                         </a>
-                                        <small class="text-muted"><i class="fas fa-id-card mr-1"></i> CI/Doc: <?php echo e($j['documento']); ?></small>
                                     </td>
                                     <td>
                                         <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($j['equipo_id']); ?>/jugadores" class="font-weight-bold text-primary">
@@ -142,14 +138,14 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($j['id']); ?>" class="btn btn-xs btn-info" title="Ver Ficha">
-                                            <i class="fas fa-id-badge"></i>
+                                            Perfil
                                         </a>
                                         <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($j['id']); ?>/editar" class="btn btn-xs btn-warning text-dark ml-1" title="Editar">
-                                                <i class="fas fa-edit"></i>
+                                            <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($j['id']); ?>/editar" class="btn btn-xs btn-primary text-dark ml-1" title="Editar">
+                                                editar
                                             </a>
                                             <button type="button" class="btn btn-xs btn-danger ml-1" data-toggle="modal" data-target="#modalDeleteJug<?php echo e($j['id']); ?>" title="Eliminar">
-                                                <i class="fas fa-trash"></i>
+                                                eliminar
                                             </button>
 
                                             <!-- Modal Confirmar Eliminación -->
