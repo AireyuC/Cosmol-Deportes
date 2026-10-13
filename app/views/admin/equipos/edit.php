@@ -1,3 +1,14 @@
+<?php
+/**
+ * Vista de Edición de Equipo
+ *
+ * @var string $pageTitle
+ * @var array  $equipo
+ * @var array  $torneos
+ * @var array  $delegaciones
+ * @var array  $grupos
+ */
+?>
 <div class="content-header pb-2">
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">

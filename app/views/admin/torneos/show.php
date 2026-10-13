@@ -1,3 +1,14 @@
+<?php
+/**
+ * Ficha detallada de Torneo, Grupos y Equipos
+ *
+ * @var string $pageTitle
+ * @var array  $torneo
+ * @var array  $grupos
+ * @var array  $equiposSinGrupo
+ * @var array  $todosEquipos
+ */
+?>
 <div class="content-header pb-2">
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">

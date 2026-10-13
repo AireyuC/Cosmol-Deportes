@@ -1,3 +1,13 @@
+<?php
+/**
+ * Vista de Edición de Torneo
+ *
+ * @var string $pageTitle
+ * @var array  $torneo
+ * @var array  $olimpiadas
+ * @var array  $disciplinas
+ */
+?>
 <div class="content-header pb-2">
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
