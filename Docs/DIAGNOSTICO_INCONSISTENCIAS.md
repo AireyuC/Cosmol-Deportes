@@ -195,4 +195,8 @@ Todas las correcciones documentadas han sido implementadas y validadas al 100%:
 
 
 
-borrar la categoria mixto 
+
+implementar 
+karoke 
+billar 
+cacho
