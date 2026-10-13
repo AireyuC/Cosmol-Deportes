@@ -24,6 +24,33 @@ class Sede extends Model {
     }
 
     /**
+     * Obtiene todas las sedes con la lista de sus canchas asociadas
+     *
+     * @return array
+     */
+    public function getAllWithCanchas() {
+        $sedes = $this->getAll();
+        if (empty($sedes)) {
+            return [];
+        }
+
+        $sqlCanchas = "SELECT * FROM canchas ORDER BY sede_id ASC, id ASC";
+        $canchas = $this->fetchAll($sqlCanchas);
+
+        $canchasPorSede = [];
+        foreach ($canchas as $c) {
+            $canchasPorSede[$c['sede_id']][] = $c;
+        }
+
+        foreach ($sedes as &$s) {
+            $s['canchas'] = isset($canchasPorSede[$s['id']]) ? $canchasPorSede[$s['id']] : [];
+        }
+        unset($s);
+
+        return $sedes;
+    }
+
+    /**
      * Obtiene una sede por su ID
      *
      * @param int $id

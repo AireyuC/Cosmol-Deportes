@@ -52,7 +52,7 @@ $currentUri = Router::currentUri();
 
                 <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/disciplinas" class="nav-link <?php echo (strpos($currentUri, '/disciplinas') === 0) ? 'active' : ''; ?>">
-                        <p>Disciplinas y Reglas</p>
+                        <p>Reglas de Disciplinas</p>
                     </a>
                 </li>
 

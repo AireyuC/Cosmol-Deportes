@@ -74,6 +74,7 @@ Router::post('/sedes/{id}/actualizar', 'SedeController@update');
 Router::post('/sedes/{id}/eliminar', 'SedeController@delete');
 Router::get('/sedes/{id}/canchas', 'SedeController@canchas');
 Router::post('/sedes/{id}/canchas/guardar', 'SedeController@storeCancha');
+Router::post('/canchas/{id}/actualizar', 'SedeController@updateCancha');
 Router::post('/canchas/{id}/eliminar', 'SedeController@deleteCancha');
 
 // 4. Módulo de Delegaciones

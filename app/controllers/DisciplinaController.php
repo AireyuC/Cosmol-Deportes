@@ -55,6 +55,17 @@ class DisciplinaController extends Controller {
             $this->redirect('/disciplinas');
         }
 
+        // Normalización de datos de reglas
+        if (isset($_POST['permite_empate']) && (string)$_POST['permite_empate'] === '0') {
+            $_POST['pts_empate'] = 0;
+        }
+        if (isset($_POST['formato_sets']) && (string)$_POST['formato_sets'] === '0') {
+            $_POST['sets_para_ganar'] = 0;
+        }
+        if (!isset($_POST['pts_derrota_ajustada']) || $_POST['pts_derrota_ajustada'] === '') {
+            $_POST['pts_derrota_ajustada'] = 0;
+        }
+
         $validator = new Validator();
         $isValid = $validator->validate($_POST, [
             'nombre'       => 'required|min:3|max:100',
@@ -104,6 +115,17 @@ class DisciplinaController extends Controller {
         if (!CsrfHelper::validate()) {
             Session::setFlash('error', 'Token de seguridad inválido.');
             $this->redirect('/disciplinas');
+        }
+
+        // Normalización de datos de reglas
+        if (isset($_POST['permite_empate']) && (string)$_POST['permite_empate'] === '0') {
+            $_POST['pts_empate'] = 0;
+        }
+        if (isset($_POST['formato_sets']) && (string)$_POST['formato_sets'] === '0') {
+            $_POST['sets_para_ganar'] = 0;
+        }
+        if (!isset($_POST['pts_derrota_ajustada']) || $_POST['pts_derrota_ajustada'] === '') {
+            $_POST['pts_derrota_ajustada'] = 0;
         }
 
         $validator = new Validator();

@@ -13,22 +13,13 @@
         <div class="row mb-2 align-items-center">
             <div class="col-sm-7">
                 <h1 class="card-title mb-0 card-title-cosmol">
-                    <i class="fas fa-medal mr-2 text-warning"></i>Medallero Olímpico Oficial
+                    Medallero Olímpico Oficial
                 </h1>
-                <?php if ($olimpiada): ?>
-                    <small class="text-muted">
-                        <?php echo htmlspecialchars($olimpiada['nombre'], ENT_QUOTES, 'UTF-8'); ?>
-                        <?php echo (int)$olimpiada['anio']; ?>
-                    </small>
-                <?php endif; ?>
             </div>
             <div class="col-sm-5 text-right">
-                <a href="<?php echo BASE_URL; ?>/posiciones" class="btn btn-outline-primary font-weight-bold mr-1">
-                    <i class="fas fa-table mr-1"></i> Posiciones
-                </a>
                 <?php if (AuthHelper::isAdmin()): ?>
                     <a href="<?php echo BASE_URL; ?>/medallero/gestion" class="btn btn-warning font-weight-bold">
-                        <i class="fas fa-cog mr-1"></i> Gestionar Medallas
+                        Gestionar Medallas
                     </a>
                 <?php endif; ?>
             </div>
@@ -62,7 +53,7 @@
                 <div class="card shadow text-center border-0" style="border-top: 5px solid #adb5bd !important;">
                     <div class="card-body py-4">
                         <div class="mb-2" style="font-size:2.5rem;">🥈</div>
-                        <div class="badge mb-2 font-weight-bold" style="background-color:<?php echo htmlspecialchars($plata['color_representativo'] ?? '#adb5bd', ENT_QUOTES, 'UTF-8'); ?>; font-size:0.8rem; padding:5px 10px;">&nbsp;</div>
+                        
                         <h5 class="font-weight-bold mb-1"><?php echo htmlspecialchars($plata['delegacion_nombre'], ENT_QUOTES, 'UTF-8'); ?></h5>
                         <small class="text-muted d-block mb-2"><?php echo htmlspecialchars($plata['delegacion_alias'] ?? '', ENT_QUOTES, 'UTF-8'); ?></small>
                         <div class="d-flex justify-content-center" style="gap:8px;">
@@ -72,7 +63,7 @@
                         </div>
                         <small class="text-muted"><?php echo (int)$plata['puntos_olimpicos']; ?> pts olímpicos</small>
                     </div>
-                    <div class="card-footer bg-secondary text-white py-1 font-weight-bold">2° Lugar — PLATA</div>
+                    <div class="card-footer bg-secondary text-white py-1 font-weight-bold">2° Lugar - PLATA</div>
                 </div>
                 <?php else: ?>
                     <div class="card shadow-sm text-center border-0 bg-light py-4">
@@ -88,7 +79,7 @@
                 <div class="card shadow-lg text-center border-0" style="border-top: 5px solid #ffc107 !important; transform: scale(1.04);">
                     <div class="card-body py-4">
                         <div class="mb-2" style="font-size:3rem;">🥇</div>
-                        <div class="badge mb-2 font-weight-bold" style="background-color:<?php echo htmlspecialchars($oro['color_representativo'] ?? '#ffc107', ENT_QUOTES, 'UTF-8'); ?>; font-size:0.85rem; padding:6px 12px;">&nbsp;</div>
+                        
                         <h4 class="font-weight-bold mb-1"><?php echo htmlspecialchars($oro['delegacion_nombre'], ENT_QUOTES, 'UTF-8'); ?></h4>
                         <small class="text-muted d-block mb-2"><?php echo htmlspecialchars($oro['delegacion_alias'] ?? '', ENT_QUOTES, 'UTF-8'); ?></small>
                         <div class="d-flex justify-content-center" style="gap:8px;">
@@ -99,7 +90,7 @@
                         <small class="text-muted"><?php echo (int)$oro['puntos_olimpicos']; ?> pts olímpicos</small>
                     </div>
                     <div class="card-footer font-weight-bold py-1" style="background-color:#ffc107; color:#000;">
-                        1° Lugar — ORO 🏆
+                        1° Lugar - ORO 🏆
                     </div>
                 </div>
                 <?php else: ?>
@@ -116,7 +107,6 @@
                 <div class="card shadow text-center border-0" style="border-top: 5px solid #cd7f32 !important;">
                     <div class="card-body py-4">
                         <div class="mb-2" style="font-size:2.5rem;">🥉</div>
-                        <div class="badge mb-2 font-weight-bold" style="background-color:<?php echo htmlspecialchars($bronce['color_representativo'] ?? '#cd7f32', ENT_QUOTES, 'UTF-8'); ?>; font-size:0.8rem; padding:5px 10px;">&nbsp;</div>
                         <h5 class="font-weight-bold mb-1"><?php echo htmlspecialchars($bronce['delegacion_nombre'], ENT_QUOTES, 'UTF-8'); ?></h5>
                         <small class="text-muted d-block mb-2"><?php echo htmlspecialchars($bronce['delegacion_alias'] ?? '', ENT_QUOTES, 'UTF-8'); ?></small>
                         <div class="d-flex justify-content-center" style="gap:8px;">
@@ -126,7 +116,7 @@
                         </div>
                         <small class="text-muted"><?php echo (int)$bronce['puntos_olimpicos']; ?> pts olímpicos</small>
                     </div>
-                    <div class="card-footer text-white py-1 font-weight-bold" style="background-color:#cd7f32;">3° Lugar — BRONCE</div>
+                    <div class="card-footer text-white py-1 font-weight-bold" style="background-color:#cd7f32;">3° Lugar - BRONCE</div>
                 </div>
                 <?php else: ?>
                     <div class="card shadow-sm text-center border-0 bg-light py-4">
@@ -139,10 +129,10 @@
         </div><!-- fin podio -->
 
         <!-- Tabla General del Medallero -->
-        <div class="card card-outline card-warning shadow-sm mb-4">
+        <div class="card card-outline card-cosmol shadow-sm mb-4">
             <div class="card-header">
                 <h3 class="card-title font-weight-bold">
-                    <i class="fas fa-list-ol mr-1 text-warning"></i> Clasificación General por Delegación
+                    Clasificación General por Delegación
                 </h3>
             </div>
             <div class="card-body p-0">
@@ -179,7 +169,6 @@
                                         ?>
                                     </td>
                                     <td class="align-middle">
-                                        <span class="d-inline-block mr-2" style="width:12px;height:12px;border-radius:50%;background-color:<?php echo htmlspecialchars($colorDel, ENT_QUOTES, 'UTF-8'); ?>;vertical-align:middle;"></span>
                                         <strong><?php echo htmlspecialchars($row['delegacion_nombre'], ENT_QUOTES, 'UTF-8'); ?></strong>
                                         <?php if (!empty($row['delegacion_alias'])): ?>
                                             <small class="text-muted ml-1">(<?php echo htmlspecialchars($row['delegacion_alias'], ENT_QUOTES, 'UTF-8'); ?>)</small>
@@ -202,9 +191,11 @@
 
         <!-- Detalle del Podio por Torneo/Disciplina -->
         <?php if (!empty($podios)): ?>
-        <div class="card card-outline card-info shadow-sm">
+        <div class="card card-outline card-cosmol shadow-sm">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-trophy mr-1 text-info"></i> Podios por Disciplina y Torneo</h3>
+                <h3 class="card-title">
+                    Podios por Disciplina y Torneo
+                </h3>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
