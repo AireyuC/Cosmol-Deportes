@@ -39,19 +39,27 @@ INSERT INTO `delegaciones` (`id`, `nombre`, `alias`, `color_representativo`, `re
 -- 4. Disciplinas Deportivas
 -- -----------------------------------------------------
 INSERT INTO `disciplinas` (`id`, `nombre`, `descripcion`, `icono`, `estado`) VALUES
-(1, 'Fútbol', 'Fútbol 11 reglamentario sobre césped', 'futbol', 'Activa'),
-(2, 'Futsal', 'Fútbol de salón en coliseo techado', 'running', 'Activa'),
-(3, 'Básquetbol', 'Básquetbol 5x5 oficial', 'basketball-ball', 'Activa'),
-(4, 'Voleibol', 'Voleibol 6x6 en coliseo', 'volleyball-ball', 'Activa');
+(1, 'Fútbol',      'Fútbol 11 reglamentario sobre césped',                                        'futbol',          'Activa'),
+(2, 'Futsal',      'Fútbol de salón en coliseo techado',                                          'running',         'Activa'),
+(3, 'Básquetbol',  'Básquetbol 5x5 oficial',                                                      'basketball-ball', 'Activa'),
+(4, 'Voleibol',    'Voleibol 6x6 en coliseo',                                                     'volleyball-ball', 'Activa'),
+-- Disciplinas recreativas olímpicas
+(5, 'Karaoke',     'Competencia de canto individual/parejas con calificación global del jurado',   'microphone',      'Activa'),
+(6, 'Billar',      'Torneo de billar en partidas directas por mesas/chicos ganados',              'circle',          'Activa'),
+(7, 'Cacho',       'Juego tradicional de dados por puntaje final acumulado (Generala/Alalay)',    'dice',            'Activa');
 
 -- -----------------------------------------------------
 -- 5. Reglas de Puntuación por Disciplina
 -- -----------------------------------------------------
 INSERT INTO `reglas_puntuacion` (`id`, `disciplina_id`, `pts_victoria`, `pts_empate`, `pts_derrota`, `pts_derrota_ajustada`, `permite_empate`, `formato_sets`, `sets_para_ganar`) VALUES
-(1, 1, 3, 1, 0, 0, 1, 0, 0), -- Fútbol: Vic=3, Emp=1, Der=0
-(2, 2, 3, 1, 0, 0, 1, 0, 0), -- Futsal: Vic=3, Emp=1, Der=0
-(3, 3, 2, 0, 1, 0, 0, 0, 0), -- Básquet: Vic=2, Der=1 (por presentación), WO=0
-(4, 4, 3, 0, 0, 1, 0, 1, 3); -- Vóley: Vic 3-0/3-1 = 3pts, Vic 3-2 = 2pts, Der 2-3 = 1pt
+(1, 1, 3, 1, 0, 0, 1, 0, 0), -- Fútbol:      Vic=3, Emp=1, Der=0
+(2, 2, 3, 1, 0, 0, 1, 0, 0), -- Futsal:      Vic=3, Emp=1, Der=0
+(3, 3, 2, 0, 1, 0, 0, 0, 0), -- Básquet:     Vic=2, Der=1 (por presentación), WO=0
+(4, 4, 3, 0, 0, 1, 0, 1, 3), -- Vóley:       Vic 3-0/3-1=3pts, Vic 3-2=2pts, Der 2-3=1pt
+-- Disciplinas recreativas: marcador directo global, sin sets
+(5, 5, 3, 0, 0, 0, 0, 0, 0), -- Karaoke:     Vic=3, no empate, registro puntaje jurado
+(6, 6, 2, 0, 1, 0, 0, 0, 0), -- Billar:      Vic=2, Der=1 (presentacion), no empate
+(7, 7, 3, 1, 0, 0, 1, 0, 0); -- Cacho:       Vic=3, Emp=1, Der=0, permite empate
 
 -- -----------------------------------------------------
 -- 6. Sedes y Canchas

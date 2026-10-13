@@ -254,9 +254,10 @@ class Partido extends Model {
         }
 
         $params = [
-            'equipo_id' => (int)$equipoId,
-            'fecha'     => $fecha,
-            'hora'      => $hora
+            'eq_local'     => (int)$equipoId,
+            'eq_visitante' => (int)$equipoId,
+            'fecha'        => $fecha,
+            'hora'         => $hora
         ];
 
         $excludeSql = "";
@@ -269,7 +270,7 @@ class Partido extends Model {
                 FROM partidos p
                 INNER JOIN equipos el ON p.equipo_local_id = el.id
                 INNER JOIN equipos ev ON p.equipo_visitante_id = ev.id
-                WHERE (p.equipo_local_id = :equipo_id OR p.equipo_visitante_id = :equipo_id)
+                WHERE (p.equipo_local_id = :eq_local OR p.equipo_visitante_id = :eq_visitante)
                   AND p.fecha_partido = :fecha
                   AND p.estado NOT IN ('Finalizado', 'Suspendido', 'WO')
                   AND ABS(TIME_TO_SEC(TIMEDIFF(p.hora_partido, :hora))) < 5400

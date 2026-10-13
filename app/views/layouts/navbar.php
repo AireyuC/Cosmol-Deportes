@@ -13,6 +13,12 @@
         <!-- Menú de Usuario -->
         <?php if (AuthHelper::isLogged()): ?>
             <li class="nav-item dropdown user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <span class="d-none d-md-inline font-weight-bold text-dark mr-1"><?php echo e(AuthHelper::nombre()); ?></span>
+                    <span class="badge badge-primary font-weight-normal" style="background-color: #0066B2;">
+                        <?php echo e(AuthHelper::rol()); ?>
+                    </span>
+                </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow-sm border-0">
                     <!-- User header -->
                     <li class="user-header" style="background-color: #0066B2; color: #FFFFFF;">

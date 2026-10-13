@@ -205,19 +205,19 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 ### FASE 7: Régimen Disciplinario (Registro y Levantamiento de Sanciones)
 > **Objetivo:** Administrar las amonestaciones, tarjetas y suspensiones con trazabilidad total.
 
-- [ ] **7.1. Registro de Sanciones (`SancionController.php` + `Sancion.php`):**
+- [x] **7.1. Registro de Sanciones (`SancionController.php` + `Sancion.php`):**
   - Registro de tarjetas amarillas y rojas (directa o doble amarilla).
   - Sanciones por fechas de suspensión o expulsión del torneo.
   - Vinculación con el jugador, partido, minuto y observaciones.
-- [ ] **7.2. Control de Inhabilitación:**
+- [x] **7.2. Control de Inhabilitación:**
   - Marcado automático del jugador como inhabilitado al acumular tarjetas rojas o límite de amarillas.
   - Alerta visual en la alineación del partido siguiente si un jugador está suspendido.
-- [ ] **7.3. Funcionalidad Clave: Quitar / Levantar Sanciones:**
+- [x] **7.3. Funcionalidad Clave: Quitar / Levantar Sanciones:**
   - Botón y Modal en AdminLTE para **"Levantar Sanción"**.
   - Opciones de resolución: *Anulación por apelación*, *Error arbitral corregido*, *Indulto / Cumplimiento anticipado*.
   - Registro del motivo de levantamiento, fecha y usuario administrador que autorizó la acción.
   - Restauración inmediata del estado `Habilitado` del jugador.
-- [ ] **7.4. Boletín Disciplinario:**
+- [x] **7.4. Boletín Disciplinario:**
   - Vista del resumen de sanciones activas e históricas para consulta de delegados y administradores.
 
 **Entregables:**
@@ -228,13 +228,13 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 ### FASE 8: Cálculo de Posiciones por Deporte y Medallero Olímpico
 > **Objetivo:** Implementar los motores de cálculo automático para las tablas de posiciones y la clasificación general de la Olimpiada.
 
-- [ ] **8.1. Motor de Tablas de Posiciones (`PosicionesController.php`):**
+- [x] **8.1. Motor de Tablas de Posiciones (`PosicionesController.php`):**
   - Algoritmo dinámico que lee los partidos `Finalizados`:
     - Fútbol/Futsal: PJ, PG, PE, PP, GF, GC, DG, Pts (3-1-0).
     - Básquetbol: PJ, PG, PP, PF, PC, DP, Pts (2-1-0).
     - Voleibol: PJ, PG, PP, Sets Ganados, Sets Perdidos, Ratio, Pts (3, 2, 1, 0).
   - Cálculo independiente por cada grupo (`Grupo A`, `Grupo B`).
-- [ ] **8.2. Módulo de Medallero Olímpico General (`MedalleroController.php`):**
+- [x] **8.2. Módulo de Medallero Olímpico General (`MedalleroController.php`):**
   - Asignación de medallas al culminar cada torneo/categoría:
     - 🥇 **Oro:** 1º Lugar.
     - 🥈 **Plata:** 2º Lugar.
@@ -278,8 +278,8 @@ Cada fase está diseñada para garantizar un desarrollo ordenado, incremental y 
 | **Fase 4** | Módulos Maestros (Olimpiadas, Deportes, Sedes, Delegaciones) | ✅ Completada | Alta |
 | **Fase 5** | Torneos, Creación de Grupos, Equipos y Jugadores | ✅ Completada | Alta |
 | **Fase 6** | Fixture, Programación y Actas de Partidos | ✅ Completada | Alta |
-| **Fase 7** | Régimen Disciplinario (Anotar y Quitar Sanciones) | ⏳ Pendiente | Alta |
-| **Fase 8** | Cálculo de Posiciones y Medallero Olímpico | ⏳ Pendiente | Alta |
+| **Fase 7** | Régimen Disciplinario (Anotar y Quitar Sanciones) | ✅ Completada | Alta |
+| **Fase 8** | Cálculo de Posiciones y Medallero Olímpico | ✅ Completada | Alta |
 | **Fase 9** | Vistas Públicas, Auditoría PHP 7.3 y Documentación | ⏳ Pendiente | Media |
 
 ---
