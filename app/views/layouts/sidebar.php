@@ -117,16 +117,6 @@ $currentUri = Router::currentUri();
                         <p>Tablas de Posiciones</p>
                     </a>
                 </li>
-
-                <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/medallero" class="nav-link <?php echo (strpos($currentUri, '/medallero') === 0) ? 'active' : ''; ?>">
-                        <p>
-                            Medallero Olímpico
-                            <span class="badge badge-warning right font-weight-bold" style="color: #1a1a1a;">Oficial</span>
-                        </p>
-                    </a>
-                </li>
-
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

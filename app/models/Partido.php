@@ -79,6 +79,56 @@ class Partido extends Model {
     }
 
     /**
+     * Obtiene los partidos programados o disputados en una fecha específica (por defecto la fecha actual de hoy)
+     *
+     * @param string|null $fecha Formato Y-m-d (si es null se usa la fecha actual)
+     * @param int|null $olimpiadaId
+     * @return array
+     */
+    public function getPartidosHoy($fecha = null, $olimpiadaId = null) {
+        if ($fecha === null || $fecha === '') {
+            $fecha = date('Y-m-d');
+        }
+
+        $params = ['fecha' => $fecha];
+        $whereOlimpiada = "";
+
+        if ($olimpiadaId !== null && (int)$olimpiadaId > 0) {
+            $whereOlimpiada = "AND t.olimpiada_id = :olimpiada_id";
+            $params['olimpiada_id'] = (int)$olimpiadaId;
+        }
+
+        $sql = "SELECT p.*,
+                       t.nombre AS torneo_nombre, t.rama AS torneo_rama, t.tipo_torneo, t.olimpiada_id,
+                       disc.id AS disciplina_id, disc.nombre AS disciplina_nombre, disc.icono AS disciplina_icono,
+                       r.formato_sets, r.sets_para_ganar, r.permite_empate,
+                       g.nombre_grupo,
+                       el.nombre AS local_nombre, el.nombre_corto AS local_corto, el.logo_url AS local_logo,
+                       dl.nombre AS delegacion_local, dl.color_representativo AS local_color,
+                       ev.nombre AS visitante_nombre, ev.nombre_corto AS visitante_corto, ev.logo_url AS visitante_logo,
+                       dv.nombre AS delegacion_visitante, dv.color_representativo AS visitante_color,
+                       c.nombre_cancha, c.tipo_superficie,
+                       s.id AS sede_id, s.nombre AS sede_nombre, s.direccion AS sede_direccion,
+                       s.latitud AS sede_latitud, s.longitud AS sede_longitud
+                FROM partidos p
+                INNER JOIN torneos t ON p.torneo_id = t.id
+                INNER JOIN disciplinas disc ON t.disciplina_id = disc.id
+                LEFT JOIN reglas_puntuacion r ON t.regla_puntuacion_id = r.id
+                LEFT JOIN torneo_grupos g ON p.grupo_id = g.id
+                INNER JOIN equipos el ON p.equipo_local_id = el.id
+                INNER JOIN delegaciones dl ON el.delegacion_id = dl.id
+                INNER JOIN equipos ev ON p.equipo_visitante_id = ev.id
+                INNER JOIN delegaciones dv ON ev.delegacion_id = dv.id
+                LEFT JOIN canchas c ON p.cancha_id = c.id
+                LEFT JOIN sedes s ON c.sede_id = s.id
+                WHERE p.fecha_partido = :fecha
+                  {$whereOlimpiada}
+                ORDER BY p.hora_partido ASC, p.id ASC";
+
+        return $this->fetchAll($sql, $params);
+    }
+
+    /**
      * Obtiene el detalle completo de un partido por su ID
      *
      * @param int $id

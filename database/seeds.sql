@@ -132,7 +132,7 @@ INSERT INTO `partidos` (`id`, `torneo_id`, `grupo_id`, `fase`, `jornada`, `equip
 -- Partido finalizado
 (1, 1, 1, 'Grupos', 'Jornada 1', 1, 2, 1, '2026-10-08', '19:00:00', 3, 1, 'Finalizado'),
 -- Partido programado para hoy/próximo
-(2, 1, 2, 'Grupos', 'Jornada 1', 3, 4, 1, '2026-10-12', '20:30:00', NULL, NULL, 'Programado');
+(2, 1, 2, 'Grupos', 'Jornada 1', 3, 4, 1, CURDATE(), '20:30:00', NULL, NULL, 'Programado');
 
 -- Incidencias del partido finalizado (Goles y tarjetas)
 INSERT INTO `partido_incidencias` (`partido_id`, `equipo_id`, `jugador_id`, `tipo`, `minuto_tiempo`, `observaciones`) VALUES

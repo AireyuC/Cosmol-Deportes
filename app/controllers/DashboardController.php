@@ -9,6 +9,9 @@ require_once APP_PATH . '/models/Olimpiada.php';
 require_once APP_PATH . '/models/Disciplina.php';
 require_once APP_PATH . '/models/Delegacion.php';
 require_once APP_PATH . '/models/Medallero.php';
+require_once APP_PATH . '/models/Partido.php';
+require_once APP_PATH . '/models/Equipo.php';
+require_once APP_PATH . '/models/Sancion.php';
 
 class DashboardController extends Controller {
 
@@ -19,11 +22,16 @@ class DashboardController extends Controller {
         $olimpiadaModel = new Olimpiada();
         $disciplinaModel = new Disciplina();
         $delegacionModel = new Delegacion();
+        $partidoModel = new Partido();
+        $equipoModel = new Equipo();
+        $sancionModel = new Sancion();
 
         // Obtener olimpiada activa desde la BD o fallback
         $olimpiadaActiva = null;
         $totalDisciplinas = 4;
         $totalDelegaciones = 4;
+        $totalEquipos = 8;
+        $totalSancionesActivas = 0;
         $disciplinasList = [];
 
         try {
@@ -38,6 +46,16 @@ class DashboardController extends Controller {
             if (!empty($dbDelegaciones)) {
                 $totalDelegaciones = count($dbDelegaciones);
             }
+
+            $dbEquipos = $equipoModel->getAll();
+            if (!empty($dbEquipos)) {
+                $totalEquipos = count($dbEquipos);
+            }
+
+            $dbSanciones = $sancionModel->getAll(null, 'Activa');
+            if (!empty($dbSanciones)) {
+                $totalSancionesActivas = count($dbSanciones);
+            }
         } catch (Exception $e) {
             // Manejo silencioso para renderizar sin interrupción
         }
@@ -49,6 +67,17 @@ class DashboardController extends Controller {
                 'estado' => 'En Curso',
                 'anio'   => 2026
             ];
+        }
+
+        // Consultar partidos de hoy para la olimpiada activa (o fecha del sistema)
+        $fechaHoy = date('Y-m-d');
+        $olimpiadaId = !empty($olimpiadaActiva['id']) ? (int)$olimpiadaActiva['id'] : null;
+        $partidosHoy = [];
+
+        try {
+            $partidosHoy = $partidoModel->getPartidosHoy($fechaHoy, $olimpiadaId);
+        } catch (Exception $e) {
+            $partidosHoy = [];
         }
 
         // Formatear disciplinas para visualización si vinieron de la BD
@@ -110,17 +139,19 @@ class DashboardController extends Controller {
         }
 
         $data = [
-            'pageTitle' => 'Panel de Control de Olimpiadas',
-            'olimpiada' => $olimpiadaActiva,
+            'pageTitle'    => 'Panel de Control de Olimpiadas',
+            'olimpiada'    => $olimpiadaActiva,
             'kpis' => [
                 'disciplinas'   => $totalDisciplinas,
                 'delegaciones'  => $totalDelegaciones,
-                'equipos'       => 8,
-                'partidos_hoy'  => 2,
-                'sanciones_act' => 1
+                'equipos'       => $totalEquipos,
+                'partidos_hoy'  => count($partidosHoy),
+                'sanciones_act' => $totalSancionesActivas
             ],
-            'disciplinas' => $formattedDisciplinas,
-            'medallero_top' => $medalleroTop
+            'partidos_hoy' => $partidosHoy,
+            'fecha_hoy'    => $fechaHoy,
+            'disciplinas'  => $formattedDisciplinas,
+            'medallero_top'=> $medalleroTop
         ];
 
         $this->view('admin/dashboard/index', $data);

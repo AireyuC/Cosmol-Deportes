@@ -289,6 +289,11 @@ a:hover {
     color: #FFFFFF !important;
 }
 
+.small-box.box-cosmol-verde {
+    background-color: #107C41 !important; /* Verde deportivo institucional */
+    color: #FFFFFF !important;
+}
+
 .small-box .inner {
     padding: 1.25rem 1.25rem 0.75rem 1.25rem;
 }
