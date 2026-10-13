@@ -8,6 +8,7 @@ require_once __DIR__ . '/Controller.php';
 require_once APP_PATH . '/models/Olimpiada.php';
 require_once APP_PATH . '/models/Disciplina.php';
 require_once APP_PATH . '/models/Delegacion.php';
+require_once APP_PATH . '/models/Medallero.php';
 
 class DashboardController extends Controller {
 
@@ -73,6 +74,41 @@ class DashboardController extends Controller {
             ];
         }
 
+        // Obtener medallero top real si existen medallas registradas
+        $medalleroTop = [];
+        if (!empty($olimpiadaActiva['id'])) {
+            try {
+                $medalleroModel = new Medallero();
+                $dbMedallero = $medalleroModel->getResumenPorOlimpiada((int)$olimpiadaActiva['id']);
+                if (!empty($dbMedallero)) {
+                    $pos = 1;
+                    foreach ($dbMedallero as $row) {
+                        $medalleroTop[] = [
+                            'pos'        => $pos++,
+                            'delegacion' => $row['delegacion_nombre'],
+                            'color'      => !empty($row['color_representativo']) ? $row['color_representativo'] : '#007bff',
+                            'oro'        => (int)$row['oro'],
+                            'plata'      => (int)$row['plata'],
+                            'bronce'     => (int)$row['bronce'],
+                            'total'      => (int)$row['total_medallas']
+                        ];
+                        if ($pos > 5) break;
+                    }
+                }
+            } catch (Exception $e) {
+                // Silencioso
+            }
+        }
+
+        if (empty($medalleroTop)) {
+            $medalleroTop = [
+                ['pos' => 1, 'delegacion' => 'Gerencia Comercial', 'color' => '#007bff', 'oro' => 1, 'plata' => 0, 'bronce' => 0, 'total' => 1],
+                ['pos' => 2, 'delegacion' => 'Planta Operaciones', 'color' => '#28a745', 'oro' => 0, 'plata' => 1, 'bronce' => 0, 'total' => 1],
+                ['pos' => 3, 'delegacion' => 'Tecnología & Redes', 'color' => '#6f42c1', 'oro' => 0, 'plata' => 0, 'bronce' => 0, 'total' => 0],
+                ['pos' => 4, 'delegacion' => 'Administración & Finanzas', 'color' => '#fd7e14', 'oro' => 0, 'plata' => 0, 'bronce' => 0, 'total' => 0]
+            ];
+        }
+
         $data = [
             'pageTitle' => 'Panel de Control de Olimpiadas',
             'olimpiada' => $olimpiadaActiva,
@@ -84,12 +120,7 @@ class DashboardController extends Controller {
                 'sanciones_act' => 1
             ],
             'disciplinas' => $formattedDisciplinas,
-            'medallero_top' => [
-                ['pos' => 1, 'delegacion' => 'Gerencia Comercial', 'color' => '#007bff', 'oro' => 1, 'plata' => 0, 'bronce' => 0, 'total' => 1],
-                ['pos' => 2, 'delegacion' => 'Planta Operaciones', 'color' => '#28a745', 'oro' => 0, 'plata' => 1, 'bronce' => 0, 'total' => 1],
-                ['pos' => 3, 'delegacion' => 'Tecnología & Redes', 'color' => '#6f42c1', 'oro' => 0, 'plata' => 0, 'bronce' => 0, 'total' => 0],
-                ['pos' => 4, 'delegacion' => 'Administración & Finanzas', 'color' => '#fd7e14', 'oro' => 0, 'plata' => 0, 'bronce' => 0, 'total' => 0]
-            ]
+            'medallero_top' => $medalleroTop
         ];
 
         $this->view('admin/dashboard/index', $data);

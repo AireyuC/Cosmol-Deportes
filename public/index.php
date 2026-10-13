@@ -151,9 +151,19 @@ Router::post('/sanciones/{id}/cumplir-fecha', 'SancionController@cumplirFecha');
 Router::post('/sanciones/{id}/eliminar', 'SancionController@delete');
 Router::get('/api/equipos/{id}/jugadores-json', 'SancionController@apiJugadoresPorEquipo');
 
-// Rutas de siguientes fases (preparadas para Fase 8)
-Router::get('/medallero', 'DashboardController@index');
-Router::get('/posiciones', 'DashboardController@index');
+// ==========================================
+// FASE 8: Tablas de Posiciones y Medallero Olímpico
+// ==========================================
+// Tablas de Posiciones
+Router::get('/posiciones', 'PosicionesController@index');
+Router::get('/api/posiciones/{id}', 'PosicionesController@apiTabla');
+
+// Medallero Olímpico Oficial
+Router::get('/medallero', 'MedalleroController@index');
+Router::get('/medallero/gestion', 'MedalleroController@gestion');
+Router::get('/medallero/torneos/{id}/asignar', 'MedalleroController@asignar');
+Router::post('/medallero/torneos/{id}/guardar', 'MedalleroController@guardarPodio');
+Router::post('/medallero/{id}/eliminar', 'MedalleroController@eliminarMedalla');
 
 // Procesar y despachar la solicitud HTTP
 Router::dispatch();
