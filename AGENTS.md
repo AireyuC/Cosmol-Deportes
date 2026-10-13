@@ -1,22 +1,25 @@
-# AGENTS.md - Guía Maestra y Reglas de Desarrollo: Cosmol-Deportes (Edición Olimpiadas)
+# AGENTS.md - Guía Maestra y Reglas de Desarrollo: Cosmol-Deportes (Edición Olimpiadas Inter-Cooperativas)
 
-Este documento constituye la **especificación técnica, contexto funcional y conjunto de reglas obligatorias** para cualquier agente de Inteligencia Artificial o desarrollador que trabaje en el proyecto **Cosmol-Deportes**.
+Este documento constituye la **especificación técnica oficial, contexto funcional de negocio y conjunto de reglas obligatorias de desarrollo** para cualquier agente de Inteligencia Artificial o desarrollador que trabaje en el proyecto **Cosmol-Deportes**.
 
 ---
 
-## 1. Visión General del Proyecto: Sistema de Olimpiadas Deportivas
+## 1. Visión General del Proyecto: Sistema de Olimpiadas Inter-Cooperativas
 
-**Cosmol-Deportes** es una plataforma web integral diseñada para la administración, programación, control disciplinario y seguimiento de **torneos deportivos multidisciplinarios bajo formato de Olimpiadas** (juegos deportivos institucionales, empresariales o comunitarios).
+**Cosmol-Deportes** es una plataforma web integral diseñada para la administración, programación, control disciplinario, cálculo de resultados y premiación de **juegos deportivos y recreativos multidisciplinarios bajo el formato oficial de Olimpiadas Inter-Cooperativas**.
 
-### Enfoque Tipo "Olimpiadas":
-A diferencia de un torneo de un solo deporte, una Olimpiada deportiva se caracteriza por:
-1. **Macro-Evento Olímpico:** Un evento central (ej. *"Olimpiadas Cosmol 2026"*) que engloba simultáneamente múltiples disciplinas deportivas.
-2. **Múltiples Disciplinas y Ramas/Categorías:** Fútbol, Futsal, Básquetbol, Voleibol, etc., divididos en ramas (Masculino, Femenino, Mixto, Senior/Libre).
-3. **Delegaciones / Equipos Institucionales:** Los equipos representan delegaciones (áreas, departamentos, sucursales o sindicatos) que compiten a lo largo de varias o todas las disciplinas.
-4. **Medallero General / Clasificación Olímpica Global:** Además de la tabla de posiciones interna de cada deporte, el sistema calcula el **Medallero Olímpico** (Oro, Plata, Bronce) y/o una **Tabla General Acumulada de Puntos** para proclamar al *Campeón General de las Olimpiadas*.
-5. **Estructura Interna por Disciplina:** Cada disciplina puede disputarse mediante **Fase de Grupos** (Grupo A, Grupo B, etc.) con posterior pase a fases de eliminación directa (cuartos de final, semifinales, 3er puesto y final) o formato de liga.
-6. **Nómina de Jugadores y Régimen Disciplinario:** Registro detallado de jugadores por equipo, control estricto de sanciones (tarjetas amarillas/rojas, suspensiones por fechas) y la capacidad administrativa de **levantar o quitar sanciones** (por apelación, error arbitral o cumplimiento de fechas).
-7. **Cronograma Maestro Unificado:** Fixture coordinado para evitar solapamiento de canchas y sedes entre distintos deportes.
+### 1.1. Contexto de Negocio: Confraternización entre Cooperativas
+A diferencia de un gestor de ligas o torneos deportivos convencionales, el evento central es una **Olimpiada Deportiva de Cooperativas de Servicios Públicos y Afines** (ej. **COSMOL R.L.**, **SAGUAPAC R.L.**, **CRE R.L.**, **COTAS R.L.**, etc.):
+
+1. **El Macro-Evento Olímpico:** Un evento supremo (ej. *"Olimpiadas Inter-Cooperativas Cosmol 2026"*) bajo el cual se articulan simultáneamente todas las competencias.
+2. **Las Delegaciones son las Cooperativas:** La entidad institucional que compite es la **Cooperativa**. Cada cooperativa inscribe a sus delegaciones y trabajadores en distintas disciplinas.
+3. **El Corazón del Sistema: El Medallero Olímpico:** El fin último de la plataforma no es solo coronar al campeón de un partido de fútbol, sino proclamar a la **Cooperativa Campeona General de las Olimpiadas** mediante el cómputo oficial de medallas (**Oro 🥇**, **Plata 🥈**, **Bronce 🥉**) y/o la **Tabla General de Puntaje Acumulado**.
+4. **Competencias por Disciplina (Técnicamente `torneos` en DB):** Cada disciplina deportiva o recreativa se disputa como una competencia puntuable (Fútbol Varones, Vóley Mixto, Futsal Senior, etc.) que aporta directamente al Medallero Olímpico.
+5. **Doble Familia de Disciplinas:**
+   - **Disciplinas Deportivas de Cancha:** Fútbol, Futsal, Básquetbol, Voleibol (reglamentadas con árbitros, sets/tiempos, tablas de posiciones y tarjetas).
+   - **Disciplinas Recreativas y de Salón:** Karaoke, Billar, Cacho (confraternización cooperativa con actas de puntuación directa de jurados/mesas y sin sets).
+6. **Régimen Disciplinario con Espíritu de Confraternización:** Control de tarjetas y suspensiones, con facultad administrativa de **Levantamiento / Indulto de Sanciones** (por apelación de delegados, corrección arbitral o acuerdo del comité de confraternización).
+7. **Geolocalización GPS de Sedes y Canchas:** Herramienta interactiva para que los trabajadores, deportistas y familias de las cooperativas sepan con exactitud **"Cómo llegar"** al campo de juego desde su ubicación en tiempo real.
 
 ---
 
@@ -24,35 +27,34 @@ A diferencia de un torneo de un solo deporte, una Olimpiada deportiva se caracte
 
 > [!IMPORTANT]
 > **RESTRICCIÓN CRÍTICA DE VERSIÓN: PHP 7.3 Y XAMPP**
-> El entorno de ejecución está basado en **PHP 7.3** sobre **XAMPP**.
+> El entorno de ejecución del cliente/servidor está estrictamente basado en **PHP 7.3** sobre **XAMPP** (Apache 2.4 + MariaDB 10.4 / MySQL 5.7).
 > Queda **TERMINANTEMENTE PROHIBIDO** utilizar sintaxis de versiones posteriores (PHP 7.4, 8.0, 8.1, 8.2, 8.3).
 > 
 > **Reglas sintácticas obligatorias para PHP 7.3:**
-> - **NO** usar propiedades tipadas en clases (ej. `public int $id;` es ERROR en 7.3; usar `public $id;` o documentar con PHPDoc `/** @var int */`).
-> - **NO** usar funciones flecha (ej. `fn($x) => $x` es ERROR en 7.3; usar closures estándar `function($x) { return $x; }`).
+> - **NO** usar propiedades tipadas en clases (ej. `public int $id;` es ERROR fatal en 7.3; usar `public $id;` o documentar con PHPDoc `/** @var int */`).
+> - **NO** usar funciones flecha (ej. `fn($x) => $x` es ERROR fatal en 7.3; usar closures clásicos `function($x) { return $x; }`).
 > - **NO** usar expresiones `match` (usar `switch` o `if/else`).
 > - **NO** usar el operador nullsafe `?->` (usar validaciones `isset()` o ternarios clásicos `$obj ? $obj->metodo() : null`).
-> - **NO** usar argumentos nombrados (`nombreFuncion(param: $valor)` es ERROR).
+> - **NO** usar argumentos nombrados (`nombreFuncion(param: $valor)` es ERROR fatal).
 > - **NO** usar tipos de unión `int|string` ni tipo `mixed` en declaraciones de tipos.
-> - **NO** usar promoción de propiedades en constructor (`public function __construct(public $id)` es ERROR).
+> - **NO** usar promoción de propiedades en constructor (`public function __construct(public $id)` es ERROR fatal).
 > - **SÍ** se permite el tipado escalar en parámetros y retornos de funciones/métodos soportados en PHP 7.1-7.3 (`function test(int $a): ?string`).
 
 - **Servidor Local:** XAMPP (Apache 2.4 + MariaDB 10.4 / MySQL 5.7).
 - **Backend:** PHP 7.3 nativo, orientado a objetos, estructurado con patrón MVC y persistencia vía PDO.
 - **Frontend / UI:** **AdminLTE 3** (basado en **Bootstrap 4**, jQuery y FontAwesome 5). Toda la interfaz administrativa y de usuario debe emplear el layout, temas y componentes de AdminLTE.
 - **Base de Datos:** MySQL / MariaDB (motor InnoDB, codificación UTF-8 / utf8mb4, claves foráneas con integridad referencial).
-- **Enrutamiento:** Front Controller (`public/index.php`) con reescritura de URLs vía Apache `.htaccess`.
+- **Enrutamiento:** Front Controller (`public/index.php`) con reescritura de URLs amigables vía Apache `.htaccess`.
+- **Regla PDO Crítica:** Con `PDO::ATTR_EMULATE_PREPARES => false`, **NUNCA** repetir el mismo nombre de parámetro en una consulta SQL (ej. usar `:eq_local` y `:eq_visitante`, nunca `:equipo_id` dos veces).
 
 ---
 
 ## 3. Arquitectura del Proyecto (Patrón MVC)
 
-La estructura del directorio del proyecto debe organizarse bajo una estricta separación de responsabilidades:
-
 ```text
 cosmol-deportes/
 ├── app/
-│   ├── config/              # Configuraciones de conexión, URLs base y constantes
+│   ├── config/              # Configuraciones de conexión PDO, URLs base y constantes
 │   │   ├── config.php
 │   │   └── database.php
 │   ├── controllers/         # Controladores (procesan peticiones y coordinan modelos/vistas)
@@ -67,11 +69,14 @@ cosmol-deportes/
 │   │   ├── JugadorController.php
 │   │   ├── SancionController.php
 │   │   ├── SedeController.php
+│   │   ├── CanchaController.php
 │   │   ├── FixtureController.php
 │   │   ├── PartidoController.php
 │   │   ├── MedalleroController.php
-│   │   └── PosicionesController.php
+│   │   ├── PosicionesController.php
+│   │   └── ReporteController.php
 │   ├── models/              # Modelos PDO (consultas preparadas, sin HTML)
+│   │   ├── Model.php        # Clase base PDO
 │   │   ├── Usuario.php
 │   │   ├── Olimpiada.php
 │   │   ├── Disciplina.php
@@ -88,153 +93,167 @@ cosmol-deportes/
 │   │   ├── Incidencia.php
 │   │   └── Medallero.php
 │   ├── views/               # Plantillas HTML integradas con AdminLTE 3
-│   │   ├── layouts/         # Layout principal de AdminLTE (head, header/navbar, sidebar, footer, scripts)
+│   │   ├── layouts/         # Layout principal de AdminLTE (head, header/navbar, sidebar, footer)
 │   │   │   ├── main.php
 │   │   │   ├── navbar.php
 │   │   │   ├── sidebar.php
 │   │   │   └── footer.php
-│   │   ├── auth/            # Login, registro y perfil
-│   │   ├── admin/           # Vistas de gestión para el rol Administrador
+│   │   ├── auth/            # Login, registro y perfil de delegados
+│   │   ├── admin/           # Vistas de gestión para el Comité Organizador (ADMIN)
 │   │   │   ├── dashboard/
 │   │   │   ├── olimpiadas/
+│   │   │   ├── disciplinas/
 │   │   │   ├── torneos/
 │   │   │   ├── grupos/
+│   │   │   ├── delegaciones/
 │   │   │   ├── equipos/
 │   │   │   ├── jugadores/
 │   │   │   ├── sanciones/
 │   │   │   ├── sedes/
+│   │   │   ├── canchas/
 │   │   │   ├── fixture/
-│   │   │   └── partidos/
-│   │   └── public/          # Vistas para usuarios y público general
+│   │   │   ├── partidos/
+│   │   │   ├── medallero/
+│   │   │   └── reportes/
+│   │   └── public/          # Portal público para trabajadores, atletas y familias
+│   │       ├── home.php
 │   │       ├── medallero.php
 │   │       ├── posiciones.php
 │   │       ├── calendario.php
-│   │       └── resultados.php
-│   └── helpers/             # Clases auxiliares (AuthHelper, Session, Validator, CsrfHelper)
-├── database/                # Scripts SQL de esquema y datos semilla
+│   │       ├── resultados.php
+│   │       └── sedes.php
+│   └── helpers/             # Utilidades (AuthHelper, Session, Validator, CsrfHelper, Flash)
+├── database/                # Scripts SQL de estructura y datos de cooperativas
 │   ├── schema.sql
 │   └── seeds.sql
+├── Docs/                    # Documentación técnica, diagnósticos y entregables por fase
+│   ├── ROADMAP.md
+│   ├── PLANTEAMIENTO_DISCIPLINAS_RECREATIVAS.md
+│   ├── DIAGNOSTICO_INCONSISTENCIAS.md
+│   └── GUIA_PRUEBAS_LOCAL.md
 ├── public/                  # DocumentRoot web accesible por Apache
 │   ├── index.php            # Front Controller principal
-│   ├── .htaccess            # Reescritura a index.php
+│   ├── .htaccess            # Reescritura limpia a index.php
 │   ├── adminlte/            # Assets de AdminLTE 3 (css, js, plugins, fontawesome)
-│   ├── css/                 # Estilos complementarios
-│   ├── js/                  # Scripts JavaScript personalizados
-│   └── uploads/             # Logos, escudos de equipos, fotos de jugadores
-└── AGENTS.md                # Este documento de contexto y reglas
+│   ├── css/                 # Estilos complementarios y de impresión
+│   ├── js/                  # Scripts JavaScript (GPS, modales, interactividad)
+│   └── uploads/             # Logos de cooperativas, escudos y fotos de atletas
+└── AGENTS.md                # Esta guía maestra de desarrollo
 ```
 
 ---
 
 ## 4. Roles de Usuario y Control de Acceso
 
-### 4.1. Rol Administrador (ADMIN)
-Control total sobre la olimpiada y sus torneos:
-- Crear y gestionar la **Olimpiada Activa** (fechas, lema, sedes habilitadas).
-- Configurar las **Disciplinas y Reglas de Puntuación** (fútbol, futsal, básquetbol, voleibol, etc.).
-- Crear torneos por disciplina, definir categorías (Masculino/Femenino/Mixto) y modalidad (Liga, Grupos + Llaves, Eliminación directa).
-- **Crear grupos** (Grupo A, Grupo B, etc.) y sortear o asignar equipos a cada grupo.
-- Registrar **Delegaciones** (áreas de la institución) y **Equipos**.
-- Registrar y administrar la **nómina de Jugadores** por equipo (datos personales, dorsal, posición, foto).
-- Gestionar **Sanciones Disciplinarias**:
-  - Registrar sanciones (tarjetas amarillas, rojas, fechas de suspensión, faltas graves).
-  - **Quitar / Levantar sanciones:** Función especial para anular sanciones o marcar indulto/cumplimiento con registro de motivo.
-- Generar y administrar el **Fixture**: asignación de fechas, horas, sedes y canchas.
-- Cargar resultados de partidos (marcadores, sets, tiempos, incidencias).
-- Controlar el **Medallero Olímpico** y la tabla acumulada por delegación.
+### 4.1. Rol Administrador (ADMIN) - Comité Organizador Olímpico
+Control total sobre la olimpiada y sus competencias:
+- Crear y gestionar la **Olimpiada Activa** (fechas oficiales, lema, sedes habilitadas).
+- Configurar el catálogo de **Disciplinas Deportivas y Recreativas** (Fútbol, Futsal, Básquet, Vóley, Karaoke, Billar, Cacho).
+- Administrar el registro de **Cooperativas Participantes (Delegaciones)** con sus directivos y colores.
+- Crear las competencias por disciplina (ramas Varones, Damas, Mixto, Senior) y modalidad (Fase de Grupos + Llaves, Liga).
+- Gestionar los grupos (`Grupo A`, `Grupo B`, etc.) y sembrar o sortear a los equipos representativos de cada cooperativa.
+- Administrar la **nómina de Atletas/Jugadores** por cooperativa y equipo (documento de identidad, dorsal, fotografía).
+- Gestionar el **Régimen Disciplinario Olímpico**:
+  - Registrar sanciones (tarjetas amarillas, rojas, fechas de suspensión, faltas reglamentarias).
+  - **Quitar / Levantar sanciones:** Función clave para anular sanciones o aplicar indultos por confraternización con registro de motivo oficial.
+- Programar el **Fixture Maestro**: asignación de fechas, horas, sedes y canchas con validación anti-colisión.
+- Cargar resultados oficiales (marcadores globales, detalle de sets, puntos de jurado en juegos recreativos).
+- Gestionar y proclamar el **Medallero Olímpico Oficial** y la premiación del Campeón General de Cooperativas.
 
-### 4.2. Rol Usuario General / Espectador / Delegado (USUARIO)
-- Registro y autenticación mediante **Nombre de Usuario** (`username`) y contraseña.
-- Visualización interactiva del **Medallero Olímpico** en tiempo real.
-- Consulta de **tablas de posiciones por grupos** y fases de cada disciplina.
-- Consulta del **cronograma general / fixture** (partidos por jugar, resultados en vivo y finalizados).
-- Visualización del **lugar del partido (sede y cancha)** con función interactiva para obtener la **ruta de navegación GPS ("Cómo llegar")** desde la ubicación actual del usuario.
-- Visualización de la plantilla de jugadores por equipo y tabla de goleadores/figuras.
-- Consulta del boletín de sanciones disciplinarias activas.
+### 4.2. Rol Usuario General / Delegado de Cooperativa (USUARIO)
+- Consulta y visualización interactiva del **Medallero Olímpico Inter-Cooperativas** en tiempo real.
+- Consulta de tablas de posiciones por grupos en cada disciplina deportiva.
+- Consulta del **cronograma general / fixture** (partidos por jugar, en juego y finalizados).
+- Visualización de la sede y campo de juego con enlace GPS interactivo **"Cómo llegar"** desde el celular o navegador.
+- Consulta de plantillas de atletas por cooperativa y tabla de goleadores/figuras.
+- Consulta del boletín oficial de sanciones activas y resoluciones disciplinarias.
 
 ---
 
 ## 5. Módulos Funcionales Detallados
 
-### 5.1. Módulo de Olimpiada y Medallero General
-- Una Olimpiada agrupa todas las competencias durante un período.
-- **Medallero:** Cálculo automático o manual de medallas:
-  - **Oro (1º Lugar)**, **Plata (2º Lugar)**, **Bronce (3º Lugar)** por cada torneo/disciplina y categoría.
-  - Ordenamiento estándar olímpico: número de Oros > número de Platas > número de Bronces.
-- **Puntaje Olímpico Acumulado (opcional):** Puntos por posición para premiar a la delegación campeona general (ej. 1º: 10 pts, 2º: 7 pts, 3º: 5 pts, 4º: 3 pts, etc.).
+### 5.1. Módulo de Macro-Evento y Medallero Olímpico General
+- Una Olimpiada agrupa a todas las cooperativas participantes durante un período determinado.
+- **Cómputo Oficial de Medallas:**
+  - **Oro 🥇 (1º Lugar)**, **Plata 🥈 (2º Lugar)**, **Bronce 🥉 (3º Lugar)** por cada competencia finalizada.
+  - Criterio de ordenamiento estándar olímpico: `Oros DESC > Platas DESC > Bronces DESC`.
+- **Puntaje Olímpico Acumulado (Copa de Cooperativas):**
+  - Puntos asignados por posición (ej. 1º: 10 pts, 2º: 7 pts, 3º: 5 pts, 4º: 3 pts, etc.) para consagrar a la **Cooperativa Campeona Absoluta**.
 
-### 5.2. Módulo de Disciplinas y Reglas de Puntuación
-Cada disciplina posee su propia lógica de cómputo para la tabla de posiciones:
+### 5.2. Módulo de Disciplinas Deportivas Reglamentarias y Puntuación
+Cada disciplina cuenta con su lógica matemática de cómputo en la tabla de posiciones:
 - **Fútbol / Futsal:**
   - Victoria: 3 pts, Empate: 1 pt, Derrota: 0 pts.
-  - Criterios: Puntos, Diferencia de Goles (DG), Goles a Favor (GF), Goles en Contra (GC), Enfrentamiento directo.
+  - Criterios de desempate: Puntos, Diferencia de Goles (DG), Goles a Favor (GF), Goles en Contra (GC), Enfrentamiento directo.
 - **Básquetbol:**
   - Victoria: 2 pts, Derrota con presentación: 1 pt, No presentación (W.O.): 0 pts.
-  - No admite empates. Criterios: Puntos, Diferencia de Puntos (canastas).
+  - Sin empates. Criterios: Puntos, Diferencia de Puntos (canastas).
 - **Voleibol:**
   - Sistema por Sets:
     - Victoria 3-0 o 3-1: 3 pts para ganador, 0 pts para perdedor.
     - Victoria 3-2: 2 pts para ganador, 1 pt para perdedor.
-  - No admite empates. Criterios: Puntos acumulados, Sets a Favor (SF), Sets en Contra (SC), Ratio de sets, Ratio de puntos.
-- **Parametrización flexible:** Las reglas deben ser configurables por torneo o disciplina desde la base de datos.
+  - Sin empates. Criterios: Puntos acumulados, Sets a Favor (SF), Sets en Contra (SC), Ratio de sets, Ratio de puntos.
 
-### 5.3. Módulo de Torneos, Grupos y Fases
-- Configuración de cada torneo: Olimpiada asociada, disciplina, rama (Varones, Damas, Mixto), tipo de torneo (Grupos + Playoffs, Liga todos contra todos, Relámpago eliminación directa), ida o ida/vuelta.
+### 5.3. Módulo de Disciplinas Recreativas y Juegos de Salón (Confraternización)
+Integración nativa para competencias tradicionales de cooperativas:
+- **Karaoke:** Evaluación por jurado/mesa sobre interpretación y afinación. Marcador directo por puntaje acumulado.
+- **Billar:** Partidas directas por chicos/mesas ganadas.
+- **Cacho:** Juego tradicional de dados (Generala/Alalay) por puntaje de planilla.
+- **Actas de Juegos Recreativos:** Carga de resultados directos (sin sets ni tiempos reglamentarios), actualización instantánea de la competencia y adjudicación directa de medallas.
+
+### 5.4. Módulo de Competencias Olímpicas (`torneos`), Grupos y Fases
+- Configuración de cada competencia: Olimpiada asociada, disciplina, rama (Varones, Damas, Mixto, Senior), tipo de torneo (Grupos + Playoffs, Liga todos contra todos, Relámpago).
 - **Gestión de Grupos:**
-  - Capacidad de crear múltiples grupos por torneo (`Grupo A`, `Grupo B`, `Grupo C`, etc.).
-  - Asignar y desasignar equipos a cada grupo.
-  - Cálculo de tabla de posiciones independiente por cada grupo.
+  - Creación dinámica de grupos (`Grupo A`, `Grupo B`, `Grupo C`, etc.).
+  - Asignación balanceada de las cooperativas participantes.
+  - Tabla de posiciones calculada de manera independiente por grupo.
 - **Fases Eliminatorias (Playoffs):**
-  - Configuración de llaves: Cuartos de final, Semifinales, Partido por el 3er Puesto (Bronce), Gran Final (Oro y Plata).
-  - Estado del torneo: `Borrador`, `Inscripciones`, `Fase de Grupos`, `Playoffs`, `Finalizado`.
+  - Llaves de Cuartos de final, Semifinales, Definición por el 3er Puesto (Bronce) y Gran Final (Oro y Plata).
 
-### 5.4. Módulo de Delegaciones, Equipos y Jugadores
-- **Delegaciones:** Representan las áreas de la institución (ej. *"Gerencia Comercial"*, *"Planta Operaciones"*, *"Tecnología"*).
-- **Equipos:** Vinculados a una delegación y a un torneo específico (color de camiseta, escudo/logo, delegado responsable y teléfono).
-- **Jugadores:**
-  - Documento de identidad, nombres, apellidos, fecha de nacimiento, dorsal, posición, fotografía.
-  - Asociación de jugadores a equipos.
-  - Validación para evitar dorsales duplicados en un mismo equipo.
+### 5.5. Módulo de Cooperativas (Delegaciones), Equipos y Atletas
+- **Cooperativas (Delegaciones):** Entidades matrices (ej. `COSMOL R.L.`, `SAGUAPAC R.L.`, `CRE R.L.`). Contienen datos de contacto del delegado, colores y escudo oficial.
+- **Equipos:** El representativo que la cooperativa inscribe en una competencia específica (ej. *COSMOL - Fútbol Varones*).
+- **Atletas / Jugadores:**
+  - Nómina oficial de trabajadores/socios: Documento de identidad, nombres, apellidos, fecha de nacimiento, dorsal, posición y fotografía.
+  - Validación anti-duplicados de documento y dorsal en el mismo representativo.
 
-### 5.5. Módulo de Sanciones Disciplinarias (Anotar y Quitar Sanciones)
-El sistema debe llevar un estricto expediente disciplinario:
-- **Registro de Sanciones:**
-  - Tipo de sanción: Tarjeta Amarilla, Tarjeta Roja (Directa o Doble Amarilla), Suspensión por Fechas (1 fecha, 2 fechas, etc.), Expulsión del Torneo, Multa económica/administrativa.
-  - Datos: Jugador, partido (o resolución de mesa), torneo, minuto/tiempo, motivo/observación.
-- **Control de Inhabilitación:**
-  - Si un jugador tiene tarjeta roja o acumulación de amarillas (según reglamento), el sistema debe mostrarlo como **Inhabilitado / Suspendido** en las alineaciones del siguiente partido.
-- **Acción Crucial: Quitar / Levantar Sanciones:**
-  - El Administrador debe tener la funcionalidad en la interfaz para **quitar o anular una sanción**.
-  - Opciones de levantamiento: `Anulada por apelación`, `Error arbitral corregido`, `Cumplimiento anticipado/Indulto`.
-  - La sanción queda marcada como `Inactiva / Levantada`, restaurando inmediatamente la habilitación del jugador para jugar, dejando trazabilidad de quién y por qué la levantó.
+### 5.6. Módulo de Sedes, Canchas y Geolocalización GPS ("Cómo llegar")
+- **Asignación del Escenario:** Cada partido se asocia a un recinto deportivo (**Sede**) y a un campo específico (**Cancha**).
+- **Ruta Interactiva GPS:**
+  - Al hacer clic en la sede o cancha, el sistema invoca la API de geolocalización (`navigator.geolocation.getCurrentPosition()`) y abre la ruta optimizada (Google Maps / Waze / OpenStreetMap) hacia las coordenadas exactas (`latitud`, `longitud`), facilitando la llegada de los trabajadores y sus familias.
+- **Detección de Colisiones:** Alerta automática que impide asignar dos encuentros a la misma cancha en horarios solapados o programar a una misma cooperativa simultáneamente.
 
-### 5.6. Módulo de Fixtures, Programación y Geolocalización de Canchas
-- **Asignación de Encuentros:** Asignación de fecha, hora, sede y cancha específica para cada encuentro.
-- **Visualización del Lugar del Partido:**
-  - Cada partido programado debe mostrar explícitamente el recinto deportivo (**Sede**) y el campo de juego (**Cancha**) donde se disputará el encuentro.
-- **Ruta Interactiva desde Ubicación Actual ("Cómo llegar"):**
-  - Al hacer clic en la cancha o sede del partido, el sistema activará la geolocalización del navegador del usuario (`navigator.geolocation.getCurrentPosition()`) y abrirá el trazado de la ruta (a través de Google Maps / Waze / OpenStreetMap) hacia las coordenadas geográficas (`latitud`, `longitud`) o la dirección exacta de la sede/cancha, permitiendo al espectador, delegado o deportista saber de forma precisa cómo llegar desde el lugar donde se encuentra en ese instante.
-- Detección de colisiones de horario (alertar si una cancha ya está ocupada o si un equipo tiene partidos superpuestos).
-- Estados de partido: `Programado`, `En Calentamiento`, `En Juego`, `Finalizado`, `Suspendido`, `W.O.`.
+### 5.7. Módulo de Fixtures y Programación
+- Generación automática o manual de jornadas (Round Robin todos contra todos o eliminación directa).
+- Asignación de fecha, hora y escenario con validación en tiempo real.
+- Estados de partido: `Programado`, `En Calentamiento`, `En Juego`, `Finalizado`, `Suspendido`, `WO`.
 
-### 5.7. Módulo de Actas de Partidos y Resultados
-- Carga interactiva de resultados:
-  - Marcador global.
-  - Detalle de sets o cuartos/tiempos según la disciplina.
-- Registro de incidencias durante el partido (goles, puntos, tarjetas amarillas/rojas, faltas).
-- Al marcar el partido como `Finalizado`, se actualizan automáticamente las tablas de posiciones y el estado de sanciones.
+### 5.8. Módulo de Actas Oficiales y Resultados
+- Planilla interactiva de control para mesa de control y planilleros:
+  - Carga de marcador global.
+  - Carga detallada de sets (en vóley/básquet) o puntuación de jurado (en karaoke/recreativas).
+  - Registro de incidencias (goles, canastas, puntos, tarjetas amarillas/rojas, faltas graves).
+- El cierre del acta en estado `Finalizado` actualiza en una sola transacción las tablas de posiciones y los expedientes disciplinarios.
+
+### 5.9. Módulo de Régimen Disciplinario y Levantamiento de Sanciones
+- **Registro de Tarjetas y Faltas:**
+  - Tarjetas amarillas, rojas directas, doble amarilla, fechas de suspensión o faltas administrativas.
+- **Inhabilitación Automática:** Los jugadores suspendidos aparecen claramente bloqueados/inhabilitados para la alineación de las siguientes jornadas.
+- **Levantamiento / Quita de Sanciones (Indulto Olímpico):**
+  - Función administrativa exclusiva para anular o conmutar sanciones por: `Anulada por apelación`, `Error arbitral corregido`, `Cumplimiento anticipado/Indulto de Confraternización`.
+  - Deja registro inmutable de auditoría: quién la levantó, fecha y motivo oficial.
 
 ---
 
 ## 6. Modelo de Base de Datos Relacional
 
-Estructura esencial de tablas para MySQL/MariaDB (InnoDB):
+Estructura de tablas normalizadas en MySQL / MariaDB (InnoDB, UTF-8):
 
 1. `usuarios` (id, nombre, username, email, password, rol: 'ADMIN'/'USUARIO', estado, created_at, updated_at)
 2. `olimpiadas` (id, nombre, anio, lema, fecha_inicio, fecha_fin, estado: 'Planificada'/'En Curso'/'Finalizada')
-3. `delegaciones` (id, nombre, alias, color_representativo, logo_url, responsable)
+3. `delegaciones` (id, nombre, alias, color_representativo, logo_url, responsable, telefono)
 4. `disciplinas` (id, nombre, descripcion, icono, estado)
-5. `reglas_puntuacion` (id, disciplina_id, pts_victoria, pts_empate, pts_derrota, pts_derrota_ajustada, permite_empate, formato_sets)
+5. `reglas_puntuacion` (id, disciplina_id, pts_victoria, pts_empate, pts_derrota, pts_derrota_ajustada, permite_empate, formato_sets, sets_para_ganar)
 6. `torneos` (id, olimpiada_id, disciplina_id, regla_puntuacion_id, nombre, rama: 'Masculino'/'Femenino'/'Mixto', tipo_torneo: 'Grupos_Playoff'/'Liga'/'Eliminatoria', estado, fecha_inicio, fecha_fin)
 7. `torneo_grupos` (id, torneo_id, nombre_grupo: 'Grupo A'/'Grupo B', orden)
 8. `equipos` (id, delegacion_id, torneo_id, grupo_id, nombre, nombre_corto, logo_url, delegado_contacto)
@@ -252,56 +271,60 @@ Estructura esencial de tablas para MySQL/MariaDB (InnoDB):
 ## 7. Reglas de Codificación y Diseño UI (AdminLTE 3)
 
 ### 7.1. Compatibilidad Estricta PHP 7.3
-- Usar sintaxis POO compatible al 100% con PHP 7.3.
-- Documentar tipos en bloques PHPDoc (`/** @var string */`, `/** @param int $id */`).
-- Todas las consultas a la base de datos deben utilizar `PDO::prepare()` y `PDOStatement::execute()`. Prohibida cualquier concatenación directa de variables en SQL.
-- Saneamiento de salidas con `htmlspecialchars($val, ENT_QUOTES, 'UTF-8')` o mediante una función helper `e($val)`.
-- Uso obligatorio de tokens CSRF en todos los formularios con métodos `POST`.
-- Almacenamiento seguro de contraseñas usando `password_hash($pass, PASSWORD_BCRYPT)`.
+- Toda clase y método debe ser compatible al 100% con PHP 7.3 nativo.
+- Todas las consultas preparadas PDO deben utilizar parámetros únicos (`:eq_local`, `:eq_visitante`, etc.).
+- Saneamiento obligatorio en vistas con `htmlspecialchars($val, ENT_QUOTES, 'UTF-8')` o el helper `e($val)`.
+- Tokens CSRF obligatorios en todos los formularios de acción `POST`.
+- Contraseñas almacenadas con `password_hash($pass, PASSWORD_BCRYPT)`.
 
 ### 7.2. Frontend con AdminLTE 3
 Toda la interfaz debe seguir el estándar visual de **AdminLTE 3**:
 1. **Layout Estándar:**
    - Barra superior (Navbar): perfil de usuario, alertas, botón colapsable de sidebar.
-   - Barra lateral (Sidebar): navegación categorizada con iconos de FontAwesome (`nav-sidebar`, `nav-item`, `nav-link`).
+   - Barra lateral (Sidebar): navegación categorizada con iconos temáticos de FontAwesome 5 (`nav-sidebar`, `nav-item`, `nav-link`).
    - Contenedor de contenido (`content-wrapper`, `content-header`, `content`).
    - Pie de página (`main-footer`).
 2. **Componentes AdminLTE Clave:**
    - **Small Boxes / Info Boxes:** Para indicadores clave en el Dashboard (Total disciplinas, equipos inscritos, partidos de hoy, líderes del medallero).
-   - **Cards (`card`, `card-header`, `card-tools`, `card-body`):** Para agrupar tablas, formularios y gráficos.
+   - **Cards (`card`, `card-header`, `card-tools`, `card-body`):** Para agrupar tablas, formularios y gráficos de posiciones.
    - **Badges (`badge badge-success`, `badge-danger`, `badge-warning`, `badge-info`):** Para estados de partidos, grupos y tarjetas disciplinarias.
    - **Modales (`modal modal-danger`, etc.):** Para confirmaciones de borrado, registro rápido de incidencias y **levantamiento de sanciones**.
-   - **Tablas Responsivas (`table table-hover table-striped table-responsive`):** Diseñadas para visualizarse correctamente en móviles y pantallas grandes.
+   - **Tablas Responsivas (`table table-hover table-striped table-responsive`):** Diseñadas para visualizarse correctamente en móviles y pantallas grandes con badges legibles y botones de acción rápida.
 3. **Mensajes Flash:**
    - Uso de alertas (`alert alert-success alert-dismissible`, `alert alert-danger`) para confirmar operaciones al usuario.
 
-### 7.3. Principios de Controladores y Modelos
-- **Controladores Delgados:** Se limitan a validar la entrada, invocar métodos del modelo y cargar la vista con los datos.
-- **Modelos Robustos:** Concentran la lógica de consultas SQL, transacciones (`beginTransaction`, `commit`, `rollBack`) y reglas de datos.
-- **Vistas Limpias:** Únicamente renderizan HTML y variables inyectadas por el controlador, sin consultas SQL directas ni lógica de negocio pesada.
+### 7.3. Principios de Controladores y Modelos (Arquitectura MVC Limpia)
+- **Controladores Delgados:** Se limitan a validar la entrada, invocar métodos del modelo y cargar la vista con los datos requeridos.
+- **Modelos Robustos:** Concentran la lógica de consultas SQL, sentencias preparadas PDO con parámetros únicos, transacciones atómicas (`beginTransaction`, `commit`, `rollBack`) y reglas de negocio.
+- **Vistas Limpias:** Únicamente renderizan HTML y variables inyectadas por el controlador, sin consultas SQL directas ni lógica pesada de persistencia.
 
 ---
 
-## 8. Guía de Ejecución Modular para el Agente
+## 8. Estado de Ejecución y Hoja de Ruta (Roadmap Oficial)
 
-Cuando se desarrollen los módulos, seguir esta secuencia ordenada:
+El desarrollo del sistema se ejecuta bajo un estricto orden secuencial. A continuación se resume el estado consolidado de cada fase:
 
-1. **Fase 1: Configuración Base y Base de Datos**
-   - Configuración de conexión PDO en `app/config/`.
-   - Script SQL completo `database/schema.sql` con soporte para olimpiadas, grupos, jugadores y sanciones.
-   - Script `database/seeds.sql` con datos iniciales (administrador por defecto, deportes base: Fútbol, Futsal, Básquetbol, Voleibol y reglas de puntuación).
-2. **Fase 2: Arquitectura Base y Layout AdminLTE**
-   - Front Controller `public/index.php`, router básico y `.htaccess`.
-   - Plantilla base de AdminLTE 3 en `app/views/layouts/`.
-   - Autenticación, control de sesiones y helpers de seguridad (CSRF, sanitización).
-3. **Fase 3: Módulos de Gestión Olímpica y Equipos**
-   - CRUD de Olimpiadas, Disciplinas y Sedes/Canchas.
-   - CRUD de Torneos y **creación de Grupos**.
-   - CRUD de Delegaciones, Equipos y **registro de Jugadores**.
-4. **Fase 4: Fixture, Partidos y Sanciones Disciplinarias**
-   - Generación y programación del fixture por grupos y fases.
-   - Registro de actas de partidos, sets y marcadores.
-   - **Módulo de Sanciones:** Registro de tarjetas/castigos y funcionalidad para **quitar/levantar sanciones**.
-5. **Fase 5: Tablas de Posiciones, Medallero y Vistas Públicas**
-   - Cálculo dinámico de posiciones por deporte y grupo.
-   - Vista pública del Medallero Olímpico y calendario de encuentros.
+### 8.1. Fases Concluidas y Consolidadas:
+- **Fase 1: Configuración Base y Arquitectura MVC**
+  - Entorno PHP 7.3 nativo, Front Controller `public/index.php`, `.htaccess` y conexión PDO segura.
+- **Fase 2: Layout Maestro AdminLTE 3 y Autenticación**
+  - Plantilla base AdminLTE 3 (`navbar`, `sidebar`, `footer`, `main`), login, roles y helpers de seguridad (`CsrfHelper`, `Session`, `AuthHelper`).
+- **Fase 3: Macro-Evento Olímpico, Sedes y Cooperativas (Delegaciones)**
+  - CRUD de Olimpiada activa, Sedes/Canchas y Cooperativas matrices (`COSMOL R.L.`, `SAGUAPAC R.L.`, etc.).
+- **Fase 4: Competencias por Disciplina, Grupos y Atletas**
+  - Configuración de ramas y modalidades, Fase de Grupos (`Grupo A`, `Grupo B`), asignación de equipos y nómina de atletas con documento y dorsal.
+- **Fase 5: Fixture Inteligente y Geolocalización GPS**
+  - Programación de jornadas, algoritmo anti-colisión de canchas/horarios y función interactiva **"Cómo llegar"** (Google Maps/GPS).
+- **Fase 6: Actas Oficiales y Resultados Reglamentarios**
+  - Cierre de planillas, marcadores globales, cómputo de sets (vóley/básquet) y actualización atómica de clasificaciones.
+- **Fase 7: Régimen Disciplinario Olímpico y Portal Público**
+  - Registro de tarjetas/castigos, función de **Levantamiento / Indulto de Sanciones** con auditoría, y portal para el público (medallero, calendario y sedes).
+- **Fase 8: Disciplinas Recreativas Olímpicas y Auditoría Técnica**
+  - Integración nativa de **Karaoke**, **Billar** y **Cacho** con planillas de puntuación directa (sin sets), y resolución de inconsistencias PDO/UI.
+
+### 8.2. Fase Actual de Trabajo:
+- **Fase 9: Reportes Ejecutivos Olímpico-Cooperativos, Certificaciones y Cierre**
+  - **Boletín Oficial del Medallero Olímpico:** Reporte consolidado de medallas y puntos por cooperativa, listo para impresión física (`print.css` y formato carta).
+  - **Planilla Oficial de Delegación por Cooperativa:** Documento que lista todos los trabajadores/atletas inscritos por disciplina y categoría.
+  - **Acta de Cierre Olímpico y Proclamación Oficial:** Resolución final de proclamación de la **Cooperativa Campeona General de las Olimpiadas**.
+  - **Auditoría Final PHP 7.3 y Manual de Despliegue:** Verificación con linter de compatibilidad estricta y guía paso a paso para el entorno XAMPP.
