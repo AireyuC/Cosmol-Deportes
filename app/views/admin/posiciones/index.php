@@ -38,15 +38,15 @@
         <?php if (empty($torneos)): ?>
             <div class="alert alert-info">
                 <i class="fas fa-info-circle mr-2"></i>
-                No hay torneos con equipos registrados. Crea torneos y equipos primero.
+                No hay disciplinas con equipos registrados. Registra disciplinas y equipos primero.
             </div>
         <?php else: ?>
 
-        <!-- Filtros de Torneo y Grupo -->
+        <!-- Filtros de Disciplina y Grupo -->
         <div class="card card-outline card-primary shadow-sm mb-4">
             <div class="card-header">
                 <h3 class="card-title">
-                    <i class="fas fa-filter mr-1"></i> Seleccionar Torneo
+                    <i class="fas fa-filter mr-1"></i> Seleccionar Disciplina
                 </h3>
             </div>
             <div class="card-body pb-2">
@@ -54,9 +54,9 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group mb-2">
-                                <label for="torneo_id" class="font-weight-bold mb-1">Torneo / Disciplina</label>
+                                <label for="torneo_id" class="font-weight-bold mb-1">Disciplina</label>
                                 <select name="torneo_id" id="torneo_id" class="form-control" onchange="this.form.submit()">
-                                    <option value="0">— Selecciona un torneo —</option>
+                                    <option value="0">— Selecciona una disciplina —</option>
                                     <?php foreach ($torneos as $t): ?>
                                         <?php $sel = ((int)$t['id'] === $torneoIdFiltro) ? 'selected' : ''; ?>
                                         <option value="<?php echo (int)$t['id']; ?>" <?php echo $sel; ?>>

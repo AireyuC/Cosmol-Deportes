@@ -35,7 +35,7 @@ class GrupoController extends Controller {
 
         if (!CsrfHelper::validate()) {
             Session::setFlash('error', 'Token de seguridad inválido.');
-            $this->redirect('/torneos/' . $torneoId);
+            $this->redirect('/disciplinas/' . $torneoId);
         }
 
         $validator = new Validator();
@@ -45,7 +45,7 @@ class GrupoController extends Controller {
 
         if (!$isValid) {
             Session::setFlash('error', $validator->getFirstError());
-            $this->redirect('/torneos/' . $torneoId);
+            $this->redirect('/disciplinas/' . $torneoId);
         }
 
         try {
@@ -61,7 +61,7 @@ class GrupoController extends Controller {
             Session::setFlash('error', 'Error al crear el grupo: ' . $e->getMessage());
         }
 
-        $this->redirect('/torneos/' . $torneoId);
+        $this->redirect('/disciplinas/' . $torneoId);
     }
 
     /**
@@ -72,7 +72,7 @@ class GrupoController extends Controller {
 
         if (!CsrfHelper::validate()) {
             Session::setFlash('error', 'Token de seguridad inválido.');
-            $this->redirect('/torneos');
+            $this->redirect('/disciplinas');
         }
 
         $equipoId = isset($_POST['equipo_id']) ? (int)$_POST['equipo_id'] : 0;
@@ -81,7 +81,7 @@ class GrupoController extends Controller {
 
         if ($equipoId <= 0 || $grupoId <= 0) {
             Session::setFlash('error', 'Debe seleccionar un equipo y un grupo válidos.');
-            $this->redirect($torneoId > 0 ? '/torneos/' . $torneoId : '/torneos');
+            $this->redirect($torneoId > 0 ? '/disciplinas/' . $torneoId : '/disciplinas');
         }
 
         try {
@@ -91,7 +91,7 @@ class GrupoController extends Controller {
             Session::setFlash('error', 'Error al asignar el equipo: ' . $e->getMessage());
         }
 
-        $this->redirect($torneoId > 0 ? '/torneos/' . $torneoId : '/torneos');
+        $this->redirect($torneoId > 0 ? '/disciplinas/' . $torneoId : '/disciplinas');
     }
 
     /**
@@ -104,7 +104,7 @@ class GrupoController extends Controller {
 
         if (!CsrfHelper::validate()) {
             Session::setFlash('error', 'Token de seguridad inválido.');
-            $this->redirect('/torneos');
+            $this->redirect('/disciplinas');
         }
 
         $torneoId = isset($_POST['torneo_id']) ? (int)$_POST['torneo_id'] : 0;
@@ -116,7 +116,7 @@ class GrupoController extends Controller {
             Session::setFlash('error', 'Error al desasignar equipo: ' . $e->getMessage());
         }
 
-        $this->redirect($torneoId > 0 ? '/torneos/' . $torneoId : '/torneos');
+        $this->redirect($torneoId > 0 ? '/disciplinas/' . $torneoId : '/disciplinas');
     }
 
     /**
@@ -129,7 +129,7 @@ class GrupoController extends Controller {
 
         if (!CsrfHelper::validate()) {
             Session::setFlash('error', 'Token de seguridad inválido.');
-            $this->redirect('/torneos');
+            $this->redirect('/disciplinas');
         }
 
         $torneoId = isset($_POST['torneo_id']) ? (int)$_POST['torneo_id'] : 0;
@@ -141,6 +141,6 @@ class GrupoController extends Controller {
             Session::setFlash('error', 'Error al eliminar el grupo: ' . $e->getMessage());
         }
 
-        $this->redirect($torneoId > 0 ? '/torneos/' . $torneoId : '/torneos');
+        $this->redirect($torneoId > 0 ? '/disciplinas/' . $torneoId : '/disciplinas');
     }
 }

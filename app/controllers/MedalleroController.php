@@ -11,6 +11,7 @@ require_once APP_PATH . '/models/Olimpiada.php';
 require_once APP_PATH . '/models/Torneo.php';
 require_once APP_PATH . '/helpers/AuthHelper.php';
 require_once APP_PATH . '/helpers/CsrfHelper.php';
+require_once APP_PATH . '/helpers/Session.php';
 
 class MedalleroController extends Controller {
 
@@ -97,16 +98,10 @@ class MedalleroController extends Controller {
             }
         }
 
-        $flashMsg = isset($_SESSION['flash_msg']) ? $_SESSION['flash_msg'] : null;
-        $flashType = isset($_SESSION['flash_type']) ? $_SESSION['flash_type'] : 'info';
-        unset($_SESSION['flash_msg'], $_SESSION['flash_type']);
-
         $this->view('admin/medallero/gestion', [
             'pageTitle' => 'Gestión de Medallas',
             'olimpiada' => $olimpiada,
             'torneos'   => $torneos,
-            'flashMsg'  => $flashMsg,
-            'flashType' => $flashType,
             'csrfToken' => CsrfHelper::getToken()
         ]);
     }
@@ -132,8 +127,7 @@ class MedalleroController extends Controller {
         }
 
         if (!$torneo) {
-            $_SESSION['flash_msg']  = 'Torneo no encontrado.';
-            $_SESSION['flash_type'] = 'danger';
+            Session::setFlash('error', 'Torneo no encontrado.');
             $this->redirect('/medallero/gestion');
             return;
         }
@@ -169,7 +163,12 @@ class MedalleroController extends Controller {
      */
     public function guardarPodio($torneoId) {
         AuthHelper::requireAdmin();
-        CsrfHelper::validateToken($_POST['csrf_token'] ?? '');
+
+        if (!CsrfHelper::validate()) {
+            Session::setFlash('error', 'Token de seguridad inválido o expirado. Intente nuevamente.');
+            $this->redirect('/medallero/gestion');
+            return;
+        }
 
         $torneoId = (int)$torneoId;
         $torneo   = null;
@@ -181,8 +180,7 @@ class MedalleroController extends Controller {
         }
 
         if (!$torneo) {
-            $_SESSION['flash_msg']  = 'Torneo no encontrado.';
-            $_SESSION['flash_type'] = 'danger';
+            Session::setFlash('error', 'Torneo no encontrado.');
             $this->redirect('/medallero/gestion');
             return;
         }
@@ -225,11 +223,9 @@ class MedalleroController extends Controller {
         }
 
         if (!empty($errores)) {
-            $_SESSION['flash_msg']  = implode(' / ', $errores);
-            $_SESSION['flash_type'] = 'danger';
+            Session::setFlash('error', implode(' / ', $errores));
         } else {
-            $_SESSION['flash_msg']  = 'Podio del torneo "' . $torneo['nombre'] . '" asignado correctamente.';
-            $_SESSION['flash_type'] = 'success';
+            Session::setFlash('success', 'Podio del torneo "' . $torneo['nombre'] . '" asignado correctamente.');
         }
 
         $this->redirect('/medallero/gestion');
@@ -243,7 +239,12 @@ class MedalleroController extends Controller {
      */
     public function eliminarMedalla($medallaId) {
         AuthHelper::requireAdmin();
-        CsrfHelper::validateToken($_POST['csrf_token'] ?? '');
+
+        if (!CsrfHelper::validate()) {
+            Session::setFlash('error', 'Token de seguridad inválido o expirado. Intente nuevamente.');
+            $this->redirect('/medallero/gestion');
+            return;
+        }
 
         $medallaId = (int)$medallaId;
         $eliminadas = 0;
@@ -255,11 +256,9 @@ class MedalleroController extends Controller {
         }
 
         if ($eliminadas > 0) {
-            $_SESSION['flash_msg']  = 'Medalla eliminada del medallero.';
-            $_SESSION['flash_type'] = 'success';
+            Session::setFlash('success', 'Medalla eliminada del medallero.');
         } else {
-            $_SESSION['flash_msg']  = 'No se encontró la medalla o ya había sido eliminada.';
-            $_SESSION['flash_type'] = 'warning';
+            Session::setFlash('warning', 'No se encontró la medalla o ya había sido eliminada.');
         }
 
         $this->redirect('/medallero/gestion');

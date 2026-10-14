@@ -1,14 +1,14 @@
-<div class="content-header">
+<div class="content-header pb-2">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
                 <h1 class="card-title mb-0 card-title-cosmol">
                     Registrar Nueva Disciplina
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo BASE_URL; ?>/disciplinas" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-arrow-left mr-1"></i> Volver
+                <a href="<?php echo BASE_URL; ?>/disciplinas" class="btn btn-secondary font-weight-bold">
+                    Volver a Disciplinas
                 </a>
             </div>
         </div>
@@ -17,104 +17,104 @@
 
 <div class="content">
     <div class="container-fluid">
-        <form action="<?php echo BASE_URL; ?>/disciplinas/guardar" method="post">
-            <?php echo CsrfHelper::field(); ?>
-
-            <div class="row">
-                <!-- Columna Izquierda: Datos del Deporte -->
-                <div class="col-md-6">
-                    <div class="card card-outline shadow-sm">
-                        <div class="card-header">
-                            <h3 class="card-title font-weight-bold">
-                                <i class="fas fa-info-circle mr-1"></i> Información General
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="nombre">Nombre de la Disciplina <span class="text-danger">*</span></label>
-                                <input type="text" name="nombre" id="nombre" class="form-control" required value="<?php echo isset($old['nombre']) ? e($old['nombre']) : ''; ?>">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="descripcion">Descripción o Modalidad</label>
-                                <textarea name="descripcion" id="descripcion" class="form-control" rows="3" placeholder="Detalles de la disciplina..."><?php echo isset($old['descripcion']) ? e($old['descripcion']) : ''; ?></textarea>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label for="estado">Estado</label>
-                                    <select name="estado" id="estado" class="form-control">
-                                        <option value="Activa">Activa</option>
-                                        <option value="Inactiva">Inactiva</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Columna Derecha: Esquema de Puntuación -->
-                <div class="col-md-6">
-                    <div class="card card-outline shadow-sm">
-                        <div class="card-header">
-                            <h3 class="card-title font-weight-bold">
-                                <i class="fas fa-calculator mr-1"></i> Esquema de Puntuación
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4 form-group">
-                                    <label for="pts_victoria">Victoria (pts) <span class="text-danger">*</span></label>
-                                    <input type="number" name="pts_victoria" id="pts_victoria" class="form-control" value="3" required>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label for="pts_empate">Empate (pts) <span class="text-danger">*</span></label>
-                                    <input type="number" name="pts_empate" id="pts_empate" class="form-control" value="1" required>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label for="pts_derrota">Derrota (pts) <span class="text-danger">*</span></label>
-                                    <input type="number" name="pts_derrota" id="pts_derrota" class="form-control" value="0" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="pts_derrota_ajustada">Puntos por Derrota Especial / Ajustada</label>
-                                <input type="number" name="pts_derrota_ajustada" id="pts_derrota_ajustada" class="form-control" value="0">
-                                <small class="text-muted">Ejemplo: 1 punto en Básquet por jugar el partido (W.O.=0), o 1 punto en Vóley por perder 2-3 en sets.</small>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox mb-2">
-                                    <input type="checkbox" class="custom-control-input" id="permite_empate" name="permite_empate" value="1" checked>
-                                    <label class="custom-control-label font-weight-normal" for="permite_empate">
-                                        ¿Admite empates reglamentarios? (Desmarcar para Básquetbol o Voleibol)
-                                    </label>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="formato_sets" name="formato_sets" value="1">
-                                    <label class="custom-control-label font-weight-normal" for="formato_sets">
-                                        ¿Se disputa en formato de Sets? (Ej. Voleibol)
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="sets_para_ganar">Sets requeridos para ganar (si aplica)</label>
-                                <input type="number" name="sets_para_ganar" id="sets_para_ganar" class="form-control" value="0">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="card card-outline card-warning shadow-sm">
+            <div class="card-header">
+                <h3 class="card-title font-weight-bold text-dark">Datos de la Disciplina</h3>
             </div>
+            <form action="<?php echo BASE_URL; ?>/disciplinas/guardar" method="post">
+                <?php echo CsrfHelper::field(); ?>
 
-            <div class="card shadow-sm mb-4">
-                <div class="card-body text-right">
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Nombre de la Disciplina -->
+                        <div class="col-md-8 form-group">
+                            <label for="nombre">Nombre de la Disciplina <span class="text-danger">*</span></label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ej. Fútbol Varones - Olimpiadas 2026" required autofocus>
+                        </div>
+
+                        <!-- Macro-Evento Olimpiada -->
+                        <div class="col-md-4 form-group">
+                            <label for="olimpiada_id">Olimpiada Asociada <span class="text-danger">*</span></label>
+                            <select name="olimpiada_id" id="olimpiada_id" class="form-control" required>
+                                <?php foreach ($olimpiadas as $olimp): ?>
+                                    <option value="<?php echo e($olimp['id']); ?>" <?php echo ($olimpiadaActiva && $olimpiadaActiva['id'] == $olimp['id']) ? 'selected' : ''; ?>>
+                                        <?php echo e($olimp['nombre']); ?> (<?php echo e($olimp['anio']); ?>)
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Deporte / Regla Base -->
+                        <div class="col-md-4 form-group">
+                            <label for="disciplina_id">Deporte / Regla Base <span class="text-danger">*</span></label>
+                            <select name="disciplina_id" id="disciplina_id" class="form-control" required>
+                                <option value="">-- Seleccionar Regla / Deporte --</option>
+                                <?php foreach ($disciplinas as $d): ?>
+                                    <option value="<?php echo e($d['id']); ?>">
+                                        <?php echo e($d['nombre']); ?> (Vic: <?php echo e($d['pts_victoria']); ?> pts)
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <!-- Rama / Categoría -->
+                        <div class="col-md-4 form-group">
+                            <label for="rama">Rama / Categoría <span class="text-danger">*</span></label>
+                            <select name="rama" id="rama" class="form-control" required>
+                                <option value="Masculino">Masculino (Varones)</option>
+                                <option value="Femenino">Femenino (Damas)</option>
+                                <option value="Mixto">Mixto</option>
+                            </select>
+                        </div>
+
+                        <!-- Formato de Competencia -->
+                        <div class="col-md-4 form-group">
+                            <label for="tipo_torneo">Formato de Competencia <span class="text-danger">*</span></label>
+                            <select name="tipo_torneo" id="tipo_torneo" class="form-control" required>
+                                <option value="Grupos_Playoff">Fase de Grupos + Eliminatorias (Playoffs)</option>
+                                <option value="Liga">Liga (Todos contra todos)</option>
+                                <option value="Eliminatoria">Eliminación Directa (Relámpago)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Modalidad de partidos -->
+                        <div class="col-md-4 form-group">
+                            <label for="modalidad">Encuentros <span class="text-danger">*</span></label>
+                            <select name="modalidad" id="modalidad" class="form-control" required>
+                                <option value="Solo_Ida">Solo Ida (1 encuentro)</option>
+                                <option value="Ida_Vuelta">Ida y Vuelta (2 encuentros)</option>
+                            </select>
+                        </div>
+
+                        <!-- Fechas -->
+                        <div class="col-md-4 form-group">
+                            <label for="fecha_inicio">Fecha de Inicio Estimada</label>
+                            <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control">
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label for="fecha_fin">Fecha de Culminación Estimada</label>
+                            <input type="date" name="fecha_fin" id="fecha_fin" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info py-2 px-3 mt-2 text-sm">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        <strong>Nota:</strong> Si seleccionas el formato <em>"Fase de Grupos + Playoffs"</em>, el sistema creará automáticamente el <strong>Grupo A</strong> como grupo inicial. Luego podrás agregar más grupos y distribuir los equipos.
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light text-right">
                     <a href="<?php echo BASE_URL; ?>/disciplinas" class="btn btn-secondary mr-2">Cancelar</a>
-                    <button type="submit" class="btn btn-success font-weight-bold px-4">
-                        Guardar Disciplina y Puntuación
+                    <button type="submit" class="btn btn-warning font-weight-bold text-dark">
+                        <i class="fas fa-save mr-1"></i> Guardar Disciplina
                     </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>

@@ -57,13 +57,13 @@ Router::get('/olimpiadas/{id}/editar', 'OlimpiadaController@edit');
 Router::post('/olimpiadas/{id}/actualizar', 'OlimpiadaController@update');
 Router::post('/olimpiadas/{id}/eliminar', 'OlimpiadaController@delete');
 
-// 2. Módulo de Disciplinas y Reglas de Puntuación
-Router::get('/disciplinas', 'DisciplinaController@index');
-Router::get('/disciplinas/crear', 'DisciplinaController@create');
-Router::post('/disciplinas/guardar', 'DisciplinaController@store');
-Router::get('/disciplinas/{id}/editar', 'DisciplinaController@edit');
-Router::post('/disciplinas/{id}/actualizar', 'DisciplinaController@update');
-Router::post('/disciplinas/{id}/eliminar', 'DisciplinaController@delete');
+// 2. Módulo de Reglas de Puntuación (Deportes y Normas)
+Router::get('/reglas-puntuacion', 'ReglaPuntuacionController@index');
+Router::get('/reglas-puntuacion/crear', 'ReglaPuntuacionController@create');
+Router::post('/reglas-puntuacion/guardar', 'ReglaPuntuacionController@store');
+Router::get('/reglas-puntuacion/{id}/editar', 'ReglaPuntuacionController@edit');
+Router::post('/reglas-puntuacion/{id}/actualizar', 'ReglaPuntuacionController@update');
+Router::post('/reglas-puntuacion/{id}/eliminar', 'ReglaPuntuacionController@delete');
 
 // 3. Módulo de Sedes y Canchas
 Router::get('/sedes', 'SedeController@index');
@@ -74,34 +74,47 @@ Router::post('/sedes/{id}/actualizar', 'SedeController@update');
 Router::post('/sedes/{id}/eliminar', 'SedeController@delete');
 Router::get('/sedes/{id}/canchas', 'SedeController@canchas');
 Router::post('/sedes/{id}/canchas/guardar', 'SedeController@storeCancha');
+Router::post('/canchas/{id}/actualizar', 'SedeController@updateCancha');
 Router::post('/canchas/{id}/eliminar', 'SedeController@deleteCancha');
 
-// 4. Módulo de Delegaciones
+// 4. Módulo de Delegaciones (Institución)
 Router::get('/delegaciones', 'DelegacionController@index');
 Router::get('/delegaciones/crear', 'DelegacionController@create');
 Router::post('/delegaciones/guardar', 'DelegacionController@store');
+Router::get('/delegaciones/{id}', 'DelegacionController@show');
 Router::get('/delegaciones/{id}/editar', 'DelegacionController@edit');
 Router::post('/delegaciones/{id}/actualizar', 'DelegacionController@update');
 Router::post('/delegaciones/{id}/eliminar', 'DelegacionController@delete');
 
 // ==========================================
-// FASE 5: Torneos, Grupos, Equipos y Jugadores
+// Módulo: Delegación, Equipo y Disciplina
 // ==========================================
 
-// 1. Módulo de Torneos
-Router::get('/torneos', 'TorneoController@index');
-Router::get('/torneos/crear', 'TorneoController@create');
-Router::post('/torneos/guardar', 'TorneoController@store');
-Router::get('/torneos/{id}', 'TorneoController@show');
-Router::get('/torneos/{id}/editar', 'TorneoController@edit');
-Router::post('/torneos/{id}/actualizar', 'TorneoController@update');
-Router::post('/torneos/{id}/eliminar', 'TorneoController@delete');
+// 1. Módulo de Disciplinas (donde compiten Delegaciones y sus Equipos)
+Router::get('/disciplinas', 'DisciplinaController@index');
+Router::get('/disciplinas/crear', 'DisciplinaController@create');
+Router::post('/disciplinas/guardar', 'DisciplinaController@store');
+Router::get('/disciplinas/{id}', 'DisciplinaController@show');
+Router::get('/disciplinas/{id}/editar', 'DisciplinaController@edit');
+Router::post('/disciplinas/{id}/actualizar', 'DisciplinaController@update');
+Router::post('/disciplinas/{id}/eliminar', 'DisciplinaController@delete');
 
-// 2. Módulo de Gestión de Grupos
-Router::post('/torneos/{id}/grupos/guardar', 'GrupoController@store');
+// 2. Módulo de Gestión de Grupos por Disciplina
+Router::post('/disciplinas/{id}/grupos/guardar', 'GrupoController@store');
+Router::get('/api/disciplinas/{id}/grupos', 'EquipoController@gruposJson');
 Router::post('/grupos/asignar-equipo', 'GrupoController@asignarEquipo');
 Router::post('/grupos/desasignar-equipo/{id}', 'GrupoController@desasignarEquipo');
 Router::post('/grupos/{id}/eliminar', 'GrupoController@delete');
+
+// Alias de compatibilidad hacia DisciplinaController
+Router::get('/torneos', 'DisciplinaController@index');
+Router::get('/torneos/crear', 'DisciplinaController@create');
+Router::post('/torneos/guardar', 'DisciplinaController@store');
+Router::get('/torneos/{id}', 'DisciplinaController@show');
+Router::get('/torneos/{id}/editar', 'DisciplinaController@edit');
+Router::post('/torneos/{id}/actualizar', 'DisciplinaController@update');
+Router::post('/torneos/{id}/eliminar', 'DisciplinaController@delete');
+Router::post('/torneos/{id}/grupos/guardar', 'GrupoController@store');
 Router::get('/api/torneos/{id}/grupos', 'EquipoController@gruposJson');
 
 // 3. Módulo de Equipos
@@ -137,6 +150,7 @@ Router::post('/partidos/{id}/sets/guardar', 'PartidoController@guardarSet');
 Router::post('/partidos/{id}/sets/eliminar', 'PartidoController@eliminarSet');
 Router::post('/partidos/{id}/incidencias/guardar', 'PartidoController@guardarIncidencia');
 Router::post('/partidos/{id}/incidencias/eliminar', 'PartidoController@eliminarIncidencia');
+Router::get('/api/disciplinas/{id}/equipos', 'PartidoController@apiEquiposPorTorneo');
 Router::get('/api/torneos/{id}/equipos', 'PartidoController@apiEquiposPorTorneo');
 
 // ==========================================
@@ -161,6 +175,8 @@ Router::get('/api/posiciones/{id}', 'PosicionesController@apiTabla');
 // Medallero Olímpico Oficial
 Router::get('/medallero', 'MedalleroController@index');
 Router::get('/medallero/gestion', 'MedalleroController@gestion');
+Router::get('/medallero/disciplinas/{id}/asignar', 'MedalleroController@asignar');
+Router::post('/medallero/disciplinas/{id}/guardar', 'MedalleroController@guardarPodio');
 Router::get('/medallero/torneos/{id}/asignar', 'MedalleroController@asignar');
 Router::post('/medallero/torneos/{id}/guardar', 'MedalleroController@guardarPodio');
 Router::post('/medallero/{id}/eliminar', 'MedalleroController@eliminarMedalla');

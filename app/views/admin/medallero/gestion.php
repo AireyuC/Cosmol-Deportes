@@ -34,15 +34,7 @@
 <div class="content">
     <div class="container-fluid">
 
-        <?php if (!empty($flashMsg)): ?>
-            <div class="alert alert-<?php echo htmlspecialchars($flashType, ENT_QUOTES, 'UTF-8'); ?> alert-dismissible fade show" role="alert">
-                <i class="fas fa-info-circle mr-2"></i>
-                <?php echo htmlspecialchars($flashMsg, ENT_QUOTES, 'UTF-8'); ?>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        <?php endif; ?>
+
 
         <div class="card card-outline card-warning shadow-sm">
             <div class="card-header">
@@ -114,7 +106,7 @@
                                             <?php endif; ?>
                                         </td>
                                         <td class="text-right">
-                                            <a href="<?php echo BASE_URL; ?>/medallero/torneos/<?php echo (int)$t['id']; ?>/asignar" class="btn btn-sm btn-warning font-weight-bold">
+                                            <a href="<?php echo BASE_URL; ?>/medallero/disciplinas/<?php echo (int)$t['id']; ?>/asignar" class="btn btn-sm btn-warning font-weight-bold">
                                                 <i class="fas fa-award mr-1"></i> <?php echo $asignadas > 0 ? 'Editar Podio' : 'Asignar Podio'; ?>
                                             </a>
                                             <a href="<?php echo BASE_URL; ?>/posiciones?torneo_id=<?php echo (int)$t['id']; ?>" class="btn btn-sm btn-outline-info" title="Ver Posiciones">

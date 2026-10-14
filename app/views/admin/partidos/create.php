@@ -38,19 +38,19 @@
                         <?php echo CsrfHelper::field(); ?>
                         
                         <div class="card-body">
-                            <!-- Fila 1: Torneo y Grupo -->
+                            <!-- Fila 1: Disciplina y Grupo -->
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    <label for="torneo_id" class="font-weight-bold text-dark">Torneo <span class="text-danger">*</span></label>
+                                    <label for="torneo_id" class="font-weight-bold text-dark">Disciplina <span class="text-danger">*</span></label>
                                     <select name="torneo_id" id="torneo_id" class="form-control" required onchange="cargarEquiposTorneo(this.value);">
-                                        <option value="">-- Seleccionar Torneo --</option>
+                                        <option value="">-- Seleccionar Disciplina --</option>
                                         <?php foreach ($torneos as $t): ?>
                                             <option value="<?php echo e($t['id']); ?>" <?php echo ($torneoId == $t['id']) ? 'selected' : ''; ?>>
                                                 <?php echo e($t['nombre']); ?> (<?php echo e($t['disciplina_nombre']); ?> - <?php echo e($t['rama']); ?>)
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <small class="form-text text-muted">Seleccione el torneo para cargar los equipos habilitados.</small>
+                                    <small class="form-text text-muted">Seleccione la disciplina para cargar los equipos habilitados.</small>
                                 </div>
 
                                 <div class="col-md-6 form-group">
@@ -69,7 +69,7 @@
                             <!-- Fila 2: Fase y Jornada -->
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    <label for="fase" class="font-weight-bold text-dark">Fase del Torneo <span class="text-danger">*</span></label>
+                                    <label for="fase" class="font-weight-bold text-dark">Fase de la Competencia <span class="text-danger">*</span></label>
                                     <select name="fase" id="fase" class="form-control" required>
                                         <option value="Grupos" selected>Fase de Grupos</option>
                                         <option value="Octavos">Octavos de Final</option>
@@ -194,7 +194,7 @@ function cargarEquiposTorneo(torneoId) {
         return;
     }
 
-    fetch('<?php echo BASE_URL; ?>/api/torneos/' + torneoId + '/equipos')
+    fetch('<?php echo BASE_URL; ?>/api/disciplinas/' + torneoId + '/equipos')
         .then(function(res) { return res.json(); })
         .then(function(data) {
             if (data.success) {

@@ -51,8 +51,8 @@ $currentUri = Router::currentUri();
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/disciplinas" class="nav-link <?php echo (strpos($currentUri, '/disciplinas') === 0) ? 'active' : ''; ?>">
-                        <p>Disciplinas y Reglas</p>
+                    <a href="<?php echo BASE_URL; ?>/reglas-puntuacion" class="nav-link <?php echo (strpos($currentUri, '/reglas-puntuacion') === 0) ? 'active' : ''; ?>">
+                        <p>Reglas de Puntuación</p>
                     </a>
                 </li>
 
@@ -62,14 +62,14 @@ $currentUri = Router::currentUri();
                     </a>
                 </li>
 
-                <!-- SECCIÓN 2: Torneos y Equipos -->
+                <!-- SECCIÓN 2: Delegación y Equipo -->
                 <li class="nav-header nav-header-cosmol">
-                    <span class="nav-header-title">Torneos y Equipos</span>
+                    <span class="nav-header-title">Delegación y Equipo</span>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/torneos" class="nav-link <?php echo (strpos($currentUri, '/torneos') === 0) ? 'active' : ''; ?>">
-                        <p>Torneos y Grupos</p>
+                    <a href="<?php echo BASE_URL; ?>/disciplinas" class="nav-link <?php echo (strpos($currentUri, '/disciplinas') === 0) ? 'active' : ''; ?>">
+                        <p>Disciplina</p>
                     </a>
                 </li>
 

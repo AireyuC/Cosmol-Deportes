@@ -29,9 +29,7 @@
                             <th>Delegado Responsable</th>
                             <th>Teléfono</th>
                             <th class="text-center">Equipos</th>
-                            <?php if (AuthHelper::isAdmin()): ?>
-                                <th class="text-center" style="width: 160px;">Acciones</th>
-                            <?php endif; ?>
+                            <th class="text-center" style="width: 230px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,19 +55,22 @@
                                             <?php echo e($d['total_equipos']); ?> Equipos
                                         </span>
                                     </td>
-                                    <?php if (AuthHelper::isAdmin()): ?>
-                                        <td class="text-center">
-                                            <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo $d['id']; ?>/editar" class="btn btn-xs btn-cosmol font-weight-bold px-2 py-1" title="Editar">
+                                    <td class="text-center">
+                                        <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1 mr-1" title="Ver Historial de Partidos">
+                                            <i class="fas fa-history mr-1"></i> Historial
+                                        </a>
+                                        <?php if (AuthHelper::isAdmin()): ?>
+                                            <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>/editar" class="btn btn-xs btn-cosmol font-weight-bold px-2 py-1 mr-1" title="Editar">
                                                 Editar
                                             </a>
-                                            <form action="<?php echo BASE_URL; ?>/delegaciones/<?php echo $d['id']; ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar esta delegación?');">
+                                            <form action="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar esta delegación?');">
                                                 <?php echo CsrfHelper::field(); ?>
                                                 <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Eliminar">
                                                     Eliminar
                                                 </button>
                                             </form>
-                                        </td>
-                                    <?php endif; ?>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>

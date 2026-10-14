@@ -35,11 +35,11 @@
         <?php if (empty($delegaciones)): ?>
             <div class="alert alert-warning">
                 <i class="fas fa-exclamation-triangle mr-2"></i>
-                No hay delegaciones/equipos registrados en este torneo. Debe inscribir equipos antes de asignar medallas.
+                No hay delegaciones/equipos registrados en esta disciplina. Debe inscribir equipos antes de asignar medallas.
             </div>
         <?php else: ?>
 
-            <form action="<?php echo BASE_URL; ?>/medallero/torneos/<?php echo (int)$torneo['id']; ?>/guardar" method="POST">
+            <form action="<?php echo BASE_URL; ?>/medallero/disciplinas/<?php echo (int)$torneo['id']; ?>/guardar" method="POST">
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8'); ?>">
 
                 <div class="row">

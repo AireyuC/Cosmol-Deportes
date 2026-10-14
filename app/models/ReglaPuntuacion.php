@@ -29,14 +29,17 @@ class ReglaPuntuacion extends Model {
     public function saveForDisciplina($disciplinaId, $data) {
         $existing = $this->getByDisciplinaId($disciplinaId);
 
+        $formatoSets = !empty($data['formato_sets']) ? 1 : 0;
+        $permiteEmpate = !empty($data['permite_empate']) ? 1 : 0;
+
         $ruleData = [
             'pts_victoria'         => (int)$data['pts_victoria'],
-            'pts_empate'           => (int)$data['pts_empate'],
+            'pts_empate'           => $permiteEmpate && isset($data['pts_empate']) ? (int)$data['pts_empate'] : 0,
             'pts_derrota'          => (int)$data['pts_derrota'],
             'pts_derrota_ajustada' => isset($data['pts_derrota_ajustada']) ? (int)$data['pts_derrota_ajustada'] : 0,
-            'permite_empate'       => !empty($data['permite_empate']) ? 1 : 0,
-            'formato_sets'         => !empty($data['formato_sets']) ? 1 : 0,
-            'sets_para_ganar'      => isset($data['sets_para_ganar']) ? (int)$data['sets_para_ganar'] : 0
+            'permite_empate'       => $permiteEmpate,
+            'formato_sets'         => $formatoSets,
+            'sets_para_ganar'      => $formatoSets && isset($data['sets_para_ganar']) ? (int)$data['sets_para_ganar'] : 0
         ];
 
         if ($existing) {

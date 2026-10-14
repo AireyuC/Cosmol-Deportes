@@ -191,7 +191,7 @@ function cargarEquiposYPartidos(torneoId) {
         return;
     }
 
-    fetch('<?php echo BASE_URL; ?>/api/torneos/' + torneoId + '/equipos')
+    fetch('<?php echo BASE_URL; ?>/api/disciplinas/' + torneoId + '/equipos')
         .then(function(res) { return res.json(); })
         .then(function(data) {
             if (data.success) {

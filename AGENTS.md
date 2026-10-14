@@ -61,8 +61,8 @@ cosmol-deportes/
 │   │   ├── AuthController.php
 │   │   ├── DashboardController.php
 │   │   ├── OlimpiadaController.php
+│   │   ├── ReglaPuntuacionController.php
 │   │   ├── DisciplinaController.php
-│   │   ├── TorneoController.php
 │   │   ├── GrupoController.php
 │   │   ├── DelegacionController.php
 │   │   ├── EquipoController.php
@@ -102,8 +102,8 @@ cosmol-deportes/
 │   │   ├── admin/           # Vistas de gestión para el Comité Organizador (ADMIN)
 │   │   │   ├── dashboard/
 │   │   │   ├── olimpiadas/
+│   │   │   ├── reglas_puntuacion/
 │   │   │   ├── disciplinas/
-│   │   │   ├── torneos/
 │   │   │   ├── grupos/
 │   │   │   ├── delegaciones/
 │   │   │   ├── equipos/
@@ -317,14 +317,23 @@ El desarrollo del sistema se ejecuta bajo un estricto orden secuencial. A contin
   - Programación de jornadas, algoritmo anti-colisión de canchas/horarios y función interactiva **"Cómo llegar"** (Google Maps/GPS).
 - **Fase 6: Actas Oficiales y Resultados Reglamentarios**
   - Cierre de planillas, marcadores globales, cómputo de sets (vóley/básquet) y actualización atómica de clasificaciones.
-- **Fase 7: Régimen Disciplinario Olímpico y Portal Público**
-  - Registro de tarjetas/castigos, función de **Levantamiento / Indulto de Sanciones** con auditoría, y portal para el público (medallero, calendario y sedes).
-- **Fase 8: Disciplinas Recreativas Olímpicas y Auditoría Técnica**
-  - Integración nativa de **Karaoke**, **Billar** y **Cacho** con planillas de puntuación directa (sin sets), y resolución de inconsistencias PDO/UI.
+- **Fase 7: Régimen Disciplinario Olímpico y Control de Sanciones**
+  - Registro de tarjetas/castigos, inhabilitación automática de atletas en plantillas, y función de **Levantamiento / Indulto de Sanciones** con auditoría y trazabilidad reglamentaria.
+- **Fase 8: Disciplinas Recreativas Olímpicas y Cómputo de Posiciones**
+  - Integración nativa de **Karaoke**, **Billar** y **Cacho** con planillas de puntuación directa (sin sets), gestión del podio en el Medallero y resolución de inconsistencias PDO/UI.
 
 ### 8.2. Fase Actual de Trabajo:
-- **Fase 9: Reportes Ejecutivos Olímpico-Cooperativos, Certificaciones y Cierre**
-  - **Boletín Oficial del Medallero Olímpico:** Reporte consolidado de medallas y puntos por cooperativa, listo para impresión física (`print.css` y formato carta).
-  - **Planilla Oficial de Delegación por Cooperativa:** Documento que lista todos los trabajadores/atletas inscritos por disciplina y categoría.
-  - **Acta de Cierre Olímpico y Proclamación Oficial:** Resolución final de proclamación de la **Cooperativa Campeona General de las Olimpiadas**.
-  - **Auditoría Final PHP 7.3 y Manual de Despliegue:** Verificación con linter de compatibilidad estricta y guía paso a paso para el entorno XAMPP.
+- **Fase 9: Portal Público de Espectadores, Reportes Oficiales de Cooperativas y Cierre**
+  - **Portal Público Oficial para Espectadores y Familias (`views/public/`):**
+    - `home.php`: Portada pública de bienvenida olímpica con cooperativas participantes, accesos rápidos y estado del macro-evento.
+    - `medallero.php`: Medallero Olímpico oficial en vivo para el público (Oros 🥇, Platas 🥈, Bronces 🥉 y puntaje acumulado por cooperativa).
+    - `posiciones.php`: Consulta pública de tablas de posiciones por disciplina y fase de grupos.
+    - `calendario.php`: Consulta del fixture general (partidos programados, en juego y finalizados).
+    - `sedes.php`: Escenarios deportivos con botón interactivo GPS *"Cómo llegar"* desde el dispositivo móvil.
+  - **Reportes Ejecutivos e Impresiones Oficiales (`print.css`):**
+    - Boletín Oficial del Medallero por Cooperativa listo para imprimir en tamaño carta.
+    - Planilla Oficial de Delegación por Cooperativa (resumen de trabajadores inscritos por deporte).
+    - Acta de Cierre Olímpico y Proclamación Oficial de la Cooperativa Campeona General.
+  - **Auditoría Final PHP 7.3 y Manual de Despliegue (`Docs/INSTALACION.md`):**
+    - Verificación sintáctica con `php -l` en todo el proyecto para garantizar 0% de errores en XAMPP.
+    - Guía de instalación y restauración de base de datos para el evaluador/ingeniero.

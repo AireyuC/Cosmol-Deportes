@@ -27,7 +27,7 @@
                     <div class="col-md-5 my-1">
                         <label class="sr-only">Torneo</label>
                         <select name="torneo_id" class="form-control form-control-sm" onchange="this.form.submit()">
-                            <option value="">Todos los Torneos</option>
+                            <option value="">Todas las Disciplinas</option>
                             <?php foreach ($torneos as $tor): ?>
                                 <option value="<?php echo e($tor['id']); ?>" <?php echo ($filtroTorneo == $tor['id']) ? 'selected' : ''; ?>>
                                     <?php echo e($tor['nombre']); ?> (<?php echo e($tor['disciplina_nombre']); ?> - <?php echo e($tor['rama']); ?>)
@@ -67,7 +67,7 @@
                         <tr>
                             <th>Equipo</th>
                             <th>Delegación</th>
-                            <th>Torneo / Disciplina</th>
+                            <th>Disciplina</th>
                             <th class="text-center">Grupo</th>
                             <th class="text-center">Plantilla</th>
                             <th>Delegado / Contacto</th>
