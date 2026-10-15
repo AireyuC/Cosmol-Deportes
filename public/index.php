@@ -36,18 +36,30 @@ spl_autoload_register(function ($className) {
 // ==========================================
 // REGISTRO DE RUTAS PRINCIPALES
 // ==========================================
+// 1. PORTAL PÚBLICO INFORMATIVO (Libre Acceso - Sin Login)
+// ==========================================
+Router::get('/', 'PortalController@index');
+Router::get('/disciplina/{id}', 'PortalController@disciplina');
+Router::get('/portal/sedes', 'PortalController@sedes');
+Router::get('/portal/posiciones', 'PortalController@posiciones');
+Router::get('/portal/fixture', 'PortalController@fixture');
+Router::get('/portal/medallero', 'PortalController@medallero');
 
-// Autenticación de Usuarios
+// ==========================================
+// 2. AUTENTICACIÓN (Exclusiva para Administradores)
+// ==========================================
 Router::get('/login', 'AuthController@showLogin');
 Router::post('/login', 'AuthController@processLogin');
-Router::get('/registro', 'AuthController@showRegister');
-Router::post('/registro', 'AuthController@processRegister');
+Router::get('/registro', 'AuthController@showRegister'); // Deshabilitado
+Router::post('/registro', 'AuthController@processRegister'); // Deshabilitado
 Router::get('/logout', 'AuthController@logout');
 Router::get('/auth/logout', 'AuthController@logout');
 
-// Dashboard Principal
-Router::get('/', 'DashboardController@index');
+// ==========================================
+// 3. PANEL DE ADMINISTRACIÓN (Protegido para Rol ADMIN)
+// ==========================================
 Router::get('/dashboard', 'DashboardController@index');
+Router::get('/admin', 'DashboardController@index');
 
 // 1. Módulo de Olimpiadas
 Router::get('/olimpiadas', 'OlimpiadaController@index');

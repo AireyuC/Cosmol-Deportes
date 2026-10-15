@@ -12,6 +12,7 @@ require_once APP_PATH . '/models/Medallero.php';
 require_once APP_PATH . '/models/Partido.php';
 require_once APP_PATH . '/models/Equipo.php';
 require_once APP_PATH . '/models/Sancion.php';
+require_once APP_PATH . '/helpers/AuthHelper.php';
 
 class DashboardController extends Controller {
 
@@ -19,6 +20,8 @@ class DashboardController extends Controller {
      * Muestra la vista principal del dashboard
      */
     public function index() {
+        AuthHelper::requireAdmin();
+
         $olimpiadaModel = new Olimpiada();
         $disciplinaModel = new Disciplina();
         $delegacionModel = new Delegacion();

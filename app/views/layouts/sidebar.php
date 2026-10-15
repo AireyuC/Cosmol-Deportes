@@ -4,7 +4,7 @@ $currentUri = Router::currentUri();
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo Institucional -->
-    <a href="<?php echo BASE_URL; ?>/" class="brand-link">
+    <a href="<?php echo BASE_URL; ?>/dashboard" class="brand-link">
         <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL" class="brand-image">
         <span class="brand-text font-weight-bold">
             Cosmol <span class="brand-accent">Deportes</span>
@@ -26,9 +26,17 @@ $currentUri = Router::currentUri();
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 
+                <!-- Enlace al Portal Público -->
+                <li class="nav-item mb-2">
+                    <a href="<?php echo BASE_URL; ?>/" target="_blank" class="nav-link bg-primary text-white font-weight-bold shadow-sm" style="background-color: #0066B2 !important;">
+                        <i class="nav-icon fas fa-external-link-alt"></i>
+                        <p>Ver Portal Público</p>
+                    </a>
+                </li>
+
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/" class="nav-link <?php echo ($currentUri === '/' || $currentUri === '/dashboard') ? 'active' : ''; ?>">
+                    <a href="<?php echo BASE_URL; ?>/dashboard" class="nav-link <?php echo ($currentUri === '/dashboard') ? 'active' : ''; ?>">
                         <p>Dashboard</p>
                     </a>
                 </li>
