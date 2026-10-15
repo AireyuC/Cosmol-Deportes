@@ -10,12 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
-    <style>
-        :root { --cosmol-azul: #0066B2; --cosmol-fondo: #F8FAFC; }
-        body { font-family: 'Source Sans Pro', sans-serif; background-color: var(--cosmol-fondo); }
-        h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
-        .navbar-public { background: #FFFFFF; border-bottom: 2px solid #E2E8F0; }
-    </style>
+    <!-- Estilos Oficiales del Portal Público -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light navbar-public sticky-top">

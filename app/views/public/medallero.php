@@ -10,15 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
-    <style>
-        :root { --cosmol-azul: #0066B2; --cosmol-fondo: #F8FAFC; }
-        body { font-family: 'Source Sans Pro', sans-serif; background-color: var(--cosmol-fondo); }
-        h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
-        .navbar-public { background: #FFFFFF; border-bottom: 2px solid #E2E8F0; }
-        .badge-oro { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #FFF; font-weight: 700; border-radius: 50px; padding: 0.3rem 0.8rem; }
-        .badge-plata { background: linear-gradient(135deg, #94A3B8 0%, #64748B 100%); color: #FFF; font-weight: 700; border-radius: 50px; padding: 0.3rem 0.8rem; }
-        .badge-bronce { background: linear-gradient(135deg, #D97706 0%, #B45309 100%); color: #FFF; font-weight: 700; border-radius: 50px; padding: 0.3rem 0.8rem; }
-    </style>
+    <!-- Estilos Oficiales del Portal Público -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light navbar-public sticky-top">

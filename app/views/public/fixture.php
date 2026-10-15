@@ -10,14 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
-    <style>
-        :root { --cosmol-azul: #0066B2; --cosmol-fondo: #F8FAFC; }
-        body { font-family: 'Source Sans Pro', sans-serif; background-color: var(--cosmol-fondo); }
-        h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
-        .navbar-public { background: #FFFFFF; border-bottom: 2px solid #E2E8F0; }
-        .match-row { background: #FFFFFF; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 1rem; padding: 1.2rem; transition: all 0.2s ease; }
-        .match-row:hover { box-shadow: 0 4px 15px rgba(0, 102, 178, 0.08); }
-    </style>
+    <!-- Estilos Oficiales del Portal Público -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light navbar-public sticky-top">
@@ -99,9 +93,13 @@
                             <div><i class="fas fa-calendar mr-1"></i> <?php echo e($p['fecha_partido']); ?> <?php echo !empty($p['hora_partido']) ? substr($p['hora_partido'], 0, 5) : ''; ?></div>
                         </div>
                         <div class="col-md-6 text-center my-2 my-md-0">
+                            <?php 
+                                $nombreDiscNorm = mb_strtolower(trim($p['disciplina_nombre']), 'UTF-8');
+                                $esRecreativa = in_array($nombreDiscNorm, ['billar', 'cacho', 'karaoke']);
+                            ?>
                             <div class="d-flex justify-content-center align-items-center font-weight-bold" style="font-size: 1.15rem;">
                                 <span class="text-truncate px-2" style="max-width: 40%;"><?php echo e($p['local_nombre']); ?></span>
-                                <?php if ($p['estado'] === 'Finalizado'): ?>
+                                <?php if (!$esRecreativa && $p['estado'] === 'Finalizado'): ?>
                                     <span class="badge badge-primary px-3 py-1 mx-2" style="background-color: #0066B2; font-size: 1.2rem;">
                                         <?php echo (int)$p['marcador_local']; ?> - <?php echo (int)$p['marcador_visitante']; ?>
                                     </span>

@@ -78,6 +78,33 @@ class PortalController extends Controller {
         $disciplinas = [];
         try {
             $disciplinas = $this->disciplinaModel->getAll();
+
+            // Orden prioritario oficial para las disciplinas confirmadas
+            $ordenPrioridad = [
+                'futbol'     => 1,
+                'fútbol'     => 1,
+                'futsal'     => 2,
+                'básquetbol' => 3,
+                'basquetbol' => 3,
+                'básquet'    => 3,
+                'basquet'    => 3,
+                'voleibol'   => 4,
+                'voley'      => 4,
+                'cacho'      => 5,
+                'billar'     => 6,
+                'karaoke'    => 7
+            ];
+
+            usort($disciplinas, function($a, $b) use ($ordenPrioridad) {
+                $nA = mb_strtolower(trim($a['nombre']), 'UTF-8');
+                $nB = mb_strtolower(trim($b['nombre']), 'UTF-8');
+                $pA = isset($ordenPrioridad[$nA]) ? $ordenPrioridad[$nA] : 999;
+                $pB = isset($ordenPrioridad[$nB]) ? $ordenPrioridad[$nB] : 999;
+                if ($pA === $pB) {
+                    return strcmp($nA, $nB);
+                }
+                return ($pA < $pB) ? -1 : 1;
+            });
         } catch (Exception $e) {
             $disciplinas = [];
         }
@@ -125,14 +152,31 @@ class PortalController extends Controller {
             }
         }
 
-        // 6. Próximos partidos y resultados recientes
-        $proximosPartidos = [];
+        // 6. Clasificación de Partidos: Hoy, Ayer, Mañana y General
+        $fechaHoy    = date('Y-m-d');
+        $fechaAyer   = date('Y-m-d', strtotime('-1 day'));
+        $fechaManana = date('Y-m-d', strtotime('+1 day'));
+
+        $partidosHoy       = [];
+        $partidosAyer      = [];
+        $partidosManana    = [];
+        $proximosPartidos  = [];
         $ultimosResultados = [];
+        $todosPartidos     = [];
+
         try {
             $todosPartidos = $this->partidoModel->getAll();
-            $ahora = date('Y-m-d H:i:s');
             foreach ($todosPartidos as $p) {
-                $matchTime = $p['fecha_partido'] . ' ' . (!empty($p['hora_partido']) ? $p['hora_partido'] : '00:00:00');
+                // Clasificación estricta por fecha
+                if ($p['fecha_partido'] === $fechaHoy) {
+                    $partidosHoy[] = $p;
+                } elseif ($p['fecha_partido'] === $fechaAyer) {
+                    $partidosAyer[] = $p;
+                } elseif ($p['fecha_partido'] === $fechaManana) {
+                    $partidosManana[] = $p;
+                }
+
+                // Listas para compatibilidad general
                 if ($p['estado'] === 'Finalizado') {
                     if (count($ultimosResultados) < 6) {
                         $ultimosResultados[] = $p;
@@ -144,7 +188,11 @@ class PortalController extends Controller {
                 }
             }
         } catch (Exception $e) {
-            $proximosPartidos = [];
+            $todosPartidos     = [];
+            $partidosHoy       = [];
+            $partidosAyer      = [];
+            $partidosManana    = [];
+            $proximosPartidos  = [];
             $ultimosResultados = [];
         }
 
@@ -157,6 +205,13 @@ class PortalController extends Controller {
             'medallero'         => $medallero,
             'proximosPartidos'  => $proximosPartidos,
             'ultimosResultados' => $ultimosResultados,
+            'partidosHoy'       => $partidosHoy,
+            'partidosAyer'      => $partidosAyer,
+            'partidosManana'    => $partidosManana,
+            'todosPartidos'     => $todosPartidos,
+            'fechaHoy'          => $fechaHoy,
+            'fechaAyer'         => $fechaAyer,
+            'fechaManana'       => $fechaManana,
             'isAdminLogged'     => AuthHelper::isAdmin()
         ], null); // Renderizado autónomo de alto impacto visual
     }

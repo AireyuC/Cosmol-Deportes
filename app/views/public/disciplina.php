@@ -12,72 +12,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
 
-    <style>
-        :root {
-            --cosmol-azul: #0066B2;
-            --cosmol-azul-dark: #004D87;
-            --cosmol-celeste: #00A3E0;
-            --cosmol-fondo: #F8FAFC;
-        }
-        body {
-            font-family: 'Source Sans Pro', sans-serif;
-            background-color: var(--cosmol-fondo);
-            color: #1E293B;
-        }
-        h1, h2, h3, h4, h5 {
-            font-family: 'Outfit', sans-serif;
-        }
-        .navbar-public {
-            background: #FFFFFF;
-            border-bottom: 2px solid #E2E8F0;
-            box-shadow: 0 4px 15px rgba(0, 102, 178, 0.05);
-        }
-        .header-sport {
-            background: linear-gradient(135deg, #002D52 0%, #004D87 60%, #0066B2 100%);
-            color: #FFFFFF;
-            padding: 3.5rem 0 2.5rem 0;
-        }
-        .sport-badge-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: #FFFFFF;
-            margin-bottom: 1rem;
-        }
-        .card-custom {
-            border-radius: 14px;
-            border: 1px solid #E2E8F0;
-            background: #FFFFFF;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-        .card-header-custom {
-            background: #F8FAFC;
-            border-bottom: 1px solid #E2E8F0;
-            padding: 1.1rem 1.4rem;
-            font-weight: 700;
-        }
-        .btn-gps {
-            background: #10B981;
-            color: #FFFFFF;
-            font-weight: 600;
-            border-radius: 50px;
-            border: none;
-            padding: 0.35rem 0.9rem;
-            font-size: 0.85rem;
-        }
-        .btn-gps:hover {
-            background: #059669;
-            color: #FFFFFF;
-        }
-    </style>
+    <!-- Estilos Oficiales del Portal Público -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css">
 </head>
 <body>
 
