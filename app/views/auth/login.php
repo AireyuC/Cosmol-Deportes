@@ -108,6 +108,13 @@
                 </div>
             <?php endif; ?>
 
+            <?php if (Session::hasFlash('info')): ?>
+                <div class="alert alert-info py-2 px-3 text-sm mb-3">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <?php echo e(Session::getFlash('info')); ?>
+                </div>
+            <?php endif; ?>
+
             <!-- Formulario de Acceso Administrativo -->
             <form action="<?php echo BASE_URL; ?>/login" method="post">
                 <?php echo CsrfHelper::field(); ?>

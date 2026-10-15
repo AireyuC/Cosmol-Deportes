@@ -7,7 +7,7 @@
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="<?php echo $torneoId ? BASE_URL . '/torneos/' . $torneoId : BASE_URL . '/equipos'; ?>" class="btn btn-secondary font-weight-bold">
+                <a href="<?php echo $torneoId ? BASE_URL . '/disciplinas/' . $torneoId : BASE_URL . '/equipos'; ?>" class="btn btn-secondary font-weight-bold">
                     <i class="fas fa-arrow-left mr-1"></i>Volver
                 </a>
             </div>
@@ -123,7 +123,7 @@ function cargarGruposPorTorneo(torneoId) {
         return;
     }
 
-    fetch('<?php echo BASE_URL; ?>/api/torneos/' + torneoId + '/grupos')
+    fetch('<?php echo BASE_URL; ?>/api/disciplinas/' + torneoId + '/grupos')
         .then(function(response) { return response.json(); })
         .then(function(grupos) {
             selectGrupo.innerHTML = '<option value="">-- Sin Grupo (Asignar más tarde) --</option>';

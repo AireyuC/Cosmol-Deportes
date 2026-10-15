@@ -21,11 +21,11 @@
                 </span>
             </div>
             <div class="col-sm-5 text-right">
-                <a href="<?php echo BASE_URL; ?>/torneos" class="btn btn-secondary font-weight-bold mr-1">
+                <a href="<?php echo BASE_URL; ?>/disciplinas" class="btn btn-secondary font-weight-bold mr-1">
                     <i class="fa fa-arrow-left mr-1"></i> Volver
                 </a>
                 <?php if (AuthHelper::isAdmin()): ?>
-                    <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>/editar" class="btn btn-primary font-weight-bold">
+                    <a href="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($torneo['id']); ?>/editar" class="btn btn-primary font-weight-bold">
                         Editar
                     </a>
                 <?php endif; ?>
@@ -154,7 +154,7 @@
                 <div class="col-12">
                     <div class="card card-outline card-secondary py-5 text-center shadow-sm">
                         <i class="fas fa-layer-group fa-3x text-muted mb-3"></i>
-                        <h4 class="font-weight-bold text-dark">Aún no hay grupos creados para este torneo</h4>
+                        <h4 class="font-weight-bold text-dark">Aún no hay grupos creados para esta disciplina</h4>
                         <p class="text-muted">Crea grupos como <strong>Grupo A</strong>, <strong>Grupo B</strong> para organizar a los equipos participantes.</p>
                         <?php if (AuthHelper::isAdmin()): ?>
                             <div class="mt-2">
@@ -278,11 +278,11 @@
         <div class="modal-content">
             <div class="modal-header bg-warning text-dark">
                 <h5 class="modal-title font-weight-bold">
-                    <i class="fas fa-layer-group mr-2"></i> Crear Grupo en este Torneo
+                    <i class="fas fa-layer-group mr-2"></i> Crear Grupo en esta Disciplina
                 </h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form action="<?php echo BASE_URL; ?>/torneos/<?php echo e($torneo['id']); ?>/grupos/guardar" method="post">
+            <form action="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($torneo['id']); ?>/grupos/guardar" method="post">
                 <?php echo CsrfHelper::field(); ?>
                 <div class="modal-body">
                     <div class="form-group">

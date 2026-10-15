@@ -38,10 +38,10 @@
                         <?php echo CsrfHelper::field(); ?>
                         
                         <div class="card-body">
-                            <!-- Fila 1: Torneo y Grupo -->
+                            <!-- Fila 1: Disciplina y Grupo -->
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    <label for="torneo_id" class="font-weight-bold text-dark">Torneo <span class="text-danger">*</span></label>
+                                    <label for="torneo_id" class="font-weight-bold text-dark">Disciplina <span class="text-danger">*</span></label>
                                     <select name="torneo_id" id="torneo_id" class="form-control" required onchange="cargarEquiposTorneo(this.value);">
                                         <?php foreach ($torneos as $t): ?>
                                             <option value="<?php echo e($t['id']); ?>" <?php echo ($partido['torneo_id'] == $t['id']) ? 'selected' : ''; ?>>
@@ -187,7 +187,7 @@ function validarEquipos() {
 function cargarEquiposTorneo(torneoId) {
     if (!torneoId) return;
 
-    fetch('<?php echo BASE_URL; ?>/api/torneos/' + torneoId + '/equipos')
+    fetch('<?php echo BASE_URL; ?>/api/disciplinas/' + torneoId + '/equipos')
         .then(function(res) { return res.json(); })
         .then(function(data) {
             if (data.success) {

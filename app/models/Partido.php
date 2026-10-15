@@ -357,11 +357,121 @@ class Partido extends Model {
         $res = $this->fetch($sql, $params);
 
         return [
-            'total'       => (int)($res['total'] ?? 0),
-            'programados' => (int)($res['programados'] ?? 0),
-            'en_juego'    => (int)($res['en_juego'] ?? 0),
-            'finalizados' => (int)($res['finalizados'] ?? 0),
-            'suspendidos' => (int)($res['suspendidos'] ?? 0)
+            'total'       => isset($res['total']) ? (int)$res['total'] : 0,
+            'programados' => isset($res['programados']) ? (int)$res['programados'] : 0,
+            'en_juego'    => isset($res['en_juego']) ? (int)$res['en_juego'] : 0,
+            'finalizados' => isset($res['finalizados']) ? (int)$res['finalizados'] : 0,
+            'suspendidos' => isset($res['suspendidos']) ? (int)$res['suspendidos'] : 0
         ];
+    }
+
+    /**
+     * Obtiene el historial completo de partidos de todos los equipos de una delegación
+     *
+     * @param int $delegacionId
+     * @param int|null $torneoId
+     * @param string|null $estado
+     * @return array
+     */
+    public function getHistorialPorDelegacion($delegacionId, $torneoId = null, $estado = null) {
+        $delegacionId = (int)$delegacionId;
+        $params = [
+            'del_local'     => $delegacionId,
+            'del_visitante' => $delegacionId
+        ];
+
+        $where = ["(el.delegacion_id = :del_local OR ev.delegacion_id = :del_visitante)"];
+
+        if ($torneoId !== null && (int)$torneoId > 0) {
+            $where[] = "p.torneo_id = :torneo_id";
+            $params['torneo_id'] = (int)$torneoId;
+        }
+
+        if (!empty($estado)) {
+            $where[] = "p.estado = :estado";
+            $params['estado'] = $estado;
+        }
+
+        $whereSql = "WHERE " . implode(' AND ', $where);
+
+        $sql = "SELECT p.*,
+                       t.nombre AS torneo_nombre, t.rama AS torneo_rama, t.tipo_torneo,
+                       disc.id AS disciplina_id, disc.nombre AS disciplina_nombre, disc.icono AS disciplina_icono,
+                       el.nombre AS local_nombre, el.nombre_corto AS local_corto, el.logo_url AS local_logo, el.delegacion_id AS local_delegacion_id,
+                       dl.nombre AS delegacion_local_nombre, dl.alias AS delegacion_local_alias, dl.color_representativo AS delegacion_local_color,
+                       ev.nombre AS visitante_nombre, ev.nombre_corto AS visitante_corto, ev.logo_url AS visitante_logo, ev.delegacion_id AS visitante_delegacion_id,
+                       dv.nombre AS delegacion_visitante_nombre, dv.alias AS delegacion_visitante_alias, dv.color_representativo AS delegacion_visitante_color,
+                       c.nombre_cancha,
+                       s.nombre AS sede_nombre, s.direccion AS sede_direccion
+                FROM partidos p
+                INNER JOIN torneos t ON p.torneo_id = t.id
+                INNER JOIN disciplinas disc ON t.disciplina_id = disc.id
+                INNER JOIN equipos el ON p.equipo_local_id = el.id
+                INNER JOIN delegaciones dl ON el.delegacion_id = dl.id
+                INNER JOIN equipos ev ON p.equipo_visitante_id = ev.id
+                INNER JOIN delegaciones dv ON ev.delegacion_id = dv.id
+                LEFT JOIN canchas c ON p.cancha_id = c.id
+                LEFT JOIN sedes s ON c.sede_id = s.id
+                {$whereSql}
+                ORDER BY p.fecha_partido DESC, p.hora_partido DESC, p.id DESC";
+
+        $partidos = $this->fetchAll($sql, $params);
+
+        // Procesar resultado para cada partido en relación con la delegación consultada
+        foreach ($partidos as &$p) {
+            $esLocal = ((int)$p['local_delegacion_id'] === $delegacionId);
+            $p['es_local'] = $esLocal;
+
+            if ($esLocal) {
+                $p['mi_equipo_nombre']    = $p['local_nombre'];
+                $p['rival_equipo_nombre'] = $p['visitante_nombre'];
+                $p['rival_delegacion']    = $p['delegacion_visitante_nombre'];
+                $p['rival_alias']         = $p['delegacion_visitante_alias'];
+                $p['rival_color']         = $p['delegacion_visitante_color'];
+                $p['mis_goles']           = $p['marcador_local'];
+                $p['rival_goles']         = $p['marcador_visitante'];
+            } else {
+                $p['mi_equipo_nombre']    = $p['visitante_nombre'];
+                $p['rival_equipo_nombre'] = $p['local_nombre'];
+                $p['rival_delegacion']    = $p['delegacion_local_nombre'];
+                $p['rival_alias']         = $p['delegacion_local_alias'];
+                $p['rival_color']         = $p['delegacion_local_color'];
+                $p['mis_goles']           = $p['marcador_visitante'];
+                $p['rival_goles']         = $p['marcador_local'];
+            }
+
+            if ($p['estado'] === 'Finalizado' || $p['estado'] === 'WO') {
+                $mg = (int)$p['mis_goles'];
+                $rg = (int)$p['rival_goles'];
+                if ($mg > $rg) {
+                    $p['resultado_tipo']  = 'VICTORIA';
+                    $p['resultado_badge'] = 'badge-success';
+                    $p['resultado_texto'] = 'Victoria';
+                } elseif ($mg < $rg) {
+                    $p['resultado_tipo']  = 'DERROTA';
+                    $p['resultado_badge'] = 'badge-danger';
+                    $p['resultado_texto'] = 'Derrota';
+                } else {
+                    $p['resultado_tipo']  = 'EMPATE';
+                    $p['resultado_badge'] = 'badge-warning';
+                    $p['resultado_texto'] = 'Empate';
+                }
+            } elseif ($p['estado'] === 'En_Juego') {
+                $p['resultado_tipo']  = 'EN_JUEGO';
+                $p['resultado_badge'] = 'badge-primary';
+                $p['resultado_texto'] = 'En Juego';
+            } elseif ($p['estado'] === 'Suspendido') {
+                $p['resultado_tipo']  = 'SUSPENDIDO';
+                $p['resultado_badge'] = 'badge-secondary';
+                $p['resultado_texto'] = 'Suspendido';
+            } else {
+                $p['resultado_tipo']  = 'PROGRAMADO';
+                $p['resultado_badge'] = 'badge-info';
+                $p['resultado_texto'] = 'Programado';
+            }
+        }
+        unset($p);
+
+        return $partidos;
     }
 }

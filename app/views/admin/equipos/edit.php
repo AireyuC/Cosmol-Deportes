@@ -63,9 +63,9 @@
                             </select>
                         </div>
 
-                        <!-- Torneo de Competencia -->
+                        <!-- Disciplina de Competencia -->
                         <div class="col-md-6 form-group">
-                            <label for="torneo_id">Torneo en el que Compite <span class="text-danger">*</span></label>
+                            <label for="torneo_id">Disciplina en la que Compite <span class="text-danger">*</span></label>
                             <select name="torneo_id" id="torneo_id" class="form-control" required onchange="cargarGruposPorTorneo(this.value)">
                                 <?php foreach ($torneos as $tor): ?>
                                     <option value="<?php echo e($tor['id']); ?>" <?php echo ($equipo['torneo_id'] == $tor['id']) ? 'selected' : ''; ?>>
@@ -133,7 +133,7 @@ function cargarGruposPorTorneo(torneoId) {
         return;
     }
 
-    fetch('<?php echo BASE_URL; ?>/api/torneos/' + torneoId + '/grupos')
+    fetch('<?php echo BASE_URL; ?>/api/disciplinas/' + torneoId + '/grupos')
         .then(function(response) { return response.json(); })
         .then(function(grupos) {
             selectGrupo.innerHTML = '<option value="">-- Sin Grupo Asignado --</option>';

@@ -52,7 +52,6 @@ class Router {
     }
 
     /**
-    /**
      * Obtiene la URI limpia de la solicitud actual
      *
      * @return string

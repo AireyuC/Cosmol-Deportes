@@ -106,7 +106,7 @@ class EquipoController extends Controller {
             Session::setFlash('success', 'Equipo "' . e($_POST['nombre']) . '" registrado correctamente.');
 
             if (!empty($_POST['volver_a_torneo'])) {
-                $this->redirect('/torneos/' . (int)$_POST['torneo_id']);
+                $this->redirect('/disciplinas/' . (int)$_POST['torneo_id']);
             } else {
                 $this->redirect('/equipos');
             }

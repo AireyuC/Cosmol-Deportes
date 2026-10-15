@@ -171,7 +171,7 @@ class PartidoController extends Controller {
             Session::setFlash('success', 'Partido programado exitosamente en el fixture.');
 
             if (!empty($_POST['volver_a_torneo'])) {
-                $this->redirect('/torneos/' . (int)$_POST['torneo_id']);
+                $this->redirect('/disciplinas/' . (int)$_POST['torneo_id']);
             } else {
                 $this->redirect('/partidos/' . $nuevoId);
             }

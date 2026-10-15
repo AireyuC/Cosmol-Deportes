@@ -10,8 +10,8 @@
                 </span>
             </div>
             <div class="col-sm-5 text-right">
-                <a href="<?php echo BASE_URL; ?>/torneos/<?php echo e($equipo['torneo_id']); ?>" class="btn btn-outline-primary font-weight-bold mr-1">
-                    Ver Torneo
+                <a href="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($equipo['torneo_id']); ?>" class="btn btn-outline-primary font-weight-bold mr-1">
+                    Ver Disciplina
                 </a>
                 <a href="<?php echo BASE_URL; ?>/equipos" class="btn btn-secondary font-weight-bold mr-1">
                     Equipos

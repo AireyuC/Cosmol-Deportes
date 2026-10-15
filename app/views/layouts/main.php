@@ -45,6 +45,16 @@ require_once __DIR__ . '/sidebar.php';
                 </button>
             </div>
         <?php endif; ?>
+
+        <?php if (Session::hasFlash('info')): ?>
+            <div class="alert alert-info alert-dismissible fade show shadow-sm" role="alert">
+                <i class="fas fa-info-circle mr-2"></i>
+                <?php echo e(Session::getFlash('info')); ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif; ?>
     </div>
 
     <!-- Contenido Principal Inyectado por la Vista -->
