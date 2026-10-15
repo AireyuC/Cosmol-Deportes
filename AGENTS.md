@@ -4,6 +4,7 @@ Este documento constituye la **especificación técnica oficial, contexto funcio
 
 ---
 
+<<<<<<< HEAD
 ## 1. Visión General del Proyecto: Sistema de Olimpiadas Inter-Cooperativas e Institucionales COSMOL
 
 **Cosmol-Deportes** es la plataforma web oficial de la **Cooperativa de Servicios Públicos COSMOL R.L.** diseñada para la administración, programación, control disciplinario, cálculo de resultados, difusión y premiación de sus **Olimpiadas Deportivas y Recreativas Institucionales e Inter-Cooperativas**. A este evento concurren delegaciones deportivas y representantes de cooperativas hermanas (ej. **COSMOL R.L.**, **SAGUAPAC R.L.**, **CRE R.L.**, **COTAS R.L.**) y filiales de distintos departamentos del país.
@@ -23,6 +24,24 @@ Este documento constituye la **especificación técnica oficial, contexto funcio
 6. **Estructura Interna por Disciplina:** Fase de grupos (`Grupo A`, `Grupo B`, etc.), liguillas y playoffs de eliminación directa con cómputo de posiciones automático.
 7. **Régimen Disciplinario con Espíritu de Confraternización:** Control riguroso de amonestaciones, expulsiones y suspensiones, con facultad administrativa para **anotar y levantar/quitar sanciones** (indulto olímpico o apelación fundamentada con registro de auditoría).
 8. **Geolocalización GPS de Sedes y Canchas ("Cómo llegar"):** Herramienta interactiva para que los atletas, delegaciones visitantes de otros departamentos y familias puedan trazar su ruta en tiempo real hacia las canchas y recintos deportivos vía Google Maps.
+=======
+## 1. Visión General del Proyecto: Sistema de Olimpiadas Deportivas COSMOL
+
+**Cosmol-Deportes** es la plataforma web oficial de la **Cooperativa de Servicios Públicos COSMOL R.L.** para la gestión, difusión y seguimiento de sus **Olimpiadas Deportivas y Recreativas Institucionales e Inter-Cooperativas**. A este evento concurren delegaciones deportivas de distintas cooperativas y departamentos del país (ej. **COSMOL R.L.**, **SAGUAPAC R.L.**, **CRE R.L.**, **COTAS R.L.**, filiales y áreas institucionales).
+
+### Arquitectura Dual del Sistema:
+1. **Portal Web Informativo Público (Sin Login):** Cualquier usuario (deportista, familiar, delegado o público en general) puede acceder libremente para conocer el desarrollo de la olimpiada en tiempo real. Dispone de vistas y secciones por disciplina (Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc.) con datos de sedes, rutas GPS ("Cómo llegar"), fixture, resultados y tablas de posiciones.
+2. **Panel de Gestión y Control Administrativo (AdminLTE 3):** Exclusivo para el comité organizador y administradores (`ADMIN`). Es el único rol que realiza login en el sistema.
+
+### Características Clave de las Olimpiadas:
+1. **Macro-Evento Olímpico:** Evento central (*"Olimpiadas Cosmol 2026"*) que engloba simultáneamente múltiples disciplinas deportivas tradicionales y recreativas.
+2. **Delegaciones y Cooperativas:** Equipos que representan a las cooperativas e instituciones participantes a lo largo de todas las disciplinas.
+3. **Múltiples Disciplinas y Ramas:** Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc., en ramas Masculino, Femenino y Mixto.
+4. **Medallero General / Clasificación Olímpica Global:** Cálculo en tiempo real de medallas (Oro, Plata, Bronce) y puntaje acumulado por delegación para proclamar al *Campeón Olímpico General*.
+5. **Estructura Interna por Disciplina:** Fase de grupos, liguillas y playoffs de eliminación directa con tablas de posiciones automáticas.
+6. **Régimen Disciplinario:** Control de amonestaciones, expulsiones y suspensiones, con función administrativa para **anotar y levantar/quitar sanciones** (indulto por confraternización).
+7. **Geolocalización de Sedes y Rutas GPS ("Cómo llegar"):** Herramienta interactiva para que las delegaciones visitantes puedan trazar su ruta en tiempo real hacia las canchas y recintos deportivos.
+>>>>>>> 5148561467d1747317a3c61ea348fa762f5949e6
 
 ---
 
@@ -148,16 +167,21 @@ cosmol-deportes/
 
 ## 4. Roles de Usuario y Control de Acceso
 
+<<<<<<< HEAD
 ### 4.1. Regla Mandatoria de Autenticación: Rol Administrador (ADMIN) - Comité Organizador
+=======
+### 4.1. Regla Mandatoria: Solo el Administrador (ADMIN) Inicia Sesión
+>>>>>>> 5148561467d1747317a3c61ea348fa762f5949e6
 El sistema aplica una política estricta de autenticación y permisos:
 - **SOLO los usuarios con rol `ADMIN` pueden iniciar sesión** en la plataforma.
 - Cualquier intento de inicio de sesión por usuarios con rol distinto a `ADMIN` es bloqueado de inmediato con un mensaje explícito de denegación de acceso.
 - El formulario de inicio de sesión (`/login`) está adaptado exclusivamente como **Acceso Administrativo** del Comité Organizador.
 - El registro público de cuentas (`/registro`) está **deshabilitado**, ya que el público en general no requiere cuenta para consultar la información del campeonato.
-- Todas las rutas administrativas (`/dashboard`, `/torneos`, `/sedes`, `/partidos`, etc.) exigen rol `ADMIN` mediante `AuthHelper::requireAdmin()`.
+- Todas las rutas administrativas (`/dashboard`, `/disciplinas`, `/sedes`, `/partidos`, etc.) exigen rol `ADMIN` mediante `AuthHelper::requireAdmin()`.
 - En caso de que un usuario no autenticado intente acceder a una ruta administrativa, es redirigido a `/login` con una alerta informativa.
 
 **Facultades del Rol Administrador:**
+<<<<<<< HEAD
 - Crear y gestionar la **Olimpiada Activa** (fechas oficiales, lema, sedes habilitadas).
 - Configurar el catálogo de **Disciplinas Deportivas y Recreativas** (Fútbol, Futsal, Básquet, Vóley, Karaoke, Billar, Cacho) y sus reglas de puntuación.
 - Administrar el registro de **Cooperativas Participantes (Delegaciones)** con sus directivos y colores.
@@ -170,10 +194,25 @@ El sistema aplica una política estricta de autenticación y permisos:
 - Programar el **Fixture Maestro**: asignación de fechas, horas, sedes y canchas con validación anti-colisión.
 - Cargar resultados oficiales (marcadores globales, detalle de sets, incidencias o puntos de jurado en juegos recreativos).
 - Gestionar y proclamar el **Medallero Olímpico Oficial** y la premiación de la Cooperativa Campeona General.
+=======
+- Crear y gestionar la **Olimpiada Activa** (fechas, lema, sedes habilitadas).
+- Configurar las **Disciplinas Deportivas y Reglas de Puntuación** (Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc.).
+- Crear disciplinas/competencias, definir categorías (Masculino/Femenino/Mixto) y modalidad (Liga, Grupos + Llaves, Eliminación directa).
+- **Crear grupos** (Grupo A, Grupo B, etc.) y sembrar o sortear a los equipos representativos de cada cooperativa.
+- Registrar **Delegaciones (Cooperativas)** y **Equipos**.
+- Registrar y administrar la **nómina de Jugadores** por equipo (datos personales, dorsal, posición, foto).
+- Gestionar **Sanciones Disciplinarias**:
+  - Registrar sanciones (tarjetas amarillas, rojas, fechas de suspensión, faltas graves).
+  - **Quitar / Levantar sanciones:** Función especial para anular sanciones o marcar indulto por confraternización con registro de motivo oficial.
+- Generar y administrar el **Fixture**: asignación de fechas, horas, sedes y canchas con validación anti-colisión.
+- Cargar resultados oficiales (marcadores globales, detalle de sets, puntos de jurado en juegos recreativos).
+- Controlar el **Medallero Olímpico** y la tabla acumulada por delegación.
+>>>>>>> 5148561467d1747317a3c61ea348fa762f5949e6
 
 ### 4.2. Portal Público: Visitantes, Deportistas y Delegaciones de Cooperativas (Libre Acceso - Sin Login)
 Cualquier visitante, trabajador, deportista, familia o delegado de las cooperativas tiene acceso libre, inmediato y sin restricciones al **Portal Informativo de las Olimpiadas COSMOL**:
 - No requiere registrarse ni ingresar contraseñas.
+<<<<<<< HEAD
 - Acceso directo a la portada pública principal (`/`) optimizada para móviles y computadoras.
 - Consulta y visualización interactiva del **Medallero Olímpico Inter-Cooperativas** en tiempo real (Oro, Plata, Bronce y Puntos acumulados).
 - Navegación por disciplinas deportivas y recreativas (Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc.).
@@ -183,6 +222,14 @@ Cualquier visitante, trabajador, deportista, familia o delegado de las cooperati
 - Consulta de plantillas de atletas por cooperativa y tabla de goleadores/figuras.
 - Consulta del boletín oficial de sanciones y resoluciones disciplinarias.
 - Botón destacado de **"Ingresar / Iniciar Sesión"** en la barra superior para que el Administrador acceda al panel de control.
+=======
+- Acceso directo a la página principal (`/`) con diseño optimizado para computadoras y teléfonos móviles.
+- Navegación por disciplinas deportivas (Fútbol, Futsal, Básquet, Voleibol, Billar, Karaoke, Cacho, etc.).
+- Visualización de Sedes, Canchas y trazado interactivo de rutas GPS (**"Cómo llegar"** con Google Maps desde su ubicación actual).
+- Consulta de **tablas de posiciones en vivo**, fixture de partidos, cronograma por fechas y resultados recientes.
+- Consulta del **Medallero Olímpico General** y podios por disciplina.
+- En la barra de navegación y cabecera de la página principal pública se incluye un botón destacado de **"Ingresar / Iniciar Sesión"** para que el Administrador acceda al panel.
+>>>>>>> 5148561467d1747317a3c61ea348fa762f5949e6
 
 ---
 
@@ -335,39 +382,62 @@ Toda la interfaz debe seguir el estándar visual de **AdminLTE 3**:
 
 ---
 
-## 8. Estado de Ejecución y Hoja de Ruta Consolidada (Roadmap Oficial)
+## 8. Guía de Ejecución Modular y Roadmap del Proyecto
 
-El desarrollo del sistema se ejecuta bajo un estricto orden secuencial y modular:
+El desarrollo del sistema sigue una secuencia ordenada y progresiva:
 
-### 8.1. Fases Concluidas y Consolidadas:
-- **Fase 1: Configuración Base y Base de Datos**
-  - Entorno PHP 7.3 nativo, Front Controller `public/index.php`, `.htaccess` y conexión PDO segura.
-  - Script SQL `database/schema.sql` y datos semilla `database/seeds.sql` con soporte para olimpiadas, disciplinas tradicionales y recreativas, sedes, grupos, jugadores y régimen disciplinario.
-- **Fase 2: Layout Maestro AdminLTE 3 y Control de Roles Estricto**
-  - Plantilla base AdminLTE 3 (`navbar`, `sidebar`, `footer`, `main`), login administrativo y helpers de seguridad (`CsrfHelper`, `Session`, `AuthHelper`).
-  - **Regla Estricta de Acceso:** SOLO los administradores (`ADMIN`) pueden hacer login. Registro público deshabilitado; visitantes navegan libremente el portal público.
-- **Fase 3: Macro-Evento Olímpico, Sedes y Cooperativas (Delegaciones)**
-  - CRUD de Olimpiada activa, Sedes/Canchas con coordenadas geográficas y Cooperativas matrices (`COSMOL R.L.`, `SAGUAPAC R.L.`, etc.).
-- **Fase 4: Competencias por Disciplina, Grupos y Atletas**
-  - Configuración de ramas y modalidades, Fase de Grupos (`Grupo A`, `Grupo B`), asignación de equipos y nómina de atletas con documento, dorsal y fotografía.
-- **Fase 5: Fixture Inteligente y Geolocalización GPS**
-  - Programación de jornadas, algoritmo anti-colisión de canchas/horarios y función interactiva **"Cómo llegar"** (Google Maps/GPS).
-- **Fase 6: Actas Oficiales y Resultados Reglamentarios**
-  - Cierre de planillas, marcadores globales, cómputo de sets (vóley/básquet) y actualización atómica de clasificaciones.
-- **Fase 7: Régimen Disciplinario Olímpico y Control de Sanciones**
-  - Registro de tarjetas/castigos, inhabilitación automática de atletas en plantillas, y función de **Levantamiento / Indulto de Sanciones** con auditoría y trazabilidad reglamentaria.
-- **Fase 8: Disciplinas Recreativas de Salón (Karaoke, Billar, Cacho) y Medallero**
-  - Integración nativa de **Karaoke**, **Billar** y **Cacho** con planillas de puntuación directa (sin sets), gestión del podio en el Medallero Olímpico y resolución de inconsistencias PDO/UI.
+### 8.1. Fases Concluidas y Consolidadas (Gestión Administrativa):
+1. **Fase 1: Configuración Base y Base de Datos** *(Completada)*
+   - Conexión PDO en `app/config/` y arquitectura base.
+   - Script SQL `database/schema.sql` y datos semilla `database/seeds.sql` con soporte para olimpiadas, disciplinas tradicionales y recreativas, sedes, grupos, jugadores y régimen disciplinario.
+2. **Fase 2: Arquitectura MVC, Layout AdminLTE 3 y Control de Roles Estricto** *(Completada)*
+   - Front Controller `public/index.php`, router limpio y `.htaccess`.
+   - Layout AdminLTE 3 (`head`, `navbar`, `sidebar`, `footer`).
+   - **Regla Estricta de Acceso:** **SOLO los administradores (`ADMIN`) pueden hacer login.**
+   - Registro público deshabilitado. Redirección automática de visitantes no autenticados al login administrativo o al portal público.
+3. **Fase 3: Módulos de Gestión Olímpica, Equipos y Jugadores** *(Completada)*
+   - CRUD de Olimpiadas, Disciplinas (Competencias y Reglas de Puntuación) y Sedes/Canchas con coordenadas geográficas.
+   - Creación de Grupos y siembra de equipos representativos por cooperativa.
+   - CRUD de Delegaciones, Equipos y **registro de Jugadores** con dorsales y fotografías.
+4. **Fase 4: Fixture Inteligente, Partidos y Régimen Disciplinario** *(Completada)*
+   - Fixture interactivo con algoritmo anti-colisión por grupos y fases eliminatorias.
+   - Actas de partidos, sets, marcadores e incidencias para deportes reglamentarios y juegos recreativos (Karaoke, Billar, Cacho).
+   - **Control Disciplinario:** Registro de amonestaciones y función para **quitar/levantar sanciones (indulto)** con auditoría.
+5. **Fase 5: Tablas de Posiciones y Medallero Olímpico Administrativo** *(Completada)*
+   - Motor de cómputo dinámico de posiciones por disciplina (Fútbol, Futsal, Básquetbol, Voleibol, etc.).
+   - Panel administrativo del Medallero Olímpico Oficial y asignación de podios.
 
 ---
 
-### 8.2. Portal Informativo Público y Entregables Actuales (`app/views/public/`):
-- **Portada Principal (`home.php` / `index.php`):** Bienvenida olímpica institucional con cooperativas participantes, accesos rápidos, resumen estadístico y medallero en vivo.
-- **Medallero Olímpico Público (`medallero.php`):** Medallero oficial en tiempo real con desglose de Oros 🥇, Platas 🥈, Bronces 🥉 y puntaje acumulado por cooperativa.
-- **Posiciones por Disciplina y Grupo (`posiciones.php`):** Consulta pública de tablas de clasificaciones dinámicas.
-- **Fixture y Calendario (`calendario.php`):** Consulta interactiva del fixture general (partidos programados, en juego y finalizados).
-- **Sedes y Rutas GPS ("Cómo llegar") (`sedes.php`):** Escenarios deportivos con botón interactivo GPS vía `navigator.geolocation.getCurrentPosition()` hacia Google Maps.
-- **Vistas Específicas por Disciplina (`/disciplina/{id}`):** Secciones dedicadas para cada disciplina con información de sedes, grupos, calendario y reglas.
+### 8.2. Fase 6: Portal Informativo Público de Olimpiadas COSMOL (`app/views/public/`):
+Esta fase garantiza que los deportistas y visitantes cuenten con la mejor experiencia informativa de libre acceso:
+- **Paso 6.1: Roles y Permisos (Solo Admin Login) y Enrutamiento Base** *(Completado)*
+  - `AuthController` valida estrictamente `user['rol'] === 'ADMIN'`.
+  - Bloqueo de inicio de sesión a usuarios comunes con mensaje explicativo.
+  - Formulario de login adaptado como **Acceso Administrativo**.
+  - Botón visible y elegante de "Iniciar Sesión" (Acceso Admin) en la cabecera del portal público.
+  - La ruta raíz `/` sirve directamente el Portal Informativo público (`PortalController@index`).
+  - El panel administrativo queda protegido bajo `/dashboard` mediante `AuthHelper::requireAdmin()`.
+- **Paso 6.2: Portada Informativa Principal (`/` y `home.php` / `index.php`)** *(Completado)*
+  - Hero banner con lema y bienvenida a las delegaciones participantes de diferentes departamentos.
+  - Resumen estadístico (disciplinas, delegaciones, sedes, encuentros).
+  - Parrilla interactiva de disciplinas deportivas con accesos a su información respectiva.
+  - Medallero olímpico general en vivo.
+  - Resumen de sedes y mapa de ruta GPS.
+  - Próximos partidos y resultados recientes.
+- **Paso 6.3: Vistas Dedicadas por Disciplina Deportiva (`/disciplina/{id}`)** *(Completado)*
+  - Secciones individuales para cada disciplina: Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc.
+  - Información de sedes y canchas específicas con botón GPS **"Cómo llegar"**.
+  - Tablas de posiciones por grupos de la disciplina.
+  - Fixture y calendario de partidos de la disciplina con marcadores en tiempo real.
+  - Reglas de puntuación aplicadas.
+- **Paso 6.4: Módulo de Sedes y Navegación GPS ("Cómo llegar")** *(Completado)*
+  - Vista general de sedes (`/portal/sedes`).
+  - Activación de `navigator.geolocation.getCurrentPosition()` para abrir la ruta en Google Maps desde la posición actual del usuario hasta la cancha correspondiente.
+- **Paso 6.5: Vistas Públicas de Tablas de Posiciones, Fixture y Medallero** *(Completado)*
+  - Tablas de Posiciones por grupo (`/portal/posiciones`).
+  - Fixture general con filtros por disciplina, estado y fecha (`/portal/fixture`).
+  - Medallero Olímpico General y podios por disciplina (`/portal/medallero`).
 
 ---
 
