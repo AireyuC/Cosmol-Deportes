@@ -82,10 +82,10 @@
         </div>
 
         <!-- Filtros de Búsqueda -->
-        <div class="card card-cosmol shadow-sm mb-4">
+        <div class="card shadow-sm mb-4">
             <div class="card-header py-2">
                 <h3 class="card-title text-sm font-weight-bold text-dark mb-0">
-                    <i class="fas fa-filter text-muted mr-1"></i> Filtrar Cronograma
+                    <i class="fas fa-filter text-muted mr-1"></i> Filtrar Cronogramas
                 </h3>
             </div>
             <div class="card-body py-2">
