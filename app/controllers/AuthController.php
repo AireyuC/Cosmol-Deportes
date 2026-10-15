@@ -23,12 +23,12 @@ class AuthController extends Controller {
      * Muestra el formulario de inicio de sesión
      */
     public function showLogin() {
-        if (AuthHelper::isLogged()) {
-            $this->redirect('/');
+        if (AuthHelper::isLogged() && AuthHelper::isAdmin()) {
+            $this->redirect('/dashboard');
         }
 
         $this->view('auth/login', [
-            'pageTitle' => 'Iniciar Sesión'
+            'pageTitle' => 'Acceso Administrativo | Olimpiadas COSMOL'
         ], null); // Sin layout envolvente
     }
 
@@ -50,7 +50,7 @@ class AuthController extends Controller {
         if (!$isValid) {
             Session::setFlash('error', $validator->getFirstError());
             $this->view('auth/login', [
-                'pageTitle'   => 'Iniciar Sesión',
+                'pageTitle'   => 'Acceso Administrativo | Olimpiadas COSMOL',
                 'oldUsername' => isset($_POST['username']) ? $_POST['username'] : ''
             ], null);
             return;
@@ -59,131 +59,62 @@ class AuthController extends Controller {
         $username = strtolower(trim($_POST['username']));
         $password = $_POST['password'];
 
-        // Buscar por nombre de usuario (o permitir correo como identificador alternativo)
+        // Buscar por nombre de usuario (o correo como identificador alternativo)
         $user = $this->usuarioModel->findByUsernameOrEmail($username);
 
         if (!$user || !$this->usuarioModel->verifyPassword($password, $user['password'])) {
             Session::setFlash('error', 'Las credenciales proporcionadas no son válidas.');
             $this->view('auth/login', [
-                'pageTitle'   => 'Iniciar Sesión',
+                'pageTitle'   => 'Acceso Administrativo | Olimpiadas COSMOL',
                 'oldUsername' => $username
             ], null);
             return;
         }
 
         if ($user['estado'] !== 'Activo') {
-            Session::setFlash('error', 'Su cuenta se encuentra inactiva. Contacte al comité organizador.');
+            Session::setFlash('error', 'Su cuenta de administrador se encuentra inactiva. Contacte al comité organizador.');
             $this->redirect('/login');
         }
 
-        // Iniciar sesión
-        AuthHelper::login($user);
-        Session::setFlash('success', '¡Bienvenido(a), ' . $user['nombre'] . '!');
+        // REGLA ESTRICTA DE ROLES: Solo los administradores pueden hacer login
+        if ($user['rol'] !== 'ADMIN') {
+            Session::setFlash('error', 'Acceso denegado: Solo el personal administrativo autorizado puede iniciar sesión.');
+            $this->view('auth/login', [
+                'pageTitle'   => 'Acceso Administrativo | Olimpiadas COSMOL',
+                'oldUsername' => $username
+            ], null);
+            return;
+        }
 
+        // Iniciar sesión administrativa
+        AuthHelper::login($user);
+        Session::setFlash('success', '¡Bienvenido(a), Administrador ' . $user['nombre'] . '!');
+
+        $this->redirect('/dashboard');
+    }
+
+    /**
+     * El registro de usuarios públicos está deshabilitado
+     */
+    public function showRegister() {
+        Session::setFlash('info', 'El registro de usuarios está deshabilitado. El portal informativo de las Olimpiadas COSMOL es de libre acceso.');
         $this->redirect('/');
     }
 
     /**
-     * Muestra el formulario de registro de usuario
-     */
-    public function showRegister() {
-        if (AuthHelper::isLogged()) {
-            $this->redirect('/');
-        }
-
-        $this->view('auth/register', [
-            'pageTitle' => 'Registro de Usuario'
-        ], null);
-    }
-
-    /**
-     * Procesa el registro de un nuevo usuario
+     * Procesa intento de registro deshabilitado
      */
     public function processRegister() {
-        if (!CsrfHelper::validate()) {
-            Session::setFlash('error', 'Token de seguridad inválido. Intente nuevamente.');
-            $this->redirect('/registro');
-        }
-
-        $rules = [
-            'nombre'                => 'required|min:3|max:100',
-            'username'              => 'required|alpha_dash|min:3|max:50',
-            'password'              => 'required|min:6',
-            'password_confirmation' => 'required|matches:password'
-        ];
-
-        // Validar email si fue proporcionado
-        if (!empty($_POST['email'])) {
-            $rules['email'] = 'email|max:150';
-        }
-
-        $validator = new Validator();
-        $isValid = $validator->validate($_POST, $rules);
-
-        if (!$isValid) {
-            Session::setFlash('error', $validator->getFirstError());
-            $this->view('auth/register', [
-                'pageTitle' => 'Registro de Usuario',
-                'old'       => $_POST
-            ], null);
-            return;
-        }
-
-        $username = strtolower(trim($_POST['username']));
-        $email = !empty($_POST['email']) ? strtolower(trim($_POST['email'])) : null;
-
-        // Verificar si ya existe el nombre de usuario
-        $existingUsername = $this->usuarioModel->findByUsername($username);
-        if ($existingUsername) {
-            Session::setFlash('error', 'El nombre de usuario "' . htmlspecialchars($username, ENT_QUOTES, 'UTF-8') . '" ya está en uso. Por favor, elija otro.');
-            $this->view('auth/register', [
-                'pageTitle' => 'Registro de Usuario',
-                'old'       => $_POST
-            ], null);
-            return;
-        }
-
-        // Verificar si ya existe el correo (si fue ingresado)
-        if ($email !== null) {
-            $existingEmail = $this->usuarioModel->findByEmail($email);
-            if ($existingEmail) {
-                Session::setFlash('error', 'El correo electrónico ya está registrado.');
-                $this->view('auth/register', [
-                    'pageTitle' => 'Registro de Usuario',
-                    'old'       => $_POST
-                ], null);
-                return;
-            }
-        }
-
-        // Crear usuario con rol USUARIO
-        $newUserId = $this->usuarioModel->create([
-            'nombre'   => $_POST['nombre'],
-            'username' => $username,
-            'email'    => $email,
-            'password' => $_POST['password'],
-            'rol'      => 'USUARIO',
-            'estado'   => 'Activo'
-        ]);
-
-        if ($newUserId > 0) {
-            $newUser = $this->usuarioModel->findById($newUserId);
-            AuthHelper::login($newUser);
-
-            Session::setFlash('success', '¡Cuenta creada con éxito! Bienvenido(a) a las Olimpiadas Cosmol.');
-            $this->redirect('/');
-        } else {
-            Session::setFlash('error', 'No se pudo crear la cuenta. Intente nuevamente.');
-            $this->redirect('/registro');
-        }
+        Session::setFlash('info', 'El registro de usuarios está deshabilitado. El portal informativo de las Olimpiadas COSMOL es de libre acceso.');
+        $this->redirect('/');
     }
 
     /**
-     * Cierra la sesión activa
+     * Cierra la sesión activa y regresa al portal público
      */
     public function logout() {
         AuthHelper::logout();
-        Session::setFlash('info', 'Sesión cerrada correctamente.');
-        $this->redirect('/login');
+        Session::setFlash('info', 'Sesión administrativa cerrada correctamente.');
+        $this->redirect('/');
     }
 }

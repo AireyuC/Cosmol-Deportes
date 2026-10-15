@@ -77,16 +77,19 @@
                 <h5 class="font-weight-bold text-dark mb-0" style="color: #0066B2 !important;">
                     COSMOL R.L.
                 </h5>
-                <span class="text-muted text-sm font-weight-normal">
-                    Olimpiadas Deportivas
+                <span class="badge badge-primary px-2 py-1 mt-1 font-weight-normal text-xs" style="background-color: #0066B2;">
+                    Acceso Administrativo
                 </span>
+                <p class="text-muted text-xs font-weight-normal mt-1 mb-0">
+                    Olimpiadas Deportivas Institucionales
+                </p>
             </div>
 
             <p class="login-box-msg text-secondary text-sm px-0 mb-3 font-weight-normal">
-                Ingrese su nombre de usuario y contraseña
+                Ingrese sus credenciales de administrador para gestionar las olimpiadas
             </p>
 
-            <!-- Alertas Flash limpias (sin iconos innecesarios) -->
+            <!-- Alertas Flash limpias -->
             <?php if (Session::hasFlash('error')): ?>
                 <div class="alert alert-danger py-2 px-3 text-sm mb-3">
                     <?php echo e(Session::getFlash('error')); ?>
@@ -105,13 +108,13 @@
                 </div>
             <?php endif; ?>
 
-            <!-- Formulario de Acceso -->
+            <!-- Formulario de Acceso Administrativo -->
             <form action="<?php echo BASE_URL; ?>/login" method="post">
                 <?php echo CsrfHelper::field(); ?>
 
                 <div class="form-group mb-3">
-                    <label for="username" class="text-sm font-weight-normal text-secondary mb-1">Nombre de usuario</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Ej: admin, usuario" required autofocus value="<?php echo isset($oldUsername) ? e($oldUsername) : ''; ?>">
+                    <label for="username" class="text-sm font-weight-normal text-secondary mb-1">Usuario Administrador</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Ej: admin" required autofocus value="<?php echo isset($oldUsername) ? e($oldUsername) : ''; ?>">
                 </div>
 
                 <div class="form-group mb-3">
@@ -120,7 +123,7 @@
                 </div>
 
                 <div class="row align-items-center mb-3 mt-4">
-                    <div class="col-7">
+                    <div class="col-6">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="remember" name="remember">
                             <label class="custom-control-label text-sm font-weight-normal text-muted" for="remember">
@@ -128,35 +131,32 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-5 text-right">
+                    <div class="col-6 text-right">
                         <button type="submit" class="btn btn-cosmol btn-block">
-                            Ingresar
+                            Ingresar al Panel
                         </button>
                     </div>
                 </div>
             </form>
 
-            <!-- Credenciales de prueba discretas -->
+            <!-- Credenciales de prueba discretas para administrador -->
             <div class="mt-4 pt-3 border-top text-center">
-                <span class="text-xs text-muted d-block mb-1">Credenciales disponibles:</span>
-                <div class="p-2 rounded" style="background-color: #F7FAFC; border: 1px solid #E2E8F0; font-size: 0.78rem;">
+                <span class="text-xs text-muted d-block mb-1">Credencial de Administrador:</span>
+                <div class="p-2 rounded" style="background-color: #F7FAFC; border: 1px solid #E2E8F0; font-size: 0.8rem;">
                     <div><strong>Admin:</strong> <code>admin</code> / <code>admin123</code></div>
-                    <div><strong>Usuario:</strong> <code>usuario</code> / <code>usuario123</code></div>
                 </div>
             </div>
 
-            <!-- Enlaces adicionales -->
+            <!-- Enlace de regreso al Portal Público Informativo -->
             <div class="text-center mt-3 pt-2">
-                <p class="mb-1 text-sm">
-                    <a href="<?php echo BASE_URL; ?>/registro" class="link-cosmol">
-                        ¿No tiene una cuenta? Registrarse
+                <p class="mb-0 text-sm">
+                    <a href="<?php echo BASE_URL; ?>/" class="link-cosmol font-weight-bold">
+                        <i class="fas fa-arrow-left mr-1"></i> Volver al Portal Informativo
                     </a>
                 </p>
-                <p class="mb-0 text-xs">
-                    <a href="<?php echo BASE_URL; ?>/" class="text-muted">
-                        Volver a la portada
-                    </a>
-                </p>
+                <small class="text-muted d-block mt-2" style="font-size: 0.72rem;">
+                    * Acceso exclusivo para el comité organizador de COSMOL.
+                </small>
             </div>
 
         </div>

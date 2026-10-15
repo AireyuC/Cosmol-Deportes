@@ -110,11 +110,19 @@ class AuthHelper {
     }
 
     /**
-     * Middleware: Exige inicio de sesión
+     * Middleware: Exige inicio de sesión exclusivo de Administrador
      */
     public static function requireLogin() {
         if (!self::isLogged()) {
-            Session::setFlash('warning', 'Debe iniciar sesión para acceder a esta sección.');
+            Session::setFlash('warning', 'Debe iniciar sesión como administrador para acceder al panel de gestión.');
+            header('Location: ' . BASE_URL . '/login');
+            exit;
+        }
+
+        // Regla estricta: Solo los administradores pueden mantener sesión activa
+        if (!self::isAdmin()) {
+            self::logout();
+            Session::setFlash('error', 'Acceso restringido: Solo los administradores autorizados tienen acceso a este sistema.');
             header('Location: ' . BASE_URL . '/login');
             exit;
         }
@@ -127,8 +135,9 @@ class AuthHelper {
         self::requireLogin();
 
         if (!self::isAdmin()) {
+            self::logout();
             Session::setFlash('error', 'Acceso denegado: Se requieren permisos de Administrador.');
-            header('Location: ' . BASE_URL . '/');
+            header('Location: ' . BASE_URL . '/login');
             exit;
         }
     }

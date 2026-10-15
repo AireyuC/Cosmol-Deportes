@@ -12,6 +12,11 @@
 
         <!-- Menú de Usuario -->
         <?php if (AuthHelper::isLogged()): ?>
+            <li class="nav-item mr-2">
+                <a href="<?php echo BASE_URL; ?>/" target="_blank" class="btn btn-outline-primary btn-sm my-1 font-weight-bold" title="Abrir portal público en nueva pestaña">
+                    <i class="fas fa-globe mr-1"></i> Ver Portal Público
+                </a>
+            </li>
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                     <span class="d-none d-md-inline font-weight-bold text-dark mr-1"><?php echo e(AuthHelper::nombre()); ?></span>
@@ -30,20 +35,15 @@
                     <!-- Menu Footer-->
                     <li class="user-footer bg-light">
                         <a href="<?php echo BASE_URL; ?>/logout" class="btn btn-sm btn-outline-danger float-right font-weight-bold">
-                            Cerrar Sesión
+                            <i class="fas fa-sign-out-alt mr-1"></i> Cerrar Sesión
                         </a>
                     </li>
                 </ul>
             </li>
         <?php else: ?>
             <li class="nav-item">
-                <a href="<?php echo BASE_URL; ?>/login" class="btn btn-outline-primary btn-sm my-1 mr-2 font-weight-bold">
-                    Iniciar Sesión
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?php echo BASE_URL; ?>/registro" class="btn btn-primary btn-sm my-1 font-weight-bold" style="background-color: #0066B2; border-color: #0066B2;">
-                    Registrarse
+                <a href="<?php echo BASE_URL; ?>/login" class="btn btn-primary btn-sm my-1 font-weight-bold" style="background-color: #0066B2; border-color: #0066B2;">
+                    <i class="fas fa-lock mr-1"></i> Iniciar Sesión (Admin)
                 </a>
             </li>
         <?php endif; ?>
