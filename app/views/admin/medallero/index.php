@@ -109,7 +109,7 @@
         </div><!-- fin podio -->
 
         <!-- Tabla General del Medallero -->
-        <div class="card card-outline card-cosmol shadow-sm mb-4">
+        <div class="card shadow-sm mb-4">
             <div class="card-header">
                 <h3 class="card-title font-weight-bold">
                     Clasificación  Delegación
@@ -171,7 +171,7 @@
 
         <!-- Detalle del Podio por Torneo/Disciplina -->
         <?php if (!empty($podios)): ?>
-        <div class="card card-outline card-cosmol shadow-sm">
+        <div class="card shadow-sm">
             <div class="card-header">
                 <h3 class="card-title">
                     Podios

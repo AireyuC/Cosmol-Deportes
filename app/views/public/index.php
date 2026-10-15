@@ -79,7 +79,7 @@
         }
 
         .btn-admin-login {
-            background: linear-gradient(135deg, var(--cosmol-azul) 0%, var(--cosmol-celeste) 100%);
+            background: var(--cosmol-azul);
             color: #FFFFFF !important;
             font-weight: 700;
             border-radius: 50px;
@@ -97,7 +97,7 @@
 
         /* Hero Section */
         .hero-banner {
-            background: linear-gradient(135deg, #002D52 0%, #004D87 50%, #0066B2 100%);
+            background: var(--cosmol-azul);
             color: #FFFFFF;
             padding: 5rem 0 4rem 0;
             position: relative;
@@ -393,21 +393,18 @@
     <header class="hero-banner">
         <div class="container text-center py-4">
             <span class="hero-badge">
-                <i class="fas fa-trophy mr-1"></i> Macro-Evento Deportivo Institucional
+                <i class="fas fa-trophy mr-1"></i>Evento Deportivo Institucional
             </span>
             <h1 class="hero-title mb-3">
                 <?php echo e($olimpiada['nombre']); ?>
             </h1>
             <p class="lead mb-4 mx-auto" style="max-width: 780px; font-weight: 300; opacity: 0.95;">
                 "<?php echo e($olimpiada['lema']); ?>"<br>
-                <span class="badge badge-light px-3 py-1 mt-2 text-dark font-weight-bold">
-                    <i class="fas fa-handshake text-primary mr-1"></i> Gran Confraternidad con Delegaciones de Diferentes Departamentos
-                </span>
             </p>
 
             <div class="d-flex justify-content-center flex-wrap gap-2 mt-4">
                 <a href="#disciplinas" class="btn btn-light btn-lg px-4 mr-2 mb-2 font-weight-bold text-primary shadow-sm">
-                    <i class="fas fa-futbol mr-2"></i> Ver Disciplinas Deportivas
+                    Ver Disciplinas Deportivas
                 </a>
                 <a href="#sedes" class="btn btn-outline-light btn-lg px-4 mb-2 font-weight-bold">
                     <i class="fas fa-location-arrow mr-2"></i> ¿Cómo llegar a las Sedes?
