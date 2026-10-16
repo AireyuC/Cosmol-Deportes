@@ -32,56 +32,6 @@
 <div class="content">
     <div class="container-fluid">
 
-        <!-- Métricas KPI Rápidas del Tribunal Disciplinario -->
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-light shadow-sm border">
-                    <div class="inner">
-                        <h3 class="text-dark"><?php echo (int)($estadisticas['total'] ?? 0); ?></h3>
-                        <p class="text-muted mb-0 font-weight-bold">Total Sanciones Registradas</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-gavel text-secondary"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-light shadow-sm border border-danger">
-                    <div class="inner">
-                        <h3 class="text-danger"><?php echo (int)($estadisticas['activas'] ?? 0); ?></h3>
-                        <p class="text-muted mb-0 font-weight-bold">Sanciones Activas (Inhabilitados)</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-ban text-danger" style="opacity: 0.3;"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-light shadow-sm border border-primary">
-                    <div class="inner">
-                        <h3 class="text-primary"><?php echo (int)($estadisticas['levantadas'] ?? 0); ?></h3>
-                        <p class="text-muted mb-0 font-weight-bold">Sanciones Levantadas (Indultos)</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-undo-alt text-primary" style="opacity: 0.3;"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-light shadow-sm border border-success">
-                    <div class="inner">
-                        <h3 class="text-success"><?php echo (int)($estadisticas['cumplidas'] ?? 0); ?></h3>
-                        <p class="text-muted mb-0 font-weight-bold">Sanciones Cumplidas</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-check-circle text-success" style="opacity: 0.3;"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Filtros de Consulta -->
         <div class="card card-cosmol shadow-sm mb-4">

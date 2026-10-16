@@ -223,9 +223,10 @@ class Partido extends Model {
      * @param int|null $marcadorVisitante
      * @param string $estado
      * @param string|null $observaciones
+     * @param string|null $fotoPlanilla
      * @return int
      */
-    public function actualizarResultado($id, $marcadorLocal, $marcadorVisitante, $estado, $observaciones = null) {
+    public function actualizarResultado($id, $marcadorLocal, $marcadorVisitante, $estado, $observaciones = null, $fotoPlanilla = null) {
         $updateData = [
             'marcador_local'     => ($marcadorLocal !== null && $marcadorLocal !== '') ? (int)$marcadorLocal : null,
             'marcador_visitante' => ($marcadorVisitante !== null && $marcadorVisitante !== '') ? (int)$marcadorVisitante : null,
@@ -236,7 +237,35 @@ class Partido extends Model {
             $updateData['observaciones'] = trim($observaciones);
         }
 
+        if ($fotoPlanilla !== null) {
+            $updateData['foto_planilla'] = trim($fotoPlanilla);
+        }
+
         return $this->update('partidos', $updateData, 'id = :where_id', ['where_id' => (int)$id]);
+    }
+
+    /**
+     * Guarda o actualiza la ruta de la fotografía de la planilla oficial
+     *
+     * @param int $id
+     * @param string|null $rutaFoto
+     * @return int
+     */
+    public function actualizarFotoPlanilla($id, $rutaFoto) {
+        return $this->update('partidos', [
+            'foto_planilla' => $rutaFoto
+        ], 'id = :where_id', ['where_id' => (int)$id]);
+    }
+
+    /**
+     * Obtiene la ruta de la foto de planilla actual de un partido
+     *
+     * @param int $id
+     * @return string|null
+     */
+    public function getFotoPlanilla($id) {
+        $row = $this->fetch("SELECT foto_planilla FROM partidos WHERE id = :id LIMIT 1", ['id' => (int)$id]);
+        return $row ? $row['foto_planilla'] : null;
     }
 
     /**

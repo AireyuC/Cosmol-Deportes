@@ -29,7 +29,7 @@
                             <th>Delegado Responsable</th>
                             <th>Teléfono</th>
                             <th class="text-center">Equipos</th>
-                            <th class="text-center" style="width: 230px;">Acciones</th>
+                            <th class="text-center text-nowrap" style="width: 240px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,21 +55,23 @@
                                             <?php echo e($d['total_equipos']); ?> Equipos
                                         </span>
                                     </td>
-                                    <td class="text-center">
-                                        <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1 mr-1" title="Ver Historial de Partidos">
-                                            <i class="fas fa-history mr-1"></i> Historial
-                                        </a>
-                                        <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>/editar" class="btn btn-xs btn-cosmol font-weight-bold px-2 py-1 mr-1" title="Editar">
-                                                Editar
+                                    <td class="text-center text-nowrap">
+                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
+                                            <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ver Historial de Partidos">
+                                                <i class="fas fa-history mr-1"></i> Historial
                                             </a>
-                                            <form action="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar esta delegación?');">
-                                                <?php echo CsrfHelper::field(); ?>
-                                                <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Eliminar">
-                                                    Eliminar
-                                                </button>
-                                            </form>
-                                        <?php endif; ?>
+                                            <?php if (AuthHelper::isAdmin()): ?>
+                                                <a href="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                    Editar
+                                                </a>
+                                                <form action="<?php echo BASE_URL; ?>/delegaciones/<?php echo (int)$d['id']; ?>/eliminar" method="post" class="d-inline m-0 p-0" onsubmit="return confirm('¿Eliminar esta delegación?');">
+                                                    <?php echo CsrfHelper::field(); ?>
+                                                    <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Eliminar">
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+                                            <?php endif; ?>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

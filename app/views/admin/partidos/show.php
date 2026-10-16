@@ -197,6 +197,35 @@
                                 <p class="text-sm bg-light p-2 rounded mb-0 text-dark"><?php echo nl2br(e($partido['observaciones'])); ?></p>
                             </div>
                         <?php endif; ?>
+
+                        <?php if (!empty($partido['foto_planilla'])): ?>
+                            <?php
+                            $esPdfShow   = (strtolower(pathinfo($partido['foto_planilla'], PATHINFO_EXTENSION)) === 'pdf');
+                            $urlFotoShow = BASE_URL . '/' . htmlspecialchars($partido['foto_planilla']);
+                            ?>
+                            <div class="mt-3 pt-3 border-top">
+                                <h6 class="text-xs font-weight-bold text-muted text-uppercase mb-2">
+                                    <i class="fas fa-file-signature text-primary mr-1"></i> Respaldo Digital de Planilla Oficial:
+                                </h6>
+                                <div class="d-flex align-items-center justify-content-between p-2 rounded bg-light border">
+                                    <div class="d-flex align-items-center">
+                                        <i class="<?php echo $esPdfShow ? 'fas fa-file-pdf text-danger fa-2x' : 'fas fa-file-image text-primary fa-2x'; ?> mr-2"></i>
+                                        <div>
+                                            <div class="text-xs font-weight-bold text-dark">Planilla Firmada Adjunta</div>
+                                            <div class="text-xs text-muted"><?php echo basename($partido['foto_planilla']); ?></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href="<?php echo $urlFotoShow; ?>" target="_blank" class="btn btn-xs btn-outline-primary font-weight-bold mr-1">
+                                            <i class="fas fa-eye mr-1"></i> Ver Planilla
+                                        </a>
+                                        <a href="<?php echo $urlFotoShow; ?>" download class="btn btn-xs btn-outline-secondary font-weight-bold" title="Descargar archivo">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

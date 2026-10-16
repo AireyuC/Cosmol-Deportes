@@ -251,6 +251,7 @@ CREATE TABLE `partidos` (
   `marcador_visitante` INT NULL,
   `estado` ENUM('Programado', 'En_Juego', 'Finalizado', 'Suspendido', 'WO') NOT NULL DEFAULT 'Programado',
   `observaciones` TEXT NULL,
+  `foto_planilla` VARCHAR(255) NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_partidos_torneo` (`torneo_id`),
   INDEX `idx_partidos_grupo` (`grupo_id`),

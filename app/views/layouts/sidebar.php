@@ -13,17 +13,8 @@ $currentUri = Router::currentUri();
 
     <!-- Sidebar -->
     <div class="sidebar px-2">
-        <!-- Sidebar user panel -->
-        <div class="user-panel mt-3 pb-1 mb-1 d-flex align-items-center">
-            <div class="info w-100 p-0">
-                <a href="<?php echo AuthHelper::isLogged() ? '#' : BASE_URL . '/login'; ?>" class="d-block font-weight-bold text-truncate mb-1">
-                    <?php echo e(AuthHelper::nombre()); ?>
-                </a>
-            </div>
-        </div>
-
         <!-- Sidebar Menu -->
-        <nav class="mt-2">
+        <nav class="mt-3">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 
                 <!-- Enlace al Portal Público -->

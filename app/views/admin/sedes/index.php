@@ -38,7 +38,7 @@
                             <th class="text-center" style="width: 140px;">Cómo llegar</th>
                             <th class="text-center" style="width: 120px;">Canchas</th>
                             <th class="text-center" style="width: 100px;">Estado</th>
-                            <th class="text-center" style="width: <?php echo AuthHelper::isAdmin() ? '210px' : '100px'; ?>;">Acciones</th>
+                            <th class="text-center text-nowrap" style="width: <?php echo AuthHelper::isAdmin() ? '240px' : '100px'; ?>;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,21 +79,23 @@
                                             <?php echo e($s['estado'] ?? 'Activa'); ?>
                                         </span>
                                     </td>
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1 mr-1" data-toggle="modal" data-target="#modalCanchas<?php echo e($s['id']); ?>">
-                                            Cancha
-                                        </button>
-                                        <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/sedes/<?php echo e($s['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1 mr-1">
-                                                Editar
-                                            </a>
-                                            <form action="<?php echo BASE_URL; ?>/sedes/<?php echo e($s['id']); ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar esta sede y todas sus canchas asociadas?');">
-                                                <?php echo CsrfHelper::field(); ?>
-                                                <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1">
-                                                    Eliminar
-                                                </button>
-                                            </form>
-                                        <?php endif; ?>
+                                    <td class="text-center text-nowrap">
+                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
+                                            <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" data-toggle="modal" data-target="#modalCanchas<?php echo e($s['id']); ?>" title="Ver canchas del complejo">
+                                                Cancha
+                                            </button>
+                                            <?php if (AuthHelper::isAdmin()): ?>
+                                                <a href="<?php echo BASE_URL; ?>/sedes/<?php echo e($s['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar Sede">
+                                                    Editar
+                                                </a>
+                                                <form action="<?php echo BASE_URL; ?>/sedes/<?php echo e($s['id']); ?>/eliminar" method="post" class="d-inline m-0 p-0" onsubmit="return confirm('¿Eliminar esta sede y todas sus canchas asociadas?');">
+                                                    <?php echo CsrfHelper::field(); ?>
+                                                    <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Eliminar Sede">
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+                                            <?php endif; ?>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

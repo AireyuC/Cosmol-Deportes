@@ -36,7 +36,7 @@
                             <th>Período</th>
                             <th class="text-center">Estado</th>
                             <?php if (AuthHelper::isAdmin()): ?>
-                                <th class="text-center" style="width: 160px;">Acciones</th>
+                                <th class="text-center text-nowrap" style="width: 180px;">Acciones</th>
                             <?php endif; ?>
                         </tr>
                     </thead>
@@ -68,16 +68,18 @@
                                         <?php endif; ?>
                                     </td>
                                     <?php if (AuthHelper::isAdmin()): ?>
-                                        <td class="text-center">
-                                            <a href="<?php echo BASE_URL; ?>/olimpiadas/<?php echo $o['id']; ?>/editar" class="btn btn-xs btn-cosmol font-weight-bold px-2 py-1" title="Editar">
-                                                Editar
-                                            </a>
-                                            <form action="<?php echo BASE_URL; ?>/olimpiadas/<?php echo $o['id']; ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Está seguro de eliminar esta Olimpiada?');">
-                                                <?php echo CsrfHelper::field(); ?>
-                                                <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Eliminar">
-                                                    Eliminar
-                                                </button>
-                                            </form>
+                                        <td class="text-center text-nowrap">
+                                            <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
+                                                <a href="<?php echo BASE_URL; ?>/olimpiadas/<?php echo $o['id']; ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                    Editar
+                                                </a>
+                                                <form action="<?php echo BASE_URL; ?>/olimpiadas/<?php echo $o['id']; ?>/eliminar" method="post" class="d-inline m-0 p-0" onsubmit="return confirm('¿Está seguro de eliminar esta Olimpiada?');">
+                                                    <?php echo CsrfHelper::field(); ?>
+                                                    <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Eliminar">
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     <?php endif; ?>
                                 </tr>

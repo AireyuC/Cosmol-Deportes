@@ -377,22 +377,80 @@ class PartidoController extends Controller {
         if (!CsrfHelper::validate()) {
             Session::setFlash('error', 'Token de seguridad inválido.');
             $this->redirect('/partidos/' . (int)$id . '/acta');
+            return;
         }
 
         $partido = $this->partidoModel->getById($id);
         if (!$partido) {
             Session::setFlash('error', 'El partido no existe.');
             $this->redirect('/partidos');
+            return;
         }
 
         $marcadorLocal     = isset($_POST['marcador_local']) && $_POST['marcador_local'] !== '' ? (int)$_POST['marcador_local'] : null;
         $marcadorVisitante = isset($_POST['marcador_visitante']) && $_POST['marcador_visitante'] !== '' ? (int)$_POST['marcador_visitante'] : null;
         $estado            = !empty($_POST['estado']) ? trim($_POST['estado']) : $partido['estado'];
         $observaciones     = isset($_POST['observaciones']) ? trim($_POST['observaciones']) : null;
+        $fotoPlanilla      = null;
+
+        // Procesar carga de fotografía de planilla oficial si se ha enviado un archivo
+        if (isset($_FILES['foto_planilla']) && $_FILES['foto_planilla']['error'] !== UPLOAD_ERR_NO_FILE) {
+            if ($_FILES['foto_planilla']['error'] !== UPLOAD_ERR_OK) {
+                Session::setFlash('error', 'Error al subir el archivo de la planilla. Verifique que no supere el límite permitido.');
+                $this->redirect('/partidos/' . (int)$id . '/acta');
+                return;
+            }
+
+            $file = $_FILES['foto_planilla'];
+            $allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+            $allowedExts  = ['jpg', 'jpeg', 'png', 'webp', 'pdf'];
+
+            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime = finfo_file($finfo, $file['tmp_name']);
+            finfo_close($finfo);
+
+            if (!in_array($ext, $allowedExts, true) || !in_array($mime, $allowedMimes, true)) {
+                Session::setFlash('error', 'Formato no permitido. Solo se aceptan imágenes (JPG, PNG, WEBP) o documentos PDF.');
+                $this->redirect('/partidos/' . (int)$id . '/acta');
+                return;
+            }
+
+            if ($file['size'] > 8 * 1024 * 1024) { // 8 MB
+                Session::setFlash('error', 'El archivo de la planilla es demasiado pesado (máximo 8 MB).');
+                $this->redirect('/partidos/' . (int)$id . '/acta');
+                return;
+            }
+
+            $uploadDir = PUBLIC_PATH . DS . 'uploads' . DS . 'planillas';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+
+            // Eliminar foto anterior si existe en disco
+            $fotoAnterior = isset($partido['foto_planilla']) ? $partido['foto_planilla'] : null;
+            if (!empty($fotoAnterior) && file_exists(PUBLIC_PATH . DS . str_replace('/', DS, $fotoAnterior))) {
+                @unlink(PUBLIC_PATH . DS . str_replace('/', DS, $fotoAnterior));
+            }
+
+            $fileName = 'planilla_p' . (int)$id . '_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+            $destPath = $uploadDir . DS . $fileName;
+
+            if (move_uploaded_file($file['tmp_name'], $destPath)) {
+                $fotoPlanilla = 'uploads/planillas/' . $fileName;
+            }
+        } elseif (isset($_POST['eliminar_foto_planilla']) && $_POST['eliminar_foto_planilla'] === '1') {
+            // Eliminar foto actual si se solicitó explícitamente
+            $fotoAnterior = isset($partido['foto_planilla']) ? $partido['foto_planilla'] : null;
+            if (!empty($fotoAnterior) && file_exists(PUBLIC_PATH . DS . str_replace('/', DS, $fotoAnterior))) {
+                @unlink(PUBLIC_PATH . DS . str_replace('/', DS, $fotoAnterior));
+            }
+            $this->partidoModel->actualizarFotoPlanilla($id, null);
+        }
 
         try {
-            $this->partidoModel->actualizarResultado($id, $marcadorLocal, $marcadorVisitante, $estado, $observaciones);
-            Session::setFlash('success', 'Resultado y estado del encuentro actualizados.');
+            $this->partidoModel->actualizarResultado($id, $marcadorLocal, $marcadorVisitante, $estado, $observaciones, $fotoPlanilla);
+            Session::setFlash('success', 'Resultado, estado y acta del encuentro actualizados.');
         } catch (Exception $e) {
             Session::setFlash('error', 'Error al guardar el resultado: ' . $e->getMessage());
         }

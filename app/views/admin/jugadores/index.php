@@ -83,7 +83,7 @@
                             <th>Disciplina</th>
                             <th>Posición</th>
                             <th class="text-center">Estado</th>
-                            <th class="text-center" style="width: 170px;">Acciones</th>
+                            <th class="text-center text-nowrap" style="width: 240px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -136,18 +136,22 @@
                                             <span class="badge badge-secondary px-2 py-1"><i class="fas fa-clock mr-1"></i> Inactivo</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="text-center">
-                                        <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($j['id']); ?>" class="btn btn-xs btn-info" title="Ver Ficha">
-                                            Perfil
-                                        </a>
-                                        <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($j['id']); ?>/editar" class="btn btn-xs btn-primary text-dark ml-1" title="Editar">
-                                                editar
+                                    <td class="text-center text-nowrap">
+                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
+                                            <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($j['id']); ?>" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ver Ficha">
+                                                Perfil
                                             </a>
-                                            <button type="button" class="btn btn-xs btn-danger ml-1" data-toggle="modal" data-target="#modalDeleteJug<?php echo e($j['id']); ?>" title="Eliminar">
-                                                eliminar
-                                            </button>
+                                            <?php if (AuthHelper::isAdmin()): ?>
+                                                <a href="<?php echo BASE_URL; ?>/jugadores/<?php echo e($j['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                    Editar
+                                                </a>
+                                                <button type="button" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" data-toggle="modal" data-target="#modalDeleteJug<?php echo e($j['id']); ?>" title="Eliminar">
+                                                    Eliminar
+                                                </button>
+                                            <?php endif; ?>
+                                        </div>
 
+                                        <?php if (AuthHelper::isAdmin()): ?>
                                             <!-- Modal Confirmar Eliminación -->
                                             <div class="modal fade" id="modalDeleteJug<?php echo e($j['id']); ?>" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">

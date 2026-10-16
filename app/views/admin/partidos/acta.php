@@ -101,7 +101,7 @@
                             <i class="fas fa-scoreboard text-primary mr-1"></i> Marcador Oficial y Cierre
                         </h3>
                     </div>
-                    <form action="<?php echo BASE_URL; ?>/partidos/<?php echo $partido['id']; ?>/resultado" method="post">
+                    <form action="<?php echo BASE_URL; ?>/partidos/<?php echo $partido['id']; ?>/resultado" method="post" enctype="multipart/form-data">
                         <?php echo CsrfHelper::field(); ?>
                         <div class="card-body">
                             
@@ -135,9 +135,95 @@
                                 <small class="form-text text-muted">Al marcar "Finalizado", el resultado computa para las tablas de posiciones.</small>
                             </div>
 
-                            <div class="form-group mb-0">
+                            <div class="form-group mb-3">
                                 <label for="observaciones" class="font-weight-bold text-xs text-dark mb-1">Observaciones de Mesa / Árbitro</label>
                                 <textarea name="observaciones" id="observaciones" rows="2" class="form-control form-control-sm" placeholder="Aclaraciones del encuentro..."><?php echo e($partido['observaciones'] ?? ''); ?></textarea>
+                            </div>
+
+                            <hr class="my-3">
+
+                            <!-- Respaldo Digital: Foto de Planilla Oficial -->
+                            <div class="form-group mb-0">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label class="font-weight-bold text-xs text-dark mb-0">
+                                        <i class="fas fa-camera text-primary mr-1"></i> Foto de Planilla Oficial (Respaldo Físico)
+                                    </label>
+                                    <?php if (!empty($partido['foto_planilla'])): ?>
+                                        <span class="badge badge-success px-2 py-1">
+                                            <i class="fas fa-check-circle mr-1"></i> Planilla Adjunta
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="badge badge-secondary px-2 py-1 font-weight-normal">
+                                            <i class="fas fa-file-upload mr-1"></i> Pendiente
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+
+                                <?php
+                                $tieneFoto = !empty($partido['foto_planilla']);
+                                $esPdf     = $tieneFoto && (strtolower(pathinfo($partido['foto_planilla'], PATHINFO_EXTENSION)) === 'pdf');
+                                $fotoUrl   = $tieneFoto ? (BASE_URL . '/' . htmlspecialchars($partido['foto_planilla'])) : '';
+                                ?>
+
+                                <?php if ($tieneFoto): ?>
+                                    <div class="border rounded p-2 mb-2 bg-white shadow-sm">
+                                        <?php if ($esPdf): ?>
+                                            <div class="text-center py-3 bg-light rounded mb-2">
+                                                <i class="fas fa-file-pdf fa-3x text-danger mb-2"></i>
+                                                <div class="text-xs font-weight-bold text-dark">Planilla Oficial en PDF</div>
+                                                <div class="text-xs text-muted"><?php echo basename($partido['foto_planilla']); ?></div>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="position-relative text-center mb-2" style="max-height: 160px; overflow: hidden; border-radius: 4px; background: #0F172A;">
+                                                <img src="<?php echo $fotoUrl; ?>" alt="Planilla Oficial" class="img-fluid" style="max-height: 160px; width: auto; object-fit: contain; cursor: pointer;" data-toggle="modal" data-target="#modalFotoPlanilla" title="Clic para ampliar y verificar acta">
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <div class="d-flex flex-wrap align-items-center justify-content-between pt-1" style="gap: 5px;">
+                                            <div>
+                                                <button type="button" class="btn btn-xs btn-primary font-weight-bold" data-toggle="modal" data-target="#modalFotoPlanilla">
+                                                    <i class="fas fa-search-plus mr-1"></i> Ver Planilla Completa
+                                                </button>
+                                                <a href="<?php echo $fotoUrl; ?>" download class="btn btn-xs btn-outline-secondary font-weight-bold ml-1">
+                                                    <i class="fas fa-download mr-1"></i> Descargar
+                                                </a>
+                                            </div>
+                                            <button type="submit" name="eliminar_foto_planilla" value="1" class="btn btn-xs btn-outline-danger" onclick="return confirm('¿Está seguro de eliminar el archivo de la planilla física?');" title="Eliminar planilla actual">
+                                                <i class="fas fa-trash-alt mr-1"></i> Quitar
+                                            </button>
+                                        </div>
+
+                                        <div class="mt-2 pt-2 border-top">
+                                            <a href="#collapseReemplazarFoto" data-toggle="collapse" class="text-xs text-primary font-weight-bold">
+                                                <i class="fas fa-sync-alt mr-1"></i> Reemplazar foto por una nueva...
+                                            </a>
+                                            <div class="collapse mt-2" id="collapseReemplazarFoto">
+                                                <div class="custom-file">
+                                                    <input type="file" name="foto_planilla" id="foto_planilla_replace" class="custom-file-input custom-file-input-sm" accept=".jpg,.jpeg,.png,.webp,.pdf" onchange="previewPlanillaSeleccionada(this, 'label_foto_replace', 'preview_replace_box', 'img_replace_preview');">
+                                                    <label class="custom-file-label text-truncate text-xs" for="foto_planilla_replace" id="label_foto_replace">Seleccionar nueva foto o PDF...</label>
+                                                </div>
+                                                <div id="preview_replace_box" class="mt-2 text-center" style="display: none;">
+                                                    <img id="img_replace_preview" src="" alt="Nueva planilla" class="img-thumbnail" style="max-height: 120px;">
+                                                    <div class="text-xs text-success font-weight-bold mt-1">Nueva imagen seleccionada lista para guardar</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="border rounded p-2 bg-light">
+                                        <div class="custom-file">
+                                            <input type="file" name="foto_planilla" id="foto_planilla" class="custom-file-input custom-file-input-sm" accept=".jpg,.jpeg,.png,.webp,.pdf" onchange="previewPlanillaSeleccionada(this, 'label_foto_planilla', 'preview_nueva_foto', 'img_preview_nueva');">
+                                            <label class="custom-file-label text-truncate text-xs" for="foto_planilla" id="label_foto_planilla">Seleccionar foto o PDF de planilla...</label>
+                                        </div>
+                                        <div id="preview_nueva_foto" class="mt-2 text-center" style="display: none;">
+                                            <img id="img_preview_nueva" src="" alt="Vista previa de planilla" class="img-thumbnail shadow-sm mb-1" style="max-height: 140px;">
+                                            <div class="text-xs text-success font-weight-bold">Vista previa de la planilla seleccionada</div>
+                                        </div>
+                                        <small class="form-text text-muted text-xs mt-1">
+                                            <i class="fas fa-info-circle mr-1"></i> Foto nítida o escaneo del acta física con firmas (Máx. 8 MB: JPG, PNG, WEBP, PDF).
+                                        </small>
+                                    </div>
+                                <?php endif; ?>
                             </div>
 
                         </div>
@@ -415,6 +501,76 @@
     </div>
 </div>
 
+<!-- Modal de Inspección a Pantalla Completa: Foto de Planilla Oficial -->
+<?php if (!empty($partido['foto_planilla'])): ?>
+    <?php
+    $esPdfModal   = (strtolower(pathinfo($partido['foto_planilla'], PATHINFO_EXTENSION)) === 'pdf');
+    $fotoUrlModal = BASE_URL . '/' . htmlspecialchars($partido['foto_planilla']);
+    ?>
+    <div class="modal fade" id="modalFotoPlanilla" tabindex="-1" role="dialog" aria-labelledby="modalFotoPlanillaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" style="max-width: 95vw;">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header py-2" style="background-color: #003366; color: #fff;">
+                    <h5 class="modal-title font-weight-bold text-sm" id="modalFotoPlanillaLabel">
+                        <i class="fas fa-file-signature mr-2 text-warning"></i> Planilla Oficial Firmada &mdash; Encuentro #<?php echo (int)$partido['id']; ?>: <?php echo e($partido['local_nombre']); ?> vs <?php echo e($partido['visitante_nombre']); ?>
+                    </h5>
+                    <div class="d-flex align-items-center ml-auto mr-2">
+                        <?php if (!$esPdfModal): ?>
+                            <div class="btn-group mr-2">
+                                <button type="button" class="btn btn-xs btn-outline-light" onclick="zoomPlanilla(0.2);" title="Acercar (Zoom +)">
+                                    <i class="fas fa-search-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-xs btn-outline-light" onclick="zoomPlanilla(-0.2);" title="Alejar (Zoom -)">
+                                    <i class="fas fa-search-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-xs btn-outline-light" onclick="rotarPlanilla(90);" title="Rotar 90°">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                                <button type="button" class="btn btn-xs btn-outline-light" onclick="resetZoomPlanilla();" title="Restablecer tamaño original">
+                                    <i class="fas fa-undo"></i> 100%
+                                </button>
+                            </div>
+                        <?php endif; ?>
+                        <a href="<?php echo $fotoUrlModal; ?>" download class="btn btn-xs btn-light mr-2 font-weight-bold">
+                            <i class="fas fa-download mr-1"></i> Descargar
+                        </a>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" style="outline: none;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body p-2 text-center" style="background: #0F172A; min-height: 60vh; max-height: 80vh; overflow: auto;">
+                    <?php if ($esPdfModal): ?>
+                        <iframe src="<?php echo $fotoUrlModal; ?>" style="width: 100%; height: 75vh; border: none; border-radius: 4px; background: #fff;"></iframe>
+                    <?php else: ?>
+                        <div id="contenedorZoomPlanilla" style="display: inline-block; transition: transform 0.2s ease;">
+                            <img id="imgPlanillaZoom" src="<?php echo $fotoUrlModal; ?>" alt="Planilla Oficial" style="max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="modal-footer py-2 bg-light d-flex justify-content-between align-items-center">
+                    <span class="text-xs text-muted">
+                        <i class="fas fa-info-circle mr-1 text-primary"></i> 
+                        <?php if ($esPdfModal): ?>
+                            Documento PDF oficial cargado. Puede consultar, imprimir o descargarlo directamente.
+                        <?php else: ?>
+                            Use los botones superiores para acercar y rotar, inspeccionando números de goles/sets y firmas de capitanes y árbitros.
+                        <?php endif; ?>
+                    </span>
+                    <div>
+                        <a href="<?php echo $fotoUrlModal; ?>" target="_blank" class="btn btn-sm btn-outline-primary mr-1">
+                            <i class="fas fa-external-link-alt mr-1"></i> Pestaña Nueva
+                        </a>
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <script>
 /**
  * Alterna la visibilidad de los optgroups según el equipo seleccionado
@@ -432,5 +588,60 @@ function actualizarJugadoresPorEquipo(equipoId) {
         optVis.style.display   = '';
     }
     document.getElementById('incidencia_jugador_id').value = '';
+}
+
+/**
+ * Variables y funciones de zoom/rotación para la foto de la planilla
+ */
+var zoomLevel = 1;
+var rotateDeg = 0;
+
+function zoomPlanilla(delta) {
+    zoomLevel = Math.max(0.5, Math.min(3.5, zoomLevel + delta));
+    aplicarTransformPlanilla();
+}
+
+function resetZoomPlanilla() {
+    zoomLevel = 1;
+    rotateDeg = 0;
+    aplicarTransformPlanilla();
+}
+
+function rotarPlanilla(grados) {
+    rotateDeg = (rotateDeg + grados) % 360;
+    aplicarTransformPlanilla();
+}
+
+function aplicarTransformPlanilla() {
+    var cont = document.getElementById('contenedorZoomPlanilla');
+    if (cont) {
+        cont.style.transform = 'scale(' + zoomLevel + ') rotate(' + rotateDeg + 'deg)';
+    }
+}
+
+/**
+ * Vista previa instantánea al seleccionar un archivo en la vista de acta
+ */
+function previewPlanillaSeleccionada(input, labelId, previewBoxId, imgPreviewId) {
+    var label = document.getElementById(labelId);
+    var previewBox = document.getElementById(previewBoxId);
+    var previewImg = document.getElementById(imgPreviewId);
+
+    if (input.files && input.files[0]) {
+        var file = input.files[0];
+        if (label) {
+            label.textContent = file.name;
+        }
+        if (file.type && file.type.indexOf('image') !== -1 && previewBox && previewImg) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewBox.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else if (previewBox) {
+            previewBox.style.display = 'none';
+        }
+    }
 }
 </script>

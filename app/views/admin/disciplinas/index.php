@@ -60,7 +60,7 @@
                             <th class="text-center">Grupos</th>
                             <th class="text-center">Equipos</th>
                             <th class="text-center">Estado</th>
-                            <th class="text-center" style="width: 180px;">Acciones</th>
+                            <th class="text-center text-nowrap" style="width: 240px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -136,18 +136,22 @@
                                             <?php echo str_replace('_', ' ', e($t['estado'])); ?>
                                         </span>
                                     </td>
-                                    <td class="text-center">
-                                        <a href="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($t['id']); ?>" class="btn btn-xs btn-info" title="Ver Grupos y Equipos">
-                                            Grupos
-                                        </a>
-                                        <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($t['id']); ?>/editar" class="btn btn-xs btn-primary text-dark ml-1" title="Editar">
-                                                Editar
+                                    <td class="text-center text-nowrap">
+                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
+                                            <a href="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($t['id']); ?>" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ver Grupos y Equipos">
+                                                Grupos
                                             </a>
-                                            <button type="button" class="btn btn-xs btn-danger ml-1" data-toggle="modal" data-target="#modalDelete<?php echo e($t['id']); ?>" title="Eliminar">
-                                                Eliminar
-                                            </button>
+                                            <?php if (AuthHelper::isAdmin()): ?>
+                                                <a href="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($t['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                    Editar
+                                                </a>
+                                                <button type="button" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" data-toggle="modal" data-target="#modalDelete<?php echo e($t['id']); ?>" title="Eliminar">
+                                                    Eliminar
+                                                </button>
+                                            <?php endif; ?>
+                                        </div>
 
+                                        <?php if (AuthHelper::isAdmin()): ?>
                                             <!-- Modal Confirmar Eliminación -->
                                             <div class="modal fade" id="modalDelete<?php echo e($t['id']); ?>" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">

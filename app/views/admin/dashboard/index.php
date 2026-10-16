@@ -41,54 +41,128 @@
             </div>
         </div>
 
-        <!-- Indicadores Principales (Sin iconos innecesarios) -->
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <div class="small-box box-cosmol-azul">
-                    <div class="inner">
-                        <h3><?php echo e($kpis['disciplinas']); ?></h3>
-                        <p>Disciplinas Deportivas</p>
+        <style>
+            .kpi-wave-card {
+                border-radius: 8px;
+                position: relative;
+                overflow: hidden;
+                padding: 18px 18px 26px 18px;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                text-decoration: none !important;
+                display: block;
+                height: 100%;
+                border: 0;
+            }
+            .kpi-wave-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16) !important;
+            }
+        </style>
+
+        <!-- Indicadores Principales estilo Cards Modernas con Ondas -->
+        <div class="row mb-4">
+            <!-- 1. Disciplinas (Teal / Turquesa) -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3 mb-xl-0">
+                <a href="<?php echo BASE_URL; ?>/disciplinas" class="kpi-wave-card shadow-sm" style="background-color: #0099ad;">
+                    <div class="d-flex align-items-center position-relative" style="z-index: 2;">
+                        <div class="mr-3 d-flex align-items-center justify-content-center" style="min-width: 54px;">
+                            <i class="fas fa-trophy text-white" style="font-size: 2.8rem; opacity: 0.82;"></i>
+                        </div>
+                        <div class="flex-grow-1 text-white">
+                            <div class="text-uppercase font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.6px; opacity: 0.95; line-height: 1.2;">
+                                DISCIPLINAS
+                            </div>
+                            <div class="font-weight-bold my-1" style="font-size: 2.1rem; line-height: 1.1; color: #ffffff;">
+                                <?php echo (int)$kpis['disciplinas']; ?>
+                            </div>
+                            <div style="font-size: 0.75rem; opacity: 0.9; font-weight: 500;">
+                                <?php echo !empty($olimpiada['anio']) ? 'Año ' . (int)$olimpiada['anio'] : 'En competencia'; ?>
+                            </div>
+                        </div>
                     </div>
-                    <a href="<?php echo BASE_URL; ?>/disciplinas" class="small-box-footer">
-                        Ver &rsaquo;
-                    </a>
-                </div>
+                    <svg viewBox="0 0 400 60" preserveAspectRatio="none" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 32px; pointer-events: none; z-index: 1;">
+                        <path d="M0,35 C120,55 220,15 400,40 L400,60 L0,60 Z" fill="rgba(255, 255, 255, 0.22)"></path>
+                        <path d="M0,45 C150,20 280,50 400,28 L400,60 L0,60 Z" fill="rgba(255, 255, 255, 0.16)"></path>
+                    </svg>
+                </a>
             </div>
 
-            <div class="col-lg-3 col-6">
-                <div class="small-box box-cosmol-celeste">
-                    <div class="inner">
-                        <h3><?php echo e($kpis['delegaciones']); ?></h3>
-                        <p>Delegaciones</p>
+            <!-- 2. Delegaciones (Púrpura / Violeta) -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3 mb-xl-0">
+                <a href="<?php echo BASE_URL; ?>/delegaciones" class="kpi-wave-card shadow-sm" style="background-color: #6f42c1;">
+                    <div class="d-flex align-items-center position-relative" style="z-index: 2;">
+                        <div class="mr-3 d-flex align-items-center justify-content-center" style="min-width: 54px;">
+                            <i class="fas fa-building text-white" style="font-size: 2.8rem; opacity: 0.82;"></i>
+                        </div>
+                        <div class="flex-grow-1 text-white">
+                            <div class="text-uppercase font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.6px; opacity: 0.95; line-height: 1.2;">
+                                DELEGACIONES
+                            </div>
+                            <div class="font-weight-bold my-1" style="font-size: 2.1rem; line-height: 1.1; color: #ffffff;">
+                                <?php echo (int)$kpis['delegaciones']; ?>
+                            </div>
+                            <div style="font-size: 0.75rem; opacity: 0.9; font-weight: 500;">
+                                <?php echo !empty($olimpiada['anio']) ? 'Año ' . (int)$olimpiada['anio'] : 'Cooperativas e Inst.'; ?>
+                            </div>
+                        </div>
                     </div>
-                    <a href="<?php echo BASE_URL; ?>/delegaciones" class="small-box-footer">
-                        Ver &rsaquo;
-                    </a>
-                </div>
+                    <svg viewBox="0 0 400 60" preserveAspectRatio="none" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 32px; pointer-events: none; z-index: 1;">
+                        <path d="M0,35 C120,55 220,15 400,40 L400,60 L0,60 Z" fill="rgba(255, 255, 255, 0.22)"></path>
+                        <path d="M0,45 C150,20 280,50 400,28 L400,60 L0,60 Z" fill="rgba(255, 255, 255, 0.16)"></path>
+                    </svg>
+                </a>
             </div>
 
-            <div class="col-lg-3 col-6">
-                <div class="small-box box-cosmol-oscuro">
-                    <div class="inner">
-                        <h3><?php echo e($kpis['equipos']); ?></h3>
-                        <p>Equipos en Grupos</p>
+            <!-- 3. Equipos en Grupos (Verde / Esmeralda) -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3 mb-xl-0">
+                <a href="<?php echo BASE_URL; ?>/torneos" class="kpi-wave-card shadow-sm" style="background-color: #10b981;">
+                    <div class="d-flex align-items-center position-relative" style="z-index: 2;">
+                        <div class="mr-3 d-flex align-items-center justify-content-center" style="min-width: 54px;">
+                            <i class="fas fa-medal text-white" style="font-size: 2.8rem; opacity: 0.82;"></i>
+                        </div>
+                        <div class="flex-grow-1 text-white">
+                            <div class="text-uppercase font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.6px; opacity: 0.95; line-height: 1.2;">
+                                EQUIPOS
+                            </div>
+                            <div class="font-weight-bold my-1" style="font-size: 2.1rem; line-height: 1.1; color: #ffffff;">
+                                <?php echo (int)$kpis['equipos']; ?>
+                            </div>
+                            <div style="font-size: 0.75rem; opacity: 0.9; font-weight: 500;">
+                                <?php echo !empty($olimpiada['anio']) ? 'Año ' . (int)$olimpiada['anio'] : 'En competencia'; ?>
+                            </div>
+                        </div>
                     </div>
-                    <a href="<?php echo BASE_URL; ?>/torneos" class="small-box-footer">
-                        Ver &rsaquo;
-                    </a>
-                </div>
+                    <svg viewBox="0 0 400 60" preserveAspectRatio="none" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 32px; pointer-events: none; z-index: 1;">
+                        <path d="M0,35 C120,55 220,15 400,40 L400,60 L0,60 Z" fill="rgba(255, 255, 255, 0.22)"></path>
+                        <path d="M0,45 C150,20 280,50 400,28 L400,60 L0,60 Z" fill="rgba(255, 255, 255, 0.16)"></path>
+                    </svg>
+                </a>
             </div>
 
-            <div class="col-lg-3 col-6">
-                <div class="small-box box-cosmol-alerta">
-                    <div class="inner">
-                        <h3><?php echo e($kpis['sanciones_act']); ?></h3>
-                        <p>Sanciones Activas</p>
+            <!-- 4. Sanciones Activas (Rojo / Coral) -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3 mb-xl-0">
+                <a href="<?php echo BASE_URL; ?>/sanciones" class="kpi-wave-card shadow-sm" style="background-color: #dc3545;">
+                    <div class="d-flex align-items-center position-relative" style="z-index: 2;">
+                        <div class="mr-3 d-flex align-items-center justify-content-center" style="min-width: 54px;">
+                            <i class="fas fa-tag text-white" style="font-size: 2.8rem; opacity: 0.82;"></i>
+                        </div>
+                        <div class="flex-grow-1 text-white">
+                            <div class="text-uppercase font-weight-bold" style="font-size: 0.72rem; letter-spacing: 0.6px; opacity: 0.95; line-height: 1.2;">
+                                SANCIONES ACTIVAS
+                            </div>
+                            <div class="font-weight-bold my-1" style="font-size: 2.1rem; line-height: 1.1; color: #ffffff;">
+                                <?php echo (int)$kpis['sanciones_act']; ?>
+                            </div>
+                            <div style="font-size: 0.75rem; opacity: 0.9; font-weight: 500;">
+                                <?php echo !empty($olimpiada['anio']) ? 'Año ' . (int)$olimpiada['anio'] : 'Tribunal de penas'; ?>
+                            </div>
+                        </div>
                     </div>
-                    <a href="<?php echo BASE_URL; ?>/sanciones" class="small-box-footer">
-                        Ver &rsaquo;
-                    </a>
-                </div>
+                    <svg viewBox="0 0 400 60" preserveAspectRatio="none" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 32px; pointer-events: none; z-index: 1;">
+                        <path d="M0,35 C120,55 220,15 400,40 L400,60 L0,60 Z" fill="rgba(255, 255, 255, 0.22)"></path>
+                        <path d="M0,45 C150,20 280,50 400,28 L400,60 L0,60 Z" fill="rgba(255, 255, 255, 0.16)"></path>
+                    </svg>
+                </a>
             </div>
         </div>
         <!-- /.row -->
@@ -199,41 +273,8 @@
                         </table>
                     </div>
                 </div>
-            </div>
 
-            <!-- Columna Derecha: Disciplinas y Accesos Rápidos -->
-            <div class="col-lg-5">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header">
-                        <h3 class="card-title mb-0">
-                            Disciplinas en Competencia
-                        </h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <ul class="list-group list-group-flush">
-                            <?php foreach ($disciplinas as $d): ?>
-                            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                                <div>
-                                    <a href="<?php echo BASE_URL; ?>/torneos" class="font-weight-bold d-block" style="color: #0066B2;">
-                                        <?php echo e($d['nombre']); ?>
-                                    </a>
-                                    <small class="text-muted">Masculino y Femenino</small>
-                                </div>
-                                <span class="badge py-1 px-2 font-weight-bold" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;">
-                                    <?php echo e($d['torneos']); ?> Torneos
-                                </span>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                    <div class="card-footer text-center bg-white py-2">
-                        <a href="<?php echo BASE_URL; ?>/torneos" class="font-weight-bold text-sm" style="color: #00A3E0;">
-                            Gestionar Grupos y Fases &rsaquo;
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card de Acciones Rápidas (Sin iconos innecesarios) -->
+                <!-- Card de Acciones Rápidas (Debajo del Medallero) -->
                 <div class="card shadow-sm mb-4">
                     <div class="card-header">
                         <h3 class="card-title mb-0 card-title-cosmol">
@@ -263,6 +304,39 @@
                                 </a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Disciplinas -->
+            <div class="col-lg-5">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title mb-0">
+                            Disciplinas en Competencia
+                        </h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            <?php foreach ($disciplinas as $d): ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                <div>
+                                    <a href="<?php echo BASE_URL; ?>/torneos" class="font-weight-bold d-block" style="color: #0066B2;">
+                                        <?php echo e($d['nombre']); ?>
+                                    </a>
+                                    <small class="text-muted">Masculino y Femenino</small>
+                                </div>
+                                <span class="badge py-1 px-2 font-weight-bold" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;">
+                                    <?php echo e($d['torneos']); ?> Torneos
+                                </span>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <div class="card-footer text-center bg-white py-2">
+                        <a href="<?php echo BASE_URL; ?>/torneos" class="font-weight-bold text-sm" style="color: #00A3E0;">
+                            Gestionar Grupos y Fases &rsaquo;
+                        </a>
                     </div>
                 </div>
             </div>

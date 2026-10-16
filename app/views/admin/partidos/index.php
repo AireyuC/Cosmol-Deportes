@@ -156,7 +156,7 @@
                             <th>Sede y Cancha</th>
                             <th class="text-center" style="width: 120px;">Marcador</th>
                             <th class="text-center" style="width: 110px;">Estado</th>
-                            <th class="text-center" style="width: 190px;">Acciones</th>
+                            <th class="text-center text-nowrap" style="width: 270px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -274,24 +274,26 @@
                                             <?php echo str_replace('_', ' ', e($p['estado'])); ?>
                                         </span>
                                     </td>
-                                    <td class="text-center align-middle">
-                                        <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>" class="btn btn-xs btn-outline-primary px-2 py-1" title="Ficha del Partido y Ruta GPS">
-                                            Detalle
-                                        </a>
-                                        <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/acta" class="btn btn-xs btn-outline-success px-2 py-1" title="Acta Digital de Juego">
-                                            Acta
-                                        </a>
-                                        <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/editar" class="btn btn-xs btn-outline-secondary px-2 py-1" title="Reprogramar Encuentro">
-                                                Editar
+                                    <td class="text-center align-middle text-nowrap">
+                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
+                                            <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ficha del Partido y Ruta GPS">
+                                                Detalle
                                             </a>
-                                            <form action="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/eliminar" method="post" class="d-inline" onsubmit="return confirm('¿Seguro de eliminar este encuentro del fixture?');">
-                                                <?php echo CsrfHelper::field(); ?>
-                                                <button type="submit" class="btn btn-xs btn-outline-danger px-2 py-1" title="Eliminar">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-                                        <?php endif; ?>
+                                            <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/acta" class="btn btn-xs btn-outline-success font-weight-bold px-2 py-1" title="Acta Digital de Juego">
+                                                Acta
+                                            </a>
+                                            <?php if (AuthHelper::isAdmin()): ?>
+                                                <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Reprogramar Encuentro">
+                                                    Editar
+                                                </a>
+                                                <form action="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/eliminar" method="post" class="d-inline m-0 p-0" onsubmit="return confirm('¿Seguro de eliminar este encuentro del fixture?');">
+                                                    <?php echo CsrfHelper::field(); ?>
+                                                    <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Eliminar">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            <?php endif; ?>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

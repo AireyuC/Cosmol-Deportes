@@ -71,7 +71,7 @@
                             <th class="text-center">Grupo</th>
                             <th class="text-center">Plantilla</th>
                             <th>Delegado / Contacto</th>
-                            <th class="text-center" style="width: 170px;">Acciones</th>
+                            <th class="text-center text-nowrap" style="width: 240px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,18 +123,22 @@
                                             <?php echo e($eq['telefono_contacto']); ?>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="text-center">
-                                        <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="btn btn-xs btn-info" title="Ver Plantilla de Jugadores">
-                                            Nómina
-                                        </a>
-                                        <?php if (AuthHelper::isAdmin()): ?>
-                                            <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-primary ml-1" title="Editar">
-                                                Editar
+                                    <td class="text-center text-nowrap">
+                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
+                                            <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ver Plantilla de Jugadores">
+                                                Nómina
                                             </a>
-                                            <button type="button" class="btn btn-xs btn-danger ml-1" data-toggle="modal" data-target="#modalDeleteEq<?php echo e($eq['id']); ?>" title="Eliminar">
-                                                Eliminar
-                                            </button>
+                                            <?php if (AuthHelper::isAdmin()): ?>
+                                                <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                    Editar
+                                                </a>
+                                                <button type="button" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" data-toggle="modal" data-target="#modalDeleteEq<?php echo e($eq['id']); ?>" title="Eliminar">
+                                                    Eliminar
+                                                </button>
+                                            <?php endif; ?>
+                                        </div>
 
+                                        <?php if (AuthHelper::isAdmin()): ?>
                                             <!-- Modal Confirmar Eliminación -->
                                             <div class="modal fade" id="modalDeleteEq<?php echo e($eq['id']); ?>" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
