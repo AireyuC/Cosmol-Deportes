@@ -1,0 +1,96 @@
+/**
+ * ====================================================================
+ * ESTILOS DE VISTA: DETALLE DEL PARTIDO / ENCUENTRO
+ * Archivo: public/css/partido_detalle.css
+ * Vista asociada: app/views/public/partido_detalle.php
+ * Sistema: COSMOL Deportes (Olimpiadas Inter-Cooperativas)
+ * ====================================================================
+ */
+
+/* Tarjeta Principal del Encuentro */
+.match-detail-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid var(--cosmol-borde, #E2E8F0);
+    overflow: hidden;
+}
+
+/* Cabecera del Encuentro (Sólido institucional, sin gradientes) */
+.match-detail-header {
+    background: #0066B2;
+    color: #FFFFFF;
+    padding: 1rem 1.5rem;
+}
+
+.match-detail-disc-badge {
+    letter-spacing: 0.5px;
+}
+
+.match-detail-group-badge {
+    background: rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+}
+
+/* Nombres de Equipos */
+.match-detail-team-title {
+    font-size: 1.6rem;
+    color: #0F172A;
+}
+
+/* Caja de Marcador / Estado Central */
+.match-score-box {
+    background: #F8FAFC;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #CBD5E1;
+    display: inline-block;
+    min-width: 120px;
+}
+
+.match-score-final-num {
+    font-size: 2.2rem;
+    line-height: 1;
+    color: #0F172A;
+}
+
+.match-score-live-num {
+    font-size: 2rem;
+    line-height: 1;
+    color: #DC2626;
+}
+
+.match-score-vs-num {
+    font-size: 1.8rem;
+    line-height: 1;
+    color: #64748B;
+}
+
+/* Tarjeta de Información de Cancha y Sede */
+.venue-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid var(--cosmol-borde, #E2E8F0);
+    overflow: hidden;
+}
+
+/* Botón Plano de GPS */
+.btn-gps-flat-lg {
+    background: #047857;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 6px;
+    padding: 0.65rem 1.25rem;
+    transition: background 0.15s ease;
+}
+
+.btn-gps-flat-lg:hover {
+    background: #065F46;
+    color: #FFFFFF;
+}
+
+/* Botones de acción inferiores */
+.btn-action-rounded {
+    border-radius: 6px;
+}

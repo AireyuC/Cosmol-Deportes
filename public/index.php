@@ -40,9 +40,11 @@ spl_autoload_register(function ($className) {
 // ==========================================
 Router::get('/', 'PortalController@index');
 Router::get('/disciplina/{id}', 'PortalController@disciplina');
+Router::get('/portal/disciplina/{id}', 'PortalController@disciplina');
 Router::get('/portal/sedes', 'PortalController@sedes');
 Router::get('/portal/posiciones', 'PortalController@posiciones');
 Router::get('/portal/fixture', 'PortalController@fixture');
+Router::get('/portal/partido/{id}', 'PortalController@partidoDetalle');
 Router::get('/portal/medallero', 'PortalController@medallero');
 
 // ==========================================

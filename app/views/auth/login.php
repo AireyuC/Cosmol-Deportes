@@ -3,167 +3,127 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Iniciar Sesión | <?php echo APP_NAME; ?></title>
+    <title>Acceso Administrativo | <?php echo APP_NAME; ?></title>
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=fallback">
-    <!-- Theme style: AdminLTE 3.2.0 -->
+    <!-- Google Fonts: Outfit & Source Sans Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Theme style: Bootstrap 4.6 & AdminLTE -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
     
-    <style>
-        :root {
-            --cosmol-azul: #0066B2;
-            --cosmol-celeste: #00A3E0;
-            --cosmol-fondo: #F0F6FA;
-            --cosmol-blanco: #FFFFFF;
-        }
-        body.login-page {
-            background-color: var(--cosmol-fondo);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        .login-box {
-            width: 390px;
-        }
-        .card-cosmol {
-            border-top: 4px solid var(--cosmol-azul);
-            border-radius: 8px;
-            box-shadow: 0 4px 18px rgba(0, 102, 178, 0.12);
-        }
-        .btn-cosmol {
-            background-color: var(--cosmol-azul);
-            border-color: var(--cosmol-azul);
-            color: #FFFFFF;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-        .btn-cosmol:hover, .btn-cosmol:focus {
-            background-color: #004d87;
-            border-color: #004d87;
-            color: #FFFFFF;
-        }
-        .link-cosmol {
-            color: var(--cosmol-azul);
-            font-weight: 600;
-        }
-        .link-cosmol:hover {
-            color: var(--cosmol-celeste);
-            text-decoration: underline;
-        }
-        .logo-login {
-            max-width: 140px;
-            height: auto;
-            display: block;
-            margin: 0 auto 12px auto;
-            filter: drop-shadow(0 2px 4px rgba(0, 102, 178, 0.15));
-        }
-    </style>
+    <!-- Estilos específicos de la vista de Login -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/login.css">
 </head>
 <body class="hold-transition login-page">
-<div class="login-box">
+<div class="login-card-container">
 
-    <!-- Card Principal de Login -->
-    <div class="card card-cosmol bg-white">
-        <div class="card-body login-card-body p-4">
-            
-            <!-- Logo Institucional COSMOL -->
-            <div class="text-center mb-3">
-                <a href="<?php echo BASE_URL; ?>/">
-                    <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL R.L." class="logo-login">
-                </a>
-                <h5 class="font-weight-bold text-dark mb-0" style="color: #0066B2 !important;">
-                    COSMOL R.L.
-                </h5>
-                <span class="badge badge-primary px-2 py-1 mt-1 font-weight-normal text-xs" style="background-color: #0066B2;">
-                    Acceso Administrativo
+    <!-- Card de Acceso Administrativo -->
+    <div class="card-login-admin">
+        
+        <!-- Encabezado con Identidad Institucional -->
+        <div class="login-header">
+            <a href="<?php echo BASE_URL; ?>/">
+                <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL R.L." class="logo-login">
+            </a>
+            <h1 class="login-title mb-1">COSMOL DEPORTES</h1>
+            <div>
+                <span class="badge-admin-portal">
+                    <i class="fas fa-lock mr-1"></i> Acceso Administrativo
                 </span>
-                <p class="text-muted text-xs font-weight-normal mt-1 mb-0">
-                    Olimpiadas Deportivas Institucionales
-                </p>
             </div>
+        </div>
 
-            <p class="login-box-msg text-secondary text-sm px-0 mb-3 font-weight-normal">
-                Ingrese sus credenciales de administrador para gestionar las olimpiadas
-            </p>
-
-            <!-- Alertas Flash limpias -->
+        <div class="login-body pt-2">
+            <!-- Alertas Flash -->
             <?php if (Session::hasFlash('error')): ?>
-                <div class="alert alert-danger py-2 px-3 text-sm mb-3">
+                <div class="alert alert-danger py-2 px-3 text-sm mb-3 border-0" style="background-color: #FEE2E2; color: #991B1B; border-radius: 8px;">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
                     <?php echo e(Session::getFlash('error')); ?>
                 </div>
             <?php endif; ?>
 
             <?php if (Session::hasFlash('success')): ?>
-                <div class="alert alert-success py-2 px-3 text-sm mb-3">
+                <div class="alert alert-success py-2 px-3 text-sm mb-3 border-0" style="background-color: #DCFCE7; color: #166534; border-radius: 8px;">
+                    <i class="fas fa-check-circle mr-1"></i>
                     <?php echo e(Session::getFlash('success')); ?>
                 </div>
             <?php endif; ?>
 
-            <?php if (Session::hasFlash('warning')): ?>
-                <div class="alert alert-warning py-2 px-3 text-sm mb-3">
-                    <?php echo e(Session::getFlash('warning')); ?>
-                </div>
-            <?php endif; ?>
-
             <?php if (Session::hasFlash('info')): ?>
-                <div class="alert alert-info py-2 px-3 text-sm mb-3">
+                <div class="alert alert-info py-2 px-3 text-sm mb-3 border-0" style="background-color: #E0F2FE; color: #075985; border-radius: 8px;">
                     <i class="fas fa-info-circle mr-1"></i>
                     <?php echo e(Session::getFlash('info')); ?>
                 </div>
             <?php endif; ?>
 
-            <!-- Formulario de Acceso Administrativo -->
-            <form action="<?php echo BASE_URL; ?>/login" method="post">
+            <!-- Formulario Seguro de Acceso -->
+            <form action="<?php echo BASE_URL; ?>/login" method="post" id="formLogin" autocomplete="off">
                 <?php echo CsrfHelper::field(); ?>
 
+                <!-- Campo: Usuario Administrador -->
                 <div class="form-group mb-3">
-                    <label for="username" class="text-sm font-weight-normal text-secondary mb-1">Usuario Administrador</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Ej: admin" required autofocus value="<?php echo isset($oldUsername) ? e($oldUsername) : ''; ?>">
+                    <label for="username" class="text-xs font-weight-bold text-uppercase mb-1" style="color: #475569; letter-spacing: 0.4px;">
+                        Usuario
+                    </label>
+                    <div class="input-group">
+                        <input type="text" 
+                               id="username" 
+                               name="username" 
+                               class="form-control form-control-login" 
+                               placeholder="Ingrese su usuario" 
+                               required 
+                               autofocus 
+                               autocomplete="username"
+                               autocapitalize="none"
+                               spellcheck="false"
+                               maxlength="50"
+                               value="<?php echo isset($oldUsername) ? e($oldUsername) : ''; ?>">
+                    </div>
                 </div>
 
+                <!-- Campo: Contraseña con Toggle de Visibilidad -->
                 <div class="form-group mb-3">
-                    <label for="password" class="text-sm font-weight-normal text-secondary mb-1">Contraseña</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
-                </div>
-
-                <div class="row align-items-center mb-3 mt-4">
-                    <div class="col-6">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="remember" name="remember">
-                            <label class="custom-control-label text-sm font-weight-normal text-muted" for="remember">
-                                Recordarme
-                            </label>
+                    <label for="password" class="text-xs font-weight-bold text-uppercase mb-1" style="color: #475569; letter-spacing: 0.4px;">
+                        Contraseña
+                    </label>
+                    <div class="input-group">
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               class="form-control form-control-login input-password-field" 
+                               placeholder="••••••••" 
+                               required 
+                               autocomplete="current-password"
+                               maxlength="100">
+                        <div class="input-group-append">
+                            <button type="button" 
+                                    class="input-group-text input-group-text-btn" 
+                                    id="btnTogglePassword" 
+                                    tabindex="-1"
+                                    title="Mostrar u ocultar contraseña">
+                                <i class="fas fa-eye" id="iconTogglePassword"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="col-6 text-right">
-                        <button type="submit" class="btn btn-cosmol btn-block">
-                            Ingresar al Panel
-                        </button>
-                    </div>
+                </div>
+
+                <!-- Botón Principal de Acceso -->
+                <div class="mt-4 mb-2">
+                    <button type="submit" class="btn btn-login-submit btn-block shadow-none" id="btnSubmit">
+                        Iniciar Sesión
+                    </button>
                 </div>
             </form>
 
-            <!-- Credenciales de prueba discretas para administrador -->
-            <div class="mt-4 pt-3 border-top text-center">
-                <span class="text-xs text-muted d-block mb-1">Credencial de Administrador:</span>
-                <div class="p-2 rounded" style="background-color: #F7FAFC; border: 1px solid #E2E8F0; font-size: 0.8rem;">
-                    <div><strong>Admin:</strong> <code>admin</code> / <code>admin123</code></div>
-                </div>
-            </div>
-
-            <!-- Enlace de regreso al Portal Público Informativo -->
+            <!-- Enlace Volver a Portada -->
             <div class="text-center mt-3 pt-2">
-                <p class="mb-0 text-sm">
-                    <a href="<?php echo BASE_URL; ?>/" class="link-cosmol font-weight-bold">
-                        <i class="fas fa-arrow-left mr-1"></i> Volver al Portal Informativo
-                    </a>
-                </p>
-                <small class="text-muted d-block mt-2" style="font-size: 0.72rem;">
-                    * Acceso exclusivo para el comité organizador de COSMOL.
-                </small>
+                <a href="<?php echo BASE_URL; ?>/" class="link-portal">
+                    <i class="fas fa-arrow-left mr-1"></i> Volver al Portal Informativo
+                </a>
             </div>
 
         </div>
@@ -173,5 +133,31 @@
 <!-- Scripts básicos -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Toggle de visibilidad de contraseña
+        $('#btnTogglePassword').on('click', function(e) {
+            e.preventDefault();
+            var input = $('#password');
+            var icon = $('#iconTogglePassword');
+
+            if (input.attr('type') === 'password') {
+                input.attr('type', 'text');
+                icon.removeClass('fa-eye').addClass('fa-eye-slash');
+            } else {
+                input.attr('type', 'password');
+                icon.removeClass('fa-eye-slash').addClass('fa-eye');
+            }
+        });
+
+        // Prevención de envíos múltiples simultáneos
+        $('#formLogin').on('submit', function() {
+            var btn = $('#btnSubmit');
+            btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i> Verificando credenciales...');
+        });
+    });
+</script>
+
 </body>
 </html>

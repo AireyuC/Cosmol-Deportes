@@ -65,6 +65,31 @@ class Torneo extends Model {
     }
 
     /**
+     * Obtiene los torneos asociados a una disciplina
+     *
+     * @param int $disciplinaId
+     * @param int|null $olimpiadaId
+     * @return array
+     */
+    public function getByDisciplinaId($disciplinaId, $olimpiadaId = null) {
+        $params = ['disciplina_id' => (int)$disciplinaId];
+        $whereOlimpiada = "";
+        if ($olimpiadaId !== null) {
+            $whereOlimpiada = "AND t.olimpiada_id = :olimpiada_id";
+            $params['olimpiada_id'] = (int)$olimpiadaId;
+        }
+
+        $sql = "SELECT t.*, r.pts_victoria, r.pts_empate, r.pts_derrota, r.formato_sets, r.sets_para_ganar,
+                       (SELECT COUNT(*) FROM equipos e WHERE e.torneo_id = t.id) AS total_equipos
+                FROM torneos t
+                LEFT JOIN reglas_puntuacion r ON t.regla_puntuacion_id = r.id
+                WHERE t.disciplina_id = :disciplina_id {$whereOlimpiada}
+                ORDER BY t.rama ASC, t.nombre ASC";
+
+        return $this->fetchAll($sql, $params);
+    }
+
+    /**
      * Registra un nuevo torneo
      *
      * @param array $data

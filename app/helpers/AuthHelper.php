@@ -15,6 +15,7 @@ class AuthHelper {
      */
     public static function login($user) {
         Session::init();
+        session_regenerate_id(true); // Prevenir ataques de fijación de sesión (Session Fixation)
         Session::set('user_id', (int)$user['id']);
         Session::set('user_nombre', $user['nombre']);
         Session::set('user_username', isset($user['username']) ? $user['username'] : '');

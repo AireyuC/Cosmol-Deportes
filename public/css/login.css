@@ -1,0 +1,154 @@
+/**
+ * ====================================================================
+ * ESTILOS DE ACCESO ADMINISTRATIVO - COSMOL DEPORTES
+ * Archivo: public/css/login.css
+ * ====================================================================
+ */
+
+:root {
+    --cosmol-azul-deep: #00223E;
+    --cosmol-azul: #0066B2;
+    --cosmol-azul-hover: #004D87;
+    --cosmol-fondo: #F1F5F9;
+    --cosmol-borde: #E2E8F0;
+    --cosmol-texto: #1E293B;
+    --cosmol-muted: #64748B;
+}
+
+body.login-page {
+    background-color: var(--cosmol-fondo);
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1.5rem;
+    margin: 0;
+}
+
+.login-card-container {
+    width: 100%;
+    max-width: 410px;
+}
+
+.card-login-admin {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid var(--cosmol-borde);
+    box-shadow: 0 4px 16px rgba(0, 34, 62, 0.06);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+
+.login-header {
+    text-align: center;
+    padding: 2rem 2rem 1rem 2rem;
+    background-color: #FFFFFF;
+}
+
+.logo-login {
+    max-width: 130px;
+    height: auto;
+    display: block;
+    margin: 0 auto 0.75rem auto;
+}
+
+.login-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--cosmol-azul-deep);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.2px;
+}
+
+.badge-admin-portal {
+    background-color: #EEF6FF;
+    color: var(--cosmol-azul);
+    border: 1px solid #BFDBFE;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.login-body {
+    padding: 1.25rem 2rem 2rem 2rem;
+}
+
+.form-control-login {
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid var(--cosmol-borde);
+    font-size: 0.92rem;
+    color: var(--cosmol-texto);
+    padding: 0.5rem 0.85rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control-login:focus {
+    border-color: var(--cosmol-azul);
+    box-shadow: 0 0 0 3px rgba(0, 102, 178, 0.15);
+    background-color: #FFFFFF;
+}
+
+.input-password-field {
+    border-radius: 8px 0 0 8px !important;
+}
+
+.input-group-text-btn {
+    background-color: #F8FAFC;
+    border: 1px solid var(--cosmol-borde);
+    border-radius: 0 8px 8px 0;
+    color: var(--cosmol-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0 0.85rem;
+}
+
+.input-group-text-btn:hover {
+    color: var(--cosmol-azul);
+    background-color: #EEF6FF;
+}
+
+.btn-login-submit {
+    background-color: var(--cosmol-azul);
+    border: 1px solid var(--cosmol-azul);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.95rem;
+    height: 44px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-login-submit:hover,
+.btn-login-submit:focus {
+    background-color: var(--cosmol-azul-hover);
+    border-color: var(--cosmol-azul-hover);
+    color: #FFFFFF;
+}
+
+.btn-login-submit:disabled {
+    background-color: #94A3B8;
+    border-color: #94A3B8;
+    cursor: not-allowed;
+}
+
+.link-portal {
+    color: var(--cosmol-muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: color 0.15s ease;
+}
+
+.link-portal:hover {
+    color: var(--cosmol-azul);
+    text-decoration: none;
+}
