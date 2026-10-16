@@ -13,6 +13,8 @@ require_once APP_PATH . '/models/Torneo.php';
 require_once APP_PATH . '/models/Delegacion.php';
 require_once APP_PATH . '/models/Sede.php';
 require_once APP_PATH . '/models/Partido.php';
+require_once APP_PATH . '/models/PartidoSet.php';
+require_once APP_PATH . '/models/Incidencia.php';
 require_once APP_PATH . '/models/Medallero.php';
 require_once APP_PATH . '/models/Posicion.php';
 require_once APP_PATH . '/helpers/AuthHelper.php';
@@ -31,6 +33,10 @@ class PortalController extends Controller {
     private $sedeModel;
     /** @var Partido */
     private $partidoModel;
+    /** @var PartidoSet */
+    private $partidoSetModel;
+    /** @var Incidencia */
+    private $incidenciaModel;
     /** @var Medallero */
     private $medalleroModel;
     /** @var Posicion */
@@ -43,6 +49,8 @@ class PortalController extends Controller {
         $this->delegacionModel = new Delegacion();
         $this->sedeModel       = new Sede();
         $this->partidoModel    = new Partido();
+        $this->partidoSetModel = new PartidoSet();
+        $this->incidenciaModel = new Incidencia();
         $this->medalleroModel  = new Medallero();
         $this->posicionModel   = new Posicion();
     }
@@ -142,13 +150,16 @@ class PortalController extends Controller {
             $sedes = [];
         }
 
-        // 5. Medallero Olímpico General
+        // 5. Medallero Olímpico General y Podios por Torneo
         $medallero = [];
+        $podios    = [];
         if ($olimpiadaId) {
             try {
                 $medallero = $this->medalleroModel->getResumenPorOlimpiada($olimpiadaId);
+                $podios    = $this->medalleroModel->getPodiosPorOlimpiada($olimpiadaId);
             } catch (Exception $e) {
                 $medallero = [];
+                $podios    = [];
             }
         }
 
@@ -203,6 +214,7 @@ class PortalController extends Controller {
             'delegaciones'      => $delegaciones,
             'sedes'             => $sedes,
             'medallero'         => $medallero,
+            'podios'            => $podios,
             'proximosPartidos'  => $proximosPartidos,
             'ultimosResultados' => $ultimosResultados,
             'partidosHoy'       => $partidosHoy,
@@ -237,17 +249,7 @@ class PortalController extends Controller {
 
         $torneos = [];
         try {
-            $sql = "SELECT t.*, r.pts_victoria, r.pts_empate, r.pts_derrota, r.formato_sets, r.sets_para_ganar,
-                           (SELECT COUNT(*) FROM equipos e WHERE e.torneo_id = t.id) AS total_equipos
-                    FROM torneos t
-                    LEFT JOIN reglas_puntuacion r ON t.regla_puntuacion_id = r.id
-                    WHERE t.disciplina_id = :disciplina_id " . ($olimpiadaId ? "AND t.olimpiada_id = :olimpiada_id" : "") . "
-                    ORDER BY t.rama ASC, t.nombre ASC";
-            $params = ['disciplina_id' => $id];
-            if ($olimpiadaId) {
-                $params['olimpiada_id'] = $olimpiadaId;
-            }
-            $torneos = $this->torneoModel->fetchAll($sql, $params);
+            $torneos = $this->torneoModel->getByDisciplinaId($id, $olimpiadaId);
         } catch (Exception $e) {
             $torneos = [];
         }
@@ -303,7 +305,7 @@ class PortalController extends Controller {
             }
         }
 
-        $this->view('public/disciplina', [
+        $this->view('public/disciplinas/detalle', [
             'pageTitle'    => $disciplina['nombre'] . ' | Olimpiadas COSMOL',
             'disciplina'   => $disciplina,
             'olimpiada'    => $olimpiada,
@@ -320,7 +322,7 @@ class PortalController extends Controller {
         $olimpiada = $this->olimpiadaModel->getActiva();
         $sedes = $this->sedeModel->getAllWithCanchas();
 
-        $this->view('public/sedes', [
+        $this->view('public/sedes/detalle', [
             'pageTitle'     => 'Sedes Deportivas y Cómo Llegar | Olimpiadas COSMOL',
             'olimpiada'     => $olimpiada,
             'sedes'         => $sedes,
@@ -354,7 +356,7 @@ class PortalController extends Controller {
             }
         }
 
-        $this->view('public/posiciones', [
+        $this->view('public/posiciones/detalle', [
             'pageTitle'          => 'Tablas de Posiciones | Olimpiadas COSMOL',
             'olimpiada'          => $olimpiada,
             'torneos'            => $torneos,
@@ -371,11 +373,41 @@ class PortalController extends Controller {
         $olimpiada = $this->olimpiadaModel->getActiva();
         $disciplinas = $this->disciplinaModel->getAll();
 
+        // Orden de prioridad oficial de disciplinas: Fútbol, Básquetbol, Futsal, Voleibol, Cacho, Billar, Karaoke
+        $ordenPrioridad = [
+            'futbol'     => 1,
+            'fútbol'     => 1,
+            'basquetbol' => 2,
+            'básquetbol' => 2,
+            'basquet'    => 2,
+            'básquet'    => 2,
+            'futsal'     => 3,
+            'voleibol'   => 4,
+            'voley'      => 4,
+            'cacho'      => 5,
+            'billar'     => 6,
+            'karaoke'    => 7
+        ];
+
+        usort($disciplinas, function($a, $b) use ($ordenPrioridad) {
+            $nA = mb_strtolower(trim($a['nombre']), 'UTF-8');
+            $nB = mb_strtolower(trim($b['nombre']), 'UTF-8');
+            $pA = isset($ordenPrioridad[$nA]) ? $ordenPrioridad[$nA] : 999;
+            $pB = isset($ordenPrioridad[$nB]) ? $ordenPrioridad[$nB] : 999;
+            if ($pA === $pB) {
+                return strcmp($nA, $nB);
+            }
+            return ($pA < $pB) ? -1 : 1;
+        });
+
         $disciplinaFiltro = isset($_GET['disciplina_id']) ? (int)$_GET['disciplina_id'] : null;
         $fechaFiltro      = isset($_GET['fecha']) ? trim($_GET['fecha']) : null;
-        $estadoFiltro     = isset($_GET['estado']) ? trim($_GET['estado']) : null;
 
-        $todosPartidos = $this->partidoModel->getAll(null, $estadoFiltro, $fechaFiltro);
+        $fechaHoy    = date('Y-m-d');
+        $fechaAyer   = date('Y-m-d', strtotime('-1 day'));
+        $fechaManana = date('Y-m-d', strtotime('+1 day'));
+
+        $todosPartidos = $this->partidoModel->getAll(null, null, $fechaFiltro);
 
         if ($disciplinaFiltro && $disciplinaFiltro > 0) {
             $partidosFiltrados = [];
@@ -387,43 +419,100 @@ class PortalController extends Controller {
             $todosPartidos = $partidosFiltrados;
         }
 
-        $this->view('public/fixture', [
+        // Ordenar partidos prioritariamente por Disciplina y luego por fecha y hora
+        usort($todosPartidos, function($a, $b) use ($ordenPrioridad) {
+            $nA = mb_strtolower(trim($a['disciplina_nombre']), 'UTF-8');
+            $nB = mb_strtolower(trim($b['disciplina_nombre']), 'UTF-8');
+            $pA = isset($ordenPrioridad[$nA]) ? $ordenPrioridad[$nA] : 999;
+            $pB = isset($ordenPrioridad[$nB]) ? $ordenPrioridad[$nB] : 999;
+            if ($pA !== $pB) {
+                return ($pA < $pB) ? -1 : 1;
+            }
+            if ($a['fecha_partido'] !== $b['fecha_partido']) {
+                return strcmp($a['fecha_partido'], $b['fecha_partido']);
+            }
+            $horaA = !empty($a['hora_partido']) ? $a['hora_partido'] : '';
+            $horaB = !empty($b['hora_partido']) ? $b['hora_partido'] : '';
+            return strcmp($horaA, $horaB);
+        });
+
+        // Clasificar partidos por fechas (Ayer, Hoy, Mañana)
+        $partidosHoy    = [];
+        $partidosAyer   = [];
+        $partidosManana = [];
+        foreach ($todosPartidos as $p) {
+            if ($p['fecha_partido'] === $fechaHoy) {
+                $partidosHoy[] = $p;
+            } elseif ($p['fecha_partido'] === $fechaAyer) {
+                $partidosAyer[] = $p;
+            } elseif ($p['fecha_partido'] === $fechaManana) {
+                $partidosManana[] = $p;
+            }
+        }
+
+        $this->view('public/partidos/fixture', [
             'pageTitle'        => 'Fixture y Calendario Deportivo | Olimpiadas COSMOL',
             'olimpiada'        => $olimpiada,
             'disciplinas'      => $disciplinas,
             'partidos'         => $todosPartidos,
+            'partidosHoy'      => $partidosHoy,
+            'partidosAyer'     => $partidosAyer,
+            'partidosManana'   => $partidosManana,
+            'fechaHoy'         => $fechaHoy,
+            'fechaAyer'        => $fechaAyer,
+            'fechaManana'      => $fechaManana,
             'disciplinaFiltro' => $disciplinaFiltro,
             'fechaFiltro'      => $fechaFiltro,
-            'estadoFiltro'     => $estadoFiltro,
             'isAdminLogged'    => AuthHelper::isAdmin()
         ], null);
     }
 
     /**
-     * Vista pública del Medallero Olímpico Oficial
+     * Vista pública de Detalle de un Partido o Encuentro
+     *
+     * @param int $id ID del partido
      */
-    public function medallero() {
-        $olimpiada = $this->olimpiadaModel->getActiva();
-        $olimpiadaId = $olimpiada ? (int)$olimpiada['id'] : null;
+    public function partidoDetalle($id) {
+        $id = (int)$id;
+        $partido = $this->partidoModel->getById($id);
 
-        $resumen = [];
-        $podios = [];
-        if ($olimpiadaId) {
-            try {
-                $resumen = $this->medalleroModel->getResumenPorOlimpiada($olimpiadaId);
-                $podios  = $this->medalleroModel->getPodiosPorOlimpiada($olimpiadaId);
-            } catch (Exception $e) {
-                $resumen = [];
-                $podios  = [];
-            }
+        if (!$partido) {
+            Session::setFlash('error', 'El encuentro solicitado no existe o fue reprogramado.');
+            $this->redirect('/portal/fixture');
         }
 
-        $this->view('public/medallero', [
-            'pageTitle'     => 'Medallero Olímpico General | Olimpiadas COSMOL',
+        $olimpiada = $this->olimpiadaModel->getActiva();
+
+        $sets = [];
+        try {
+            $sets = $this->partidoSetModel->getByPartidoId($id);
+        } catch (Exception $e) {
+            $sets = [];
+        }
+
+        $incidencias = [];
+        try {
+            $incidencias = $this->incidenciaModel->getByPartidoId($id);
+        } catch (Exception $e) {
+            $incidencias = [];
+        }
+
+        $this->view('public/partidos/detalle', [
+            'pageTitle'     => $partido['disciplina_nombre'] . ': ' . $partido['local_nombre'] . ' vs ' . $partido['visitante_nombre'] . ' | COSMOL',
+            'partido'       => $partido,
+            'sets'          => $sets,
+            'incidencias'   => $incidencias,
             'olimpiada'     => $olimpiada,
-            'resumen'       => $resumen,
-            'podios'        => $podios,
             'isAdminLogged' => AuthHelper::isAdmin()
         ], null);
+    }
+
+    /**
+     * Vista pública del Medallero Olímpico Oficial
+     * Redirige a la sección unificada de Posiciones y Medallero en la portada pública
+     * evitando redundancia de vistas.
+     */
+    public function medallero() {
+        $this->redirect('/#posiciones');
     }
 }

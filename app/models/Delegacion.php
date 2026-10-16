@@ -14,9 +14,13 @@ class Delegacion extends Model {
      * @return array
      */
     public function getAll() {
-        $sql = "SELECT d.*, COUNT(e.id) AS total_equipos 
+        $sql = "SELECT d.*, 
+                       COUNT(DISTINCT e.id) AS total_equipos,
+                       GROUP_CONCAT(DISTINCT disc.nombre ORDER BY disc.nombre SEPARATOR ', ') AS disciplinas_nombres
                 FROM delegaciones d 
                 LEFT JOIN equipos e ON d.id = e.delegacion_id 
+                LEFT JOIN torneos t ON e.torneo_id = t.id
+                LEFT JOIN disciplinas disc ON t.disciplina_id = disc.id
                 GROUP BY d.id 
                 ORDER BY d.nombre ASC";
         return $this->fetchAll($sql);

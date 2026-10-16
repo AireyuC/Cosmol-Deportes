@@ -241,40 +241,40 @@ h1, h2, h3, h4, h5, .brand-font {
 
 .sport-card {
     background: #FFFFFF;
-    border-radius: 18px;
+    border-radius: 12px;
     border: 1px solid var(--cosmol-borde);
-    padding: 1.5rem 1.25rem;
+    padding: 1.1rem 0.9rem;
     text-align: center;
-    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.25s ease;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .sport-card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 16px 32px rgba(0, 102, 178, 0.13);
-    border-color: var(--cosmol-celeste);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 102, 178, 0.12);
+    border-color: var(--cosmol-azul);
 }
 
 .sport-card-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.75rem;
 }
 
 .sport-category-tag {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding: 0.28rem 0.65rem;
-    border-radius: 50px;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -296,12 +296,12 @@ h1, h2, h3, h4, h5, .brand-font {
 }
 
 .sport-status-pill {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
     color: #10B981;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 
 .sport-status-pill::before {
@@ -314,70 +314,77 @@ h1, h2, h3, h4, h5, .brand-font {
 }
 
 .sport-icon-wrapper {
-    width: 74px;
-    height: 74px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.9rem;
-    margin: 0 auto 1.1rem auto;
-    transition: all 0.35s ease;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    font-size: 1.35rem;
+    margin: 0 auto 0.65rem auto;
+    transition: transform 0.25s ease;
 }
 
 .sport-card:hover .sport-icon-wrapper {
-    transform: scale(1.1) rotate(3deg);
-    box-shadow: 0 8px 22px rgba(0, 102, 178, 0.18);
+    transform: scale(1.08);
 }
 
-/* Iconos y acentos temáticos individuales */
-.sport-icon-futbol     { background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%); color: #0284C7; }
-.sport-icon-futsal     { background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%); color: #4338CA; }
-.sport-icon-basquetbol { background: linear-gradient(135deg, #FFEDD5 0%, #FED7AA 100%); color: #EA580C; }
-.sport-icon-voleibol   { background: linear-gradient(135deg, #CCFBF1 0%, #99F6E4 100%); color: #0D9488; }
-.sport-icon-cacho      { background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%); color: #7E22CE; }
-.sport-icon-billar     { background: linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%); color: #15803D; }
-.sport-icon-karaoke    { background: linear-gradient(135deg, #FCE7F3 0%, #FBCFE8 100%); color: #BE185D; }
-.sport-icon-default    { background: linear-gradient(135deg, #EAF4FB 0%, #BAE6FD 100%); color: var(--cosmol-azul); }
+.sport-icon-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Iconos y acentos temáticos individuales (Planos, sin gradientes) */
+.sport-icon-futbol     { background: #E0F2FE; color: #0284C7; }
+.sport-icon-futsal     { background: #E0E7FF; color: #4338CA; }
+.sport-icon-basquetbol { background: #FFEDD5; color: #EA580C; }
+.sport-icon-voleibol   { background: #CCFBF1; color: #0D9488; }
+.sport-icon-cacho      { background: #F3E8FF; color: #7E22CE; }
+.sport-icon-billar     { background: #DCFCE7; color: #15803D; }
+.sport-icon-karaoke    { background: #FCE7F3; color: #BE185D; }
+.sport-icon-default    { background: #EAF4FB; color: var(--cosmol-azul); }
 
 .sport-name {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: #1E293B;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
 }
 
 .sport-desc {
-    font-size: 0.84rem;
+    font-size: 0.78rem;
     color: var(--cosmol-muted);
-    margin-bottom: 1.1rem;
-    min-height: 42px;
-    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    min-height: 34px;
+    line-height: 1.35;
 }
 
 .sport-info-box {
     background: #F8FAFC;
-    border-radius: 10px;
+    border-radius: 6px;
     border: 1px solid var(--cosmol-borde);
-    padding: 0.5rem 0.75rem;
-    margin-bottom: 1.2rem;
+    padding: 0.35rem 0.6rem;
+    margin-bottom: 0.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--cosmol-muted);
 }
 
 .btn-sport-action {
     background: #FFFFFF;
     color: var(--cosmol-azul);
-    border: 1.5px solid var(--cosmol-azul);
+    border: 1px solid var(--cosmol-azul);
     font-weight: 700;
-    font-size: 0.85rem;
-    border-radius: 50px;
-    padding: 0.5rem 1rem;
-    transition: all 0.25s ease;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    padding: 0.35rem 0.75rem;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -388,48 +395,261 @@ h1, h2, h3, h4, h5, .brand-font {
 .btn-sport-action:hover {
     background: var(--cosmol-azul);
     color: #FFFFFF !important;
-    box-shadow: 0 6px 18px rgba(0, 102, 178, 0.25);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 102, 178, 0.2);
 }
 
 /* ----------------------------------------------------
-   7. Sección Medallero Olímpico y Badges
+   7. Sección Medallero y Tabla de Posiciones Olímpicas
+   (Diseño plano, tonos de azul COSMOL, 100% responsivo)
 ---------------------------------------------------- */
+.card-posiciones {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.table-posiciones-olimpicas {
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: collapse;
+}
+
+.table-posiciones-olimpicas thead {
+    background-color: #004D87;
+    color: #FFFFFF;
+}
+
+.table-posiciones-olimpicas thead th {
+    background-color: #004D87;
+    color: #FFFFFF;
+    border: none;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 10px;
+    vertical-align: middle;
+}
+
+.table-posiciones-olimpicas thead th.pos-col-pts {
+    background-color: #003660 !important;
+    color: #FFFFFF !important;
+}
+
+.table-posiciones-olimpicas tbody tr {
+    border-bottom: 1px solid #F1F5F9;
+    transition: background-color 0.15s ease;
+}
+
+.table-posiciones-olimpicas tbody tr:hover {
+    background-color: #F8FAFC;
+}
+
+.table-posiciones-olimpicas td {
+    padding: 12px 10px;
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+.pos-col-rank {
+    width: 50px;
+    text-align: center;
+}
+
+.pos-col-team {
+    text-align: left;
+}
+
+.pos-col-medal {
+    width: 65px;
+    text-align: center;
+}
+
+.pos-col-pts {
+    width: 90px;
+    text-align: center;
+}
+
+.table-posiciones-olimpicas tbody td.pos-col-pts {
+    background-color: #EEF6FF;
+    border-left: 1px solid #D0E4F7;
+}
+
+.table-posiciones-olimpicas tbody tr:hover td.pos-col-pts {
+    background-color: #E0EFFF;
+}
+
+.pos-badge-rank {
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+
+.pos-badge-top1 {
+    background-color: #0066B2;
+    color: #FFFFFF;
+}
+
+.pos-badge-top2 {
+    background-color: #004D87;
+    color: #FFFFFF;
+}
+
+.pos-badge-top3 {
+    background-color: #E2E8F0;
+    color: #1E293B;
+}
+
+.pos-badge-other {
+    color: #64748B;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.pos-medal-num {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.88rem;
+    min-width: 26px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.pos-medal-oro {
+    background-color: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
+}
+
+.pos-medal-plata {
+    background-color: #F1F5F9;
+    color: #475569;
+    border: 1px solid #CBD5E1;
+}
+
+.pos-medal-bronce {
+    background-color: #FFEDD5;
+    color: #9A3412;
+    border: 1px solid #FDBA74;
+}
+
+.pos-medal-zero {
+    color: #94A3B8;
+    font-weight: 500;
+}
+
+.pos-total-pts {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0066B2;
+}
+
+.pos-nav-pills .nav-link {
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #004D87;
+    border: 1px solid #CBD5E1;
+    background-color: #FFFFFF;
+    margin-right: 6px;
+    transition: all 0.15s ease;
+}
+
+.pos-nav-pills .nav-link.active {
+    background-color: #0066B2;
+    color: #FFFFFF;
+    border-color: #0066B2;
+}
+
+/* Fallback para table-medallero */
 .table-medallero {
     background: #FFFFFF;
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid var(--cosmol-borde);
 }
 
 .table-medallero thead {
-    background: linear-gradient(135deg, #004D87 0%, #0066B2 100%);
+    background-color: #004D87;
     color: #FFFFFF;
 }
 
 .badge-oro {
-    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-    color: #FFFFFF;
+    background-color: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
     font-weight: 700;
-    border-radius: 50px;
-    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
 }
 
 .badge-plata {
-    background: linear-gradient(135deg, #94A3B8 0%, #64748B 100%);
-    color: #FFFFFF;
+    background-color: #F1F5F9;
+    color: #475569;
+    border: 1px solid #CBD5E1;
     font-weight: 700;
-    border-radius: 50px;
-    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
 }
 
 .badge-bronce {
-    background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
-    color: #FFFFFF;
+    background-color: #FFEDD5;
+    color: #9A3412;
+    border: 1px solid #FDBA74;
     font-weight: 700;
-    border-radius: 50px;
-    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+}
+
+/* Optimización móvil (< 576px) */
+@media (max-width: 576px) {
+    .table-posiciones-olimpicas thead th {
+        padding: 8px 4px;
+        font-size: 0.72rem;
+    }
+    .table-posiciones-olimpicas td {
+        padding: 8px 4px;
+        font-size: 0.84rem;
+    }
+    .pos-col-rank {
+        width: 32px;
+        padding-left: 4px !important;
+    }
+    .pos-col-medal {
+        width: 38px;
+    }
+    .pos-col-pts {
+        width: 58px;
+        padding-right: 4px !important;
+    }
+    .pos-badge-rank {
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+        font-size: 0.75rem;
+    }
+    .pos-medal-num {
+        min-width: 20px;
+        padding: 1px 4px;
+        font-size: 0.78rem;
+    }
+    .pos-total-pts {
+        font-size: 0.95rem;
+    }
+    .pos-team-name {
+        font-size: 0.84rem;
+        line-height: 1.25;
+        display: block;
+    }
 }
 
 /* ----------------------------------------------------
@@ -437,37 +657,57 @@ h1, h2, h3, h4, h5, .brand-font {
 ---------------------------------------------------- */
 .venue-card {
     background: #FFFFFF;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 1px solid var(--cosmol-borde);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .venue-card:hover {
-    box-shadow: 0 10px 25px rgba(0, 102, 178, 0.12);
-    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 102, 178, 0.1);
+    transform: translateY(-2px);
 }
 
 .venue-header {
-    background: #F1F5F9;
-    padding: 1.2rem;
+    background: #F8FAFC;
+    padding: 1rem 1.15rem;
     border-bottom: 1px solid var(--cosmol-borde);
 }
 
 .btn-gps {
-    background: var(--cosmol-verde-gps);
+    background-color: #0066B2;
     color: #FFFFFF;
     font-weight: 700;
-    border-radius: 50px;
-    padding: 0.45rem 1.2rem;
+    border-radius: 8px;
+    padding: 0.55rem 1rem;
     border: none;
     transition: all 0.2s ease;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-gps:hover {
-    background: var(--cosmol-verde-gps-hover);
-    color: #FFFFFF;
+    background-color: #004D87;
+    color: #FFFFFF !important;
+}
+
+/* ----------------------------------------------------
+   8.1 Tarjetas de Delegaciones Participantes
+---------------------------------------------------- */
+.delegacion-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid var(--cosmol-borde);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    padding: 1.2rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.delegacion-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 102, 178, 0.08);
     transform: translateY(-2px);
 }
 
@@ -708,21 +948,29 @@ h1, h2, h3, h4, h5, .brand-font {
    11. Footer Público
 ---------------------------------------------------- */
 .footer-public {
-    background: #002D52;
-    color: #CBD5E1;
-    padding: 3.5rem 0 2rem 0;
-    margin-top: 5rem;
-    border-top: 4px solid var(--cosmol-celeste);
+    background-color: #00223E;
+    color: #94A3B8;
+    padding: 3.5rem 0 1.5rem 0;
+    margin-top: 4rem;
+    border-top: 3px solid #0066B2;
 }
 
-.footer-public a {
-    color: #93C5FD;
-    text-decoration: none;
-}
-
-.footer-public a:hover {
+.footer-public h5,
+.footer-public h6 {
     color: #FFFFFF;
-    text-decoration: underline;
+}
+
+.footer-link {
+    color: #94A3B8;
+    text-decoration: none;
+    transition: color 0.15s ease, padding-left 0.15s ease;
+    display: inline-block;
+}
+
+.footer-link:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding-left: 3px;
 }
 
 /* ----------------------------------------------------

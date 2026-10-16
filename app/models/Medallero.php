@@ -22,16 +22,20 @@ class Medallero extends Model {
                        d.alias AS delegacion_alias,
                        d.color_representativo,
                        d.logo_url,
-                       SUM(CASE WHEN m.tipo_medalla = 'ORO'    THEN 1 ELSE 0 END) AS oro,
-                       SUM(CASE WHEN m.tipo_medalla = 'PLATA'  THEN 1 ELSE 0 END) AS plata,
-                       SUM(CASE WHEN m.tipo_medalla = 'BRONCE' THEN 1 ELSE 0 END) AS bronce,
-                       COUNT(m.id)                                                 AS total_medallas,
-                       SUM(m.puntos_olimpicos)                                     AS puntos_olimpicos
+                       COALESCE(SUM(CASE WHEN m.tipo_medalla = 'ORO'    THEN 1 ELSE 0 END), 0) AS oro,
+                       COALESCE(SUM(CASE WHEN m.tipo_medalla = 'PLATA'  THEN 1 ELSE 0 END), 0) AS plata,
+                       COALESCE(SUM(CASE WHEN m.tipo_medalla = 'BRONCE' THEN 1 ELSE 0 END), 0) AS bronce,
+                       COUNT(m.id)                                                             AS total_medallas,
+                       COALESCE(SUM(CASE 
+                           WHEN m.tipo_medalla = 'ORO'    THEN 5 
+                           WHEN m.tipo_medalla = 'PLATA'  THEN 3 
+                           WHEN m.tipo_medalla = 'BRONCE' THEN 1 
+                           ELSE 0 
+                       END), 0) AS puntos_olimpicos
                 FROM delegaciones d
-                INNER JOIN medallero m ON m.delegacion_id = d.id
-                WHERE m.olimpiada_id = :olimpiada_id
+                LEFT JOIN medallero m ON m.delegacion_id = d.id AND m.olimpiada_id = :olimpiada_id
                 GROUP BY d.id, d.nombre, d.alias, d.color_representativo, d.logo_url
-                ORDER BY oro DESC, plata DESC, bronce DESC, puntos_olimpicos DESC";
+                ORDER BY puntos_olimpicos DESC, oro DESC, plata DESC, bronce DESC, d.nombre ASC";
 
         return $this->fetchAll($sql, ['olimpiada_id' => (int)$olimpiadaId]);
     }

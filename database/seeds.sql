@@ -70,13 +70,13 @@ INSERT INTO `delegaciones` (`id`, `nombre`, `alias`, `color_representativo`, `re
 -- 4. Catálogo de Disciplinas Deportivas y Recreativas
 -- -----------------------------------------------------
 INSERT INTO `disciplinas` (`id`, `nombre`, `descripcion`, `icono`, `estado`) VALUES
-(1, 'Fútbol',      'Fútbol 11 reglamentario sobre césped natural',                                 'futbol',          'Activa'),
-(2, 'Futsal',      'Fútbol de salón en coliseo techado',                                          'running',         'Activa'),
-(3, 'Básquetbol',  'Básquetbol 5x5 oficial',                                                      'basketball-ball', 'Activa'),
-(4, 'Voleibol',    'Voleibol 6x6 en coliseo',                                                     'volleyball-ball', 'Activa'),
-(5, 'Karaoke',     'Competencia de canto individual y parejas con calificación global del jurado', 'microphone',      'Activa'),
-(6, 'Billar',      'Torneo de billar en partidas directas por mesas y chicos ganados',            'circle',          'Activa'),
-(7, 'Cacho',       'Juego tradicional de dados por puntaje de planilla (Generala/Alalay)',         'dice',            'Activa');
+(1, 'Fútbol',      'Fútbol sobre césped',                                 'futbol',          'Activa'),
+(2, 'Futsal',      'Fútbol de salón en coliseo',                                          'running',         'Activa'),
+(3, 'Básquetbol',  'Básquetbol oficial',                                                      'basketball-ball', 'Activa'),
+(4, 'Voleibol',    'Voleibol en coliseo',                                                     'volleyball-ball', 'Activa'),
+(5, 'Karaoke',     'Competencia de canto individual y parejas',                                    'microphone',      'Activa'),
+(6, 'Billar',      'Torneo de billar en partidas directas',                                        'circle',          'Activa'),
+(7, 'Cacho',       'Juego tradicional de dados por puntaje de planilla',                             'dice',            'Activa');
 
 -- -----------------------------------------------------
 -- 5. Reglas Matemáticas de Puntuación por Disciplina

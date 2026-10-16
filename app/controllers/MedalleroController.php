@@ -189,9 +189,9 @@ class MedalleroController extends Controller {
 
         // Puntajes olímpicos por posición según estándar (configurable)
         $puntajesPorMedalla = [
-            'ORO'    => 10,
-            'PLATA'  => 7,
-            'BRONCE' => 5
+            'ORO'    => 5,
+            'PLATA'  => 3,
+            'BRONCE' => 1
         ];
 
         $errores = [];
