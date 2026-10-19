@@ -26,12 +26,7 @@ class Medallero extends Model {
                        COALESCE(SUM(CASE WHEN m.tipo_medalla = 'PLATA'  THEN 1 ELSE 0 END), 0) AS plata,
                        COALESCE(SUM(CASE WHEN m.tipo_medalla = 'BRONCE' THEN 1 ELSE 0 END), 0) AS bronce,
                        COUNT(m.id)                                                             AS total_medallas,
-                       COALESCE(SUM(CASE 
-                           WHEN m.tipo_medalla = 'ORO'    THEN 5 
-                           WHEN m.tipo_medalla = 'PLATA'  THEN 3 
-                           WHEN m.tipo_medalla = 'BRONCE' THEN 1 
-                           ELSE 0 
-                       END), 0) AS puntos_olimpicos
+                       COALESCE(SUM(m.puntos_olimpicos), 0)                                    AS puntos_olimpicos
                 FROM delegaciones d
                 LEFT JOIN medallero m ON m.delegacion_id = d.id AND m.olimpiada_id = :olimpiada_id
                 GROUP BY d.id, d.nombre, d.alias, d.color_representativo, d.logo_url
