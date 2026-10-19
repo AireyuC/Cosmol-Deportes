@@ -4,7 +4,6 @@ Este documento constituye la **especificación técnica oficial, contexto funcio
 
 ---
 
-<<<<<<< HEAD
 ## 1. Visión General del Proyecto: Sistema de Olimpiadas Inter-Cooperativas e Institucionales COSMOL
 
 **Cosmol-Deportes** es la plataforma web oficial de la **Cooperativa de Servicios Públicos COSMOL R.L.** diseñada para la administración, programación, control disciplinario, cálculo de resultados, difusión y premiación de sus **Olimpiadas Deportivas y Recreativas Institucionales e Inter-Cooperativas**. A este evento concurren delegaciones deportivas y representantes de cooperativas hermanas (ej. **COSMOL R.L.**, **SAGUAPAC R.L.**, **CRE R.L.**, **COTAS R.L.**) y filiales de distintos departamentos del país.
@@ -24,24 +23,6 @@ Este documento constituye la **especificación técnica oficial, contexto funcio
 6. **Estructura Interna por Disciplina:** Fase de grupos (`Grupo A`, `Grupo B`, etc.), liguillas y playoffs de eliminación directa con cómputo de posiciones automático.
 7. **Régimen Disciplinario con Espíritu de Confraternización:** Control riguroso de amonestaciones, expulsiones y suspensiones, con facultad administrativa para **anotar y levantar/quitar sanciones** (indulto olímpico o apelación fundamentada con registro de auditoría).
 8. **Geolocalización GPS de Sedes y Canchas ("Cómo llegar"):** Herramienta interactiva para que los atletas, delegaciones visitantes de otros departamentos y familias puedan trazar su ruta en tiempo real hacia las canchas y recintos deportivos vía Google Maps.
-=======
-## 1. Visión General del Proyecto: Sistema de Olimpiadas Deportivas COSMOL
-
-**Cosmol-Deportes** es la plataforma web oficial de la **Cooperativa de Servicios Públicos COSMOL R.L.** para la gestión, difusión y seguimiento de sus **Olimpiadas Deportivas y Recreativas Institucionales e Inter-Cooperativas**. A este evento concurren delegaciones deportivas de distintas cooperativas y departamentos del país (ej. **COSMOL R.L.**, **SAGUAPAC R.L.**, **CRE R.L.**, **COTAS R.L.**, filiales y áreas institucionales).
-
-### Arquitectura Dual del Sistema:
-1. **Portal Web Informativo Público (Sin Login):** Cualquier usuario (deportista, familiar, delegado o público en general) puede acceder libremente para conocer el desarrollo de la olimpiada en tiempo real. Dispone de vistas y secciones por disciplina (Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc.) con datos de sedes, rutas GPS ("Cómo llegar"), fixture, resultados y tablas de posiciones.
-2. **Panel de Gestión y Control Administrativo (AdminLTE 3):** Exclusivo para el comité organizador y administradores (`ADMIN`). Es el único rol que realiza login en el sistema.
-
-### Características Clave de las Olimpiadas:
-1. **Macro-Evento Olímpico:** Evento central (*"Olimpiadas Cosmol 2026"*) que engloba simultáneamente múltiples disciplinas deportivas tradicionales y recreativas.
-2. **Delegaciones y Cooperativas:** Equipos que representan a las cooperativas e instituciones participantes a lo largo de todas las disciplinas.
-3. **Múltiples Disciplinas y Ramas:** Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc., en ramas Masculino, Femenino y Mixto.
-4. **Medallero General / Clasificación Olímpica Global:** Cálculo en tiempo real de medallas (Oro, Plata, Bronce) y puntaje acumulado por delegación para proclamar al *Campeón Olímpico General*.
-5. **Estructura Interna por Disciplina:** Fase de grupos, liguillas y playoffs de eliminación directa con tablas de posiciones automáticas.
-6. **Régimen Disciplinario:** Control de amonestaciones, expulsiones y suspensiones, con función administrativa para **anotar y levantar/quitar sanciones** (indulto por confraternización).
-7. **Geolocalización de Sedes y Rutas GPS ("Cómo llegar"):** Herramienta interactiva para que las delegaciones visitantes puedan trazar su ruta en tiempo real hacia las canchas y recintos deportivos.
->>>>>>> 5148561467d1747317a3c61ea348fa762f5949e6
 
 ---
 
@@ -167,11 +148,7 @@ cosmol-deportes/
 
 ## 4. Roles de Usuario y Control de Acceso
 
-<<<<<<< HEAD
 ### 4.1. Regla Mandatoria de Autenticación: Rol Administrador (ADMIN) - Comité Organizador
-=======
-### 4.1. Regla Mandatoria: Solo el Administrador (ADMIN) Inicia Sesión
->>>>>>> 5148561467d1747317a3c61ea348fa762f5949e6
 El sistema aplica una política estricta de autenticación y permisos:
 - **SOLO los usuarios con rol `ADMIN` pueden iniciar sesión** en la plataforma.
 - Cualquier intento de inicio de sesión por usuarios con rol distinto a `ADMIN` es bloqueado de inmediato con un mensaje explícito de denegación de acceso.
@@ -181,7 +158,6 @@ El sistema aplica una política estricta de autenticación y permisos:
 - En caso de que un usuario no autenticado intente acceder a una ruta administrativa, es redirigido a `/login` con una alerta informativa.
 
 **Facultades del Rol Administrador:**
-<<<<<<< HEAD
 - Crear y gestionar la **Olimpiada Activa** (fechas oficiales, lema, sedes habilitadas).
 - Configurar el catálogo de **Disciplinas Deportivas y Recreativas** (Fútbol, Futsal, Básquet, Vóley, Karaoke, Billar, Cacho) y sus reglas de puntuación.
 - Administrar el registro de **Cooperativas Participantes (Delegaciones)** con sus directivos y colores.
@@ -194,25 +170,10 @@ El sistema aplica una política estricta de autenticación y permisos:
 - Programar el **Fixture Maestro**: asignación de fechas, horas, sedes y canchas con validación anti-colisión.
 - Cargar resultados oficiales (marcadores globales, detalle de sets, incidencias o puntos de jurado en juegos recreativos).
 - Gestionar y proclamar el **Medallero Olímpico Oficial** y la premiación de la Cooperativa Campeona General.
-=======
-- Crear y gestionar la **Olimpiada Activa** (fechas, lema, sedes habilitadas).
-- Configurar las **Disciplinas Deportivas y Reglas de Puntuación** (Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc.).
-- Crear disciplinas/competencias, definir categorías (Masculino/Femenino/Mixto) y modalidad (Liga, Grupos + Llaves, Eliminación directa).
-- **Crear grupos** (Grupo A, Grupo B, etc.) y sembrar o sortear a los equipos representativos de cada cooperativa.
-- Registrar **Delegaciones (Cooperativas)** y **Equipos**.
-- Registrar y administrar la **nómina de Jugadores** por equipo (datos personales, dorsal, posición, foto).
-- Gestionar **Sanciones Disciplinarias**:
-  - Registrar sanciones (tarjetas amarillas, rojas, fechas de suspensión, faltas graves).
-  - **Quitar / Levantar sanciones:** Función especial para anular sanciones o marcar indulto por confraternización con registro de motivo oficial.
-- Generar y administrar el **Fixture**: asignación de fechas, horas, sedes y canchas con validación anti-colisión.
-- Cargar resultados oficiales (marcadores globales, detalle de sets, puntos de jurado en juegos recreativos).
-- Controlar el **Medallero Olímpico** y la tabla acumulada por delegación.
->>>>>>> 5148561467d1747317a3c61ea348fa762f5949e6
 
 ### 4.2. Portal Público: Visitantes, Deportistas y Delegaciones de Cooperativas (Libre Acceso - Sin Login)
 Cualquier visitante, trabajador, deportista, familia o delegado de las cooperativas tiene acceso libre, inmediato y sin restricciones al **Portal Informativo de las Olimpiadas COSMOL**:
 - No requiere registrarse ni ingresar contraseñas.
-<<<<<<< HEAD
 - Acceso directo a la portada pública principal (`/`) optimizada para móviles y computadoras.
 - Consulta y visualización interactiva del **Medallero Olímpico Inter-Cooperativas** en tiempo real (Oro, Plata, Bronce y Puntos acumulados).
 - Navegación por disciplinas deportivas y recreativas (Fútbol, Futsal, Básquetbol, Voleibol, Billar, Karaoke, Cacho, etc.).
@@ -222,14 +183,6 @@ Cualquier visitante, trabajador, deportista, familia o delegado de las cooperati
 - Consulta de plantillas de atletas por cooperativa y tabla de goleadores/figuras.
 - Consulta del boletín oficial de sanciones y resoluciones disciplinarias.
 - Botón destacado de **"Ingresar / Iniciar Sesión"** en la barra superior para que el Administrador acceda al panel de control.
-=======
-- Acceso directo a la página principal (`/`) con diseño optimizado para computadoras y teléfonos móviles.
-- Navegación por disciplinas deportivas (Fútbol, Futsal, Básquet, Voleibol, Billar, Karaoke, Cacho, etc.).
-- Visualización de Sedes, Canchas y trazado interactivo de rutas GPS (**"Cómo llegar"** con Google Maps desde su ubicación actual).
-- Consulta de **tablas de posiciones en vivo**, fixture de partidos, cronograma por fechas y resultados recientes.
-- Consulta del **Medallero Olímpico General** y podios por disciplina.
-- En la barra de navegación y cabecera de la página principal pública se incluye un botón destacado de **"Ingresar / Iniciar Sesión"** para que el Administrador acceda al panel.
->>>>>>> 5148561467d1747317a3c61ea348fa762f5949e6
 
 ---
 
