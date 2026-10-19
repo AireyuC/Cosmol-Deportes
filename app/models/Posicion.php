@@ -184,13 +184,13 @@ class Posicion extends Model {
                 $stats[$local]['pg']++;
                 $stats[$local]['pts'] += $ptsVic;
                 $stats[$visitante]['pp']++;
-                $stats[$visitante]['pts'] += $ptsDerAdj;
+                $stats[$visitante]['pts'] += $ptsDer;
             } elseif ($mv > $ml) {
                 // Victoria Visitante
                 $stats[$visitante]['pg']++;
                 $stats[$visitante]['pts'] += $ptsVic;
                 $stats[$local]['pp']++;
-                $stats[$local]['pts'] += $ptsDerAdj;
+                $stats[$local]['pts'] += $ptsDer;
             } else {
                 // Empate (si está permitido por la regla)
                 if ($permiteEmp) {
