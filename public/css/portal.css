@@ -41,6 +41,19 @@ h1, h2, h3, h4, h5, .brand-font {
     font-family: 'Outfit', sans-serif;
 }
 
+/* Utilidades tipográficas universales */
+.text-xs {
+    font-size: 0.75rem !important;
+}
+.text-sm {
+    font-size: 0.875rem !important;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.9); }
+}
+
 /* ----------------------------------------------------
    3. Barra de Navegación Superior (Navbar Público)
 ---------------------------------------------------- */
@@ -994,3 +1007,442 @@ h1, h2, h3, h4, h5, .brand-font {
         margin-bottom: 0;
     }
 }
+
+/* ----------------------------------------------------
+   13. Marcadores y Pines del Mapa de la Maratón
+---------------------------------------------------- */
+.custom-map-pin {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    border: 2px solid #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+}
+.pin-start {
+    background: #10B981;
+}
+.pin-finish {
+    background: #EF4444;
+}
+.pin-checkpoint {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #0066B2;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+/* ----------------------------------------------------
+   14. Estilos de Fixture Deportivo en Lista por Disciplinas
+---------------------------------------------------- */
+.fixture-filter-card {
+    border-radius: 14px;
+    background: #FFFFFF;
+    border: 1px solid var(--cosmol-borde);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.fixture-filter-card .match-day-filters {
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    box-shadow: none;
+    padding: 0.3rem;
+}
+
+.fixture-filter-card .match-day-btn {
+    color: #64748B;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.38rem 1.15rem;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+}
+
+.fixture-filter-card .match-day-btn:hover {
+    color: var(--cosmol-azul);
+    background: rgba(0, 102, 178, 0.08);
+}
+
+.fixture-filter-card .match-day-btn.active {
+    background: var(--cosmol-azul);
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 102, 178, 0.28);
+}
+
+.fixture-discipline-card {
+    border: 1px solid var(--cosmol-borde);
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    margin-bottom: 2rem;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+}
+
+.fixture-discipline-card:hover {
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    border-color: #CBD5E1;
+}
+
+.fixture-card-header {
+    background: #F8FAFC;
+    border-bottom: 1px solid var(--cosmol-borde);
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.discipline-icon-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: #EBF4FA;
+    color: var(--cosmol-azul);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.fixture-discipline-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.discipline-count-badge {
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    color: #64748B;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 50px;
+}
+
+.fixture-match-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.fixture-match-row {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.95rem 1.25rem;
+    border-bottom: 1px solid #E2E8F0;
+    transition: background 0.15s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.fixture-match-row:last-child {
+    border-bottom: none !important;
+}
+
+.fixture-match-row:nth-child(even) {
+    background-color: #FAFCFE;
+}
+
+.fixture-match-row:hover {
+    background: #F1F5F9;
+}
+
+.fixture-match-row.d-none {
+    display: none !important;
+}
+
+.fixture-arrow-icon {
+    font-size: 0.75rem;
+    color: #94A3B8;
+    opacity: 0.45;
+    margin-left: 0.4rem;
+    transition: all 0.15s ease;
+}
+
+.fixture-match-row:hover .fixture-arrow-icon {
+    color: var(--cosmol-azul) !important;
+    opacity: 1 !important;
+    transform: translateX(3px);
+}
+
+/* Columna Fecha & Hora */
+.fixture-col-date {
+    width: 195px;
+    flex-shrink: 0;
+}
+
+.fixture-date-val {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #0F172A;
+    white-space: nowrap;
+}
+
+.fixture-time-val {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #64748B;
+    white-space: nowrap;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.fixture-phase-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.12rem 0.45rem;
+    border-radius: 4px;
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    color: #475569;
+    margin-left: 0.45rem;
+    text-transform: capitalize;
+    display: inline-block;
+    line-height: 1.2;
+}
+
+/* Columna Equipos & Marcador */
+.fixture-col-teams {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    min-width: 0;
+}
+
+.fixture-team {
+    flex: 1;
+    min-width: 0;
+}
+
+.fixture-team-local {
+    text-align: right;
+    padding-right: 0.85rem;
+}
+
+.fixture-team-visit {
+    text-align: left;
+    padding-left: 0.85rem;
+}
+
+.fixture-team-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0F172A;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fixture-team-sub {
+    font-size: 0.74rem;
+    color: #64748B;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 1px;
+}
+
+.fixture-score-center {
+    flex-shrink: 0;
+    text-align: center;
+    min-width: 76px;
+}
+
+.fixture-score-pill {
+    display: inline-block;
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    color: #0F172A;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 6px;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+}
+
+.fixture-vs-pill {
+    display: inline-block;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    color: #64748B;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.fixture-live-pill {
+    display: inline-flex;
+    align-items: center;
+    background: #FEE2E2;
+    border: 1px solid #FCA5A5;
+    color: #DC2626;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Columna Sede & Acciones */
+.fixture-col-venue {
+    width: 250px;
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.fixture-venue-info {
+    min-width: 0;
+    max-width: 175px;
+    text-align: right;
+    margin-right: 0.45rem;
+}
+
+.fixture-venue-name {
+    font-size: 0.78rem;
+    color: #334155;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fixture-venue-sub {
+    font-size: 0.72rem;
+    color: #94A3B8;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 1px;
+}
+
+.btn-gps-flat {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #047857;
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    border-radius: 5px;
+    padding: 0.22rem 0.6rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    line-height: 1.2;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-gps-flat:hover {
+    background: #047857;
+    border-color: #047857;
+    color: #FFFFFF;
+}
+
+.fixture-link-detail {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--cosmol-azul);
+    white-space: nowrap;
+}
+
+/* Reglas especiales para la Tarjeta de Maratón */
+.maraton-fixture-card .fixture-col-teams {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.maraton-fixture-card .fixture-col-venue {
+    width: auto;
+    min-width: 260px;
+}
+
+.maraton-fixture-card .btn-mapa-maraton {
+    background-color: var(--cosmol-azul);
+    border: 1px solid var(--cosmol-azul);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    border-radius: 5px;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    transition: all 0.15s ease;
+}
+
+.maraton-fixture-card .btn-mapa-maraton:hover {
+    background-color: var(--cosmol-azul-dark);
+    border-color: var(--cosmol-azul-dark);
+    color: #FFFFFF;
+}
+
+/* Adaptación móvil (responsiva) */
+@media (max-width: 767.98px) {
+    .fixture-match-row {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.85rem 1rem;
+    }
+    .fixture-col-date {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid #E2E8F0;
+    }
+    .fixture-col-teams {
+        padding: 0.35rem 0 0.5rem 0;
+        width: 100%;
+    }
+    .fixture-team-name {
+        font-size: 0.9rem;
+    }
+    .fixture-col-venue {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        padding-top: 0.45rem;
+        border-top: 1px dashed #E2E8F0;
+    }
+    .fixture-venue-info {
+        text-align: left;
+        max-width: none;
+        margin-right: 0.5rem;
+    }
+    .maraton-fixture-card .fixture-col-venue {
+        width: 100%;
+        min-width: 0;
+    }
+    .maraton-fixture-card .fixture-col-venue > div {
+        justify-content: flex-start !important;
+    }
+}
+
+

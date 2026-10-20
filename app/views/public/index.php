@@ -38,6 +38,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
 
+    <!-- Leaflet CSS para el Mapa Interactivo de la Maratón -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
     <!-- Estilos Oficiales del Portal Público -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css">
 </head>
@@ -54,6 +57,9 @@
 
     <!-- 4. Sección de Partidos del Día -->
     <?php require __DIR__ . '/partidos/seccion.php'; ?>
+
+    <!-- 4.1. Sección: Ruta Oficial de la Media Maratón (Circuito Urb. Celina Muyurina) -->
+    <?php require __DIR__ . '/maraton/seccion.php'; ?>
 
     <!-- 5. Sección de Disciplinas Deportivas -->
     <?php require __DIR__ . '/disciplinas/seccion.php'; ?>

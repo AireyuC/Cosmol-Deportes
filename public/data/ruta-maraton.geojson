@@ -1,0 +1,58 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Maratón Olimpiada 33 - Media Maratón COSMOL",
+        "zona": "Urb. Celina Muyurina (Montero, Santa Cruz)",
+        "distancia_km_aprox": 5.0,
+        "superficie": "Asfalto y tierra firme",
+        "puntos_giro": 11,
+        "stroke": "#0066B2",
+        "stroke-width": 5,
+        "stroke-opacity": 0.95
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-63.258289, -17.360332],
+          [-63.252024, -17.369889],
+          [-63.251073, -17.369353],
+          [-63.249979, -17.371009],
+          [-63.245912, -17.368591],
+          [-63.246990, -17.366925],
+          [-63.243447, -17.364782],
+          [-63.243720, -17.364355],
+          [-63.251708, -17.369076],
+          [-63.252384, -17.368040],
+          [-63.244581, -17.361665]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Inicio (Partida Oficial)",
+        "descripcion": "Partida oficial de la carrera, recta inicial hacia el sureste",
+        "tipo": "inicio"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-63.258289, -17.360332]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Meta (Llegada Oficial)",
+        "descripcion": "Llegada oficial aproximada de la Maratón Olimpiada 33",
+        "tipo": "meta"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-63.244581, -17.361665]
+      }
+    }
+  ]
+}

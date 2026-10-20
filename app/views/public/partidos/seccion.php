@@ -4,6 +4,9 @@
  * Portal Oficial de las Olimpiadas COSMOL 2026
  * Compatible con PHP 7.3
  */
+
+// Evaluación universal de partidos para la fecha de hoy
+$hayPartidosHoy = !empty($partidosHoy);
 ?>
 <!-- 4. PRIMERA SECCIÓN: PARTIDOS DEL DÍA (JUEGOS DE HOY) -->
 <section id="fixture" class="py-5 mt-2" style="background: #FFFFFF;">
@@ -25,9 +28,10 @@
             </div>
         </div>
 
-        <!-- Listado Dinámico de Partidos de Hoy -->
+        <!-- Listado Dinámico de Partidos de Hoy (Todas las Disciplinas) -->
         <div class="row" id="contenedor-partidos">
-            <?php if (!empty($partidosHoy)): ?>
+
+            <?php if ($hayPartidosHoy): ?>
                 <?php foreach ($partidosHoy as $p): 
                     $estado = $p['estado'];
                     $isLive = ($estado === 'En_Juego');
@@ -85,21 +89,17 @@
                                     <!-- Marcador / VS Central -->
                                     <div class="col-2 text-center px-0">
                                         <?php if ($esRecreativa): ?>
-                                            <!-- Disciplinas Recreativas (Billar / Cacho): Sin marcador de goles, solo hora programada -->
                                             <div class="match-vs-pill d-inline-block">VS</div>
                                             <small class="text-muted d-block text-center mt-1 text-xs">
                                                 <?php echo $horaFormato; ?>
                                             </small>
                                         <?php elseif ($isFinalizado): ?>
-                                            <!-- Partido Finalizado con Planilla Verificada por Admin: Muestra marcador oficial -->
                                             <div class="match-score-pill d-inline-block">
                                                 <?php echo (int)$p['marcador_local']; ?> - <?php echo (int)$p['marcador_visitante']; ?>
                                             </div>
                                         <?php elseif ($isLive): ?>
-                                            <!-- Partido En Juego: No hay goles automáticos, muestra inicio según fixture -->
                                             <div class="match-vs-pill d-inline-block">VS</div>
                                         <?php else: ?>
-                                            <!-- Partido Programado -->
                                             <div class="match-vs-pill d-inline-block">VS</div>
                                             <small class="text-muted d-block text-center mt-1 text-xs">
                                                 <?php echo $horaFormato; ?>
@@ -139,6 +139,7 @@
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
+                <!-- Alerta Universal de Ausencia de Partidos para Hoy -->
                 <div class="col-12 text-center py-5">
                     <div class="p-4 bg-light rounded-lg border d-inline-block shadow-sm" style="max-width: 520px; border-radius: 16px !important;">
                         <i class="far fa-calendar-times fa-3x text-muted mb-3"></i>

@@ -106,3 +106,7 @@
         });
     });
 </script>
+
+<!-- Leaflet JS y Controlador del Mapa de la Media Maratón -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="<?php echo BASE_URL; ?>/js/maraton-mapa.js"></script>

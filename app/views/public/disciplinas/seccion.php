@@ -12,7 +12,7 @@
             Disciplinas de las Olimpiadas
         </h2>
         <p class="text-muted mx-auto" style="max-width: 650px;">
-            Seleccione cualquiera de los deportes o juegos de confraternización para consultar su escenario, ubicación GPS, tabla de posiciones y calendario de encuentros.
+            Seleccione cualquiera de los deportes para consultar su escenario y calendario de encuentros.
         </p>
     </div>
 
@@ -98,6 +98,10 @@
                         $iconClass = 'sport-icon-karaoke';
                         $iconName = 'microphone-alt';
                         $iconImg = 'image.png';
+                    } elseif (strpos($nLower, 'maratón') !== false || strpos($nLower, 'maraton') !== false || strpos($nLower, 'atletismo') !== false) {
+                        $iconClass = 'sport-icon-futsal';
+                        $iconName = 'running';
+                        $iconImg = '';
                     }
                 ?>
                 <div class="col-6 col-md-4 col-lg-3 mb-3 sport-col" data-category="<?php echo $catSlug; ?>">
@@ -118,9 +122,18 @@
                         </div>
 
                         <div>
-                            <a href="<?php echo BASE_URL; ?>/portal/fixture?disciplina_id=<?php echo (int)$d['id']; ?>" class="btn-sport-action shadow-sm">
-                                <span>Ver Fixture</span>
-                            </a>
+                            <?php if (strpos($nLower, 'maratón') !== false || strpos($nLower, 'maraton') !== false || strpos($nLower, 'atletismo') !== false): ?>
+                                <a href="<?php echo BASE_URL; ?>/portal/fixture?disciplina_id=<?php echo (int)$d['id']; ?>" class="btn-sport-action shadow-sm mb-1">
+                                    <span>Ver Fixture</span>
+                                </a>
+                                <a href="#maraton" class="btn btn-sm btn-link p-0 text-primary font-weight-bold d-block text-center mt-1" style="font-size: 0.78rem;">
+                                    <i class="fas fa-map-marked-alt mr-1"></i> Ver Circuito en Portada
+                                </a>
+                            <?php else: ?>
+                                <a href="<?php echo BASE_URL; ?>/portal/fixture?disciplina_id=<?php echo (int)$d['id']; ?>" class="btn-sport-action shadow-sm">
+                                    <span>Ver Fixture</span>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

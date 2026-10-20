@@ -98,9 +98,12 @@ class PortalController extends Controller {
                 'basquet'    => 3,
                 'voleibol'   => 4,
                 'voley'      => 4,
-                'cacho'      => 5,
-                'billar'     => 6,
-                'karaoke'    => 7
+                'maratón'    => 5,
+                'maraton'    => 5,
+                'atletismo'  => 5,
+                'cacho'      => 6,
+                'billar'     => 7,
+                'karaoke'    => 8
             ];
 
             usort($disciplinas, function($a, $b) use ($ordenPrioridad) {
@@ -207,6 +210,16 @@ class PortalController extends Controller {
             $ultimosResultados = [];
         }
 
+        // 7. Verificación de Eventos Especiales Activos (Maratón)
+        $maratonActiva = false;
+        foreach ($disciplinas as $d) {
+            $nomDisc = mb_strtolower(trim($d['nombre']), 'UTF-8');
+            if (($nomDisc === 'maratón' || $nomDisc === 'maraton') && (!isset($d['estado']) || $d['estado'] === 'Activa')) {
+                $maratonActiva = true;
+                break;
+            }
+        }
+
         $this->view('public/index', [
             'pageTitle'         => 'Olimpiadas COSMOL 2026 | Portal Oficial',
             'olimpiada'         => $olimpiada,
@@ -224,6 +237,7 @@ class PortalController extends Controller {
             'fechaHoy'          => $fechaHoy,
             'fechaAyer'         => $fechaAyer,
             'fechaManana'       => $fechaManana,
+            'maratonActiva'     => $maratonActiva,
             'isAdminLogged'     => AuthHelper::isAdmin()
         ], null); // Renderizado autónomo de alto impacto visual
     }
@@ -384,9 +398,12 @@ class PortalController extends Controller {
             'futsal'     => 3,
             'voleibol'   => 4,
             'voley'      => 4,
-            'cacho'      => 5,
-            'billar'     => 6,
-            'karaoke'    => 7
+            'maratón'    => 5,
+            'maraton'    => 5,
+            'atletismo'  => 5,
+            'cacho'      => 6,
+            'billar'     => 7,
+            'karaoke'    => 8
         ];
 
         usort($disciplinas, function($a, $b) use ($ordenPrioridad) {
