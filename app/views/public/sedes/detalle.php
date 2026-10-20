@@ -150,7 +150,7 @@
                                 </a>
                             </div>
                             <div class="col-6 pl-1">
-                                <button type="button" class="btn btn-gps btn-block font-weight-bold text-truncate" onclick="abrirRutaGps(-17.360332, -63.258289, 'Partida Maratón Olimpiada 33 - Urb. Celina')">
+                                <button type="button" class="btn btn-gps btn-block font-weight-bold text-truncate" onclick="abrirRutaGps(-17.359770, -63.258670, 'Partida Maratón Olimpiada 33 - Urb. Celina')">
                                     <i class="fas fa-location-arrow mr-1"></i> GPS Partida
                                 </button>
                             </div>

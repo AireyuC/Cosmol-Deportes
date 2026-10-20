@@ -61,6 +61,9 @@
     <!-- 4.1. Sección: Ruta Oficial de la Media Maratón (Circuito Urb. Celina Muyurina) -->
     <?php require __DIR__ . '/maraton/seccion.php'; ?>
 
+    <!-- 4.2. Sección: Cronograma General de Actividades (Jueves 22 al Sábado 24) -->
+    <?php require __DIR__ . '/cronograma/seccion.php'; ?>
+
     <!-- 5. Sección de Disciplinas Deportivas -->
     <?php require __DIR__ . '/disciplinas/seccion.php'; ?>
 

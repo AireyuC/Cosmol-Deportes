@@ -23,6 +23,9 @@
                     <a class="nav-link" href="#fixture"><i class="fas fa-calendar-day mr-1"></i> Partidos de Hoy</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="#cronograma"><i class="far fa-clock mr-1"></i> Cronograma</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#disciplinas"><i class="fas fa-running mr-1"></i> Disciplinas</a>
                 </li>
                 <li class="nav-item">

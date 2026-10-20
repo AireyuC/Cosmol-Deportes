@@ -25,6 +25,7 @@
                 <h6 class="text-white font-weight-bold mb-3 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Secciones del Portal</h6>
                 <ul class="list-unstyled text-sm mb-0">
                     <li class="mb-2"><a href="<?php echo BASE_URL; ?>/portal/fixture" class="footer-link font-weight-bold text-white"><i class="fas fa-calendar-alt text-primary mr-1"></i> Fixture Deportivo</a></li>
+                    <li class="mb-2"><a href="<?php echo BASE_URL; ?>/portal/cronograma" class="footer-link font-weight-bold text-white">Cronograma de Actividades</a></li>
                     <li class="mb-2"><a href="<?php echo BASE_URL; ?>/#fixture" class="footer-link">Partidos de Hoy</a></li>
                     <li class="mb-2"><a href="<?php echo BASE_URL; ?>/#disciplinas" class="footer-link">Disciplinas Deportivas</a></li>
                     <li class="mb-2"><a href="<?php echo BASE_URL; ?>/#posiciones" class="footer-link">Tabla de Posiciones</a></li>

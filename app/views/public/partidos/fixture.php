@@ -97,9 +97,6 @@ if (!function_exists('formatearFechaEspanolFixture')) {
 
     <div class="container py-4">
         <div class="text-center mb-4">
-            <span class="badge badge-light border text-primary px-3 py-1 font-weight-bold text-xs text-uppercase mb-2" style="letter-spacing: 0.5px;">
-                <i class="fas fa-calendar-alt mr-1"></i> Calendario y Programación Oficial
-            </span>
             <h1 class="font-weight-bold text-dark mb-1" style="font-size: 2.1rem;">Fixture Deportivo</h1>
             <p class="text-muted text-sm mb-0">Consulte el cronograma de encuentros, horarios, canchas asignadas y ubicaciones GPS en tiempo real.</p>
         </div>

@@ -7,28 +7,27 @@
 
 (function() {
     // Coordenadas oficiales de los 11 puntos de control del circuito WGS84 [lat, lng]
+    // Coordenadas oficiales de los 7 puntos de control del circuito WGS84 [lat, lng]
     // Fuente: Docs/ruta_maraton.md (Olimpiada 33)
-    var rutaCoords = [
-        [-17.360332, -63.258289], // 1. Inicio (Partida - recta inicial al sureste)
-        [-17.369889, -63.252024], // 2. Fin de la recta inicial (1254 m)
-        [-17.369353, -63.251073], // 4. Esquina (117 m)
-        [-17.371009, -63.249979], // 5. Esquina sur circuito (218 m)
-        [-17.368591, -63.245912], // 6. Esquina lazo este (509 m)
-        [-17.366925, -63.246990], // 7. Esquina retorno (218 m)
-        [-17.364782, -63.243447], // 8. Esquina superior este (445 m)
-        [-17.364355, -63.243720], // 9. Esquina inicio retorno largo (56 m)
-        [-17.369076, -63.251708], // 10. Esquina fin retorno suroeste (997 m)
-        [-17.368040, -63.252384], // 11. Esquina salida a recta final (136 m)
-        [-17.361665, -63.244581]  // 12. Meta aproximada (1090 m)
-    ];
+    var rutaCoords = (typeof window.rutaMaratonCoords !== 'undefined' && Array.isArray(window.rutaMaratonCoords))
+        ? window.rutaMaratonCoords
+        : [
+            [-17.359770, -63.258670], // 1. Inicio (Partida - recta inicial al sureste)
+            [-17.369881, -63.252018], // 2. Giro recta inicial (1328 m)
+            [-17.364783, -63.243443], // 3. Esquina noreste (1072 m)
+            [-17.364355, -63.243718], // 4. Giro retorno (56 m)
+            [-17.369076, -63.251698], // 5. Fin retorno suroeste (996 m)
+            [-17.368046, -63.252373], // 6. Giro recta final hacia meta (135 m)
+            [-17.361681, -63.244658]  // 7. Meta oficial llegada (1082 m)
+        ];
 
     // Checkpoints clave para destacar en el trazado
     var checkpoints = [
-        { idx: 1, num: '2', label: 'Fin Recta Inicial', desc: '1.25 km recorridos hacia el sureste' },
-        { idx: 3, num: '5', label: 'Giro Sur Urb. Celina', desc: 'Ingreso al lazo este del circuito' },
-        { idx: 5, num: '7', label: 'Retorno Lazo Este', desc: 'Conexión hacia el sector norte' },
-        { idx: 7, num: '9', label: 'Retorno Largo Suroeste', desc: 'Recta de retorno de ~1 km' },
-        { idx: 9, num: '11', label: 'Giro Salida hacia Meta', desc: 'Enfilada final hacia la llegada' }
+        { idx: 1, num: '2', label: 'Giro Recta Inicial', desc: '1.33 km hacia el sureste' },
+        { idx: 2, num: '3', label: 'Esquina Noreste', desc: 'Conexión norte Urb. Celina' },
+        { idx: 3, num: '4', label: 'Giro Retorno', desc: 'Inicio tramo de retorno' },
+        { idx: 4, num: '5', label: 'Fin Retorno Suroeste', desc: 'Recta hacia sector oeste' },
+        { idx: 5, num: '6', label: 'Giro Recta Final', desc: 'Enfilada final hacia la meta' }
     ];
 
     // Función auxiliar para inicializar una instancia de mapa en un contenedor dado
@@ -117,9 +116,9 @@
             'Urb. Celina Muyurina - Inicio de la recta hacia el sureste.' +
             '</div>' +
             '<div style="font-size: 0.75rem; color: #64748B; margin-bottom: 8px;">' +
-            'Coordenadas: -17.360332, -63.258289' +
+            'Coordenadas: -17.359770, -63.258670' +
             '</div>' +
-            '<button type="button" class="btn btn-sm btn-success btn-block font-weight-bold" onclick="abrirRutaGps(-17.360332, -63.258289, \'Partida Maratón Olimpiada 33\')">' +
+            '<button type="button" class="btn btn-sm btn-success btn-block font-weight-bold" onclick="abrirRutaGps(-17.359770, -63.258670, \'Partida Maratón Olimpiada 33\')">' +
             '<i class="fas fa-location-arrow mr-1"></i> Cómo llegar (GPS)' +
             '</button>' +
             '</div>'
@@ -135,9 +134,9 @@
             'Llegada de la Maratón 5.0 km - Urb. Celina Muyurina.' +
             '</div>' +
             '<div style="font-size: 0.75rem; color: #64748B; margin-bottom: 8px;">' +
-            'Coordenadas: -17.361665, -63.244581' +
+            'Coordenadas: -17.361681, -63.244658' +
             '</div>' +
-            '<button type="button" class="btn btn-sm btn-danger btn-block font-weight-bold" onclick="abrirRutaGps(-17.361665, -63.244581, \'Meta Maratón Olimpiada 33\')">' +
+            '<button type="button" class="btn btn-sm btn-danger btn-block font-weight-bold" onclick="abrirRutaGps(-17.361681, -63.244658, \'Meta Maratón Olimpiada 33\')">' +
             '<i class="fas fa-location-arrow mr-1"></i> Cómo llegar (GPS)' +
             '</button>' +
             '</div>'

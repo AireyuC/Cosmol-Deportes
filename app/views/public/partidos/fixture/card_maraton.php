@@ -43,7 +43,7 @@ if ($mostrarMaraton): ?>
                         Maratón Olimpiada 33 • Urb. Celina Muyurina
                     </div>
                     <div class="fixture-team-sub text-muted">
-                        Circuito perimetral de 11 puntos de giro en Montero. Cronometraje y llegada oficial.
+                        Circuito perimetral de 7 puntos de giro en Montero. Cronometraje y llegada oficial.
                     </div>
                 </div>
             </div>
@@ -54,10 +54,10 @@ if ($mostrarMaraton): ?>
                     <button type="button" class="btn btn-sm btn-mapa-maraton mr-2 my-1 shadow-sm" data-toggle="modal" data-target="#modalMapaMaraton">
                         <i class="fas fa-map-marked-alt mr-1"></i> Ver Mapa
                     </button>
-                    <button type="button" class="btn-gps-flat mr-1 my-1" onclick="abrirRutaGps(-17.360332, -63.258289, 'Partida Maratón Olimpiada 33')">
+                    <button type="button" class="btn-gps-flat mr-1 my-1" onclick="abrirRutaGps(-17.359770, -63.258670, 'Partida Maratón Olimpiada 33')">
                         <i class="fas fa-play mr-1"></i> GPS Partida
                     </button>
-                    <button type="button" class="btn-gps-flat my-1" onclick="abrirRutaGps(-17.361665, -63.244581, 'Meta Maratón Olimpiada 33')">
+                    <button type="button" class="btn-gps-flat my-1" onclick="abrirRutaGps(-17.361681, -63.244658, 'Meta Maratón Olimpiada 33')">
                         <i class="fas fa-flag-checkered mr-1"></i> GPS Meta
                     </button>
                 </div>

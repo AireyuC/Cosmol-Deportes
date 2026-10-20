@@ -99,7 +99,7 @@
                             </div>
                             <div class="py-1 text-sm border-bottom d-flex justify-content-between align-items-center">
                                 <span class="font-weight-bold text-dark">
-                                    <i class="fas fa-flag-checkered text-danger mr-1"></i> Llegada (Punto 12)
+                                    <i class="fas fa-flag-checkered text-danger mr-1"></i> Llegada (Punto 7)
                                 </span>
                                 <span class="badge badge-light border">Meta</span>
                             </div>
@@ -120,7 +120,7 @@
                             </a>
                         </div>
                         <div class="col-6 pl-1">
-                            <button type="button" class="btn btn-gps btn-block font-weight-bold text-truncate" onclick="abrirRutaGps(-17.360332, -63.258289, 'Partida Maratón Olimpiada 33 - Urb. Celina')">
+                            <button type="button" class="btn btn-gps btn-block font-weight-bold text-truncate" onclick="abrirRutaGps(-17.359770, -63.258670, 'Partida Maratón Olimpiada 33 - Urb. Celina')">
                                 <i class="fas fa-location-arrow mr-1"></i> GPS Partida
                             </button>
                         </div>

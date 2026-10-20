@@ -79,10 +79,10 @@
                     </a>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-sm btn-success font-weight-bold mr-1" onclick="abrirRutaGps(-17.360332, -63.258289, 'Partida Maratón Olimpiada 33')">
+                    <button type="button" class="btn btn-sm btn-success font-weight-bold mr-1" onclick="abrirRutaGps(-17.359770, -63.258670, 'Partida Maratón Olimpiada 33')">
                         <i class="fas fa-location-arrow mr-1"></i> GPS Partida
                     </button>
-                    <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-2" onclick="abrirRutaGps(-17.361665, -63.244581, 'Meta Maratón Olimpiada 33')">
+                    <button type="button" class="btn btn-sm btn-danger font-weight-bold mr-2" onclick="abrirRutaGps(-17.361681, -63.244658, 'Meta Maratón Olimpiada 33')">
                         <i class="fas fa-location-arrow mr-1"></i> GPS Meta
                     </button>
                     <button type="button" class="btn btn-sm btn-secondary font-weight-bold" data-dismiss="modal">

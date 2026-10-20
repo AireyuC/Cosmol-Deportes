@@ -19,8 +19,8 @@
             <a href="#fixture" class="btn btn-light btn-lg px-4 mr-2 mb-2 font-weight-bold text-primary shadow-sm">
                 <i class="fas fa-calendar-alt mr-2"></i> Ver partidos de hoy
             </a>
-            <a href="#maraton" class="btn btn-warning btn-lg px-4 mr-2 mb-2 font-weight-bold text-dark shadow-sm">
-                <i class="fas fa-route mr-2"></i> Circuito Maratón (5.0K)
+            <a href="#cronograma" class="btn btn-outline-light btn-lg px-4 mr-2 mb-2 font-weight-bold">
+                Cronograma General
             </a>
             <a href="#sedes" class="btn btn-outline-light btn-lg px-4 mb-2 font-weight-bold">
                 <i class="fas fa-map-marked-alt mr-2"></i> Ver sedes

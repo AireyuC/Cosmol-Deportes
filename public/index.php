@@ -46,6 +46,8 @@ Router::get('/portal/posiciones', 'PortalController@posiciones');
 Router::get('/portal/fixture', 'PortalController@fixture');
 Router::get('/portal/partido/{id}', 'PortalController@partidoDetalle');
 Router::get('/portal/medallero', 'PortalController@medallero');
+Router::get('/cronograma', 'PortalController@cronograma');
+Router::get('/portal/cronograma', 'PortalController@cronograma');
 
 // ==========================================
 // 2. AUTENTICACIÓN (Exclusiva para Administradores)

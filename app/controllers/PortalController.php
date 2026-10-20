@@ -17,6 +17,7 @@ require_once APP_PATH . '/models/PartidoSet.php';
 require_once APP_PATH . '/models/Incidencia.php';
 require_once APP_PATH . '/models/Medallero.php';
 require_once APP_PATH . '/models/Posicion.php';
+require_once APP_PATH . '/models/Cronograma.php';
 require_once APP_PATH . '/helpers/AuthHelper.php';
 
 class PortalController extends Controller {
@@ -238,6 +239,8 @@ class PortalController extends Controller {
             'fechaAyer'         => $fechaAyer,
             'fechaManana'       => $fechaManana,
             'maratonActiva'     => $maratonActiva,
+            'cronogramaDias'    => Cronograma::getDias(),
+            'cronogramaSedes'   => Cronograma::getSedes(),
             'isAdminLogged'     => AuthHelper::isAdmin()
         ], null); // Renderizado autónomo de alto impacto visual
     }
@@ -531,5 +534,39 @@ class PortalController extends Controller {
      */
     public function medallero() {
         $this->redirect('/#posiciones');
+    }
+
+    /**
+     * Vista pública del Cronograma General de Actividades
+     * Muestra la programación completa día por día y sedes oficiales.
+     */
+    public function cronograma() {
+        $olimpiada = null;
+        try {
+            $olimpiada = $this->olimpiadaModel->getActiva();
+        } catch (Exception $e) {
+            $olimpiada = null;
+        }
+
+        if (!$olimpiada) {
+            $olimpiada = [
+                'nombre' => 'Jornadas Deportivas ANESAPA - COSMOL',
+                'anio'   => 2026,
+                'lema'   => 'Unidad, Deporte e Integración'
+            ];
+        }
+
+        $dias = Cronograma::getDias();
+        $sedes = Cronograma::getSedes();
+        $diaFiltro = isset($_GET['dia']) ? trim($_GET['dia']) : null;
+
+        $this->view('public/cronograma/detalle', [
+            'pageTitle'     => 'Cronograma General de Actividades | Olimpiadas COSMOL',
+            'olimpiada'     => $olimpiada,
+            'dias'          => $dias,
+            'sedes'         => $sedes,
+            'diaFiltro'     => $diaFiltro,
+            'isAdminLogged' => AuthHelper::isAdmin()
+        ], null);
     }
 }
