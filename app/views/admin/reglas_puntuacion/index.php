@@ -10,13 +10,16 @@
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
                 <h1 class="card-title mb-0 card-title-cosmol">
-                    Reglas y Disciplinas
+                    Reglas de Puntuacion
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
+                <a href="<?php echo BASE_URL; ?>/disciplinas" class="btn btn-secondary font-weight-bold mr-2">
+                    <i class="fas fa-arrow-left mr-1"></i> Volver a Disciplinas
+                </a>
                 <?php if (AuthHelper::isAdmin()): ?>
                     <a href="<?php echo BASE_URL; ?>/reglas-puntuacion/crear" class="btn btn-primary font-weight-bold">
-                        Nueva Disciplina
+                        Nueva Regla
                     </a>
                 <?php endif; ?>
             </div>

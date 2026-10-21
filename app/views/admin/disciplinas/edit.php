@@ -46,15 +46,17 @@
                                 <option value="Borrador" <?php echo ($torneo['estado'] === 'Borrador') ? 'selected' : ''; ?>>Borrador (Configuración)</option>
                                 <option value="Inscripciones" <?php echo ($torneo['estado'] === 'Inscripciones') ? 'selected' : ''; ?>>Inscripciones Abiertas</option>
                                 <option value="Fase_Grupos" <?php echo ($torneo['estado'] === 'Fase_Grupos') ? 'selected' : ''; ?>>Fase de Grupos en Disputa</option>
-                                <option value="Playoffs" <?php echo ($torneo['estado'] === 'Playoffs') ? 'selected' : ''; ?>>Fase de Playoffs / Eliminatorias</option>
+                                <option value="Playoffs" <?php echo ($torneo['estado'] === 'Playoffs') ? 'selected' : ''; ?>>Fase Final (Definición 1º, 2º y 3º)</option>
                                 <option value="Finalizado" <?php echo ($torneo['estado'] === 'Finalizado') ? 'selected' : ''; ?>>Finalizado (Medallas Asignadas)</option>
                             </select>
                         </div>
                     </div>
 
+                    <input type="hidden" name="disciplina_id" value="<?php echo e($torneo['disciplina_id']); ?>">
+
                     <div class="row">
                         <!-- Macro-Evento Olimpiada -->
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label for="olimpiada_id">Olimpiada Asociada <span class="text-danger">*</span></label>
                             <select name="olimpiada_id" id="olimpiada_id" class="form-control" required>
                                 <?php foreach ($olimpiadas as $olimp): ?>
@@ -65,20 +67,8 @@
                             </select>
                         </div>
 
-                        <!-- Deporte / Regla Base -->
-                        <div class="col-md-4 form-group">
-                            <label for="disciplina_id">Deporte / Regla Base <span class="text-danger">*</span></label>
-                            <select name="disciplina_id" id="disciplina_id" class="form-control" required>
-                                <?php foreach ($disciplinas as $d): ?>
-                                    <option value="<?php echo e($d['id']); ?>" <?php echo ($torneo['disciplina_id'] == $d['id']) ? 'selected' : ''; ?>>
-                                        <?php echo e($d['nombre']); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
                         <!-- Rama / Categoría -->
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label for="rama">Rama / Categoría <span class="text-danger">*</span></label>
                             <select name="rama" id="rama" class="form-control" required>
                                 <option value="Masculino" <?php echo ($torneo['rama'] === 'Masculino') ? 'selected' : ''; ?>>Masculino (Varones)</option>
@@ -93,8 +83,8 @@
                         <div class="col-md-4 form-group">
                             <label for="tipo_torneo">Formato de Competencia <span class="text-danger">*</span></label>
                             <select name="tipo_torneo" id="tipo_torneo" class="form-control" required>
-                                <option value="Grupos_Playoff" <?php echo ($torneo['tipo_torneo'] === 'Grupos_Playoff') ? 'selected' : ''; ?>>Fase de Grupos + Playoffs</option>
-                                <option value="Liga" <?php echo ($torneo['tipo_torneo'] === 'Liga') ? 'selected' : ''; ?>>Liga (Todos contra todos)</option>
+                                <option value="Grupos_Playoff" <?php echo ($torneo['tipo_torneo'] === 'Grupos_Playoff') ? 'selected' : ''; ?>>Fase de Grupos</option>
+                                <option value="Liga" <?php echo ($torneo['tipo_torneo'] === 'Liga') ? 'selected' : ''; ?>>Clasificación General</option>
                                 <option value="Eliminatoria" <?php echo ($torneo['tipo_torneo'] === 'Eliminatoria') ? 'selected' : ''; ?>>Eliminación Directa</option>
                             </select>
                         </div>

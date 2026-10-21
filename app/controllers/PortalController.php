@@ -71,17 +71,17 @@ class PortalController extends Controller {
 
         if (!$olimpiada) {
             $olimpiada = [
-                'id'           => 1,
-                'nombre'       => 'Olimpiadas Cosmol 2026',
-                'anio'         => 2026,
-                'lema'         => 'Unidad, Deporte e Integración Departamental',
-                'estado'       => 'En Curso',
-                'fecha_inicio' => date('Y-m-01'),
-                'fecha_fin'    => date('Y-m-28')
+                'id'           => null,
+                'nombre'       => 'Olimpiadas Inter-Cooperativas COSMOL',
+                'anio'         => date('Y'),
+                'lema'         => 'Confraternización y Deporte Institucional',
+                'estado'       => 'Planificada',
+                'fecha_inicio' => null,
+                'fecha_fin'    => null
             ];
         }
 
-        $olimpiadaId = isset($olimpiada['id']) ? (int)$olimpiada['id'] : null;
+        $olimpiadaId = !empty($olimpiada['id']) ? (int)$olimpiada['id'] : null;
 
         // 2. Disciplinas deportivas activas
         $disciplinas = [];

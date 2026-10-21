@@ -20,7 +20,7 @@ $ptsDerrotaAjustada = isset($old['pts_derrota_ajustada']) ? $old['pts_derrota_aj
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
                 <h1 class="card-title mb-0 card-title-cosmol">
-                    Registrar Nueva Disciplina
+                    Registrar Nueva Regla
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
@@ -73,15 +73,27 @@ $ptsDerrotaAjustada = isset($old['pts_derrota_ajustada']) ? $old['pts_derrota_aj
                             <h3 class="card-title font-weight-bold text-dark">Reglas y Formato de Juego</h3>
                         </div>
                         <div class="card-body">
-                            <!-- Plantilla rápida -->
+                            <!-- Plantilla rápida de las 11 Disciplinas Oficiales ANESAPA -->
                             <div class="form-group mb-3 pb-2 border-bottom">
-                                <label class="text-xs text-uppercase text-muted font-weight-bold d-block mb-1">Cargar plantilla rápida de deporte:</label>
-                                <div class="btn-group btn-group-sm flex-wrap w-100" role="group">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="aplicarPlantilla('futbol')">Fútbol / Futsal</button>
-                                    <button type="button" class="btn btn-outline-secondary" onclick="aplicarPlantilla('basquetbol')">Básquetbol</button>
-                                    <button type="button" class="btn btn-outline-secondary" onclick="aplicarPlantilla('voleibol')">Voleibol</button>
-                                    <button type="button" class="btn btn-outline-secondary" onclick="aplicarPlantilla('recreativo')">Recreativo</button>
+                                <label class="text-xs text-uppercase text-muted font-weight-bold d-block mb-2">
+                                    <i class="fas fa-magic text-warning mr-1"></i> Cargar plantilla rápida oficial (11 disciplinas ANESAPA):
+                                </label>
+                                <div class="d-flex flex-wrap" style="gap: 5px;">
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('futbol_11')">1. Fútbol 11</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('futsal')">2. Futsal</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('voleibol')">3. Voleibol Mixto</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('basquetbol')">4. Básquetbol Mixto</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('fronton')">5. Raqueta Frontón</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('maraton')">6. Maratón 5K</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('cacho')">7. Cacho</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('karaoke')">8. Karaoke</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('billar')">9. Billar</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('tecnicas')">10. Comp. Técnicas</button>
+                                    <button type="button" class="btn btn-xs btn-outline-primary font-weight-bold" onclick="aplicarPlantilla('populares')">11. Juegos Populares</button>
                                 </div>
+                                <small class="text-muted d-block mt-2">
+                                    Haz clic en cualquiera de las 11 disciplinas para autocompletar el nombre, descripción oficial y sus reglas de puntuación.
+                                </small>
                             </div>
 
                             <!-- Formato de Juego -->
@@ -97,7 +109,7 @@ $ptsDerrotaAjustada = isset($old['pts_derrota_ajustada']) ? $old['pts_derrota_aj
                             <!-- Sets requeridos para ganar -->
                             <div class="form-group" id="container_sets" style="<?php echo empty($formatoSets) ? 'display: none;' : ''; ?>">
                                 <label for="sets_para_ganar" class="font-weight-bold">Sets requeridos para ganar el partido <span class="text-danger">*</span></label>
-                                <input type="number" name="sets_para_ganar" id="sets_para_ganar" class="form-control" min="1" max="10" value="<?php echo e($setsParaGanar > 0 ? $setsParaGanar : 2); ?>">
+                                <input type="number" name="sets_para_ganar" id="sets_para_ganar" class="form-control" min="0" max="10" value="<?php echo e($setsParaGanar > 0 ? $setsParaGanar : 0); ?>">
                                 <small class="text-muted">Por ejemplo: 2 sets para ganar (al mejor de 3 sets), o 3 sets (al mejor de 5 sets).</small>
                             </div>
 
@@ -161,11 +173,13 @@ function toggleFormatoSets() {
     var inputSets = document.getElementById('sets_para_ganar');
     if (select.value === '1') {
         container.style.display = 'block';
+        inputSets.min = '1';
         if (!inputSets.value || parseInt(inputSets.value, 10) <= 0) {
             inputSets.value = 2;
         }
     } else {
         container.style.display = 'none';
+        inputSets.min = '0';
         inputSets.value = 0;
     }
 }
@@ -187,6 +201,8 @@ function togglePermiteEmpate() {
 }
 
 function aplicarPlantilla(tipo) {
+    var inputNombre = document.getElementById('nombre');
+    var inputDesc = document.getElementById('descripcion');
     var formatoSets = document.getElementById('formato_sets');
     var setsGanar = document.getElementById('sets_para_ganar');
     var permiteEmpate = document.getElementById('permite_empate');
@@ -195,38 +211,140 @@ function aplicarPlantilla(tipo) {
     var ptsDer = document.getElementById('pts_derrota');
     var ptsDerAj = document.getElementById('pts_derrota_ajustada');
 
-    if (tipo === 'futbol') {
-        formatoSets.value = '0';
-        setsGanar.value = 0;
-        permiteEmpate.value = '1';
-        ptsVic.value = 3;
-        ptsEmp.value = 1;
-        ptsDer.value = 0;
-        ptsDerAj.value = 0;
-    } else if (tipo === 'basquetbol') {
-        formatoSets.value = '0';
-        setsGanar.value = 0;
-        permiteEmpate.value = '0';
-        ptsVic.value = 2;
-        ptsEmp.value = 0;
-        ptsDer.value = 1;
-        ptsDerAj.value = 0;
-    } else if (tipo === 'voleibol') {
-        formatoSets.value = '1';
-        setsGanar.value = 3;
-        permiteEmpate.value = '0';
-        ptsVic.value = 3;
-        ptsEmp.value = 0;
-        ptsDer.value = 0;
-        ptsDerAj.value = 1;
-    } else if (tipo === 'recreativo') {
-        formatoSets.value = '0';
-        setsGanar.value = 0;
-        permiteEmpate.value = '0';
-        ptsVic.value = 3;
-        ptsEmp.value = 0;
-        ptsDer.value = 0;
-        ptsDerAj.value = 0;
+    switch (tipo) {
+        case 'futbol_11':
+        case 'futbol':
+            inputNombre.value = 'Fútbol Once';
+            inputDesc.value = '2 tiempos de 45 min. Cancha de césped natural. Exigencia reglamentaria: 3 jugadores en cancha >= 45 años cumplidos o mayores.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '1';
+            ptsVic.value = 3;
+            ptsEmp.value = 1;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
+
+        case 'futsal':
+            inputNombre.value = 'Fútbol de Salón';
+            inputDesc.value = '2 tiempos de 20 min. Cancha cubierta. Exigencia reglamentaria: 1 jugador en cancha >= 45 años cumplidos o mayor.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '1';
+            ptsVic.value = 3;
+            ptsEmp.value = 1;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
+
+        case 'voleibol':
+            inputNombre.value = 'Voleibol Mixto';
+            inputDesc.value = 'Partidos a mejor de 3 sets (25 pts con ventaja de 2). Exigencia reglamentaria: 1 jugador(a) en cancha >= 50 años y obligado 2 damas permanentemente en cancha.';
+            formatoSets.value = '1';
+            setsGanar.value = 2;
+            permiteEmpate.value = '0';
+            ptsVic.value = 3;
+            ptsEmp.value = 0;
+            ptsDer.value = 0;
+            ptsDerAj.value = 1; // 1 pt por derrota 1-2
+            break;
+
+        case 'basquetbol':
+            inputNombre.value = 'Básquetbol Mixto';
+            inputDesc.value = '4 cuartos reglamentarios de 10 min. Canastas acumuladas. Exigencia reglamentaria: 1 jugador(a) en cancha >= 50 años y obligada 1 dama permanentemente en cancha.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '0';
+            ptsVic.value = 2;
+            ptsEmp.value = 0;
+            ptsDer.value = 1; // 1 pt por presentación/derrota
+            ptsDerAj.value = 0;
+            break;
+
+        case 'fronton':
+            inputNombre.value = 'Raqueta Frontón';
+            inputDesc.value = 'Modalidad pareja (2 jugadores). Sets a 15 puntos (al mejor de 3 sets: 2-0 o 2-1). Normas oficiales de frontón.';
+            formatoSets.value = '1';
+            setsGanar.value = 2;
+            permiteEmpate.value = '0';
+            ptsVic.value = 2;
+            ptsEmp.value = 0;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
+
+        case 'maraton':
+            inputNombre.value = 'Media Maratón';
+            inputDesc.value = 'Carrera pedestre urbana libre de 5 kilómetros. Hasta 2 representantes por EPSA. Orden de llegada a meta.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '0';
+            ptsVic.value = 2;
+            ptsEmp.value = 0;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
+
+        case 'cacho':
+            inputNombre.value = 'Cacho';
+            inputDesc.value = 'Juego tradicional de dados en modalidad Alalay por parejas. Exigencia reglamentaria: al menos 1 ejecutivo o director debidamente acreditado.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '1';
+            ptsVic.value = 2;
+            ptsEmp.value = 1;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
+
+        case 'karaoke':
+            inputNombre.value = 'Karaoke';
+            inputDesc.value = 'Noche de talentos. Hasta 2 representantes por EPSA. Calificación y puntuación global de jurado calificador.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '0';
+            ptsVic.value = 2;
+            ptsEmp.value = 0;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
+
+        case 'billar':
+            inputNombre.value = 'Billar';
+            inputDesc.value = 'Modalidad pareja (hasta dos parejas). Exigencia reglamentaria: al menos 1 ejecutivo o director debidamente acreditado. Partidas por chicos/mesas ganadas.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '0';
+            ptsVic.value = 2;
+            ptsEmp.value = 0;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
+
+        case 'tecnicas':
+            inputNombre.value = 'Competencias Técnicas';
+            inputDesc.value = 'Instalación de acometida nueva de agua potable matriz a llave de paso. Exigencia reglamentaria: 3 trabajadores operativos de cada EPSA. Evaluación por tiempo y estanqueidad.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '0';
+            ptsVic.value = 2;
+            ptsEmp.value = 0;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
+
+        case 'populares':
+        case 'recreativo':
+            inputNombre.value = 'Juegos Populares';
+            inputDesc.value = 'Juegos tradicionales: Carrera de embolsao, Carrera de cuchara con huevo y Carrera de carretilla. 5 puntos directos por prueba ganada.';
+            formatoSets.value = '0';
+            setsGanar.value = 0;
+            permiteEmpate.value = '0';
+            ptsVic.value = 1;
+            ptsEmp.value = 0;
+            ptsDer.value = 0;
+            ptsDerAj.value = 0;
+            break;
     }
 
     toggleFormatoSets();

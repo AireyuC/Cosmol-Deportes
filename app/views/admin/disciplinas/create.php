@@ -46,19 +46,6 @@
                     </div>
 
                     <div class="row">
-                        <!-- Deporte / Regla Base -->
-                        <div class="col-md-4 form-group">
-                            <label for="disciplina_id">Deporte / Regla Base <span class="text-danger">*</span></label>
-                            <select name="disciplina_id" id="disciplina_id" class="form-control" required>
-                                <option value="">-- Seleccionar Regla / Deporte --</option>
-                                <?php foreach ($disciplinas as $d): ?>
-                                    <option value="<?php echo e($d['id']); ?>">
-                                        <?php echo e($d['nombre']); ?> (Vic: <?php echo e($d['pts_victoria']); ?> pts)
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
                         <!-- Rama / Categoría -->
                         <div class="col-md-4 form-group">
                             <label for="rama">Rama / Categoría <span class="text-danger">*</span></label>
@@ -73,14 +60,12 @@
                         <div class="col-md-4 form-group">
                             <label for="tipo_torneo">Formato de Competencia <span class="text-danger">*</span></label>
                             <select name="tipo_torneo" id="tipo_torneo" class="form-control" required>
-                                <option value="Grupos_Playoff">Fase de Grupos + Eliminatorias (Playoffs)</option>
-                                <option value="Liga">Liga (Todos contra todos)</option>
-                                <option value="Eliminatoria">Eliminación Directa (Relámpago)</option>
+                                <option value="Grupos_Playoff">Fase de Grupos</option>
+                                <option value="Liga">Clasificación General</option>
+                                <option value="Eliminatoria">Eliminación Directa</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="row">
                         <!-- Modalidad de partidos -->
                         <div class="col-md-4 form-group">
                             <label for="modalidad">Encuentros <span class="text-danger">*</span></label>
@@ -89,14 +74,16 @@
                                 <option value="Ida_Vuelta">Ida y Vuelta (2 encuentros)</option>
                             </select>
                         </div>
+                    </div>
 
+                    <div class="row">
                         <!-- Fechas -->
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label for="fecha_inicio">Fecha de Inicio Estimada</label>
                             <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control">
                         </div>
 
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-6 form-group">
                             <label for="fecha_fin">Fecha de Culminación Estimada</label>
                             <input type="date" name="fecha_fin" id="fecha_fin" class="form-control">
                         </div>
@@ -104,7 +91,7 @@
 
                     <div class="alert alert-info py-2 px-3 mt-2 text-sm">
                         <i class="fas fa-info-circle mr-1"></i>
-                        <strong>Nota:</strong> Si seleccionas el formato <em>"Fase de Grupos + Playoffs"</em>, el sistema creará automáticamente el <strong>Grupo A</strong> como grupo inicial. Luego podrás agregar más grupos y distribuir los equipos.
+                        <strong>Nota:</strong> Si seleccionas el formato <em>"Fase de Grupos"</em>, podrás crear los grupos correspondientes (ej. <strong>Grupo A</strong> y <strong>Grupo B</strong>) desde la ficha de la disciplina para distribuir los equipos.
                     </div>
                 </div>
 

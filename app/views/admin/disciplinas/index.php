@@ -3,13 +3,16 @@
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
                 <h1 class="card-title mb-0 card-title-cosmol">
-                    Disciplinas
+                    Disciplina y Reglas
                 </h1>
             </div>
             <div class="col-sm-6 text-right">
+                <a href="<?php echo BASE_URL; ?>/reglas-puntuacion" class="btn btn-outline-primary font-weight-bold mr-2" title="Consultar o editar esquema de puntos y formatos de juego">
+                    <i class="fas fa-sliders-h mr-1"></i> Reglas de Puntuación
+                </a>
                 <?php if (AuthHelper::isAdmin()): ?>
                     <a href="<?php echo BASE_URL; ?>/disciplinas/crear" class="btn btn-primary font-weight-bold">
-                        Nueva Disciplina
+                        <i class="fas fa-plus mr-1"></i> Nueva Disciplina
                     </a>
                 <?php endif; ?>
             </div>
@@ -100,8 +103,8 @@
                                         <span class="text-sm font-weight-bold">
                                             <?php 
                                                 $modLabels = [
-                                                    'Grupos_Playoff' => 'Grupos + Eliminatorias',
-                                                    'Liga'           => 'Liga (Todos contra todos)',
+                                                    'Grupos_Playoff' => 'Fase de Grupos',
+                                                    'Liga'           => 'Clasificación General',
                                                     'Eliminatoria'   => 'Eliminación Directa'
                                                 ];
                                                 echo isset($modLabels[$t['tipo_torneo']]) ? $modLabels[$t['tipo_torneo']] : e($t['tipo_torneo']);

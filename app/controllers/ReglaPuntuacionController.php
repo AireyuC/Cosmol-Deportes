@@ -62,6 +62,9 @@ class ReglaPuntuacionController extends Controller {
         if (isset($_POST['formato_sets']) && (string)$_POST['formato_sets'] === '0') {
             $_POST['sets_para_ganar'] = 0;
         }
+        if (!isset($_POST['sets_para_ganar']) || $_POST['sets_para_ganar'] === '') {
+            $_POST['sets_para_ganar'] = 0;
+        }
         if (!isset($_POST['pts_derrota_ajustada']) || $_POST['pts_derrota_ajustada'] === '') {
             $_POST['pts_derrota_ajustada'] = 0;
         }
@@ -83,9 +86,18 @@ class ReglaPuntuacionController extends Controller {
             return;
         }
 
-        $this->disciplinaModel->create($_POST);
-        Session::setFlash('success', 'Regla de puntuación registrada con éxito.');
-        $this->redirect('/reglas-puntuacion');
+        try {
+            $this->disciplinaModel->create($_POST);
+            Session::setFlash('success', 'Regla de puntuación registrada con éxito.');
+            $this->redirect('/reglas-puntuacion');
+        } catch (Exception $e) {
+            Session::setFlash('error', 'Error al registrar la regla: ' . $e->getMessage());
+            $this->view('admin/reglas_puntuacion/create', [
+                'pageTitle' => 'Registrar Nueva Regla de Puntuación',
+                'old'       => $_POST
+            ]);
+            return;
+        }
     }
 
     /**
@@ -124,6 +136,9 @@ class ReglaPuntuacionController extends Controller {
         if (isset($_POST['formato_sets']) && (string)$_POST['formato_sets'] === '0') {
             $_POST['sets_para_ganar'] = 0;
         }
+        if (!isset($_POST['sets_para_ganar']) || $_POST['sets_para_ganar'] === '') {
+            $_POST['sets_para_ganar'] = 0;
+        }
         if (!isset($_POST['pts_derrota_ajustada']) || $_POST['pts_derrota_ajustada'] === '') {
             $_POST['pts_derrota_ajustada'] = 0;
         }
@@ -142,9 +157,15 @@ class ReglaPuntuacionController extends Controller {
             return;
         }
 
-        $this->disciplinaModel->updateDisciplina($id, $_POST);
-        Session::setFlash('success', 'Regla de puntuación actualizada.');
-        $this->redirect('/reglas-puntuacion');
+        try {
+            $this->disciplinaModel->updateDisciplina($id, $_POST);
+            Session::setFlash('success', 'Regla de puntuación actualizada.');
+            $this->redirect('/reglas-puntuacion');
+        } catch (Exception $e) {
+            Session::setFlash('error', 'Error al actualizar la regla: ' . $e->getMessage());
+            $this->redirect('/reglas-puntuacion/' . $id . '/editar');
+            return;
+        }
     }
 
     /**
