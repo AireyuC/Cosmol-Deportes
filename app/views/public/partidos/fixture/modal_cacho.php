@@ -2,9 +2,46 @@
 /**
  * Submódulo: Modal Interactivo de la Llave de Eliminación Directa de Cacho
  * Presenta el cuadro oficial de 8 equipos, llaves clasificatorias, semifinales y final
- * Fuente: Docs/cacho_eliminatoria.md
+ * Se alimenta dinámicamente de la programación de partidos registrada en la base de datos.
  * Compatible con PHP 7.3
  */
+
+$cachoMap = [];
+if (!empty($partidos) && is_array($partidos)) {
+    foreach ($partidos as $pItem) {
+        $discId = isset($pItem['disciplina_id']) ? (int)$pItem['disciplina_id'] : 0;
+        $discNom = isset($pItem['disciplina_nombre']) ? mb_strtolower(trim($pItem['disciplina_nombre']), 'UTF-8') : '';
+        if ($discId === 7 || strpos($discNom, 'cacho') !== false) {
+            $j = trim($pItem['jornada']);
+            $cachoMap[$j] = $pItem;
+        }
+    }
+}
+
+if (!function_exists('cachoMatchData')) {
+    function cachoMatchData($map, $key, $field, $fallback) {
+        if (isset($map[$key][$field]) && $map[$key][$field] !== '' && $map[$key][$field] !== null) {
+            return $map[$key][$field];
+        }
+        return $fallback;
+    }
+}
+
+$cLocalA = cachoMatchData($cachoMap, 'Llave A', 'local_nombre', 'COSMOL');
+$cVisitA = cachoMatchData($cachoMap, 'Llave A', 'visitante_nombre', 'SELA');
+$cHoraA  = !empty($cachoMap['Llave A']['hora_partido']) ? substr($cachoMap['Llave A']['hora_partido'], 0, 5) : '20:00';
+
+$cLocalB = cachoMatchData($cachoMap, 'Llave B', 'local_nombre', 'SAGUAPAC');
+$cVisitB = cachoMatchData($cachoMap, 'Llave B', 'visitante_nombre', 'EMAPYC');
+$cHoraB  = !empty($cachoMap['Llave B']['hora_partido']) ? substr($cachoMap['Llave B']['hora_partido'], 0, 5) : '20:30';
+
+$cLocalC = cachoMatchData($cachoMap, 'Llave C', 'local_nombre', 'ELAPAS');
+$cVisitC = cachoMatchData($cachoMap, 'Llave C', 'visitante_nombre', 'COSAALT');
+$cHoraC  = !empty($cachoMap['Llave C']['hora_partido']) ? substr($cachoMap['Llave C']['hora_partido'], 0, 5) : '21:00';
+
+$cLocalD = cachoMatchData($cachoMap, 'Llave D', 'local_nombre', 'SEMAPA');
+$cVisitD = cachoMatchData($cachoMap, 'Llave D', 'visitante_nombre', 'SAMAPA');
+$cHoraD  = !empty($cachoMap['Llave D']['hora_partido']) ? substr($cachoMap['Llave D']['hora_partido'], 0, 5) : '21:30';
 ?>
 <!-- MODAL INTERACTIVO: CUADRO DE ELIMINATORIA DE CACHO -->
 <div class="modal fade" id="modalLlaveCacho" tabindex="-1" role="dialog" aria-labelledby="modalLlaveCachoLabel" aria-hidden="true">
@@ -69,7 +106,7 @@
                     <!-- Pestaña 1: Llaves por Fases -->
                     <div class="tab-pane fade show active" id="pills-cuadro-cacho" role="tabpanel" aria-labelledby="pills-cuadro-cacho-tab">
                         
-                        <!-- Fase 1: Clasificatorios (4 Llaves) -->
+                        <!-- Fase 1: Clasificatorios (4 Llaves Dinámicas) -->
                         <div class="mb-4">
                             <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
                                 <h6 class="font-weight-bold text-uppercase mb-0 text-primary" style="letter-spacing: 0.5px;">
@@ -84,15 +121,15 @@
                                     <div class="card h-100 border shadow-sm" style="border-radius: 10px;">
                                         <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
                                             <span class="badge badge-dark">Llave A</span>
-                                            <small class="text-muted"><i class="far fa-clock mr-1"></i>20:00</small>
+                                            <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraA); ?></small>
                                         </div>
                                         <div class="card-body p-2 text-sm">
                                             <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
-                                                <span class="font-weight-bold text-dark">COSMOL</span>
+                                                <span class="font-weight-bold text-dark"><?php echo e($cLocalA); ?></span>
                                                 <span class="badge badge-light border text-muted">Local</span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center py-1">
-                                                <span class="font-weight-bold text-dark">SELA</span>
+                                                <span class="font-weight-bold text-dark"><?php echo e($cVisitA); ?></span>
                                                 <span class="badge badge-light border text-muted">Visitante</span>
                                             </div>
                                         </div>
@@ -104,15 +141,15 @@
                                     <div class="card h-100 border shadow-sm" style="border-radius: 10px;">
                                         <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
                                             <span class="badge badge-dark">Llave B</span>
-                                            <small class="text-muted"><i class="far fa-clock mr-1"></i>20:30</small>
+                                            <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraB); ?></small>
                                         </div>
                                         <div class="card-body p-2 text-sm">
                                             <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
-                                                <span class="font-weight-bold text-dark">SAGUAPAC</span>
+                                                <span class="font-weight-bold text-dark"><?php echo e($cLocalB); ?></span>
                                                 <span class="badge badge-light border text-muted">Local</span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center py-1">
-                                                <span class="font-weight-bold text-dark">EMAPYC</span>
+                                                <span class="font-weight-bold text-dark"><?php echo e($cVisitB); ?></span>
                                                 <span class="badge badge-light border text-muted">Visitante</span>
                                             </div>
                                         </div>
@@ -124,15 +161,15 @@
                                     <div class="card h-100 border shadow-sm" style="border-radius: 10px;">
                                         <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
                                             <span class="badge badge-dark">Llave C</span>
-                                            <small class="text-muted"><i class="far fa-clock mr-1"></i>21:00</small>
+                                            <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraC); ?></small>
                                         </div>
                                         <div class="card-body p-2 text-sm">
                                             <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
-                                                <span class="font-weight-bold text-dark">ELAPAS</span>
+                                                <span class="font-weight-bold text-dark"><?php echo e($cLocalC); ?></span>
                                                 <span class="badge badge-light border text-muted">Local</span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center py-1">
-                                                <span class="font-weight-bold text-dark">COSAALT</span>
+                                                <span class="font-weight-bold text-dark"><?php echo e($cVisitC); ?></span>
                                                 <span class="badge badge-light border text-muted">Visitante</span>
                                             </div>
                                         </div>
@@ -144,15 +181,15 @@
                                     <div class="card h-100 border shadow-sm" style="border-radius: 10px;">
                                         <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
                                             <span class="badge badge-dark">Llave D</span>
-                                            <small class="text-muted"><i class="far fa-clock mr-1"></i>21:30</small>
+                                            <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraD); ?></small>
                                         </div>
                                         <div class="card-body p-2 text-sm">
                                             <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
-                                                <span class="font-weight-bold text-dark">SEMAPA</span>
+                                                <span class="font-weight-bold text-dark"><?php echo e($cLocalD); ?></span>
                                                 <span class="badge badge-light border text-muted">Local</span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center py-1">
-                                                <span class="font-weight-bold text-dark">SAMAPA</span>
+                                                <span class="font-weight-bold text-dark"><?php echo e($cVisitD); ?></span>
                                                 <span class="badge badge-light border text-muted">Visitante</span>
                                             </div>
                                         </div>
@@ -178,8 +215,8 @@
                                         <small class="text-muted"><i class="far fa-clock mr-1"></i>22:00</small>
                                     </div>
                                     <div class="card-body p-2 text-sm">
-                                        <div class="py-1 border-bottom font-weight-bold text-dark">Ganador Llave A (COSMOL o SELA)</div>
-                                        <div class="py-1 font-weight-bold text-dark">Ganador Llave C (ELAPAS o COSAALT)</div>
+                                        <div class="py-1 border-bottom font-weight-bold text-dark">Ganador Llave A (<?php echo e($cLocalA); ?> / <?php echo e($cVisitA); ?>)</div>
+                                        <div class="py-1 font-weight-bold text-dark">Ganador Llave C (<?php echo e($cLocalC); ?> / <?php echo e($cVisitC); ?>)</div>
                                     </div>
                                 </div>
 
@@ -189,8 +226,8 @@
                                         <small class="text-muted"><i class="far fa-clock mr-1"></i>22:00</small>
                                     </div>
                                     <div class="card-body p-2 text-sm">
-                                        <div class="py-1 border-bottom font-weight-bold text-dark">Ganador Llave B (SAGUAPAC o EMAPYC)</div>
-                                        <div class="py-1 font-weight-bold text-dark">Ganador Llave D (SEMAPA o SAMAPA)</div>
+                                        <div class="py-1 border-bottom font-weight-bold text-dark">Ganador Llave B (<?php echo e($cLocalB); ?> / <?php echo e($cVisitB); ?>)</div>
+                                        <div class="py-1 font-weight-bold text-dark">Ganador Llave D (<?php echo e($cLocalD); ?> / <?php echo e($cVisitD); ?>)</div>
                                     </div>
                                 </div>
                             </div>
@@ -199,8 +236,9 @@
                             <div class="col-lg-6 mb-4">
                                 <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
                                     <h6 class="font-weight-bold text-uppercase mb-0 text-warning" style="letter-spacing: 0.5px; color: #D97706 !important;">
-                                        <i class="fas fa-trophy mr-1"></i>Fase Final
+                                        <i class="fas fa-trophy mr-1"></i> 🏆 Fase Final (Medallero)
                                     </h6>
+                                    <span class="badge badge-warning text-dark px-2 py-1">Oro, Plata y Bronce</span>
                                 </div>
 
                                 <!-- Gran Final -->
@@ -218,7 +256,7 @@
                                 <!-- 3er y 4to Lugar -->
                                 <div class="card border shadow-sm" style="border-radius: 10px;">
                                     <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
-                                        <span class="badge badge-secondary"><i class="fas fa-medal mr-1"></i> 3er y 4to Puesto</span>
+                                        <span class="badge badge-secondary"><i class="fas fa-medal mr-1"></i> 3er y 4to Puesto (Bronce)</span>
                                         <small class="text-muted"><i class="far fa-clock mr-1"></i>22:30</small>
                                     </div>
                                     <div class="card-body p-2 text-sm">
@@ -244,13 +282,13 @@
                                 <pre class="mb-0 text-monospace text-light" style="font-size: 0.85rem; line-height: 1.45; overflow-x: auto; color: #38BDF8 !important;">
 CLASIFICATORIOS             SEMIFINALES          FINAL
 
-A  COSMOL   vs SELA     ─┐
+A  <?php echo str_pad(mb_substr($cLocalA, 0, 10), 10); ?> vs <?php echo str_pad(mb_substr($cVisitA, 0, 10), 10); ?> ─┐
                           ├─ Semi 1 ─┐
-C  ELAPAS   vs COSAALT  ─┘           │
+C  <?php echo str_pad(mb_substr($cLocalC, 0, 10), 10); ?> vs <?php echo str_pad(mb_substr($cVisitC, 0, 10), 10); ?> ─┘           │
                                      ├─ FINAL
-B  SAGUAPAC vs EMAPYC   ─┐           │
+B  <?php echo str_pad(mb_substr($cLocalB, 0, 10), 10); ?> vs <?php echo str_pad(mb_substr($cVisitB, 0, 10), 10); ?> ─┐           │
                           ├─ Semi 2 ─┘
-D  SEMAPA   vs SAMAPA   ─┘
+D  <?php echo str_pad(mb_substr($cLocalD, 0, 10), 10); ?> vs <?php echo str_pad(mb_substr($cVisitD, 0, 10), 10); ?> ─┘
 
 Perdedores de Semi 1 y Semi 2 → 3er y 4to lugar
                                 </pre>
