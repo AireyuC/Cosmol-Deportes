@@ -36,6 +36,25 @@
                 <?php echo CsrfHelper::field(); ?>
 
                 <div class="card-body">
+                    <?php 
+                    $esSorteo = ((int)$equipo['delegacion_id'] === 10 || stripos($equipo['nombre'], 'sorteo') !== false || stripos($equipo['nombre'], 'definir') !== false);
+                    if ($esSorteo): 
+                    ?>
+                        <div class="alert alert-warning border-0 shadow-sm mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-random fa-2x mr-3 text-warning"></i>
+                                <div>
+                                    <h6 class="font-weight-bold mb-1 text-dark">Definición de Cupo por Sorteo (Fixture Jueves 22)</h6>
+                                    <p class="mb-0 text-sm text-dark">
+                                        Este equipo está registrado provisionalmente como cupo por sorteo (ej. <strong>A2, A3, B2, B3, B4</strong>).
+                                        Al ingresar el <strong>Nombre Oficial</strong> (ej. <em>SAGUAPAC Selección</em>) y seleccionar su <strong>Delegación Institucional</strong> (ej. <em>SAGUAPAC R.L.</em>), 
+                                        <strong>todos los partidos programados en el fixture se actualizarán automáticamente</strong> en todo el sistema.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                     <div class="row">
                         <!-- Nombre del Equipo -->
                         <div class="col-md-8 form-group">

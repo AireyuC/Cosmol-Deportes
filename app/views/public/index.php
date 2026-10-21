@@ -55,26 +55,28 @@
     <!-- 3. Barra de Estadísticas Rápidas -->
     <?php require __DIR__ . '/layout/stats.php'; ?>
 
-    <!-- 4. Sección de Partidos del Día -->
-    <?php require __DIR__ . '/partidos/seccion.php'; ?>
-
-    <!-- 4.1. Sección: Ruta Oficial de la Media Maratón (Circuito Urb. Celina Muyurina) -->
-    <?php require __DIR__ . '/maraton/seccion.php'; ?>
-
-    <!-- 4.2. Sección: Cronograma General de Actividades (Jueves 22 al Sábado 24) -->
+    <!-- 4. Sección: Cronograma General de Actividades (Jueves 22 al Sábado 24) -->
     <?php require __DIR__ . '/cronograma/seccion.php'; ?>
 
-    <!-- 5. Sección de Disciplinas Deportivas -->
-    <?php require __DIR__ . '/disciplinas/seccion.php'; ?>
+    <!-- 5. Sección: Partidos de la Jornada de Hoy (con aviso en caso de ausencia de partidos) -->
+    <?php require __DIR__ . '/partidos/seccion.php'; ?>
 
-    <!-- 6. Sección de Posiciones Olímpicas y Medallero -->
-    <?php require __DIR__ . '/posiciones/seccion.php'; ?>
+    <!-- 6. Sección: Ruta Oficial de la Maratón ANESAPA (Circuito Urb. Celina Muyurina) -->
+    <?php if (!empty($maratonActiva)): ?>
+        <?php require __DIR__ . '/maraton/seccion.php'; ?>
+    <?php endif; ?>
 
-    <!-- 7. Sección de Sedes Deportivas y Rutas GPS -->
+    <!-- 7. Sección: Sedes Deportivas y Rutas GPS ("Cómo llegar") -->
     <?php require __DIR__ . '/sedes/seccion.php'; ?>
 
-    <!-- 8. Sección de Delegaciones Participantes -->
+    <!-- 8. Sección: Disciplinas de las Olimpiadas -->
+    <?php require __DIR__ . '/disciplinas/seccion.php'; ?>
+
+    <!-- 9. Sección: Delegaciones Participantes -->
     <?php require __DIR__ . '/delegaciones/seccion.php'; ?>
+
+    <!-- 10. Sección: Posiciones Olímpicas y Medallero -->
+    <?php require __DIR__ . '/posiciones/seccion.php'; ?>
 
     <!-- 9. Footer Informativo -->
     <?php require __DIR__ . '/layout/footer.php'; ?>

@@ -5,34 +5,37 @@
  * Compatible con PHP 7.3
  */
 
-// Evaluación universal de partidos para la fecha de hoy
-$hayPartidosHoy = !empty($partidosHoy);
+// Partidos oficiales exclusivamente de la jornada de hoy (muestra aviso si no hay encuentros hoy)
+$hayPartidosHoy   = !empty($partidosHoy);
+$partidosMostrar  = $hayPartidosHoy ? $partidosHoy : [];
+$tituloSeccion    = 'Partidos de la Jornada de Hoy';
+$subtituloSeccion = 'Consulte los enfrentamientos oficiales programados para la fecha de hoy (' . (!empty($fechaHoy) ? date('d/m/Y', strtotime($fechaHoy)) : date('d/m/Y')) . ').';
 ?>
-<!-- 4. PRIMERA SECCIÓN: PARTIDOS DEL DÍA (JUEGOS DE HOY) -->
+<!-- 4. PRIMERA SECCIÓN: PARTIDOS DEL DÍA / PRÓXIMOS ENCUENTROS -->
 <section id="fixture" class="py-5 mt-2" style="background: #FFFFFF;">
     <div class="container">
         <!-- Encabezado de la sección -->
         <div class="row align-items-center mb-4">
             <div class="col-md-7">
-                <h2 class="font-weight-bold mt-2 text-center" style="color: var(--cosmol-azul-deep);">
-                    Partidos del Día
+                <h2 class="font-weight-bold mt-2 text-center text-md-left" style="color: var(--cosmol-azul-deep);">
+                    <?php echo e($tituloSeccion); ?>
                 </h2>
-                <p class="text-muted mb-0 text-center">
-                    Consulte los enfrentamientos programados para la jornada de hoy.
+                <p class="text-muted mb-0 text-center text-md-left">
+                    <?php echo e($subtituloSeccion); ?>
                 </p>
             </div>
-            <div class="col-md-5 text-md-center mt-3 mt-md-0 text-center">
+            <div class="col-md-5 text-md-right mt-3 mt-md-0 text-center">
                 <a href="<?php echo BASE_URL; ?>/portal/fixture" class="btn btn-admin-login font-weight-bold rounded-pill px-4 shadow-sm" style="border-width: 2px;">
                     Ver Fixture Completo
                 </a>
             </div>
         </div>
 
-        <!-- Listado Dinámico de Partidos de Hoy (Todas las Disciplinas) -->
+        <!-- Listado Dinámico de Partidos (Todas las Disciplinas) -->
         <div class="row" id="contenedor-partidos">
 
-            <?php if ($hayPartidosHoy): ?>
-                <?php foreach ($partidosHoy as $p): 
+            <?php if (!empty($partidosMostrar)): ?>
+                <?php foreach ($partidosMostrar as $p): 
                     $estado = $p['estado'];
                     $isLive = ($estado === 'En_Juego');
                     $isFinalizado = ($estado === 'Finalizado');
@@ -82,7 +85,13 @@ $hayPartidosHoy = !empty($partidosHoy);
                                             <h6 class="font-weight-bold text-dark mb-0 text-truncate" title="<?php echo e($p['local_nombre']); ?>">
                                                 <?php echo e($p['local_nombre']); ?>
                                             </h6>
-                                            <small class="text-muted"><?php echo !empty($p['delegacion_local']) ? e($p['delegacion_local']) : 'Local'; ?></small>
+                                            <small class="text-muted">
+                                                <?php if (!empty($p['delegacion_local']) && stripos($p['delegacion_local'], 'sorteo') === false && stripos($p['delegacion_local'], 'definir') === false): ?>
+                                                    <?php echo e($p['delegacion_local']); ?>
+                                                <?php else: ?>
+                                                    <span class="text-secondary font-italic"><i class="fas fa-random mr-1"></i>Por Sorteo</span>
+                                                <?php endif; ?>
+                                            </small>
                                         </div>
                                     </div>
 
@@ -113,7 +122,13 @@ $hayPartidosHoy = !empty($partidosHoy);
                                             <h6 class="font-weight-bold text-dark mb-0 text-truncate" title="<?php echo e($p['visitante_nombre']); ?>">
                                                 <?php echo e($p['visitante_nombre']); ?>
                                             </h6>
-                                            <small class="text-muted"><?php echo !empty($p['delegacion_visitante']) ? e($p['delegacion_visitante']) : 'Visitante'; ?></small>
+                                            <small class="text-muted">
+                                                <?php if (!empty($p['delegacion_visitante']) && stripos($p['delegacion_visitante'], 'sorteo') === false && stripos($p['delegacion_visitante'], 'definir') === false): ?>
+                                                    <?php echo e($p['delegacion_visitante']); ?>
+                                                <?php else: ?>
+                                                    <span class="text-secondary font-italic"><i class="fas fa-random mr-1"></i>Por Sorteo</span>
+                                                <?php endif; ?>
+                                            </small>
                                         </div>
                                     </div>
                                 </div>

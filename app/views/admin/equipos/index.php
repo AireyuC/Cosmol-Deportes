@@ -55,6 +55,20 @@
             </div>
         </div>
 
+        <!-- Banner Informativo para Sorteos -->
+        <div class="callout callout-info bg-white shadow-sm mb-3 border-left border-info" style="border-left-width: 4px !important;">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-random fa-2x text-info mr-3"></i>
+                <div>
+                    <h6 class="font-weight-bold mb-1 text-dark">Asignación de Equipos por Sorteo (A2, A3, B2, B3, B4)</h6>
+                    <p class="mb-0 text-sm text-muted">
+                        Una vez realizado el sorteo oficial previo, haga clic en <strong>"Definir Equipo"</strong> para renombrar el equipo y asignarle su delegación (ej. SAGUAPAC, SEMAPA, SELA, etc.).
+                        <strong>Todos los partidos del fixture, tablas de posiciones y vistas públicas se actualizarán de inmediato</strong> sin modificar código.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div class="card card-outline card-cosmol shadow-sm">
             <div class="card-header">
                 <h3 class="card-title font-weight-bold text-dark">
@@ -83,16 +97,32 @@
                                 </td>
                             </tr>
                         <?php else: ?>
-                            <?php foreach ($equipos as $eq): ?>
+                            <?php foreach ($equipos as $eq): 
+                                $esSorteo = ((int)$eq['delegacion_id'] === 10 || stripos($eq['nombre'], 'sorteo') !== false || stripos($eq['nombre'], 'definir') !== false);
+                            ?>
                                 <tr>
                                     <td>
                                         <div class="font-weight-bold text-dark">
                                             <?php echo e($eq['nombre']); ?>
+                                            <?php if ($esSorteo): ?>
+                                                <span class="badge badge-warning text-dark font-weight-bold ml-1">
+                                                    <i class="fas fa-random mr-1"></i>Pendiente Sorteo
+                                                </span>
+                                            <?php endif; ?>
                                         </div>
+                                        <?php if (!empty($eq['nombre_corto'])): ?>
+                                            <small class="text-muted">Sigla: <?php echo e($eq['nombre_corto']); ?></small>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <div class="text-dark">
-                                            <?php echo e($eq['delegacion_nombre']); ?>
+                                            <?php if ($esSorteo && (int)$eq['delegacion_id'] === 10): ?>
+                                                <span class="text-warning font-weight-bold">
+                                                    <i class="fas fa-clock mr-1"></i>Por Asignar
+                                                </span>
+                                            <?php else: ?>
+                                                <?php echo e($eq['delegacion_nombre']); ?>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                     <td>
@@ -129,9 +159,15 @@
                                                 Nómina
                                             </a>
                                             <?php if (AuthHelper::isAdmin()): ?>
-                                                <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
-                                                    Editar
-                                                </a>
+                                                <?php if ($esSorteo): ?>
+                                                    <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-warning font-weight-bold px-2 py-1 text-dark" title="Definir quién ocupará este cupo tras el sorteo">
+                                                        <i class="fas fa-edit mr-1"></i>Definir Equipo
+                                                    </a>
+                                                <?php else: ?>
+                                                    <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                        Editar
+                                                    </a>
+                                                <?php endif; ?>
                                                 <button type="button" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" data-toggle="modal" data-target="#modalDeleteEq<?php echo e($eq['id']); ?>" title="Eliminar">
                                                     Eliminar
                                                 </button>

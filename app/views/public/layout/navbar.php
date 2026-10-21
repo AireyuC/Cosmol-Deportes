@@ -20,40 +20,39 @@
         <div class="collapse navbar-collapse" id="navPublic">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#fixture"><i class="fas fa-calendar-day mr-1"></i> Partidos de Hoy</a>
+                    <a class="nav-link" href="#cronograma">Cronograma</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#cronograma"><i class="far fa-clock mr-1"></i> Cronograma</a>
+                    <a class="nav-link" href="#fixture">Partidos de Hoy</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#disciplinas"><i class="fas fa-running mr-1"></i> Disciplinas</a>
+                    <a class="nav-link" href="#maraton">Maratón</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#posiciones"><i class="fas fa-list-ol mr-1"></i> Posiciones</a>
+                    <a class="nav-link" href="#sedes">Sedes y Rutas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#sedes"><i class="fas fa-map-marked-alt mr-1"></i> Sedes y Rutas</a>
+                    <a class="nav-link" href="#disciplinas">Disciplinas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#delegaciones"><i class="fas fa-flag mr-1"></i> Delegaciones</a>
+                    <a class="nav-link" href="#delegaciones">Delegaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#posiciones">Posiciones</a>
                 </li>
             </ul>
 
-            <!-- BOTÓN PRINCIPAL DE ACCESO / INICIAR SESIÓN ADMIN -->
-            <div class="navbar-nav ml-auto align-items-center">
-                <?php if ($isAdminLogged): ?>
+            <!-- ACCESOS DE ADMINISTRADOR (SOLO VISIBLE SI YA INICIÓ SESIÓN) -->
+            <?php if (!empty($isAdminLogged)): ?>
+                <div class="navbar-nav ml-auto align-items-center">
                     <a href="<?php echo BASE_URL; ?>/dashboard" class="btn btn-primary btn-sm px-3 font-weight-bold mr-2" style="background-color: #0066B2;">
                         <i class="fas fa-tachometer-alt mr-1"></i> Panel Admin
                     </a>
                     <a href="<?php echo BASE_URL; ?>/logout" class="btn btn-outline-danger btn-sm font-weight-bold">
                         <i class="fas fa-sign-out-alt"></i> Salir
                     </a>
-                <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>/login" class="btn btn-admin-login text-sm">
-                        <i class="fas fa-lock mr-1"></i> Iniciar Sesión
-                    </a>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

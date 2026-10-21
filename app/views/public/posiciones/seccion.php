@@ -60,10 +60,12 @@
                                 <?php else: ?>
                                     <?php $pos = 1; foreach ($medallero as $m): ?>
                                         <?php
-                                            $oro = (int)($m['oro'] ?? 0);
-                                            $plata = (int)($m['plata'] ?? 0);
-                                            $bronce = (int)($m['bronce'] ?? 0);
-                                            $pts = ($oro * 5) + ($plata * 3) + ($bronce * 1);
+                                            $oro = (int)(isset($m['oro']) ? $m['oro'] : 0);
+                                            $plata = (int)(isset($m['plata']) ? $m['plata'] : 0);
+                                            $bronce = (int)(isset($m['bronce']) ? $m['bronce'] : 0);
+                                            $pts = isset($m['puntos_olimpicos']) && (int)$m['puntos_olimpicos'] > 0 
+                                                ? (int)$m['puntos_olimpicos'] 
+                                                : (($oro * 5) + ($plata * 3) + ($bronce * 1));
                                         ?>
                                         <tr>
                                             <td class="pos-col-rank">

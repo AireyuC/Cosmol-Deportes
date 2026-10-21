@@ -90,7 +90,13 @@ foreach ($partidos as $p) {
                                 <div class="fixture-team fixture-team-local" title="<?php echo e($p['local_nombre']); ?>">
                                     <span class="fixture-team-name"><?php echo e($p['local_nombre']); ?></span>
                                     <?php if (!empty($p['delegacion_local'])): ?>
-                                        <div class="fixture-team-sub"><?php echo e($p['delegacion_local']); ?></div>
+                                        <div class="fixture-team-sub">
+                                            <?php if (stripos($p['delegacion_local'], 'sorteo') !== false || stripos($p['delegacion_local'], 'definir') !== false): ?>
+                                                <span class="badge badge-light border text-muted px-1" style="font-size: 0.72rem; font-weight: normal;"><i class="fas fa-random mr-1"></i>Pendiente Sorteo</span>
+                                            <?php else: ?>
+                                                <?php echo e($p['delegacion_local']); ?>
+                                            <?php endif; ?>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
 
@@ -115,7 +121,13 @@ foreach ($partidos as $p) {
                                 <div class="fixture-team fixture-team-visit" title="<?php echo e($p['visitante_nombre']); ?>">
                                     <span class="fixture-team-name"><?php echo e($p['visitante_nombre']); ?></span>
                                     <?php if (!empty($p['delegacion_visitante'])): ?>
-                                        <div class="fixture-team-sub"><?php echo e($p['delegacion_visitante']); ?></div>
+                                        <div class="fixture-team-sub">
+                                            <?php if (stripos($p['delegacion_visitante'], 'sorteo') !== false || stripos($p['delegacion_visitante'], 'definir') !== false): ?>
+                                                <span class="badge badge-light border text-muted px-1" style="font-size: 0.72rem; font-weight: normal;"><i class="fas fa-random mr-1"></i>Pendiente Sorteo</span>
+                                            <?php else: ?>
+                                                <?php echo e($p['delegacion_visitante']); ?>
+                                            <?php endif; ?>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
                             </div>

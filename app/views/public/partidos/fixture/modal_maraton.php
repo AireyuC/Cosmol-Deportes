@@ -19,9 +19,6 @@
                         <h5 class="modal-title font-weight-bold mb-0 text-white" id="modalMapaMaratonLabel">
                             Circuito Oficial: Maratón 5.0 km (Olimpiada 33)
                         </h5>
-                        <small class="text-light" style="opacity: 0.9;">
-                            Urb. Celina Muyurina (Montero) • 11 Puntos de Giro Oficiales WGS84
-                        </small>
                     </div>
                 </div>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar" style="opacity: 0.9;">
@@ -31,20 +28,6 @@
 
             <!-- Barra de Métricas y Controles Rápidos -->
             <div class="bg-light px-4 py-2 border-bottom d-flex flex-wrap justify-content-between align-items-center">
-                <div class="d-flex flex-wrap align-items-center my-1">
-                    <span class="badge badge-primary px-3 py-1 mr-2 mb-1" style="background-color: var(--cosmol-azul);">
-                        <i class="fas fa-route mr-1"></i> Distancia: ~5.0 km
-                    </span>
-                    <span class="badge badge-success px-3 py-1 mr-2 mb-1">
-                        <i class="fas fa-play mr-1"></i> Partida: Recta SE
-                    </span>
-                    <span class="badge badge-danger px-3 py-1 mr-2 mb-1">
-                        <i class="fas fa-flag-checkered mr-1"></i> Meta: Sector NE
-                    </span>
-                    <span class="badge badge-warning text-dark font-weight-bold px-3 py-1 mr-2 mb-1">
-                        <i class="fas fa-map-pin mr-1"></i> 11 Hitos de Giro
-                    </span>
-                </div>
                 <div class="btn-group btn-group-sm my-1" role="group">
                     <button type="button" class="btn btn-outline-primary" id="btn-modal-fit-map" title="Ver todo el circuito">
                         <i class="fas fa-expand-arrows-alt mr-1"></i> Ver Todo
@@ -73,9 +56,6 @@
                 <div>
                     <a href="<?php echo BASE_URL; ?>/data/ruta-maraton.geojson" download="ruta-maraton-olimpiadas-cosmol.geojson" class="btn btn-sm btn-outline-primary font-weight-bold mr-1">
                         <i class="fas fa-download mr-1"></i> GeoJSON
-                    </a>
-                    <a href="<?php echo BASE_URL; ?>/#maraton" class="btn btn-sm btn-link text-primary font-weight-bold">
-                        <i class="fas fa-info-circle mr-1"></i> Ficha en Portada
                     </a>
                 </div>
                 <div>

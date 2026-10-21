@@ -71,14 +71,11 @@ $puntosMaraton = [
     <div class="container">
         <!-- Encabezado de la Sección -->
         <div class="text-center mb-4">
-            <span class="badge badge-pill px-3 py-1 font-weight-bold text-uppercase" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #C9E2F5; font-size: 0.78rem;">
-                Trazado Oficial Actualizado
-            </span>
             <h2 class="font-weight-bold mt-2 mb-1" style="color: var(--cosmol-azul-deep); font-size: 2.1rem;">
                 Ruta Oficial: Maratón 5.0 km
             </h2>
             <p class="text-muted mb-0" style="font-size: 0.95rem;">
-                Circuito de 7 puntos de control en la Urbanización Celina Muyurina (Montero)
+                Circuito en la Urbanización Celina Muyurina (Montero)
             </p>
         </div>
 
@@ -88,21 +85,18 @@ $puntosMaraton = [
                 <div class="card border shadow-sm text-center p-3 h-100" style="border-radius: 12px; background: #FFFFFF; border-color: #E2E8F0 !important;">
                     <div class="text-muted text-xs text-uppercase font-weight-bold">Distancia Oficial</div>
                     <div class="font-weight-bold my-1" style="font-size: 1.6rem; color: var(--cosmol-azul-deep);">~5.0 km</div>
-                    <small class="text-muted text-xs">7 Puntos de Control</small>
                 </div>
             </div>
             <div class="col-6 col-md-4 mb-3">
                 <div class="card border shadow-sm text-center p-3 h-100" style="border-radius: 12px; background: #FFFFFF; border-color: #E2E8F0 !important;">
                     <div class="text-muted text-xs text-uppercase font-weight-bold">Punto de Largada</div>
                     <div class="font-weight-bold my-1" style="font-size: 1.25rem; color: #166534;">Punto 1 (Partida)</div>
-                    <small class="text-muted text-xs">-17.359770, -63.258670</small>
                 </div>
             </div>
             <div class="col-6 col-md-4 mb-3">
                 <div class="card border shadow-sm text-center p-3 h-100" style="border-radius: 12px; background: #FFFFFF; border-color: #E2E8F0 !important;">
                     <div class="text-muted text-xs text-uppercase font-weight-bold">Punto de Llegada</div>
                     <div class="font-weight-bold my-1" style="font-size: 1.25rem; color: #991B1B;">Punto 7 (Meta)</div>
-                    <small class="text-muted text-xs">-17.361681, -63.244658</small>
                 </div>
             </div>
         </div>

@@ -98,6 +98,10 @@
                         $iconClass = 'sport-icon-karaoke';
                         $iconName = 'microphone-alt';
                         $iconImg = 'image.png';
+                    } elseif (strpos($nLower, 'frontón') !== false || strpos($nLower, 'fronton') !== false) {
+                        $iconClass = 'sport-icon-voleibol';
+                        $iconName = 'table-tennis';
+                        $iconImg = 'image copy 6.png';
                     } elseif (strpos($nLower, 'maratón') !== false || strpos($nLower, 'maraton') !== false || strpos($nLower, 'atletismo') !== false) {
                         $iconClass = 'sport-icon-futsal';
                         $iconName = 'running';

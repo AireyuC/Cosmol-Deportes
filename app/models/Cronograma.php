@@ -199,74 +199,81 @@ class Cronograma {
     public static function getSedes() {
         return [
             [
-                'nombre'     => 'Coliseo "Plurinacional"',
-                'direccion'  => 'Av. Betania',
-                'actividades'=> 'Inauguración Oficial, Vóley (Grupo B) y Futsal (Grupo B)',
-                'latitud'    => -17.342000,
-                'longitud'   => -63.254000
+                'nombre'     => 'Estadio Gilberto Parada',
+                'direccion'  => 'Av. Circunvalación Este, Montero',
+                'actividades'=> 'Fútbol (Fase Clasificatoria y Semifinales)',
+                'latitud'    => -17.34308263,
+                'longitud'   => -63.26197784
             ],
             [
-                'nombre'     => 'Coliseo Patuju',
+                'nombre'     => 'Coliseo Patujú',
                 'direccion'  => 'Calle Litoral esq. Roberto Paz, Zona Central',
-                'actividades'=> 'Vóley (Grupo A) y Futsal (Grupo A)',
-                'latitud'    => -17.341100,
-                'longitud'   => -63.256200
+                'actividades'=> 'Vóley (Grupo A), Futsal (Grupo A) y Fase Final de Vóley',
+                'latitud'    => -17.34033131,
+                'longitud'   => -63.25355583
             ],
             [
-                'nombre'     => 'Coliseo FINOR',
-                'direccion'  => 'Campus Universitario, Av. Circunvalación Noroeste',
-                'actividades'=> 'Básquet (Grupo A)',
-                'latitud'    => -17.332500,
-                'longitud'   => -63.262100
+                'nombre'     => 'Coliseo "Plurinacional"',
+                'direccion'  => 'Av. Betania, Montero',
+                'actividades'=> 'Inauguración Oficial, Vóley (Grupo B) y Futsal (Grupo B)',
+                'latitud'    => -17.34959888,
+                'longitud'   => -63.23763889
             ],
             [
-                'nombre'     => 'Coliseo y Frontón "Andrés Ibáñez"',
-                'direccion'  => 'Av. Circunvalación Noroeste',
-                'actividades'=> 'Básquet (Grupo B) y Torneo de Frontón',
-                'latitud'    => -17.334000,
-                'longitud'   => -63.261000
+                'nombre'     => 'Coliseo Andrés Ibáñez',
+                'direccion'  => 'Av. Circunvalación Noroeste, Montero',
+                'actividades'=> 'Básquetbol (Grupo B y Playoffs)',
+                'latitud'    => -17.34050945,
+                'longitud'   => -63.27135970
             ],
             [
-                'nombre'     => 'Cancha Azucareros',
-                'direccion'  => 'Barrio La Esperanza',
-                'actividades'=> 'Fútbol (Fase Clasificatoria)',
-                'latitud'    => -17.348000,
-                'longitud'   => -63.265000
+                'nombre'     => 'Frontón Municipal de Montero',
+                'direccion'  => 'Av. Circunvalación Noroeste (al lado del Coliseo Andrés Ibáñez)',
+                'actividades'=> 'Campeonato Oficial de Frontón ANESAPA 2026',
+                'latitud'    => -17.33999329,
+                'longitud'   => -63.27183894
             ],
             [
-                'nombre'     => 'Mutual de Ex Jugadores de Montero',
-                'direccion'  => 'Calle 16 de Julio #415',
-                'actividades'=> 'Fútbol (3er / 4to Puesto y Gran Final)',
-                'latitud'    => -17.345000,
-                'longitud'   => -63.258000
-            ],
-            [
-                'nombre'     => 'Urbanización Celina Muyurina',
-                'direccion'  => 'Montero (Santa Cruz)',
-                'actividades'=> 'Maratón (Circuito Oficial 5.0 km) y Prueba Técnica',
-                'latitud'    => -17.359770,
-                'longitud'   => -63.258670
+                'nombre'     => 'Mutual de Ex Jugadores de Fútbol de Montero',
+                'direccion'  => 'Calle 16 de Julio #415, Montero',
+                'actividades'=> 'Fútbol (3er / 4to Puesto y Gran Final de Fútbol)',
+                'latitud'    => -17.34757000,
+                'longitud'   => -63.25784800
             ],
             [
                 'nombre'     => 'Bar Restaurante "La Perla"',
-                'direccion'  => 'Av. Betania Nro. 218',
+                'direccion'  => 'Av. Betania Nro. 218, Montero',
                 'actividades'=> 'Concurso de Karaoke, Juegos Populares, Clausura y Premiación',
-                'latitud'    => -17.343500,
-                'longitud'   => -63.252500
+                'latitud'    => -17.34887214,
+                'longitud'   => -63.24223902
             ],
             [
-                'nombre'     => 'Billar Springfield',
-                'direccion'  => 'Calle Isaías Parada esq. Chuquisaca',
+                'nombre'     => 'Billar Springfield Suc. Montero',
+                'direccion'  => 'Calle Isaías Parada esq. Chuquisaca, Montero',
                 'actividades'=> 'Campeonato de Billar y Campeonato de Cacho',
-                'latitud'    => -17.340000,
-                'longitud'   => -63.257000
+                'latitud'    => -17.33731540,
+                'longitud'   => -63.25739240
             ],
             [
-                'nombre'     => 'Oficina y Auditorio COSMOL',
-                'direccion'  => 'Calle Isaías Parada #219, Zona Central',
+                'nombre'     => 'Urbanización Celina Muyurina',
+                'direccion'  => 'Urbanización Celina Muyurina, Montero',
+                'actividades'=> 'Maratón ANESAPA (Circuito Oficial 5.0 km) y Prueba Técnica',
+                'latitud'    => -17.35977000,
+                'longitud'   => -63.25867000
+            ],
+            [
+                'nombre'     => 'Oficina y Salón Auditorio COSMOL',
+                'direccion'  => 'Calle Isaías Parada #219, Zona Central, Montero',
                 'actividades'=> 'Capacitación Técnica y Reunión del Consejo Directivo ANESAPA',
-                'latitud'    => -17.339400,
-                'longitud'   => -63.255800
+                'latitud'    => -17.33940000,
+                'longitud'   => -63.25580000
+            ],
+            [
+                'nombre'     => 'Coliseo FINOR',
+                'direccion'  => 'Campus Universitario FINOR, Av. Circunvalación Noroeste',
+                'actividades'=> 'Básquetbol (Grupo A)',
+                'latitud'    => -17.33120000,
+                'longitud'   => -63.26100000
             ]
         ];
     }

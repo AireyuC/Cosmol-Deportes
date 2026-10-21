@@ -55,7 +55,14 @@
         if ($maratonCard.length > 0) {
             var selectDiscVal = $('select[name="disciplina_id"]').val();
             var esFiltroMaratonExplicito = (selectDiscVal == '<?php echo $maratonDiscId; ?>');
-            if (dia === 'todos' || esFiltroMaratonExplicito) {
+            var maratonDay = '<?php 
+                $fechaMaraton = "2026-10-24";
+                if ($fechaMaraton === $fechaHoy) echo "hoy";
+                elseif ($fechaMaraton === $fechaAyer) echo "ayer";
+                elseif ($fechaMaraton === $fechaManana) echo "manana";
+                else echo "otro";
+            ?>';
+            if (dia === 'todos' || dia === maratonDay || esFiltroMaratonExplicito) {
                 $maratonCard.removeClass('d-none');
                 totalVisibles++;
             } else {

@@ -21,7 +21,7 @@ foreach ($disciplinas as $dItem) {
     }
 }
 $esFiltroMaraton = ($disciplinaFiltro && $disciplinaFiltro === $maratonDiscId);
-$mostrarMaraton = (!$disciplinaFiltro || $esFiltroMaraton);
+$mostrarMaraton = ($maratonDiscId !== null) && (!$disciplinaFiltro || $esFiltroMaraton);
 
 if (!function_exists('obtenerIconoDisciplinaFixture')) {
     function obtenerIconoDisciplinaFixture($nombre) {
@@ -30,6 +30,7 @@ if (!function_exists('obtenerIconoDisciplinaFixture')) {
         if (strpos($n, 'futsal') !== false) return 'fas fa-running';
         if (strpos($n, 'basquet') !== false || strpos($n, 'básquet') !== false) return 'fas fa-basketball-ball';
         if (strpos($n, 'voley') !== false || strpos($n, 'voleibol') !== false) return 'fas fa-volleyball-ball';
+        if (strpos($n, 'fronton') !== false || strpos($n, 'frontón') !== false) return 'fas fa-table-tennis';
         if (strpos($n, 'marat') !== false || strpos($n, 'atletismo') !== false) return 'fas fa-running';
         if (strpos($n, 'karaoke') !== false) return 'fas fa-microphone-alt';
         if (strpos($n, 'billar') !== false) return 'fas fa-dot-circle';
@@ -85,10 +86,6 @@ if (!function_exists('formatearFechaEspanolFixture')) {
                 <?php if (!empty($isAdminLogged)): ?>
                     <a href="<?php echo BASE_URL; ?>/dashboard" class="btn btn-primary btn-sm font-weight-bold" style="background-color: var(--cosmol-azul);">
                         <i class="fas fa-tachometer-alt mr-1"></i> Panel Admin
-                    </a>
-                <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>/login" class="btn btn-outline-primary btn-sm font-weight-bold">
-                        <i class="fas fa-lock mr-1"></i> Iniciar Sesión
                     </a>
                 <?php endif; ?>
             </div>

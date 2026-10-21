@@ -42,10 +42,6 @@
                     <a href="<?php echo BASE_URL; ?>/dashboard" class="btn btn-block font-weight-bold" style="background-color: #0066B2; color: #FFFFFF; border-radius: 8px; font-size: 0.88rem; padding: 0.55rem 1rem;">
                         Ir al Panel de Control
                     </a>
-                <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>/login" class="btn btn-block font-weight-bold" style="background-color: #0066B2; color: #FFFFFF; border-radius: 8px; font-size: 0.88rem; padding: 0.55rem 1rem;">
-                        Iniciar Sesión
-                    </a>
                 <?php endif; ?>
             </div>
         </div>

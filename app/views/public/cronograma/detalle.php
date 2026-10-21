@@ -51,16 +51,15 @@ $filtroActivo = isset($diaFiltro) && !empty($diaFiltro) ? $diaFiltro : 'all';
                 COSMOL DEPORTES
             </a>
             <div class="ml-auto d-flex align-items-center">
+                <a href="<?php echo BASE_URL; ?>/portal/fixture" class="btn btn-primary btn-sm mr-2 font-weight-bold" style="background-color: var(--cosmol-azul);">
+                    <i class="fas fa-calendar-alt mr-1"></i> Ver Fixture
+                </a>
                 <a href="<?php echo BASE_URL; ?>/" class="btn btn-outline-secondary btn-sm mr-2 font-weight-bold">
                     <i class="fas fa-arrow-left mr-1"></i> Volver a Portada
                 </a>
                 <?php if (!empty($isAdminLogged)): ?>
                     <a href="<?php echo BASE_URL; ?>/dashboard" class="btn btn-primary btn-sm font-weight-bold" style="background-color: var(--cosmol-azul);">
                         Panel Admin
-                    </a>
-                <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>/login" class="btn btn-outline-primary btn-sm font-weight-bold">
-                        Iniciar Sesión
                     </a>
                 <?php endif; ?>
             </div>
@@ -72,15 +71,17 @@ $filtroActivo = isset($diaFiltro) && !empty($diaFiltro) ? $diaFiltro : 'all';
 
         <!-- Encabezado de la Página -->
         <div class="text-center mb-4">
-            <span class="badge badge-pill px-3 py-1 font-weight-bold text-uppercase" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #C9E2F5; font-size: 0.8rem;">
-                Jornadas Deportivas ANESAPA - COSMOL
-            </span>
             <h1 class="font-weight-bold text-dark mt-2 mb-1" style="font-size: 2.2rem; color: var(--cosmol-azul-deep) !important;">
                 Cronograma General de Actividades
             </h1>
-            <p class="text-muted text-sm mx-auto mb-0" style="max-width: 720px;">
-                Distribución oficial de competencias deportivas, juegos de confraternización, capacitaciones y actos protocolares del Jueves 22 al Sábado 24.
+            <p class="text-muted text-sm mb-3">
+                Programa oficial de actos, competencias deportivas y recreativas de las Olimpiadas ANESAPA 2026.
             </p>
+            <div class="d-inline-flex align-items-center">
+                <a href="<?php echo BASE_URL; ?>/portal/fixture" class="btn btn-primary btn-sm px-3 shadow-sm font-weight-bold" style="background: linear-gradient(135deg, #004B87 0%, #0066B2 100%); border: none; border-radius: 8px;">
+                    <i class="fas fa-calendar-check mr-1"></i> Ver Fixture de Encuentros
+                </a>
+            </div>
         </div>
 
         <!-- Filtros por Día y Pestañas -->

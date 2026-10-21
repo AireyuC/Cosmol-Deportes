@@ -19,10 +19,7 @@ if (!isset($cronogramaDias)) {
         <!-- Encabezado de la Sección -->
         <div class="row align-items-center mb-4">
             <div class="col-lg-8 text-center text-lg-left">
-                <span class="badge badge-pill px-3 py-1 font-weight-bold text-uppercase" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #C9E2F5; font-size: 0.78rem;">
-                    Programa Oficial
-                </span>
-                <h2 class="font-weight-bold mt-2 mb-1" style="color: var(--cosmol-azul-deep); font-size: 2.1rem;">
+                <h2 class="font-weight-bold mt-2 mb-1 text-center" style="color: var(--cosmol-azul-deep); font-size: 2.1rem;">
                     Cronograma General de Actividades
                 </h2>
                 <p class="text-muted mb-0" style="font-size: 0.95rem;">
@@ -51,9 +48,6 @@ if (!isset($cronogramaDias)) {
                                     <?php echo e($dia['subtitulo']); ?>
                                 </small>
                             </div>
-                            <span class="cronograma-day-badge">
-                                <?php echo count($dia['actividades']); ?> Actividades
-                            </span>
                         </div>
 
                         <!-- Lista de Actividades del Día -->

@@ -24,13 +24,9 @@
                 <a href="<?php echo BASE_URL; ?>/" class="btn btn-outline-secondary btn-sm mr-2 font-weight-bold">
                     <i class="fas fa-arrow-left mr-1"></i> Volver a Portada
                 </a>
-                <?php if ($isAdminLogged): ?>
+                <?php if (!empty($isAdminLogged)): ?>
                     <a href="<?php echo BASE_URL; ?>/dashboard" class="btn btn-primary btn-sm font-weight-bold" style="background-color: #0066B2;">
                         <i class="fas fa-tachometer-alt mr-1"></i> Panel Admin
-                    </a>
-                <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>/login" class="btn btn-outline-primary btn-sm font-weight-bold">
-                        <i class="fas fa-lock mr-1"></i> Iniciar Sesión
                     </a>
                 <?php endif; ?>
             </div>
@@ -47,7 +43,16 @@
         </div>
 
         <div class="row">
-            <?php foreach ($sedes as $s): ?>
+            <?php if (empty($sedes)): ?>
+                <div class="col-12 text-center py-5">
+                    <div class="p-4 bg-white rounded shadow-sm border mx-auto" style="max-width: 500px;">
+                        <i class="fas fa-map-marker-alt fa-3x text-muted mb-3"></i>
+                        <h5 class="font-weight-bold text-dark">No hay sedes registradas aún</h5>
+                        <p class="text-muted text-sm mb-0">El comité organizador publicará las sedes y campos deportivos oficiales próximamente.</p>
+                    </div>
+                </div>
+            <?php else: ?>
+                <?php foreach ($sedes as $s): ?>
                 <?php 
                     $lat = !empty($s['latitud']) ? (float)$s['latitud'] : -17.7833;
                     $lng = !empty($s['longitud']) ? (float)$s['longitud'] : -63.1821;
@@ -98,67 +103,8 @@
                     </div>
                 </div>
             <?php endforeach; ?>
-
-            <!-- Sede Especial: Circuito Urb. Celina Muyurina (Media Maratón) -->
-            <div class="col-md-6 mb-4">
-                <div class="venue-card h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid rgba(0, 102, 178, 0.35); box-shadow: 0 4px 15px rgba(0, 102, 178, 0.08);">
-                    <div>
-                        <div class="venue-header d-flex justify-content-between align-items-start">
-                            <div>
-                                <h5 class="font-weight-bold text-dark mb-1" style="font-size: 1.1rem;">
-                                    Circuito Urb. Celina Muyurina
-                                </h5>
-                                <span class="text-muted text-sm d-block">
-                                    <i class="fas fa-map-marker-alt text-danger mr-1"></i> Muyurina, Montero (Santa Cruz)
-                                </span>
-                            </div>
-                            <span class="badge font-weight-bold px-2 py-1 ml-2 flex-shrink-0" style="background-color: #EBF4FA; color: #0066B2; border: 1px solid #C9E2F5; font-size: 0.78rem;">
-                                Circuito 5.0 km
-                            </span>
-                        </div>
-
-                        <div class="p-3">
-                            <span class="font-weight-bold text-xs text-uppercase text-muted d-block mb-2">Escenario de Carrera Pedestre:</span>
-                            <div class="mb-3">
-                                <div class="py-1 text-sm border-bottom d-flex justify-content-between align-items-center">
-                                    <span class="font-weight-bold text-dark">
-                                        <i class="fas fa-play text-success mr-1"></i> Largada (Punto 1 - Recta SE)
-                                    </span>
-                                    <span class="badge badge-light border">Partida</span>
-                                </div>
-                                <div class="py-1 text-sm border-bottom d-flex justify-content-between align-items-center">
-                                    <span class="font-weight-bold text-dark">
-                                        <i class="fas fa-flag-checkered text-danger mr-1"></i> Llegada (Punto 12 - Noreste)
-                                    </span>
-                                    <span class="badge badge-light border">Meta</span>
-                                </div>
-                                <div class="py-1 text-sm d-flex justify-content-between align-items-center">
-                                    <span class="text-muted">
-                                        <i class="fas fa-road text-primary mr-1"></i> Recorrido Asfalto/Tierra
-                                    </span>
-                                    <span class="badge badge-info">5.0 km Oficial</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="px-3 pb-3">
-                        <div class="row no-gutters">
-                            <div class="col-6 pr-1">
-                                <a href="<?php echo BASE_URL; ?>/#maraton" class="btn btn-outline-primary btn-block font-weight-bold text-truncate" style="border-radius: 8px;">
-                                    <i class="fas fa-map-marked-alt mr-1"></i> Ver Trazado
-                                </a>
-                            </div>
-                            <div class="col-6 pl-1">
-                                <button type="button" class="btn btn-gps btn-block font-weight-bold text-truncate" onclick="abrirRutaGps(-17.359770, -63.258670, 'Partida Maratón Olimpiada 33 - Urb. Celina')">
-                                    <i class="fas fa-location-arrow mr-1"></i> GPS Partida
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php endif; ?>
+    </div>
     </div>
 
     <script>

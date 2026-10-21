@@ -97,14 +97,20 @@ class PortalController extends Controller {
                 'basquetbol' => 3,
                 'básquet'    => 3,
                 'basquet'    => 3,
-                'voleibol'   => 4,
-                'voley'      => 4,
-                'maratón'    => 5,
-                'maraton'    => 5,
-                'atletismo'  => 5,
-                'cacho'      => 6,
-                'billar'     => 7,
-                'karaoke'    => 8
+                'voleibol'        => 4,
+                'voley'           => 4,
+                'frontón'         => 5,
+                'fronton'         => 5,
+                'raqueta frontón' => 5,
+                'raqueta fronton' => 5,
+                'maratón'         => 6,
+                'maraton'         => 6,
+                'maratón anesapa' => 6,
+                'maraton anesapa' => 6,
+                'atletismo'       => 6,
+                'cacho'           => 7,
+                'billar'          => 8,
+                'karaoke'         => 9
             ];
 
             usort($disciplinas, function($a, $b) use ($ordenPrioridad) {
@@ -211,11 +217,11 @@ class PortalController extends Controller {
             $ultimosResultados = [];
         }
 
-        // 7. Verificación de Eventos Especiales Activos (Maratón)
+        // 7. Verificación de Eventos Especiales Activos (Maratón ANESAPA)
         $maratonActiva = false;
         foreach ($disciplinas as $d) {
             $nomDisc = mb_strtolower(trim($d['nombre']), 'UTF-8');
-            if (($nomDisc === 'maratón' || $nomDisc === 'maraton') && (!isset($d['estado']) || $d['estado'] === 'Activa')) {
+            if ((strpos($nomDisc, 'marat') !== false || strpos($nomDisc, 'atletismo') !== false) && (!isset($d['estado']) || $d['estado'] === 'Activa')) {
                 $maratonActiva = true;
                 break;
             }
@@ -399,14 +405,20 @@ class PortalController extends Controller {
             'basquet'    => 2,
             'básquet'    => 2,
             'futsal'     => 3,
-            'voleibol'   => 4,
-            'voley'      => 4,
-            'maratón'    => 5,
-            'maraton'    => 5,
-            'atletismo'  => 5,
-            'cacho'      => 6,
-            'billar'     => 7,
-            'karaoke'    => 8
+            'voleibol'        => 4,
+            'voley'           => 4,
+            'frontón'         => 5,
+            'fronton'         => 5,
+            'raqueta frontón' => 5,
+            'raqueta fronton' => 5,
+            'maratón'         => 6,
+            'maraton'         => 6,
+            'maratón anesapa' => 6,
+            'maraton anesapa' => 6,
+            'atletismo'       => 6,
+            'cacho'           => 7,
+            'billar'          => 8,
+            'karaoke'         => 9
         ];
 
         usort($disciplinas, function($a, $b) use ($ordenPrioridad) {

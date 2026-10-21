@@ -28,13 +28,9 @@
                 <a href="<?php echo BASE_URL; ?>/" class="btn btn-outline-secondary btn-sm mr-2 font-weight-bold">
                     <i class="fas fa-arrow-left mr-1"></i> Volver a Portada
                 </a>
-                <?php if ($isAdminLogged): ?>
+                <?php if (!empty($isAdminLogged)): ?>
                     <a href="<?php echo BASE_URL; ?>/dashboard" class="btn btn-primary btn-sm font-weight-bold" style="background-color: #0066B2;">
                         <i class="fas fa-tachometer-alt mr-1"></i> Admin
-                    </a>
-                <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>/login" class="btn btn-outline-primary btn-sm font-weight-bold">
-                        <i class="fas fa-lock mr-1"></i> Iniciar Sesión
                     </a>
                 <?php endif; ?>
             </div>

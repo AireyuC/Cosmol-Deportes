@@ -44,6 +44,7 @@ Router::get('/portal/disciplina/{id}', 'PortalController@disciplina');
 Router::get('/portal/sedes', 'PortalController@sedes');
 Router::get('/portal/posiciones', 'PortalController@posiciones');
 Router::get('/portal/fixture', 'PortalController@fixture');
+Router::get('/fixture', 'PortalController@fixture');
 Router::get('/portal/partido/{id}', 'PortalController@partidoDetalle');
 Router::get('/portal/medallero', 'PortalController@medallero');
 Router::get('/cronograma', 'PortalController@cronograma');
