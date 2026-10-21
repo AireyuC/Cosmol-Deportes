@@ -107,11 +107,6 @@ $puntosMaraton = [
                 <div class="card border shadow-sm h-100" style="border-radius: 16px; overflow: hidden; border-color: #CBD5E1 !important;">
                     <!-- Barra Superior de Control del Mapa -->
                     <div class="card-header bg-white py-3 px-3 d-flex flex-wrap justify-content-between align-items-center border-bottom">
-                        <div class="d-flex align-items-center mb-2 mb-sm-0">
-                            <span class="badge badge-pill badge-primary px-3 py-1 font-weight-bold mr-2" style="background-color: var(--cosmol-azul);">
-                                Trazado 7 Puntos • Urb. Celina
-                            </span>
-                        </div>
                         <!-- Botones Rápidos del Mapa -->
                         <div class="btn-group btn-group-sm" role="group">
                             <button type="button" class="btn btn-outline-primary font-weight-bold" id="btn-fit-map" title="Ver todo el circuito">

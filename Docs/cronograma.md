@@ -41,7 +41,7 @@
 |---------|-----------|-------|
 | 07:30 – 09:00 | **Maratón** | Urbanización Celina Muyurina |
 | 08:00 – 12:00 | **Fútbol – Tercer y Cuarto Lugar y Finalísima** | Mutual de Ex Jugadores de Montero, Calle 16 de Julio #415 |
-| 09:00 – 12:00 | **Prueba Técnica** | Urbanización Celina Muyurina |
+| 09:00 – 12:00 | **Competencias Técnicas (Dominadas con Balón)** | Urbanización Celina Muyurina |
 | 12:00 en adelante | **Juegos Populares, Clausura y Premiación** | Bar Restaurante "La Perla", Av. Betania Nro. 218 |
 
 ---

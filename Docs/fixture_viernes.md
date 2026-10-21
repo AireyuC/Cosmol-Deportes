@@ -94,4 +94,120 @@
 | Hora | Actividad | Lugar |
 |------|-----------|-------|
 | Descanso | Entre la fase de grupos y las semifinales/finales de la tarde | — |
-| 20:00 en adelante | **Campeonato de Billar y Cacho** | Billar Springfield, Calle Isaías Parada – Zona Central |
+| 20:00 en adelante | **Campeonato de Billar y Cacho** | Billar Springfield, Calle Isaías Parada esq. Chuquisaca |
+
+---
+
+## 🎱 Billar – Torneo Eliminatoria Directa (16 Equipos)
+
+**Sede:** Billar Springfield, Calle Isaías Parada esq. Chuquisaca  
+**Modalidad:** Eliminación directa (16 equipos representativos)  
+> Los horarios de cada partida se coordinarán en mesa de control por la organización.
+
+### Fase 1 – Clasificatorios
+
+| Llave | Equipo 1 | | Equipo 2 |
+|:-----:|----------|:-:|----------|
+| **A** | COSMOL A | vs | SEMAPA B |
+| **B** | SAGUAPAC A | vs | COSMOL C |
+| **C** | ELAPAS A | vs | COSSALT B |
+| **D** | SEMAPA A | vs | SAGUAPAC B |
+| **E** | SAMAPA A | vs | COSMOL B |
+| **F** | COSSALT A | vs | SAMAPA B |
+| **G** | SELA A | vs | ELAPAS B |
+| **H** | COSMOL C | vs | SELA B |
+
+### Fase 2 – Cuartos de final
+
+| Cuarto | Partido |
+|:------:|---------|
+| **1** | Ganador A vs Ganador H |
+| **2** | Ganador B vs Ganador G |
+| **3** | Ganador C vs Ganador F |
+| **4** | Ganador D vs Ganador E |
+
+### Fase 3 – Semifinales
+
+| Semifinal | Partido |
+|:---------:|---------|
+| **Semi 1** | Ganador Cuarto 1 vs Ganador Cuarto 4 |
+| **Semi 2** | Ganador Cuarto 2 vs Ganador Cuarto 3 |
+
+### 🏆 Fase Final
+
+| Instancia | Partido |
+|-----------|---------|
+| **3er y 4to puesto** | Perdedor Semi 1 vs Perdedor Semi 2 |
+| **Gran Final** | Ganador Semi 1 vs Ganador Semi 2 |
+
+### 🗺️ Esquema de la eliminación
+
+```
+CLASIFICATORIOS           CUARTOS            SEMIFINALES        FINAL
+
+A  COSMOL A  vs SEMAPA B ─┐
+                          ├─ Cuarto 1 ─┐
+H  COSMOL C  vs SELA B   ─┘            │
+                                       ├─ Semi 1 ─┐
+D  SEMAPA A  vs SAGUAPAC B ┐           │          │
+                           ├─ Cuarto 4 ┘          │
+E  SAMAPA A  vs COSMOL B  ─┘                      ├─ FINAL
+                                                  │
+B  SAGUAPAC A vs COSMOL C ─┐                      │
+                           ├─ Cuarto 2 ┐          │
+G  SELA A    vs ELAPAS B  ─┘           │          │
+                                       ├─ Semi 2 ─┘
+C  ELAPAS A  vs COSSALT B ─┐           │
+                           ├─ Cuarto 3 ┘
+F  COSSALT A vs SAMAPA B  ─┘
+
+Perdedores de Semi 1 y Semi 2 → 3er y 4to puesto
+```
+
+---
+
+## 🎲 Cacho – Torneo Eliminatoria Directa (8 Equipos)
+
+**Sede:** Billar Springfield, Calle Isaías Parada esq. Chuquisaca  
+**Modalidad:** Eliminación directa (8 equipos representativos)  
+> Los horarios de cada partida se coordinarán en mesa de control por la organización.
+
+### Fase 1 – Clasificatorios
+
+| Llave | Equipo 1 | | Equipo 2 |
+|:-----:|----------|:-:|----------|
+| **A** | COSMOL | vs | SELA |
+| **B** | SAGUAPAC | vs | EMAPYC |
+| **C** | ELAPAS | vs | COSAALT |
+| **D** | SEMAPA | vs | SAMAPA |
+
+### Fase 2 – Semifinales
+
+| Semifinal | Partido |
+|:---------:|---------|
+| **Semi 1** | Ganador A vs Ganador C |
+| **Semi 2** | Ganador B vs Ganador D |
+
+### 🏆 Fase Final
+
+| Instancia | Partido |
+|-----------|---------|
+| **3er y 4to lugar** | Perdedor Semi 1 vs Perdedor Semi 2 |
+| **Gran Final** | Ganador Semi 1 vs Ganador Semi 2 |
+
+### 🗺️ Esquema de la eliminación
+
+```
+CLASIFICATORIOS             SEMIFINALES          FINAL
+
+A  COSMOL   vs SELA     ─┐
+                          ├─ Semi 1 ─┐
+C  ELAPAS   vs COSAALT  ─┘           │
+                                     ├─ FINAL
+B  SAGUAPAC vs EMAPYC   ─┐           │
+                          ├─ Semi 2 ─┘
+D  SEMAPA   vs SAMAPA   ─┘
+
+Perdedores de Semi 1 y Semi 2 → 3er y 4to lugar
+```
+

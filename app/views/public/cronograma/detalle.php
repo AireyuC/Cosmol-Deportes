@@ -36,7 +36,7 @@ $filtroActivo = isset($diaFiltro) && !empty($diaFiltro) ? $diaFiltro : 'all';
     <!-- Bootstrap 4.6 (AdminLTE compatible) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/image.png">
 
     <!-- Estilos Oficiales del Portal Público -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css">
@@ -47,7 +47,7 @@ $filtroActivo = isset($diaFiltro) && !empty($diaFiltro) ? $diaFiltro : 'all';
     <nav class="navbar navbar-expand-lg navbar-light navbar-public sticky-top">
         <div class="container">
             <a class="navbar-brand font-weight-bold text-primary" href="<?php echo BASE_URL; ?>/">
-                <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" height="38" class="mr-2" alt="COSMOL">
+                <img src="<?php echo BASE_URL; ?>/images/image.png" height="38" class="mr-2" alt="COSMOL">
                 COSMOL DEPORTES
             </a>
             <div class="ml-auto d-flex align-items-center">

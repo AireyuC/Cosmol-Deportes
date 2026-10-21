@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                 <div class="d-flex align-items-center mb-3">
-                    <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL R.L." style="height: 40px;" class="mr-2">
+                    <img src="<?php echo BASE_URL; ?>/images/image.png" alt="COSMOL R.L." style="height: 40px;" class="mr-2">
                     <div>
                         <h5 class="text-white font-weight-bold mb-0">COSMOL DEPORTES</h5>
                         <small style="color: #94A3B8; font-size: 0.78rem;">Cooperativa de Servicios Públicos COSMOL R.L.</small>

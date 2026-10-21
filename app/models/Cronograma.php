@@ -174,9 +174,9 @@ class Cronograma {
                     ],
                     [
                         'horario'   => '09:00 – 12:00',
-                        'actividad' => 'Prueba Técnica',
-                        'detalle'   => 'Demostración de destrezas y pruebas de campo técnico de agua y saneamiento',
-                        'categoria' => 'Institucional',
+                        'actividad' => 'Competencias Técnicas (Dominadas de Balón)',
+                        'detalle'   => 'Prueba de destreza y dominio con el balón: mayor número de dominadas sin que toque el suelo',
+                        'categoria' => 'Deportiva',
                         'lugar'     => 'Urbanización Celina Muyurina'
                     ],
                     [

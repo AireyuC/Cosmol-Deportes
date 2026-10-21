@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=fallback">
     <!-- Theme style: AdminLTE 3.2.0 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/image.png">
 
     <style>
         :root {
@@ -72,7 +72,7 @@
             <!-- Logo Institucional -->
             <div class="text-center mb-3">
                 <a href="<?php echo BASE_URL; ?>/">
-                    <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL R.L." class="logo-register">
+                    <img src="<?php echo BASE_URL; ?>/images/image.png" alt="COSMOL R.L." class="logo-register">
                 </a>
                 <h5 class="font-weight-bold mb-0" style="color: #0066B2 !important;">
                     COSMOL R.L.

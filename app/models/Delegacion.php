@@ -21,6 +21,7 @@ class Delegacion extends Model {
                 LEFT JOIN equipos e ON d.id = e.delegacion_id 
                 LEFT JOIN torneos t ON e.torneo_id = t.id
                 LEFT JOIN disciplinas disc ON t.disciplina_id = disc.id
+                WHERE d.nombre NOT LIKE '%definir%' AND d.alias NOT LIKE '%definir%'
                 GROUP BY d.id 
                 ORDER BY d.nombre ASC";
         return $this->fetchAll($sql);

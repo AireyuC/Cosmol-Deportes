@@ -88,38 +88,50 @@ class PortalController extends Controller {
         try {
             $disciplinas = $this->disciplinaModel->getAll();
 
-            // Orden prioritario oficial para las disciplinas confirmadas
-            $ordenPrioridad = [
-                'futbol'     => 1,
-                'fútbol'     => 1,
-                'futsal'     => 2,
-                'básquetbol' => 3,
-                'basquetbol' => 3,
-                'básquet'    => 3,
-                'basquet'    => 3,
-                'voleibol'        => 4,
-                'voley'           => 4,
-                'frontón'         => 5,
-                'fronton'         => 5,
-                'raqueta frontón' => 5,
-                'raqueta fronton' => 5,
-                'maratón'         => 6,
-                'maraton'         => 6,
-                'maratón anesapa' => 6,
-                'maraton anesapa' => 6,
-                'atletismo'       => 6,
-                'cacho'           => 7,
-                'billar'          => 8,
-                'karaoke'         => 9
-            ];
+            // Orden prioritario oficial para las 11 disciplinas de las olimpiadas
+            $getPrioridad = function($nombre) {
+                $n = mb_strtolower(trim($nombre), 'UTF-8');
+                if (strpos($n, 'fútbol once') !== false || strpos($n, 'futbol once') !== false || $n === 'fútbol' || $n === 'futbol') {
+                    return 1;
+                }
+                if (strpos($n, 'futsal') !== false || strpos($n, 'fútbol de salón') !== false || strpos($n, 'futbol de salon') !== false) {
+                    return 2;
+                }
+                if (strpos($n, 'voley') !== false || strpos($n, 'voleibol') !== false) {
+                    return 3;
+                }
+                if (strpos($n, 'básquet') !== false || strpos($n, 'basquet') !== false || strpos($n, 'basket') !== false) {
+                    return 4;
+                }
+                if (strpos($n, 'frontón') !== false || strpos($n, 'fronton') !== false) {
+                    return 5;
+                }
+                if (strpos($n, 'maratón') !== false || strpos($n, 'maraton') !== false || strpos($n, 'atletismo') !== false) {
+                    return 6;
+                }
+                if (strpos($n, 'técnica') !== false || strpos($n, 'tecnica') !== false || strpos($n, 'dominada') !== false) {
+                    return 7;
+                }
+                if (strpos($n, 'cacho') !== false) {
+                    return 8;
+                }
+                if (strpos($n, 'billar') !== false) {
+                    return 9;
+                }
+                if (strpos($n, 'karaoke') !== false) {
+                    return 10;
+                }
+                if (strpos($n, 'populares') !== false || strpos($n, 'tradicionales') !== false) {
+                    return 11;
+                }
+                return 999;
+            };
 
-            usort($disciplinas, function($a, $b) use ($ordenPrioridad) {
-                $nA = mb_strtolower(trim($a['nombre']), 'UTF-8');
-                $nB = mb_strtolower(trim($b['nombre']), 'UTF-8');
-                $pA = isset($ordenPrioridad[$nA]) ? $ordenPrioridad[$nA] : 999;
-                $pB = isset($ordenPrioridad[$nB]) ? $ordenPrioridad[$nB] : 999;
+            usort($disciplinas, function($a, $b) use ($getPrioridad) {
+                $pA = $getPrioridad($a['nombre']);
+                $pB = $getPrioridad($b['nombre']);
                 if ($pA === $pB) {
-                    return strcmp($nA, $nB);
+                    return strcmp($a['nombre'], $b['nombre']);
                 }
                 return ($pA < $pB) ? -1 : 1;
             });

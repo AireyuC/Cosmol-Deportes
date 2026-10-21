@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/image.png">
     <!-- Estilos Oficiales del Portal Público -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css">
     <!-- Estilos Específicos para el Detalle del Partido -->
@@ -19,7 +19,7 @@
     <nav class="navbar navbar-expand-lg navbar-light navbar-public sticky-top">
         <div class="container">
             <a class="navbar-brand font-weight-bold text-primary" href="<?php echo BASE_URL; ?>/">
-                <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" height="38" class="mr-2" alt="COSMOL">
+                <img src="<?php echo BASE_URL; ?>/images/image.png" height="38" class="mr-2" alt="COSMOL">
                 COSMOL
             </a>
             <div class="ml-auto d-flex align-items-center">

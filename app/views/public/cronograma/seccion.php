@@ -18,17 +18,20 @@ if (!isset($cronogramaDias)) {
     <div class="container">
         <!-- Encabezado de la Sección -->
         <div class="row align-items-center mb-4">
-            <div class="col-lg-8 text-center text-lg-left">
-                <h2 class="font-weight-bold mt-2 mb-1 text-center" style="color: var(--cosmol-azul-deep); font-size: 2.1rem;">
+            <div class="col-lg-6 text-center text-lg-left">
+                <h2 class="font-weight-bold mb-1" style="color: var(--cosmol-azul-deep); font-size: 2.1rem;">
                     Cronograma General de Actividades
                 </h2>
                 <p class="text-muted mb-0" style="font-size: 0.95rem;">
                     Jornadas Deportivas ANESAPA - COSMOL · Jueves 22 · Viernes 23 · Sábado 24
                 </p>
             </div>
-            <div class="col-lg-4 text-center text-lg-right mt-3 mt-lg-0">
-                <a href="<?php echo BASE_URL; ?>/portal/cronograma" class="btn btn-primary font-weight-bold px-4 py-2" style="background-color: var(--cosmol-azul); border-radius: 50px; box-shadow: 0 4px 12px rgba(0, 102, 178, 0.2); border: none;">
-                    Ver Cronograma Detallado
+            <div class="col-lg-6 text-center text-lg-right mt-3 mt-lg-0">
+                <a href="<?php echo BASE_URL; ?>/portal/fixture" class="btn btn-admin-login font-weight-bold rounded-pill px-3 py-2 mr-2 mb-2 mb-sm-0 shadow-sm" style="border-width: 2px;">
+                    Ver Fixture
+                </a>
+                <a href="<?php echo BASE_URL; ?>/portal/cronograma" class="btn btn-admin-login font-weight-bold rounded-pill px-4 py-2 shadow-sm">
+                    Cronograma Detallado
                 </a>
             </div>
         </div>
@@ -83,7 +86,7 @@ if (!isset($cronogramaDias)) {
 
                         <!-- Pie del Card del Día -->
                         <div class="cronograma-day-footer text-center">
-                            <a href="<?php echo BASE_URL; ?>/portal/cronograma?dia=<?php echo urlencode($dia['dia_id']); ?>" class="btn btn-sm btn-outline-primary font-weight-bold btn-block" style="border-radius: 8px;">
+                            <a href="<?php echo BASE_URL; ?>/portal/cronograma?dia=<?php echo urlencode($dia['dia_id']); ?>" class="btn btn-sm btn-admin-login font-weight-bold btn-block" style="border-radius: 8px;">
                                 Consultar este día en detalle
                             </a>
                         </div>
@@ -104,7 +107,7 @@ if (!isset($cronogramaDias)) {
                     </p>
                 </div>
                 <div class="col-md-4 text-center text-md-right">
-                    <a href="<?php echo BASE_URL; ?>/portal/cronograma" class="btn btn-outline-primary btn-sm font-weight-bold px-3 py-2 mr-2">
+                    <a href="<?php echo BASE_URL; ?>/portal/cronograma" class="btn btn-admin-login btn-sm font-weight-bold px-3 py-2 mr-2">
                         Ver Programa Completo
                     </a>
                     <a href="<?php echo BASE_URL; ?>/#sedes" class="btn btn-light btn-sm font-weight-bold px-3 py-2 border">

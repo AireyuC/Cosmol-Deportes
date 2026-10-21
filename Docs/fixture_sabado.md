@@ -13,7 +13,7 @@
 | 07:30 | 🏃 **Maratón** | Urb. Celina |
 | 08:00 | ⚽ **Fútbol – 3er y 4to puesto** | Mutual de Ex Jugadores de Montero, Calle 16 de Julio #415 |
 | 09:30 – 11:00 | ⚽ **Final de Fútbol** | Mutual de Ex Jugadores de Montero, Calle 16 de Julio #415 |
-| 09:30 – 11:00 | 🎯 **Prueba Técnica** | Urb. Celina |
+| 09:30 – 11:00 | ⚽ **Competencias Técnicas (Dominadas con Balón)** | Urb. Celina |
 | 12:00 | 🏆 **Entrega de Premios** | — |
 | 13:00 | 🤝 **Confraternización** | — |
 
@@ -33,4 +33,4 @@
 | Hora | Actividad |
 |------|-----------|
 | 07:30 | Maratón |
-| 09:30 – 11:00 | Prueba Técnica |
+| 09:30 – 11:00 | Competencias Técnicas (Dominadas con Balón) |

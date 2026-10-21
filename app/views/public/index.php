@@ -36,13 +36,13 @@
     <!-- Bootstrap 4.6 (AdminLTE compatible) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/image.png">
 
     <!-- Leaflet CSS para el Mapa Interactivo de la Maratón -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
     <!-- Estilos Oficiales del Portal Público -->
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/portal.css?v=<?php echo defined('APP_VERSION') ? APP_VERSION : '1.0.0'; ?>.<?php echo time(); ?>">
 </head>
 <body>
 

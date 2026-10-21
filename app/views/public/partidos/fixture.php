@@ -65,7 +65,7 @@ if (!function_exists('formatearFechaEspanolFixture')) {
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/image.png">
     <!-- Leaflet CSS para el Mapa de la Maratón -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <!-- Estilos Oficiales del Portal Público -->
@@ -76,8 +76,7 @@ if (!function_exists('formatearFechaEspanolFixture')) {
     <nav class="navbar navbar-expand-lg navbar-light navbar-public sticky-top">
         <div class="container">
             <a class="navbar-brand font-weight-bold text-primary" href="<?php echo BASE_URL; ?>/">
-                <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" height="38" class="mr-2" alt="COSMOL">
-                COSMOL DEPORTES
+                <img src="<?php echo BASE_URL; ?>/images/image.png" height="38" class="mr-2" alt="COSMOL">
             </a>
             <div class="ml-auto d-flex align-items-center">
                 <a href="<?php echo BASE_URL; ?>/" class="btn btn-outline-secondary btn-sm mr-2 font-weight-bold">
@@ -111,7 +110,13 @@ if (!function_exists('formatearFechaEspanolFixture')) {
     <!-- 4. Modal Interactivo del Mapa de la Maratón -->
     <?php require __DIR__ . '/fixture/modal_maraton.php'; ?>
 
-    <!-- 5. Footer Institucional Oficial -->
+    <!-- 5. Modal Interactivo del Cuadro de Eliminación de Billar -->
+    <?php require __DIR__ . '/fixture/modal_billar.php'; ?>
+
+    <!-- 6. Modal Interactivo del Cuadro de Eliminación de Cacho -->
+    <?php require __DIR__ . '/fixture/modal_cacho.php'; ?>
+
+    <!-- 7. Footer Institucional Oficial -->
     <?php require __DIR__ . '/../layout/footer.php'; ?>
 
     <!-- 6. Scripts y Controladores JavaScript -->

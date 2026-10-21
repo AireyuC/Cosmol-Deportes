@@ -12,7 +12,7 @@
             <div class="col-lg-6 col-12 mb-3 mb-lg-0">
                 <div class="d-flex align-items-center flex-wrap">
                     <span class="text-muted font-weight-bold mr-2 text-sm d-none d-md-inline" style="white-space: nowrap;">
-                        <i class="far fa-calendar-alt text-primary mr-1"></i> Fecha:
+                        Fecha:
                     </span>
                     <div class="match-day-filters">
                         <button type="button" class="match-day-btn" data-day-filter="ayer">
@@ -35,7 +35,7 @@
             <div class="col-lg-6 col-12">
                 <form action="<?php echo BASE_URL; ?>/portal/fixture" method="get" class="d-flex align-items-center justify-content-lg-end">
                     <label class="font-weight-bold text-muted text-sm mr-2 mb-0 d-none d-sm-inline" style="white-space: nowrap;">
-                        <i class="fas fa-filter text-primary mr-1"></i> Disciplina:
+                        Disciplina:
                     </label>
                     <div class="input-group input-group-sm" style="max-width: 290px;">
                         <select name="disciplina_id" class="custom-select custom-select-sm" onchange="this.form.submit()" style="font-weight: 600;">

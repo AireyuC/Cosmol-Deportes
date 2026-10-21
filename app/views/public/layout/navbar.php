@@ -8,11 +8,9 @@
 <!-- 1. BARRA DE NAVEGACIÓN SUPERIOR (PÚBLICA) -->
 <nav class="navbar navbar-expand-lg navbar-light navbar-public sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="<?php echo BASE_URL; ?>/">
-            <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL R.L.">
-            <span>COSMOL <small class="text-secondary font-weight-normal text-xs d-block">Olimpiadas Deportivas</small></span>
+        <a class="navbar-brand" href="<?php echo BASE_URL; ?>/" aria-label="Inicio COSMOL Deportes">
+            <img src="<?php echo BASE_URL; ?>/images/image.png" alt="COSMOL R.L." class="navbar-logo-img">
         </a>
-        
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navPublic" aria-controls="navPublic" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -46,10 +44,10 @@
             <?php if (!empty($isAdminLogged)): ?>
                 <div class="navbar-nav ml-auto align-items-center">
                     <a href="<?php echo BASE_URL; ?>/dashboard" class="btn btn-primary btn-sm px-3 font-weight-bold mr-2" style="background-color: #0066B2;">
-                        <i class="fas fa-tachometer-alt mr-1"></i> Panel Admin
+                        Panel Admin
                     </a>
                     <a href="<?php echo BASE_URL; ?>/logout" class="btn btn-outline-danger btn-sm font-weight-bold">
-                        <i class="fas fa-sign-out-alt"></i> Salir
+                        Salir
                     </a>
                 </div>
             <?php endif; ?>

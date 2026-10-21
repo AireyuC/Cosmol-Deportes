@@ -84,20 +84,21 @@ INSERT INTO `delegaciones` (`id`, `nombre`, `alias`, `color_representativo`, `re
 (7, 'EMAPYC (YC)',   'EMAPYC',   '#20C997', 'Freddy Valdez',   '75012345'),
 (8, 'SELA (OR)',     'SELA',     '#FFC107', 'Erlan Vasquez',   '74012345');
 
+
 -- -----------------------------------------------------
 -- 4. Catálogo Oficial de las 11 Disciplinas (Fuente: backup_oficial_anesapa_2026.sql)
 -- -----------------------------------------------------
 INSERT INTO `disciplinas` (`id`, `nombre`, `descripcion`, `icono`, `estado`) VALUES
 (1,  'Fútbol Once',            '2 tiempos de 45 min. Cancha de césped. Exigencia reglamentaria: 3 jugadores en cancha >= 45 años.', 'futbol', 'Activa'),
-(2,  'Fútbol de Salón',        '2 tiempos de 20 min. Cancha cubierta. Exigencia reglamentaria: 1 jugador en cancha >= 45 años.', 'futbol', 'Activa'),
+(2,  'Fútbol de Salón',        '2 tiempos de 20 min. Exigencia reglamentaria: 1 jugador en cancha >= 45 años.', 'futbol', 'Activa'),
 (3,  'Voleibol Mixto',         'Partidos al mejor de 3 sets (25 pts). Exigencia reglamentaria: 2 damas y 1 veterano >= 50 años obligatorios en cancha.', 'volleyball-ball', 'Activa'),
 (4,  'Básquetbol Mixto',       '4 cuartos reglamentarios. Exigencia reglamentaria: 1 dama y 1 veterano >= 50 años obligatorios en cancha.', 'basketball-ball', 'Activa'),
-(5,  'Raqueta Frontón',        'Modalidad pareja (2 jugadores). Sets a 15 puntos (al mejor de 3 sets). Normas oficiales de frontón.', 'table-tennis', 'Activa'),
+(5,  'Raqueta Frontón',        'Modalidad pareja (2 jugadores). Sets a 15 puntos (al mejor de 3 sets).', 'table-tennis', 'Activa'),
 (6,  'Media Maratón',          'Carrera pedestre urbana de 5 kilómetros. Hasta 2 representantes por delegación. Circuito Urb. Celina.', 'running', 'Activa'),
-(7,  'Cacho',                  'Juego de dados por parejas (exigencia: al menos 1 directivo o ejecutivo). Anotación en planilla Alalay.', 'dice', 'Activa'),
-(8,  'Karaoke',                'Noche de talentos. Hasta 2 representantes por delegación. Calificación global de jurado.', 'microphone-alt', 'Activa'),
-(9,  'Billar',                 'Modalidad pareja. Exigencia: al menos 1 directivo o ejecutivo. Partidas por chicos ganados.', 'circle', 'Activa'),
-(10, 'Competencias Técnicas',  'Instalación de acometida de agua potable matriz a llave de paso. 3 operarios por EPSA.', 'tools', 'Activa'),
+(7,  'Cacho',                  'Juego de dados por parejas (exigencia: al menos 1 directivo o ejecutivo).', 'dice', 'Activa'),
+(8,  'Karaoke',                'Noche de talentos. Hasta 2 representantes por delegación. Evaluación del jurado.', 'microphone-alt', 'Activa'),
+(9,  'Billar',                 'Modalidad pareja. Exigencia: al menos 1 directivo o ejecutivo.', 'circle', 'Activa'),
+(10, 'Competencias Técnicas',  'Competencia tecnica con el balon.', 'futbol', 'Activa'),
 (11, 'Juegos Populares',       'Pruebas recreativas: Carrera de embolsao, Carrera de cuchara con huevo y Carrera de carretilla.', 'smile', 'Activa');
 
 -- -----------------------------------------------------
@@ -113,7 +114,7 @@ INSERT INTO `reglas_puntuacion` (`id`, `disciplina_id`, `pts_victoria`, `pts_emp
 (7,  7,  2, 1, 0, 0, 1, 0, 0), -- Cacho: Vic=2, Emp=1, Der=0
 (8,  8,  2, 0, 0, 0, 0, 0, 0), -- Karaoke: Puntuación de jurado
 (9,  9,  2, 0, 0, 0, 0, 0, 0), -- Billar: Vic=2, Der=0
-(10, 10, 2, 0, 0, 0, 0, 0, 0), -- Competencias Técnicas: Tiempo y estanqueidad
+(10, 10, 2, 0, 0, 0, 0, 0, 0), -- Competencias Técnicas: Dominadas con el balón
 (11, 11, 1, 0, 0, 0, 0, 0, 0); -- Juegos Populares: Puntos por prueba
 
 -- -----------------------------------------------------
@@ -125,25 +126,25 @@ INSERT INTO `sedes` (`id`, `nombre`, `direccion`, `telefono`, `latitud`, `longit
 (2,  'Coliseo Patujú',                              'Calle Litoral esq. Roberto Paz, Zona Central (Montero)',                   '39223300', -17.34033131, -63.25355583, 'Activa'),
 (3,  'Coliseo Plurinacional',                       'Av. Betania (Montero)',                                                    '39224400', -17.34959888, -63.23763889, 'Activa'),
 (4,  'Bar Restaurante "La Perla"',                   'Av. Betania Nro. 218 (Montero)',                                           '39225500', -17.34887214, -63.24223902, 'Activa'),
-(5,  'Oficina y Salón Auditorio COSMOL',            'Calle Isaías Parada #219, Zona Central (Montero)',                         '39221144', -17.33940000, -63.25580000, 'Activa'),
-(6,  'Coliseo FINOR',                               'Campus Universitario FINOR, Av. Circunvalación Noroeste (Montero)',        '39226600', -17.33120000, -63.26100000, 'Activa'),
+(5,  'Oficina y Salón Auditorio COSMOL',            'Calle Isaías Parada, Zona Central (Montero)',                         '39221144', -17.33940000, -63.25580000, 'Activa'),
+(6,  'Coliseo FINOR',                               'Universitario FINOR, Av. Circunvalación Noroeste (Montero)',               '39226600', -17.33120000, -63.26100000, 'Activa'),
 (7,  'Coliseo Andrés Ibáñez',                       'Av. Circunvalación Noroeste (Montero)',                                    '39227700', -17.34050945, -63.27135970, 'Activa'),
 (8,  'Billar Springfield Suc. Montero',             'Calle Isaías Parada esq. Chuquisaca (Montero)',                            '39228800', -17.34149600, -63.25464100, 'Activa'),
-(9,  'Mutual de Ex Jugadores de Fútbol de Montero', 'Calle 16 de Julio #415 (Montero)',                                         '39229900', -17.33230800, -63.25752800, 'Activa'),
+(9,  'Mutual de Ex Jugadores de Fútbol de Montero', 'Calle 16 de Julio (Montero)',                                         '39229900', -17.33230800, -63.25752800, 'Activa'),
 (10, 'Circuito Urb. Celina Muyurina',               'Urbanización Celina Muyurina (Montero)',                                   '39220000', -17.34850000, -63.24800000, 'Activa'),
-(11, 'Frontón Municipal de Montero',                'Av. Circunvalación Noroeste (lado Coliseo Andrés Ibáñez)',                  '39227700', -17.33999329, -63.27183894, 'Activa');
+(11, 'Frontón Municipal de Montero',                'Av. Circunvalación Noroeste (Al Lado del Coliseo Andrés Ibáñez)',                  '39227700', -17.33999329, -63.27183894, 'Activa');
 
 INSERT INTO `canchas` (`id`, `sede_id`, `nombre_cancha`, `tipo_superficie`, `estado`) VALUES
 (1,  1,  'Estadio Gilberto Parada - Campo Principal',    'Césped Natural',     'Disponible'),
 (2,  1,  'Cancha Auxiliar (Azucareros / La Esperanza)',  'Césped Natural',     'Disponible'),
-(3,  2,  'Coliseo Patujú - Cancha Central',              'Parquet Flotante',   'Disponible'),
-(4,  3,  'Coliseo Plurinacional - Cancha Central',       'Tabloncillo',        'Disponible'),
-(5,  4,  'Escenario Principal La Perla',                'Salón de Eventos',   'Disponible'),
+(3,  2,  'Coliseo Patujú - Cancha Central',              'Cancha polifuncional',   'Disponible'),
+(4,  3,  'Coliseo Plurinacional - Cancha Central',       'Cemento pulido',     'Disponible'),
+(5,  4,  'Escenario Principal La Perla',                'Bar Restaurant',     'Disponible'),
 (6,  5,  'Salón Auditorio Central COSMOL',              'Auditorio',          'Disponible'),
-(7,  6,  'Coliseo FINOR - Cancha Principal',             'Parquet',            'Disponible'),
+(7,  6,  'Coliseo FINOR - Cancha Principal',             'Cemento Pulido',            'Disponible'),
 (8,  7,  'Coliseo Andrés Ibáñez - Cancha Principal',     'Cemento Pulido',     'Disponible'),
 (9,  11, 'Frontón Municipal - Frontón Reglamentario',    'Frontón Oficial',    'Disponible'),
-(10, 8,  'Mesas Oficiales Springfield',                  'Paño Profesional',   'Disponible'),
+(10, 8,  'Mesas Oficiales Springfield',                  'Mesa de Billar',   'Disponible'),
 (11, 9,  'Cancha Mutual de Ex Jugadores',               'Césped Natural',     'Disponible'),
 (12, 10, 'Circuito Oficial 5.0 km',                     'Asfalto Pavimentado','Disponible');
 
@@ -157,10 +158,10 @@ INSERT INTO `torneos` (`id`, `olimpiada_id`, `disciplina_id`, `regla_puntuacion_
 (4,  1, 4,  4,  'Básquetbol Mixto - ANESAPA 2026',                     'Mixto',     'Grupos_Playoff', 'Solo_Ida', 'Fase_Grupos', '2026-10-23', '2026-10-24'),
 (5,  1, 5,  5,  'Raqueta Frontón - ANESAPA 2026',                      'Masculino', 'Grupos_Playoff', 'Solo_Ida', 'Fase_Grupos', '2026-10-23', '2026-10-23'),
 (6,  1, 6,  6,  'Media Maratón 5K - ANESAPA 2026',                     'Mixto',     'Liga',           'Solo_Ida', 'Fase_Grupos', '2026-10-24', '2026-10-24'),
-(7,  1, 7,  7,  'Cacho (Juego de Salón) - ANESAPA 2026',               'Mixto',     'Eliminatoria',   'Solo_Ida', 'Fase_Grupos', '2026-10-23', '2026-10-23'),
+(7,  1, 7,  7,  'Cacho (Juego de Salón) - ANESAPA 2026',               'Mixto',     'Eliminatoria',   'Solo_Ida', 'Playoffs', '2026-10-23', '2026-10-23'),
 (8,  1, 8,  8,  'Karaoke (Noche de Talentos) - ANESAPA 2026',          'Mixto',     'Liga',           'Solo_Ida', 'Fase_Grupos', '2026-10-22', '2026-10-22'),
-(9,  1, 9,  9,  'Billar (Juego de Salón) - ANESAPA 2026',              'Mixto',     'Eliminatoria',   'Solo_Ida', 'Fase_Grupos', '2026-10-23', '2026-10-23'),
-(10, 1, 10, 10, 'Competencias Técnicas (Fontanería) - ANESAPA 2026',   'Mixto',     'Liga',           'Solo_Ida', 'Fase_Grupos', '2026-10-24', '2026-10-24'),
+(9,  1, 9,  9,  'Billar (Juego de Salón) - ANESAPA 2026',              'Mixto',     'Eliminatoria',   'Solo_Ida', 'Playoffs', '2026-10-23', '2026-10-23'),
+(10, 1, 10, 10, 'Competencias Técnicas - ANESAPA 2026',   'Mixto',     'Liga',      'Solo_Ida', 'Fase_Grupos', '2026-10-24', '2026-10-24'),
 (11, 1, 11, 11, 'Juegos Populares Tradicionales - ANESAPA 2026',       'Mixto',     'Liga',           'Solo_Ida', 'Fase_Grupos', '2026-10-24', '2026-10-24');
 
 -- -----------------------------------------------------
@@ -260,25 +261,35 @@ INSERT INTO `equipos` (`id`, `delegacion_id`, `torneo_id`, `grupo_id`, `nombre`,
 (56, 7, 8, NULL, 'EMAPYC - Karaoke',          'EMAPYC',   '#20C997', 'Freddy Valdez',   '75012345'),
 (57, 8, 8, NULL, 'SELA - Karaoke',            'SELA',     '#FFC107', 'Erlan Vasquez',   '74012345'),
 
--- Torneo 9: Billar
-(58, 1, 9, NULL, 'COSMOL - Billar',           'COSMOL',   '#0066B2', 'Johnny Gonzales', '71012345'),
-(59, 2, 9, NULL, 'ELAPAS - Billar',           'ELAPAS',   '#6F42C1', 'Marco Navas',     '77012345'),
-(60, 3, 9, NULL, 'SAGUAPAC - Billar',         'SAGUAPAC', '#28A745', 'Mauricio',        '72012345'),
-(61, 4, 9, NULL, 'SEMAPA - Billar',           'SEMAPA',   '#DC3545', 'Erlan Arandia',   '73012345'),
-(62, 5, 9, NULL, 'SAMAPA - Billar',           'SAMAPA',   '#00A3E0', 'Walter Salazar',  '78012345'),
-(63, 6, 9, NULL, 'COSAALT - Billar',          'COSAALT',  '#FD7E14', 'Rodrigo Lopez',   '79012345'),
-(64, 7, 9, NULL, 'EMAPYC - Billar',           'EMAPYC',   '#20C997', 'Freddy Valdez',   '75012345'),
-(65, 8, 9, NULL, 'SELA - Billar',             'SELA',     '#FFC107', 'Erlan Vasquez',   '74012345'),
+-- Torneo 9: Billar - Las 16 Parejas Oficiales (Fuente: Docs/billar_eliminatoria.md)
+(58, 1, 9, NULL, 'COSMOL A',         'COSMOL A',   '#0066B2', 'Johnny Gonzales', '71012345'),
+(59, 2, 9, NULL, 'ELAPAS A',         'ELAPAS A',   '#6F42C1', 'Marco Navas',     '77012345'),
+(60, 3, 9, NULL, 'SAGUAPAC A',       'SAGUAPAC A', '#28A745', 'Mauricio',        '72012345'),
+(61, 4, 9, NULL, 'SEMAPA A',         'SEMAPA A',   '#DC3545', 'Erlan Arandia',   '73012345'),
+(62, 5, 9, NULL, 'SAMAPA A',         'SAMAPA A',   '#00A3E0', 'Walter Salazar',  '78012345'),
+(63, 6, 9, NULL, 'COSAALT A',        'COSAALT A',  '#FD7E14', 'Rodrigo Lopez',   '79012345'),
+(64, 8, 9, NULL, 'SELA A',           'SELA A',     '#FFC107', 'Erlan Vasquez',   '74012345'),
+(65, 1, 9, NULL, 'COSMOL C (Llave B)','COSMOL C',  '#0066B2', 'Johnny Gonzales', '71012345'),
+(82, 4, 9, NULL, 'SEMAPA B',         'SEMAPA B',   '#DC3545', 'Erlan Arandia',   '73012345'),
+(83, 1, 9, NULL, 'COSMOL C (Llave H)','COSMOL C',  '#0066B2', 'Johnny Gonzales', '71012345'),
+(84, 6, 9, NULL, 'COSAALT B',        'COSAALT B',  '#FD7E14', 'Rodrigo Lopez',   '79012345'),
+(85, 3, 9, NULL, 'SAGUAPAC B',       'SAGUAPAC B', '#28A745', 'Mauricio',        '72012345'),
+(86, 1, 9, NULL, 'COSMOL B',         'COSMOL B',   '#0066B2', 'Johnny Gonzales', '71012345'),
+(87, 5, 9, NULL, 'SAMAPA B',         'SAMAPA B',   '#00A3E0', 'Walter Salazar',  '78012345'),
+(88, 2, 9, NULL, 'ELAPAS B',         'ELAPAS B',   '#6F42C1', 'Marco Navas',     '77012345'),
+(89, 8, 9, NULL, 'SELA B',           'SELA B',     '#FFC107', 'Erlan Vasquez',   '74012345'),
+
+
 
 -- Torneo 10: Competencias Técnicas
-(66, 1, 10, NULL, 'COSMOL - Fontanería',      'COSMOL',   '#0066B2', 'Johnny Gonzales', '71012345'),
-(67, 2, 10, NULL, 'ELAPAS - Fontanería',      'ELAPAS',   '#6F42C1', 'Marco Navas',     '77012345'),
-(68, 3, 10, NULL, 'SAGUAPAC - Fontanería',    'SAGUAPAC', '#28A745', 'Mauricio',        '72012345'),
-(69, 4, 10, NULL, 'SEMAPA - Fontanería',      'SEMAPA',   '#DC3545', 'Erlan Arandia',   '73012345'),
-(70, 5, 10, NULL, 'SAMAPA - Fontanería',      'SAMAPA',   '#00A3E0', 'Walter Salazar',  '78012345'),
-(71, 6, 10, NULL, 'COSAALT - Fontanería',     'COSAALT',  '#FD7E14', 'Rodrigo Lopez',   '79012345'),
-(72, 7, 10, NULL, 'EMAPYC - Fontanería',      'EMAPYC',   '#20C997', 'Freddy Valdez',   '75012345'),
-(73, 8, 10, NULL, 'SELA - Fontanería',        'SELA',     '#FFC107', 'Erlan Vasquez',   '74012345'),
+(66, 1, 10, NULL, 'COSMOL - Juegos Técnicos',     'COSMOL',   '#0066B2', 'Johnny Gonzales', '71012345'),
+(67, 2, 10, NULL, 'ELAPAS - Juegos Técnicos',     'ELAPAS',   '#6F42C1', 'Marco Navas',     '77012345'),
+(68, 3, 10, NULL, 'SAGUAPAC - Juegos Técnicos',   'SAGUAPAC', '#28A745', 'Mauricio',        '72012345'),
+(69, 4, 10, NULL, 'SEMAPA - Juegos Técnicos',     'SEMAPA',   '#DC3545', 'Erlan Arandia',   '73012345'),
+(70, 5, 10, NULL, 'SAMAPA - Juegos Técnicos',     'SAMAPA',   '#00A3E0', 'Walter Salazar',  '78012345'),
+(71, 6, 10, NULL, 'COSAALT - Juegos Técnicos',    'COSAALT',  '#FD7E14', 'Rodrigo Lopez',   '79012345'),
+(72, 7, 10, NULL, 'EMAPYC - Juegos Técnicos',   'EMAPYC',   '#20C997', 'Freddy Valdez',   '75012345'),
+(73, 8, 10, NULL, 'SELA - Juegos Técnicos',     'SELA',     '#FFC107', 'Erlan Vasquez',   '74012345'),
 
 -- Torneo 11: Juegos Populares
 (74, 1, 11, NULL, 'COSMOL - Juegos Populares',  'COSMOL',   '#0066B2', 'Johnny Gonzales', '71012345'),
@@ -358,9 +369,24 @@ INSERT INTO `partidos` (`id`, `torneo_id`, `grupo_id`, `fase`, `jornada`, `equip
 (39, 5, 9,  'Grupos', 'Jornada 3', 28, 30, 9, '2026-10-23', '10:00:00', NULL, NULL, 'Programado', 'Frontón Municipal - Serie A: COSMOL vs SELA'),
 (40, 5, 10, 'Grupos', 'Jornada 3', 31, 33, 9, '2026-10-23', '10:00:00', NULL, NULL, 'Programado', 'Frontón Municipal - Serie B: ELAPAS vs COSAALT'),
 
--- 🎱 BILLAR Y CACHO (Viernes Noche): Cancha 10 (Billar Springfield Suc. Montero)
-(41, 9, NULL, 'Final', 'Torneo Directivo', 58, 59, 10, '2026-10-23', '20:00:00', NULL, NULL, 'Programado', 'Torneo Oficial de Billar ANESAPA 2026 (Billar Springfield)'),
-(42, 7, NULL, 'Final', 'Torneo Directivo', 42, 43, 10, '2026-10-23', '20:30:00', NULL, NULL, 'Programado', 'Campeonato Oficial de Cacho Alalay (Billar Springfield)'),
+-- 🎱 BILLAR (Torneo 9): Cancha 10 (Billar Springfield Suc. Montero) - Viernes 23 de Octubre
+-- Fase 1: Clasificatorios (Octavos de Final - Llaves A a H)
+(41, 9, NULL, 'Octavos', 'Llave A', 58, 82, 10, '2026-10-23', '20:00:00', NULL, NULL, 'Programado', 'Clasificatorio Llave A: COSMOL A vs SEMAPA B'),
+(45, 9, NULL, 'Octavos', 'Llave B', 60, 65, 10, '2026-10-23', '20:00:00', NULL, NULL, 'Programado', 'Clasificatorio Llave B: SAGUAPAC A vs COSMOL C'),
+(46, 9, NULL, 'Octavos', 'Llave C', 59, 84, 10, '2026-10-23', '20:30:00', NULL, NULL, 'Programado', 'Clasificatorio Llave C: ELAPAS A vs COSAALT B'),
+(47, 9, NULL, 'Octavos', 'Llave D', 61, 85, 10, '2026-10-23', '20:30:00', NULL, NULL, 'Programado', 'Clasificatorio Llave D: SEMAPA A vs SAGUAPAC B'),
+(48, 9, NULL, 'Octavos', 'Llave E', 62, 86, 10, '2026-10-23', '21:00:00', NULL, NULL, 'Programado', 'Clasificatorio Llave E: SAMAPA A vs COSMOL B'),
+(49, 9, NULL, 'Octavos', 'Llave F', 63, 87, 10, '2026-10-23', '21:00:00', NULL, NULL, 'Programado', 'Clasificatorio Llave F: COSAALT A vs SAMAPA B'),
+(50, 9, NULL, 'Octavos', 'Llave G', 64, 88, 10, '2026-10-23', '21:30:00', NULL, NULL, 'Programado', 'Clasificatorio Llave G: SELA A vs ELAPAS B'),
+(51, 9, NULL, 'Octavos', 'Llave H', 83, 89, 10, '2026-10-23', '21:30:00', NULL, NULL, 'Programado', 'Clasificatorio Llave H: COSMOL C vs SELA B'),
+
+-- 🎲 CACHO (Torneo 7): Cancha 10 (Billar Springfield Suc. Montero) - Viernes 23 de Octubre (20:00)
+-- Fase 1: Clasificatorios (Cuartos de Final - Llaves A a D) - Fuente: Docs/cacho_eliminatoria.md
+(42, 7, NULL, 'Cuartos', 'Llave A', 42, 43, 10, '2026-10-23', '20:00:00', NULL, NULL, 'Programado', 'Clasificatorio Llave A: COSMOL vs SELA'),
+(52, 7, NULL, 'Cuartos', 'Llave B', 44, 45, 10, '2026-10-23', '20:30:00', NULL, NULL, 'Programado', 'Clasificatorio Llave B: SAGUAPAC vs EMAPYC'),
+(53, 7, NULL, 'Cuartos', 'Llave C', 46, 47, 10, '2026-10-23', '21:00:00', NULL, NULL, 'Programado', 'Clasificatorio Llave C: ELAPAS vs COSAALT'),
+(54, 7, NULL, 'Cuartos', 'Llave D', 48, 49, 10, '2026-10-23', '21:30:00', NULL, NULL, 'Programado', 'Clasificatorio Llave D: SEMAPA vs SAMAPA'),
+
 
 -- ==================================================================================
 -- 📅 SÁBADO 24 DE OCTUBRE DE 2026
@@ -369,8 +395,8 @@ INSERT INTO `partidos` (`id`, `torneo_id`, `grupo_id`, `fase`, `jornada`, `equip
 -- 🏃 MARATÓN ANESAPA 5K (Torneo 6): Cancha 12 (Circuito Urb. Celina Muyurina)
 (43, 6, NULL, 'Final', 'Final 5K', 34, 36, 12, '2026-10-24', '07:30:00', NULL, NULL, 'Programado', 'Prueba Pedestre 5K Oficial ANESAPA (Circuito Urb. Celina Muyurina)'),
 
--- 🎯 COMPETENCIAS TÉCNICAS (Torneo 10): Cancha 12 (Urb. Celina Muyurina)
-(44, 10, NULL, 'Final', 'Prueba Técnica', 66, 68, 12, '2026-10-24', '09:30:00', NULL, NULL, 'Programado', 'Prueba Técnica de Acometidas de Agua Potable (Urb. Celina Muyurina)');
+-- ⚽ COMPETENCIAS TÉCNICAS (Torneo 10): Cancha 12 (Urb. Celina Muyurina)
+(44, 10, NULL, 'Final', 'Prueba Técnica', 66, 68, 12, '2026-10-24', '09:30:00', NULL, NULL, 'Programado', 'Competencias Técnicas: Dominadas con el Balón (Urb. Celina Muyurina)');
 
 -- Restaurar verificación de claves foráneas
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;

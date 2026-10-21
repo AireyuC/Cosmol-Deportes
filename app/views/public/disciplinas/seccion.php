@@ -4,6 +4,12 @@
  * Portal Oficial de las Olimpiadas COSMOL 2026
  * Compatible con PHP 7.3
  */
+// Si no vienen los datos desde el controlador, cargarlos desde el modelo
+if (!isset($disciplinas) || empty($disciplinas)) {
+    require_once APP_PATH . '/models/Disciplina.php';
+    $disciplinaObj = new Disciplina();
+    $disciplinas = $disciplinaObj->getAll();
+}
 ?>
 <!-- 5. SECCIÓN: DISCIPLINAS DEPORTIVAS -->
 <section id="disciplinas" class="container py-5 mt-4">
@@ -22,7 +28,7 @@
         $countSalon = 0;
         foreach ($disciplinas as $item) {
             $n = mb_strtolower(trim($item['nombre']), 'UTF-8');
-            if (in_array($n, ['cacho', 'billar', 'karaoke', 'juegos de salón', 'juego de salon', 'ajedrez'])) {
+            if (in_array($n, ['cacho', 'billar', 'karaoke', 'juegos de salón', 'juego de salon', 'ajedrez', 'juegos populares', 'juegos tradicionales'])) {
                 $countSalon++;
             } else {
                 $countCancha++;
@@ -59,7 +65,7 @@
             <?php foreach ($disciplinas as $d): ?>
                 <?php
                     $nLower = mb_strtolower(trim($d['nombre']), 'UTF-8');
-                    $isSalon = in_array($nLower, ['cacho', 'billar', 'karaoke', 'juegos de salón', 'juego de salon', 'ajedrez']);
+                    $isSalon = in_array($nLower, ['cacho', 'billar', 'karaoke', 'juegos de salón', 'juego de salon', 'ajedrez', 'juegos populares', 'juegos tradicionales']);
                     $catSlug = $isSalon ? 'salon' : 'cancha';
                     $catLabel = $isSalon ? 'Juego de Salón' : 'Deporte de Cancha';
                     $catClass = $isSalon ? 'sport-category-salon' : 'sport-category-cancha';
@@ -70,11 +76,11 @@
                     $iconName = !empty($d['icono']) ? e($d['icono']) : 'trophy';
                     $iconImg = '';
 
-                    if (strpos($nLower, 'fútbol') !== false || strpos($nLower, 'futbol') !== false) {
+                    if (strpos($nLower, 'fútbol once') !== false || strpos($nLower, 'futbol once') !== false || ($nLower === 'fútbol' || $nLower === 'futbol')) {
                         $iconClass = 'sport-icon-futbol';
                         $iconName = 'futbol';
                         $iconImg = 'image copy 2.png';
-                    } elseif (strpos($nLower, 'futsal') !== false) {
+                    } elseif (strpos($nLower, 'futsal') !== false || strpos($nLower, 'fútbol de salón') !== false || strpos($nLower, 'futbol de salon') !== false) {
                         $iconClass = 'sport-icon-futsal';
                         $iconName = 'running';
                         $iconImg = 'image copy.png';
@@ -106,6 +112,19 @@
                         $iconClass = 'sport-icon-futsal';
                         $iconName = 'running';
                         $iconImg = '';
+                    } elseif (strpos($nLower, 'técnica') !== false || strpos($nLower, 'tecnica') !== false || strpos($nLower, 'dominada') !== false) {
+                        // Competencia de habilidad y dominadas con el balón
+                        $iconClass = 'sport-icon-futbol';
+                        $iconName = 'futbol';
+                        $iconImg = 'image copy 2.png';
+                    } elseif (strpos($nLower, 'populares') !== false || strpos($nLower, 'tradicionales') !== false) {
+                        $iconClass = 'sport-icon-cacho';
+                        $iconName = 'smile-beam';
+                        $iconImg = '';
+                    } elseif (strpos($nLower, 'fútbol') !== false || strpos($nLower, 'futbol') !== false) {
+                        $iconClass = 'sport-icon-futbol';
+                        $iconName = 'futbol';
+                        $iconImg = 'image copy 2.png';
                     }
                 ?>
                 <div class="col-6 col-md-4 col-lg-3 mb-3 sport-col" data-category="<?php echo $catSlug; ?>">
@@ -129,9 +148,6 @@
                             <?php if (strpos($nLower, 'maratón') !== false || strpos($nLower, 'maraton') !== false || strpos($nLower, 'atletismo') !== false): ?>
                                 <a href="<?php echo BASE_URL; ?>/portal/fixture?disciplina_id=<?php echo (int)$d['id']; ?>" class="btn-sport-action shadow-sm mb-1">
                                     <span>Ver Fixture</span>
-                                </a>
-                                <a href="#maraton" class="btn btn-sm btn-link p-0 text-primary font-weight-bold d-block text-center mt-1" style="font-size: 0.78rem;">
-                                    <i class="fas fa-map-marked-alt mr-1"></i> Ver Circuito en Portada
                                 </a>
                             <?php else: ?>
                                 <a href="<?php echo BASE_URL; ?>/portal/fixture?disciplina_id=<?php echo (int)$d['id']; ?>" class="btn-sport-action shadow-sm">

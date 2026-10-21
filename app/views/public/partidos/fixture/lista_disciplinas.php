@@ -42,6 +42,15 @@ foreach ($partidos as $p) {
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
+                        <?php if (mb_strtolower(trim($nombreDisciplina), 'UTF-8') === 'billar'): ?>
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold mr-2 shadow-sm" data-toggle="modal" data-target="#modalLlaveBillar" title="Ver Cuadro y Esquema de Eliminación Directa">
+                                Ver Llave de Eliminación
+                            </button>
+                        <?php elseif (mb_strtolower(trim($nombreDisciplina), 'UTF-8') === 'cacho'): ?>
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold mr-2 shadow-sm" data-toggle="modal" data-target="#modalLlaveCacho" title="Ver Cuadro y Esquema de Eliminación Directa">
+                                Ver Llave de Eliminación
+                            </button>
+                        <?php endif; ?>
                         <span class="discipline-count-badge">
                             <span class="discipline-count-visible"><?php echo count($listaPartidos); ?></span> <?php echo count($listaPartidos) === 1 ? 'partido' : 'partidos'; ?>
                         </span>

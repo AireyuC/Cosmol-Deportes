@@ -8,18 +8,25 @@
 <!-- 2. HERO BANNER PRINCIPAL -->
 <header class="hero-banner">
     <div class="container text-center py-4">
+        <!-- Logo Oficial de la Olimpiada en Contenedor Blanco Plano (Independiente) -->
+        <div class="hero-emblema-wrapper">
+            <div class="hero-emblema-box">
+                <img src="<?php echo BASE_URL; ?>/images/image.png" alt="<?php echo e($olimpiada['nombre']); ?>" class="hero-emblema-img">
+            </div>
+        </div>
+
         <h1 class="hero-title mb-3">
             <?php echo e($olimpiada['nombre']); ?>
         </h1>
         <?php if (!empty($olimpiada['lema'])): ?>
             <p class="lead mb-4 mx-auto" style="max-width: 780px; font-weight: 300; opacity: 0.95;">
-                "<?php echo e($olimpiada['lema']); ?>"
+                
             </p>
         <?php endif; ?>
 
         <div class="d-flex justify-content-center flex-wrap gap-2 mt-4">
             <a href="#fixture" class="btn btn-light btn-lg px-4 mr-2 mb-2 font-weight-bold text-primary shadow-sm">
-                <i class="fas fa-calendar-alt mr-2"></i> Ver partidos de hoy
+                Ver partidos de hoy
             </a>
             <a href="#cronograma" class="btn btn-outline-light btn-lg px-4 mr-2 mb-2 font-weight-bold">
                 Cronograma General

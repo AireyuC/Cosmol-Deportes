@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Theme style: Bootstrap 4.6 & AdminLTE -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/logoSinFondo.png">
+    <link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>/images/image.png">
     
     <!-- Estilos específicos de la vista de Login -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/login.css">
@@ -27,7 +27,7 @@
         <!-- Encabezado con Identidad Institucional -->
         <div class="login-header">
             <a href="<?php echo BASE_URL; ?>/">
-                <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL R.L." class="logo-login">
+                <img src="<?php echo BASE_URL; ?>/images/image.png" alt="COSMOL R.L." class="logo-login">
             </a>
             <h1 class="login-title mb-1">COSMOL DEPORTES</h1>
             <div>

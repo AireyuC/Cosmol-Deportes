@@ -5,7 +5,7 @@ $currentUri = Router::currentUri();
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo Institucional -->
     <a href="<?php echo BASE_URL; ?>/dashboard" class="brand-link">
-        <img src="<?php echo BASE_URL; ?>/images/logoSinFondo.png" alt="COSMOL" class="brand-image">
+        <img src="<?php echo BASE_URL; ?>/images/image.png" alt="COSMOL" class="brand-image">
         <span class="brand-text font-weight-bold">
             Cosmol <span class="brand-accent">Deportes</span>
         </span>
