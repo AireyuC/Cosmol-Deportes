@@ -122,9 +122,8 @@ class DisciplinaController extends Controller {
 
         $validator = new Validator();
         $isValid = $validator->validate($_POST, [
-            'nombre'        => 'required|min:3|max:150',
+            'nombre'        => 'required|min:2|max:150',
             'olimpiada_id'  => 'required|numeric',
-            'disciplina_id' => 'required|numeric',
             'rama'          => 'required',
             'tipo_torneo'   => 'required',
             'modalidad'     => 'required'
@@ -135,19 +134,61 @@ class DisciplinaController extends Controller {
             $this->redirect('/disciplinas/crear');
         }
 
+        // Resolver o registrar automáticamente la disciplina base y sus reglas de puntuación
+        $disciplinaId = !empty($_POST['disciplina_id']) ? (int)$_POST['disciplina_id'] : null;
+
+        if (!$disciplinaId) {
+            $nombreLimpio = trim($_POST['nombre']);
+            $todasDisciplinas = $this->disciplinaModel->getAll();
+
+            // 1. Coincidencia exacta (case-insensitive)
+            foreach ($todasDisciplinas as $d) {
+                if (mb_strtolower(trim($d['nombre'])) === mb_strtolower($nombreLimpio)) {
+                    $disciplinaId = (int)$d['id'];
+                    break;
+                }
+            }
+
+            // 2. Coincidencia por contención (si el nombre incluye el deporte base o viceversa)
+            if (!$disciplinaId) {
+                usort($todasDisciplinas, function($a, $b) {
+                    return mb_strlen($b['nombre']) - mb_strlen($a['nombre']);
+                });
+                $nomInput = mb_strtolower($nombreLimpio);
+                foreach ($todasDisciplinas as $d) {
+                    $nomD = mb_strtolower(trim($d['nombre']));
+                    if (mb_strpos($nomInput, $nomD) !== false || mb_strpos($nomD, $nomInput) !== false) {
+                        $disciplinaId = (int)$d['id'];
+                        break;
+                    }
+                }
+            }
+
+            // 3. Si no existe ninguna coincidencia, crear automáticamente en 'disciplinas' y 'reglas_puntuacion'
+            if (!$disciplinaId) {
+                $disciplinaId = $this->disciplinaModel->create([
+                    'nombre'               => $nombreLimpio,
+                    'descripcion'          => 'Disciplina registrada desde Olimpiadas',
+                    'icono'                => 'trophy',
+                    'estado'               => 'Activa',
+                    'pts_victoria'         => 3,
+                    'pts_empate'           => 1,
+                    'pts_derrota'          => 0,
+                    'pts_derrota_ajustada' => 0,
+                    'permite_empate'       => 1,
+                    'formato_sets'         => 0,
+                    'sets_para_ganar'      => 0
+                ]);
+            }
+        }
+
+        $_POST['disciplina_id'] = $disciplinaId;
+
         try {
             $nuevoId = $this->torneoModel->create($_POST);
 
-            // Si es de tipo Grupos, crear Grupo A por defecto automáticamente
-            if ($_POST['tipo_torneo'] === 'Grupos_Playoff') {
-                $this->grupoModel->create([
-                    'torneo_id'    => $nuevoId,
-                    'nombre_grupo' => 'Grupo A',
-                    'orden'        => 1
-                ]);
-            }
 
-            Session::setFlash('success', 'Disciplina "' . e($_POST['nombre']) . '" registrada con éxito.');
+            Session::setFlash('success', 'Disciplina "' . e($_POST['nombre']) . '" registrada con éxito. Puedes modificar sus reglas de puntuación en cualquier momento.');
             $this->redirect('/disciplinas/' . $nuevoId);
         } catch (Exception $e) {
             Session::setFlash('error', 'Error al guardar la disciplina: ' . $e->getMessage());
@@ -201,9 +242,8 @@ class DisciplinaController extends Controller {
 
         $validator = new Validator();
         $isValid = $validator->validate($_POST, [
-            'nombre'        => 'required|min:3|max:150',
+            'nombre'        => 'required|min:2|max:150',
             'olimpiada_id'  => 'required|numeric',
-            'disciplina_id' => 'required|numeric',
             'rama'          => 'required',
             'tipo_torneo'   => 'required',
             'modalidad'     => 'required',
@@ -213,6 +253,10 @@ class DisciplinaController extends Controller {
         if (!$isValid) {
             Session::setFlash('error', $validator->getFirstError());
             $this->redirect('/disciplinas/' . $id . '/editar');
+        }
+
+        if (empty($_POST['disciplina_id'])) {
+            $_POST['disciplina_id'] = $torneo['disciplina_id'];
         }
 
         try {

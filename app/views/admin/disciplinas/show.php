@@ -54,7 +54,14 @@
                     <div class="col-md-3 mb-2 mb-md-0">
                         <span class="text-muted d-block text-xs text-uppercase font-weight-bold">Formato y Modalidad</span>
                         <span class="font-weight-bold text-dark">
-                            <?php echo str_replace('_', ' ', e($torneo['tipo_torneo'])); ?>
+                            <?php 
+                                $tipoLabels = [
+                                    'Grupos_Playoff' => 'Fase de Grupos',
+                                    'Liga'           => 'Clasificación General',
+                                    'Eliminatoria'   => 'Eliminación Directa'
+                                ];
+                                echo isset($tipoLabels[$torneo['tipo_torneo']]) ? $tipoLabels[$torneo['tipo_torneo']] : str_replace('_', ' ', e($torneo['tipo_torneo']));
+                            ?>
                         </span>
                         <small class="text-muted d-block">(<?php echo ($torneo['modalidad'] === 'Solo_Ida') ? 'Solo Ida' : 'Ida y Vuelta'; ?>)</small>
                     </div>
@@ -69,9 +76,17 @@
                                 'Finalizado'    => 'success'
                             ];
                             $colorEst = isset($badgeColors[$torneo['estado']]) ? $badgeColors[$torneo['estado']] : 'secondary';
+                            $estadoLabels = [
+                                'Borrador'      => 'Borrador',
+                                'Inscripciones' => 'Inscripciones',
+                                'Fase_Grupos'   => 'Fase de Grupos',
+                                'Playoffs'      => 'Fase Final (1º, 2º y 3º)',
+                                'Finalizado'    => 'Finalizado'
+                            ];
+                            $textoEst = isset($estadoLabels[$torneo['estado']]) ? $estadoLabels[$torneo['estado']] : str_replace('_', ' ', e($torneo['estado']));
                         ?>
                         <span class="badge badge-<?php echo $colorEst; ?> px-3 py-1 font-weight-bold">
-                            <?php echo str_replace('_', ' ', e($torneo['estado'])); ?>
+                            <?php echo $textoEst; ?>
                         </span>
                     </div>
                     <div class="col-md-5 text-md-right">
@@ -82,9 +97,11 @@
                             <a href="<?php echo BASE_URL; ?>/partidos/crear?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-outline-primary font-weight-bold mr-1">
                                 Programar Partido
                             </a>
-                            <button type="button" class="btn btn-sm btn-success font-weight-bold mr-1" data-toggle="modal" data-target="#modalNuevoGrupo">
-                                Crear Grupo
-                            </button>
+                            <?php if ($torneo['tipo_torneo'] === 'Grupos_Playoff'): ?>
+                                <button type="button" class="btn btn-sm btn-success font-weight-bold mr-1" data-toggle="modal" data-target="#modalNuevoGrupo">
+                                    Crear Grupo
+                                </button>
+                            <?php endif; ?>
                             <a href="<?php echo BASE_URL; ?>/equipos/crear?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-primary font-weight-bold">
                                 Inscribir Equipo
                             </a>
@@ -94,180 +111,302 @@
             </div>
         </div>
 
-        <!-- Equipos Sin Grupo Asignado (Alerta de atención) -->
-        <?php if (!empty($equiposSinGrupo)): ?>
-            <div class="card card-warning card-outline shadow-sm mb-4">
-                <div class="card-header">
-                    <h3 class="card-title font-weight-bold text-warning">
-                        <i class="fas fa-exclamation-triangle mr-1"></i> Equipos pendientes de asignación de Grupo (<?php echo count($equiposSinGrupo); ?>)
-                    </h3>
-                </div>
-                <div class="card-body p-0 table-responsive">
-                    <table class="table table-sm table-hover mb-0">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Equipo</th>
-                                <th>Delegación</th>
-                                <th class="text-right" style="width: 280px;">Asignar a un Grupo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($equiposSinGrupo as $eqSin): ?>
+        <?php if ($torneo['tipo_torneo'] === 'Grupos_Playoff'): ?>
+            <!-- Equipos Sin Grupo Asignado (Alerta de atención) -->
+            <?php if (!empty($equiposSinGrupo)): ?>
+                <div class="card card-warning card-outline shadow-sm mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title font-weight-bold text-warning">
+                            <i class="fas fa-exclamation-triangle mr-1"></i> Equipos pendientes de asignación de Grupo (<?php echo count($equiposSinGrupo); ?>)
+                        </h3>
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-sm table-hover mb-0">
+                            <thead class="thead-light">
                                 <tr>
-                                    <td class="font-weight-bold"><?php echo e($eqSin['nombre']); ?></td>
-                                    <td>
-                                        <span class="badge" style="background-color: <?php echo e($eqSin['color_representativo']); ?>; color: #fff;">
-                                            <?php echo e($eqSin['delegacion_nombre']); ?>
-                                        </span>
-                                    </td>
-                                    <td class="text-right">
-                                        <?php if (!empty($grupos)): ?>
-                                            <form action="<?php echo BASE_URL; ?>/grupos/asignar-equipo" method="post" class="form-inline justify-content-end">
-                                                <?php echo CsrfHelper::field(); ?>
-                                                <input type="hidden" name="equipo_id" value="<?php echo e($eqSin['id']); ?>">
-                                                <input type="hidden" name="torneo_id" value="<?php echo e($torneo['id']); ?>">
-                                                <select name="grupo_id" class="form-control form-control-sm mr-2" required>
-                                                    <option value="">Seleccionar Grupo...</option>
-                                                    <?php foreach ($grupos as $gOption): ?>
-                                                        <option value="<?php echo e($gOption['id']); ?>"><?php echo e($gOption['nombre_grupo']); ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <button type="submit" class="btn btn-sm btn-warning text-dark font-weight-bold">
-                                                    Asignar
-                                                </button>
-                                            </form>
-                                        <?php else: ?>
-                                            <span class="text-muted text-sm">Cree un grupo primero</span>
-                                        <?php endif; ?>
-                                    </td>
+                                    <th>Equipo</th>
+                                    <th>Delegación</th>
+                                    <th class="text-right" style="width: 280px;">Asignar a un Grupo</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <!-- Sección de Grupos de Competencia -->
-        <div class="row">
-            <?php if (empty($grupos)): ?>
-                <div class="col-12">
-                    <div class="card card-outline card-secondary py-5 text-center shadow-sm">
-                        <i class="fas fa-layer-group fa-3x text-muted mb-3"></i>
-                        <h4 class="font-weight-bold text-dark">Aún no hay grupos creados para esta disciplina</h4>
-                        <p class="text-muted">Crea grupos como <strong>Grupo A</strong>, <strong>Grupo B</strong> para organizar a los equipos participantes.</p>
-                        <?php if (AuthHelper::isAdmin()): ?>
-                            <div class="mt-2">
-                                <button type="button" class="btn btn-warning text-dark font-weight-bold px-4" data-toggle="modal" data-target="#modalNuevoGrupo">
-                                    <i class="fas fa-plus mr-1"></i> Crear Primer Grupo
-                                </button>
-                            </div>
-                        <?php endif; ?>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($equiposSinGrupo as $eqSin): ?>
+                                    <tr>
+                                        <td class="font-weight-bold"><?php echo e($eqSin['nombre']); ?></td>
+                                        <td>
+                                            <span class="badge" style="background-color: <?php echo e($eqSin['color_representativo']); ?>; color: #fff;">
+                                                <?php echo e($eqSin['delegacion_nombre']); ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <?php if (!empty($grupos)): ?>
+                                                <form action="<?php echo BASE_URL; ?>/grupos/asignar-equipo" method="post" class="form-inline justify-content-end">
+                                                    <?php echo CsrfHelper::field(); ?>
+                                                    <input type="hidden" name="equipo_id" value="<?php echo e($eqSin['id']); ?>">
+                                                    <input type="hidden" name="torneo_id" value="<?php echo e($torneo['id']); ?>">
+                                                    <select name="grupo_id" class="form-control form-control-sm mr-2" required>
+                                                        <option value="">Seleccionar Grupo...</option>
+                                                        <?php foreach ($grupos as $gOption): ?>
+                                                            <option value="<?php echo e($gOption['id']); ?>"><?php echo e($gOption['nombre_grupo']); ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-sm btn-warning text-dark font-weight-bold">
+                                                        Asignar
+                                                    </button>
+                                                </form>
+                                            <?php else: ?>
+                                                <span class="text-muted text-sm">Cree un grupo primero</span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            <?php else: ?>
-                <?php foreach ($grupos as $grupo): ?>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card card-outline card-primary shadow-sm h-100">
-                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                                <h3 class="card-title font-weight-bold text-primary mb-0">
-                                    <i class="fas fa-users mr-1"></i> <?php echo e($grupo['nombre_grupo']); ?>
-                                </h3>
-                                <div>
-                                    <span class="badge badge-primary mr-2"><?php echo count($grupo['equipos']); ?> Equipos</span>
-                                    <?php if (AuthHelper::isAdmin()): ?>
-                                        <button type="button" class="btn btn-tool text-danger" data-toggle="modal" data-target="#modalDelGrupo<?php echo e($grupo['id']); ?>" title="Eliminar Grupo">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    <?php endif; ?>
+            <?php endif; ?>
+
+            <!-- Sección de Grupos de Competencia -->
+            <div class="row">
+                <?php if (empty($grupos)): ?>
+                    <div class="col-12">
+                        <div class="card card-outline card-secondary py-5 text-center shadow-sm">
+                            <i class="fas fa-layer-group fa-3x text-muted mb-3"></i>
+                            <h4 class="font-weight-bold text-dark">Aún no hay grupos creados para esta disciplina</h4>
+                            <p class="text-muted">Crea grupos como <strong>Grupo A</strong>, <strong>Grupo B</strong> para organizar a los equipos participantes.</p>
+                            <?php if (AuthHelper::isAdmin()): ?>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-warning text-dark font-weight-bold px-4" data-toggle="modal" data-target="#modalNuevoGrupo">
+                                        <i class="fas fa-plus mr-1"></i> Crear Primer Grupo
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($grupos as $grupo): ?>
+                        <div class="col-lg-6 mb-4">
+                            <div class="card card-outline card-primary shadow-sm h-100">
+                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                    <h3 class="card-title font-weight-bold text-primary mb-0">
+                                        <i class="fas fa-users mr-1"></i> <?php echo e($grupo['nombre_grupo']); ?>
+                                    </h3>
+                                    <div>
+                                        <span class="badge badge-primary mr-2"><?php echo count($grupo['equipos']); ?> Equipos</span>
+                                        <?php if (AuthHelper::isAdmin()): ?>
+                                            <button type="button" class="btn btn-tool text-danger" data-toggle="modal" data-target="#modalDelGrupo<?php echo e($grupo['id']); ?>" title="Eliminar Grupo">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0 table-responsive">
+                                    <table class="table table-hover table-strip                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Equipo</th>
+                                                <th>Delegación</th>
+                                                <th class="text-center">Jugadores</th>
+                                                <?php if (AuthHelper::isAdmin()): ?>
+                                                    <th class="text-center text-nowrap" style="width: 180px;">Acciones</th>
+                                                <?php endif; ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (empty($grupo['equipos'])): ?>
+                                                <tr>
+                                                    <td colspan="4" class="text-center text-muted py-4">
+                                                        <em>No hay equipos asignados a este grupo aún.</em>
+                                                    </td>
+                                                </tr>
+                                            <?php else: ?>
+                                                <?php foreach ($grupo['equipos'] as $eq): ?>
+                                                    <tr>
+                                                        <td class="font-weight-bold">
+                                                            <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="text-dark">
+                                                                <?php echo e($eq['nombre']); ?>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge" style="background-color: <?php echo e($eq['color_representativo']); ?>; color: #fff;">
+                                                                <?php echo e($eq['delegacion_nombre']); ?>
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="badge badge-info px-2 py-1" title="Ver nómina">
+                                                                <i class="fas fa-user-friends mr-1"></i> <?php echo e($eq['total_jugadores']); ?> atletas
+                                                            </a>
+                                                        </td>
+                                                        <?php if (AuthHelper::isAdmin()): ?>
+                                                            <td class="text-center text-nowrap">
+                                                                <div class="d-inline-flex align-items-center justify-content-center" style="gap: 6px;">
+                                                                    <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ver Nómina">
+                                                                        Nómina
+                                                                    </a>
+                                                                    <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                                        Editar
+                                                                    </a>
+                                                                    <form action="<?php echo BASE_URL; ?>/grupos/desasignar-equipo/<?php echo e($eq['id']); ?>" method="post" class="d-inline" onsubmit="return confirm('¿Quitar este equipo del grupo?');">
+                                                                        <?php echo CsrfHelper::field(); ?>
+                                                                        <input type="hidden" name="torneo_id" value="<?php echo e($torneo['id']); ?>">
+                                                                        <button type="submit" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" title="Quitar del Grupo">
+                                                                            Quitar
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </td>
+                                                        <?php endif; ?>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <div class="card-body p-0 table-responsive">
+
+                            <!-- Modal Confirmar Eliminación de Grupo -->
+                            <div class="modal fade" id="modalDelGrupo<?php echo e($grupo['id']); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title font-weight-bold">
+                                                <i class="fas fa-exclamation-triangle mr-2"></i> Eliminar <?php echo e($grupo['nombre_grupo']); ?>
+                                            </h5>
+                                            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>¿Está seguro de eliminar el <strong><?php echo e($grupo['nombre_grupo']); ?></strong>?</p>
+                                            <p class="text-muted text-sm mb-0">Los equipos que pertenecen a este grupo quedarán sin grupo asignado, listos para ser reubicados.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                            <form action="<?php echo BASE_URL; ?>/grupos/<?php echo e($grupo['id']); ?>/eliminar" method="post" class="d-inline">
+                                                <?php echo CsrfHelper::field(); ?>
+                                                <input type="hidden" name="torneo_id" value="<?php echo e($torneo['id']); ?>">
+                                                <button type="submit" class="btn btn-danger font-weight-bold">Sí, Eliminar Grupo</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        <?php else: ?>
+            <!-- Vista para Eliminación Directa y Clasificación General (Sin Grupos) -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-outline card-primary shadow-sm mb-4">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <h3 class="card-title font-weight-bold text-primary mb-0">
+                                <?php if ($torneo['tipo_torneo'] === 'Eliminatoria'): ?>
+                                    <i class="fas fa-sitemap mr-1"></i> Participantes en Llaves de Eliminación Directa
+                                <?php else: ?>
+                                    <i class="fas fa-list-ol mr-1"></i> Delegaciones en Clasificación General
+                                <?php endif; ?>
+                            </h3>
+                            <div class="card-tools">
+                                <span class="badge badge-primary"><?php echo count($todosEquipos); ?> Participantes</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <?php if (empty($todosEquipos)): ?>
+                                <div class="py-5 text-center text-muted">
+                                    <i class="fas fa-users fa-3x text-secondary mb-3 d-block"></i>
+                                    <h5 class="font-weight-bold text-dark">Aún no hay equipos o parejas inscritas en esta disciplina</h5>
+                                    <p class="text-muted text-sm mb-3">Inscribe a las delegaciones participantes para programar los encuentros.</p>
+                                    <?php if (AuthHelper::isAdmin()): ?>
+                                        <a href="<?php echo BASE_URL; ?>/equipos/crear?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-primary font-weight-bold px-3">
+                                            <i class="fas fa-plus mr-1"></i> Inscribir Primer Participante
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            <?php else: ?>
                                 <table class="table table-hover table-striped mb-0">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th>Equipo</th>
-                                            <th>Delegación</th>
-                                            <th class="text-center">Jugadores</th>
+                                            <th style="width: 50px;">#</th>
+                                            <th>Equipo / Representativo</th>
+                                            <th>Delegación Perteneciente</th>
+                                            <th class="text-center">Atletas / Jugadores</th>
                                             <?php if (AuthHelper::isAdmin()): ?>
-                                                <th class="text-center" style="width: 80px;">Acción</th>
+                                                <th class="text-center text-nowrap" style="width: 220px;">Acciones</th>
                                             <?php endif; ?>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if (empty($grupo['equipos'])): ?>
+                                        <?php $idx = 1; foreach ($todosEquipos as $eq): ?>
                                             <tr>
-                                                <td colspan="4" class="text-center text-muted py-4">
-                                                    <em>No hay equipos asignados a este grupo aún.</em>
+                                                <td class="font-weight-bold text-muted"><?php echo $idx++; ?></td>
+                                                <td class="font-weight-bold">
+                                                    <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="text-dark">
+                                                        <?php echo e($eq['nombre']); ?>
+                                                    </a>
                                                 </td>
+                                                <td>
+                                                    <span class="badge" style="background-color: <?php echo e($eq['color_representativo']); ?>; color: #fff;">
+                                                        <?php echo e($eq['delegacion_nombre']); ?>
+                                                    </span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="badge badge-info px-2 py-1" title="Ver nómina de atletas">
+                                                        <i class="fas fa-user-friends mr-1"></i> <?php echo e($eq['total_jugadores']); ?> atletas
+                                                    </a>
+                                                </td>
+                                                <?php if (AuthHelper::isAdmin()): ?>
+                                                    <td class="text-center text-nowrap">
+                                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
+                                                            <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ver Plantilla de Jugadores">
+                                                                Nómina
+                                                            </a>
+                                                            <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Editar">
+                                                                Editar
+                                                            </a>
+                                                            <button type="button" class="btn btn-xs btn-danger font-weight-bold px-2 py-1" data-toggle="modal" data-target="#modalDeleteEq<?php echo e($eq['id']); ?>" title="Eliminar">
+                                                                Eliminar
+                                                            </button>
+                                                        </div>
+
+                                                        <!-- Modal Confirmar Eliminación -->
+                                                        <div class="modal fade" id="modalDeleteEq<?php echo e($eq['id']); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content text-left">
+                                                                    <div class="modal-header bg-danger text-white">
+                                                                        <h5 class="modal-title font-weight-bold">
+                                                                            <i class="fas fa-exclamation-triangle mr-2"></i> Confirmar Eliminación
+                                                                        </h5>
+                                                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p class="mb-2">¿Estás seguro de que deseas eliminar al equipo <strong><?php echo e($eq['nombre']); ?></strong>?</p>
+                                                                        <p class="text-muted text-sm mb-0">Esta acción removerá el equipo y a sus atletas asignados de esta disciplina.</p>
+                                                                    </div>
+                                                                    <div class="modal-footer bg-light">
+                                                                        <button type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                                                                        <form action="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/eliminar" method="post" class="d-inline">
+                                                                            <?php echo CsrfHelper::field(); ?>
+                                                                            <button type="submit" class="btn btn-danger font-weight-bold">
+                                                                                <i class="fas fa-trash-alt mr-1"></i> Sí, Eliminar
+                                                                            </button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                <?php endif; ?>
                                             </tr>
-                                        <?php else: ?>
-                                            <?php foreach ($grupo['equipos'] as $eq): ?>
-                                                <tr>
-                                                    <td class="font-weight-bold">
-                                                        <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="text-dark">
-                                                            <?php echo e($eq['nombre']); ?>
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <span class="badge" style="background-color: <?php echo e($eq['color_representativo']); ?>; color: #fff;">
-                                                            <?php echo e($eq['delegacion_nombre']); ?>
-                                                        </span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="<?php echo BASE_URL; ?>/equipos/<?php echo e($eq['id']); ?>/jugadores" class="badge badge-info px-2 py-1" title="Ver nómina">
-                                                            <i class="fas fa-user-friends mr-1"></i> <?php echo e($eq['total_jugadores']); ?> atletas
-                                                        </a>
-                                                    </td>
-                                                    <?php if (AuthHelper::isAdmin()): ?>
-                                                        <td class="text-center">
-                                                            <form action="<?php echo BASE_URL; ?>/grupos/desasignar-equipo/<?php echo e($eq['id']); ?>" method="post" class="d-inline">
-                                                                <?php echo CsrfHelper::field(); ?>
-                                                                <input type="hidden" name="torneo_id" value="<?php echo e($torneo['id']); ?>">
-                                                                <button type="submit" class="btn btn-xs btn-outline-danger" title="Quitar del Grupo" onclick="return confirm('¿Quitar este equipo del grupo?')">
-                                                                    <i class="fas fa-times"></i>
-                                                                </button>
-                                                            </form>
-                                                        </td>
-                                                    <?php endif; ?>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
-                            </div>
+                            <?php endif; ?>
                         </div>
-
-                        <!-- Modal Confirmar Eliminación de Grupo -->
-                        <div class="modal fade" id="modalDelGrupo<?php echo e($grupo['id']); ?>" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-danger text-white">
-                                        <h5 class="modal-title font-weight-bold">
-                                            <i class="fas fa-exclamation-triangle mr-2"></i> Eliminar <?php echo e($grupo['nombre_grupo']); ?>
-                                        </h5>
-                                        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>¿Está seguro de eliminar el <strong><?php echo e($grupo['nombre_grupo']); ?></strong>?</p>
-                                        <p class="text-muted text-sm mb-0">Los equipos que pertenecen a este grupo quedarán sin grupo asignado, listos para ser reubicados.</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        <form action="<?php echo BASE_URL; ?>/grupos/<?php echo e($grupo['id']); ?>/eliminar" method="post" class="d-inline">
-                                            <?php echo CsrfHelper::field(); ?>
-                                            <input type="hidden" name="torneo_id" value="<?php echo e($torneo['id']); ?>">
-                                            <button type="submit" class="btn btn-danger font-weight-bold">Sí, Eliminar Grupo</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+                </div>
+            </div>
+        <?php endif; ?>
 
     </div>
 </div>

@@ -29,14 +29,26 @@
                     <h4 class="font-weight-bold mb-1" style="color: #0066B2;">
                         <?php echo e($olimpiada['nombre']); ?>
                     </h4>
+                    <?php if (!empty($olimpiada['lema'])): ?>
+                        <small class="text-muted"><?php echo e($olimpiada['lema']); ?></small>
+                    <?php endif; ?>
                 </div>
                 <div class="col-md-4 text-md-right mt-3 mt-md-0">
-                    <span class="badge px-3 py-2 text-uppercase text-white font-weight-bold" style="background-color: #00A3E0; font-size: 0.8rem;">
-                        <?php echo e($olimpiada['estado']); ?>
-                    </span>
-                    <a href="<?php echo BASE_URL; ?>/partidos" class="btn btn-outline-primary btn-sm ml-2">
-                        Ver Fixture
-                    </a>
+                    <?php if (!empty($olimpiada['id'])): ?>
+                        <span class="badge px-3 py-2 text-uppercase text-white font-weight-bold" style="background-color: #00A3E0; font-size: 0.8rem;">
+                            <?php echo e($olimpiada['estado']); ?>
+                        </span>
+                        <a href="<?php echo BASE_URL; ?>/partidos" class="btn btn-outline-primary btn-sm ml-2">
+                            Ver Fixture
+                        </a>
+                    <?php else: ?>
+                        <span class="badge badge-secondary px-3 py-2 text-uppercase font-weight-bold" style="font-size: 0.8rem;">
+                            <?php echo e($olimpiada['estado']); ?>
+                        </span>
+                        <a href="<?php echo BASE_URL; ?>/olimpiadas" class="btn btn-primary btn-sm ml-2">
+                            <i class="fas fa-plus mr-1"></i> Crear Olimpiada
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -318,19 +330,26 @@
                     </div>
                     <div class="card-body p-0">
                         <ul class="list-group list-group-flush">
+                            <?php if (empty($disciplinas)): ?>
+                            <li class="list-group-item text-center text-muted py-4">
+                                <i class="fas fa-trophy mb-2 d-block text-secondary" style="font-size: 1.8rem; opacity: 0.35;"></i>
+                                No hay disciplinas registradas aún.
+                            </li>
+                            <?php else: ?>
                             <?php foreach ($disciplinas as $d): ?>
                             <li class="list-group-item d-flex justify-content-between align-items-center py-3">
                                 <div>
                                     <a href="<?php echo BASE_URL; ?>/torneos" class="font-weight-bold d-block" style="color: #0066B2;">
                                         <?php echo e($d['nombre']); ?>
                                     </a>
-                                    <small class="text-muted">Masculino y Femenino</small>
+                                    <small class="text-muted">Competencia Oficial</small>
                                 </div>
                                 <span class="badge py-1 px-2 font-weight-bold" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;">
-                                    <?php echo e($d['torneos']); ?> Torneos
+                                    <?php echo (int)$d['torneos']; ?> Torneo<?php echo (int)$d['torneos'] === 1 ? '' : 's'; ?>
                                 </span>
                             </li>
                             <?php endforeach; ?>
+                            <?php endif; ?>
                         </ul>
                     </div>
                     <div class="card-footer text-center bg-white py-2">

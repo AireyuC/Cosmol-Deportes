@@ -44,39 +44,26 @@ $currentUri = Router::currentUri();
                 </li>
 
                 <li class="nav-item">
+                    <a href="<?php echo BASE_URL; ?>/sedes" class="nav-link <?php echo (strpos($currentUri, '/sedes') === 0) ? 'active' : ''; ?>">
+                        <p>Sedes y Canchas</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/medallero" class="nav-link <?php echo (strpos($currentUri, '/medallero') === 0) ? 'active' : ''; ?>">
                         <p>Medallero</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/reglas-puntuacion" class="nav-link <?php echo (strpos($currentUri, '/reglas-puntuacion') === 0) ? 'active' : ''; ?>">
-                        <p>Reglas de Puntuación</p>
+                    <a href="<?php echo BASE_URL; ?>/disciplinas" class="nav-link <?php echo (strpos($currentUri, '/disciplinas') === 0 || strpos($currentUri, '/reglas-puntuacion') === 0) ? 'active' : ''; ?>">
+                        <p>Disciplina y Reglas</p>
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/sedes" class="nav-link <?php echo (strpos($currentUri, '/sedes') === 0) ? 'active' : ''; ?>">
-                        <p>Sedes y Canchas</p>
-                    </a>
-                </li>
-
-                <!-- SECCIÓN 2: Delegación y Equipo -->
+                <!-- SECCIÓN 3: Delegaciones y Equipos -->
                 <li class="nav-header nav-header-cosmol">
-                    <span class="nav-header-title">Delegación y Equipo</span>
-                </li>
-
-                <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/disciplinas" class="nav-link <?php echo (strpos($currentUri, '/disciplinas') === 0) ? 'active' : ''; ?>">
-                        <p>Disciplina</p>
-                    </a>
-                </li>
-
-                <!-- Equipos Deportivos -->
-                <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/equipos" class="nav-link <?php echo (strpos($currentUri, '/equipos') === 0) ? 'active' : ''; ?>">
-                        <p>Equipos</p>
-                    </a>
+                    <span class="nav-header-title">Delegación y Equipos</span>
                 </li>
 
                 <li class="nav-item">
@@ -86,14 +73,20 @@ $currentUri = Router::currentUri();
                 </li>
 
                 <li class="nav-item">
+                    <a href="<?php echo BASE_URL; ?>/equipos" class="nav-link <?php echo (strpos($currentUri, '/equipos') === 0) ? 'active' : ''; ?>">
+                        <p>Equipos</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/jugadores" class="nav-link <?php echo (strpos($currentUri, '/jugadores') === 0) ? 'active' : ''; ?>">
                         <p>Nómina de Jugadores</p>
                     </a>
                 </li>
 
-                <!-- SECCIÓN 3: Competencia y Disciplina -->
+                <!-- SECCIÓN 4: Competencia y Fixture -->
                 <li class="nav-header nav-header-cosmol">
-                    <span class="nav-header-title">Competencia y Disciplina</span>
+                    <span class="nav-header-title">Competencia y Partidos</span>
                 </li>
 
                 <li class="nav-item">
@@ -103,17 +96,17 @@ $currentUri = Router::currentUri();
                 </li>
 
                 <li class="nav-item">
+                    <a href="<?php echo BASE_URL; ?>/posiciones" class="nav-link <?php echo (strpos($currentUri, '/posiciones') === 0) ? 'active' : ''; ?>">
+                        <p>Tablas de Posiciones</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="<?php echo BASE_URL; ?>/sanciones" class="nav-link <?php echo (strpos($currentUri, '/sanciones') === 0) ? 'active' : ''; ?>">
                         <p>
                             Sanciones
                             <span class="badge badge-danger right" style="background-color: #EF4444;">Control</span>
                         </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="<?php echo BASE_URL; ?>/posiciones" class="nav-link <?php echo (strpos($currentUri, '/posiciones') === 0) ? 'active' : ''; ?>">
-                        <p>Tablas de Posiciones</p>
                     </a>
                 </li>
             </ul>
