@@ -225,7 +225,13 @@ class MedalleroController extends Controller {
         if (!empty($errores)) {
             Session::setFlash('error', implode(' / ', $errores));
         } else {
-            Session::setFlash('success', 'Podio del torneo "' . $torneo['nombre'] . '" asignado correctamente.');
+            // Marcar el torneo como Finalizado oficialmente al asignar podio
+            try {
+                $this->torneoModel->updateEstado($torneoId, 'Finalizado');
+            } catch (Exception $e) {
+                // continuar
+            }
+            Session::setFlash('success', 'Podio del torneo "' . $torneo['nombre'] . '" asignado correctamente y disciplina finalizada.');
         }
 
         $this->redirect('/medallero/gestion');
