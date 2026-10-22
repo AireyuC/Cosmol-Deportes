@@ -326,10 +326,18 @@ class PortalController extends Controller {
                 }
             }
 
+            $podio = [];
+            try {
+                $podio = $this->medalleroModel->getByTorneoId($torneoId);
+            } catch (Exception $e) {
+                $podio = [];
+            }
+
             $datosTorneos[] = [
                 'torneo'     => $torneo,
                 'posiciones' => $posiciones,
-                'partidos'   => $partidos
+                'partidos'   => $partidos,
+                'podio'      => $podio
             ];
         }
 

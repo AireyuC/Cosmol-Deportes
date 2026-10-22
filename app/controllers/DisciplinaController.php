@@ -447,11 +447,37 @@ class DisciplinaController extends Controller {
             }
         }
 
-        // Si se seleccionó "Dar por concluida la disciplina"
+        // Verificar si la Gran Final quedó concluida o si todos los encuentros ya están finalizados
         $concluir = !empty($_POST['concluir_disciplina']);
+        $finalFinalizada = false;
+        try {
+            $partidosTorneo = $this->partidoModel->getAll($id);
+            if (!empty($partidosTorneo)) {
+                $pendientes = 0;
+                foreach ($partidosTorneo as $pt) {
+                    $pFase = isset($pt['fase']) ? trim($pt['fase']) : '';
+                    $pJornada = isset($pt['jornada']) ? mb_strtolower(trim($pt['jornada']), 'UTF-8') : '';
+                    $esFinalMatch = ($pFase === 'Final') ||
+                                    (strpos($pJornada, 'final') !== false && strpos($pJornada, 'semi') === false && strpos($pJornada, 'cuarto') === false && strpos($pJornada, 'octavo') === false);
+                    if ($esFinalMatch && $pt['estado'] === 'Finalizado') {
+                        $finalFinalizada = true;
+                        break;
+                    }
+                    if ($pt['estado'] !== 'Finalizado') {
+                        $pendientes++;
+                    }
+                }
+                if ($pendientes === 0) {
+                    $finalFinalizada = true;
+                }
+            }
+        } catch (Exception $e) {
+            // silencioso
+        }
+
         $msgExtra = '';
 
-        if ($concluir) {
+        if ($concluir || $finalFinalizada) {
             try {
                 $this->torneoModel->cambiarEstado($id, 'Finalizado');
                 $resPodio = $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo($id);

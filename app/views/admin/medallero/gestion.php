@@ -39,18 +39,18 @@
         <div class="card card-outline card-warning shadow-sm">
             <div class="card-header">
                 <h3 class="card-title">
-                    <i class="fas fa-trophy mr-2 text-warning"></i>Torneos Disponibles para Premiación
+                    <i class="fas fa-trophy mr-2 text-warning"></i>Disciplinas y Torneos para Premiación
                 </h3>
                 <div class="card-tools">
-                    <span class="badge badge-info">Torneos en Playoffs / Finalizados</span>
+                    <span class="badge badge-info">Total: <?php echo count($torneos); ?> Disciplinas</span>
                 </div>
             </div>
             <div class="card-body p-0">
                 <?php if (empty($torneos)): ?>
                     <div class="p-4 text-center text-muted">
                         <i class="fas fa-info-circle fa-2x mb-2 text-secondary"></i>
-                        <p class="mb-0">No hay torneos en fase de Playoffs o Finalizados listos para premiar.</p>
-                        <small>Los torneos pasan a estar disponibles cuando su estado avanza a Playoffs o Finalizado.</small>
+                        <p class="mb-0">No hay disciplinas registradas en esta olimpiada.</p>
+                        <small>Cree disciplinas y torneos desde la sección de Disciplinas para habilitar el medallero.</small>
                     </div>
                 <?php else: ?>
                     <div class="table-responsive">
@@ -82,11 +82,13 @@
                                         </td>
                                         <td>
                                             <?php if ($t['estado'] === 'Finalizado'): ?>
-                                                <span class="badge badge-success">Finalizado</span>
+                                                <span class="badge badge-success"><i class="fas fa-check-circle mr-1"></i> Finalizado</span>
                                             <?php elseif ($t['estado'] === 'Playoffs'): ?>
-                                                <span class="badge badge-warning">Playoffs</span>
+                                                <span class="badge badge-warning"><i class="fas fa-trophy mr-1"></i> Playoffs</span>
+                                            <?php elseif ($t['estado'] === 'Fase_Grupos'): ?>
+                                                <span class="badge badge-info"><i class="fas fa-users mr-1"></i> Fase de Grupos</span>
                                             <?php else: ?>
-                                                <span class="badge badge-secondary"><?php echo htmlspecialchars($t['estado'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                <span class="badge badge-secondary"><?php echo htmlspecialchars(str_replace('_', ' ', $t['estado']), ENT_QUOTES, 'UTF-8'); ?></span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
@@ -109,7 +111,10 @@
                                             <a href="<?php echo BASE_URL; ?>/medallero/disciplinas/<?php echo (int)$t['id']; ?>/asignar" class="btn btn-sm btn-warning font-weight-bold">
                                                 <i class="fas fa-award mr-1"></i> <?php echo $asignadas > 0 ? 'Editar Podio' : 'Asignar Podio'; ?>
                                             </a>
-                                            <a href="<?php echo BASE_URL; ?>/posiciones?torneo_id=<?php echo (int)$t['id']; ?>" class="btn btn-sm btn-outline-info" title="Ver Posiciones">
+                                            <a href="<?php echo BASE_URL; ?>/disciplinas/<?php echo (int)$t['id']; ?>" class="btn btn-sm btn-outline-primary" title="Ver Ficha de la Disciplina">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="<?php echo BASE_URL; ?>/posiciones?torneo_id=<?php echo (int)$t['id']; ?>" class="btn btn-sm btn-outline-info" title="Ver Tabla de Posiciones">
                                                 <i class="fas fa-table"></i>
                                             </a>
                                         </td>

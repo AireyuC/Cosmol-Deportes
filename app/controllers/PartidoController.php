@@ -363,6 +363,13 @@ class PartidoController extends Controller {
 
         try {
             $this->partidoModel->updatePartido($id, $_POST);
+
+            $partidoActualizado = $this->partidoModel->getById($id);
+            $estadoP = !empty($_POST['estado']) ? trim($_POST['estado']) : ($partidoActualizado['estado'] ?? '');
+            if ($partidoActualizado) {
+                $this->sincronizarFinalYMedallero($partidoActualizado['torneo_id'], $partidoActualizado, $estadoP);
+            }
+
             Session::setFlash('success', 'Encuentro actualizado correctamente.');
             $this->redirect('/partidos/' . (int)$id);
         } catch (Exception $e) {
@@ -509,13 +516,9 @@ class PartidoController extends Controller {
         try {
             $this->partidoModel->actualizarResultado($id, $marcadorLocal, $marcadorVisitante, $estado, $observaciones, $fotoPlanilla);
 
-            // Si el encuentro quedó Finalizado y el torneo está Finalizado (o es Gran Final/Tercer Puesto), auto-actualizar medallero
-            if ($estado === 'Finalizado' && !empty($partido['torneo_id'])) {
-                $torneo = $this->torneoModel->getById((int)$partido['torneo_id']);
-                if ($torneo && ($torneo['estado'] === 'Finalizado' || $partido['fase'] === 'Final' || $partido['fase'] === 'Tercer_Puesto')) {
-                    $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo((int)$partido['torneo_id']);
-                }
-            }
+            // Sincronizar automáticamente cierre de disciplina y medallero olímpico si aplica
+            $partidoActualizado = $this->partidoModel->getById($id);
+            $this->sincronizarFinalYMedallero($partido['torneo_id'], $partidoActualizado ? $partidoActualizado : $partido, $estado);
 
             Session::setFlash('success', 'Resultado, estado y acta del encuentro actualizados.');
         } catch (Exception $e) {
@@ -555,13 +558,9 @@ class PartidoController extends Controller {
         try {
             $this->partidoModel->actualizarResultado($id, $marcadorLocal, $marcadorVisitante, $estado);
 
-            // Auto-sincronizar medallero si aplica
-            if (!empty($partido['torneo_id'])) {
-                $torneo = $this->torneoModel->getById((int)$partido['torneo_id']);
-                if ($torneo && ($torneo['estado'] === 'Finalizado' || $partido['fase'] === 'Final' || $partido['fase'] === 'Tercer_Puesto')) {
-                    $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo((int)$partido['torneo_id']);
-                }
-            }
+            // Sincronizar automáticamente cierre de disciplina y medallero olímpico si aplica
+            $partidoActualizado = $this->partidoModel->getById($id);
+            $this->sincronizarFinalYMedallero($partido['torneo_id'], $partidoActualizado ? $partidoActualizado : $partido, $estado);
 
             Session::setFlash('success', 'Resultado guardado exitosamente para el encuentro #' . $id . '.');
         } catch (Exception $e) {
@@ -741,6 +740,70 @@ class PartidoController extends Controller {
             'equipos' => $equipos,
             'grupos'  => $grupos
         ]);
+    }
+
+    /**
+     * Si el encuentro finalizado corresponde a la Gran Final, Tercer Puesto o prueba única,
+     * o si concluyeron todos los partidos programados, cierra automáticamente el torneo y
+     * computa/actualiza las medallas oficiales (Oro, Plata, Bronce) en el Medallero Olímpico.
+     *
+     * @param int|string $torneoId
+     * @param array $partido
+     * @param string $estadoPartido
+     */
+    private function sincronizarFinalYMedallero($torneoId, $partido, $estadoPartido) {
+        if ($estadoPartido !== 'Finalizado' || empty($torneoId)) {
+            return;
+        }
+
+        $torneoId = (int)$torneoId;
+        $torneo = $this->torneoModel->getById($torneoId);
+        if (!$torneo) {
+            return;
+        }
+
+        $fase = isset($partido['fase']) ? trim($partido['fase']) : '';
+        $jornada = isset($partido['jornada']) ? mb_strtolower(trim($partido['jornada']), 'UTF-8') : '';
+        $obs = isset($partido['observaciones']) ? mb_strtolower(trim($partido['observaciones']), 'UTF-8') : '';
+
+        $esFinal = ($fase === 'Final') ||
+                   (strpos($jornada, 'final') !== false && strpos($jornada, 'semi') === false && strpos($jornada, 'cuarto') === false && strpos($jornada, 'octavo') === false) ||
+                   $this->esDisciplinaJuegosPopulares($torneoId);
+
+        $esTercerPuesto = ($fase === 'Tercer_Puesto') ||
+                          strpos($jornada, 'tercer') !== false ||
+                          strpos($jornada, '3er') !== false ||
+                          strpos($jornada, '3°') !== false ||
+                          strpos($obs, 'tercer') !== false ||
+                          strpos($obs, 'bronce') !== false;
+
+        // Si no es explícitamente final, verificar si todos los partidos del torneo ya finalizaron (para torneos tipo Liga / Todos contra todos)
+        $todosFinalizados = false;
+        if (!$esFinal) {
+            $partidosTorneo = $this->partidoModel->getAll($torneoId);
+            if (!empty($partidosTorneo)) {
+                $pendientes = 0;
+                foreach ($partidosTorneo as $pt) {
+                    if ($pt['estado'] !== 'Finalizado') {
+                        $pendientes++;
+                    }
+                }
+                if ($pendientes === 0) {
+                    $todosFinalizados = true;
+                }
+            }
+        }
+
+        // Si se jugó la Final o concluyeron todos los partidos del torneo, cerrar automáticamente la disciplina
+        if (($esFinal || $todosFinalizados) && $torneo['estado'] !== 'Finalizado') {
+            $this->torneoModel->cambiarEstado($torneoId, 'Finalizado');
+            $torneo['estado'] = 'Finalizado';
+        }
+
+        // Si el torneo quedó Finalizado o se finalizó Final / Tercer Puesto, recalcular y asignar medallas automáticamente
+        if ($torneo['estado'] === 'Finalizado' || $esFinal || $esTercerPuesto || $todosFinalizados) {
+            $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo($torneoId);
+        }
     }
 
     /**
