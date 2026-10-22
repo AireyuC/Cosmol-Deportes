@@ -206,22 +206,52 @@
                                         </div>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <span class="font-weight-bold text-right" style="flex: 1; color: <?php echo e($p['local_color'] ?? '#1E293B'); ?>;">
-                                                <?php echo e($p['local_nombre']); ?>
-                                            </span>
-                                            <span class="badge badge-light border mx-2 px-2 py-1 text-xs font-weight-bold">
-                                                VS
-                                            </span>
-                                            <span class="font-weight-bold text-left" style="flex: 1; color: <?php echo e($p['visitante_color'] ?? '#1E293B'); ?>;">
-                                                <?php echo e($p['visitante_nombre']); ?>
-                                            </span>
-                                        </div>
-                                        <div class="text-xs text-muted mt-1">
-                                            <span class="mr-2"><?php echo e($p['delegacion_local']); ?></span>
-                                            &bull;
-                                            <span class="ml-2"><?php echo e($p['delegacion_visitante']); ?></span>
-                                        </div>
+                                        <?php 
+                                            $nomDiscMatch = mb_strtolower(($p['torneo_nombre'] ?? '') . ' ' . ($p['disciplina_nombre'] ?? ''), 'UTF-8');
+                                            $esColectivoMatch = (
+                                                strpos($nomDiscMatch, 'populares') !== false || 
+                                                strpos($nomDiscMatch, 'tradicionales') !== false ||
+                                                strpos($nomDiscMatch, 'karaoke') !== false ||
+                                                strpos($nomDiscMatch, 'maratón') !== false ||
+                                                strpos($nomDiscMatch, 'maraton') !== false
+                                            );
+                                        ?>
+                                        <?php if ($esColectivoMatch): ?>
+                                            <?php
+                                                $badgeIcon = 'fa-users';
+                                                $subtext = 'Competencia simultánea &bull; Prueba única';
+                                                if (strpos($nomDiscMatch, 'karaoke') !== false) {
+                                                    $badgeIcon = 'fa-microphone-alt';
+                                                    $subtext = 'Presentación general &bull; Noche de Talentos';
+                                                } elseif (strpos($nomDiscMatch, 'maratón') !== false || strpos($nomDiscMatch, 'maraton') !== false) {
+                                                    $badgeIcon = 'fa-running';
+                                                    $subtext = 'Carrera general &bull; Pedestre 5K';
+                                                }
+                                            ?>
+                                            <div class="badge badge-info px-3 py-2 text-sm shadow-sm" style="border-radius: 8px;">
+                                                <i class="fas <?php echo $badgeIcon; ?> mr-1"></i> Todas las Delegaciones
+                                            </div>
+                                            <div class="text-xs text-muted mt-1 font-italic">
+                                                <?php echo $subtext; ?>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <span class="font-weight-bold text-right" style="flex: 1; color: <?php echo e($p['local_color'] ?? '#1E293B'); ?>;">
+                                                    <?php echo e($p['local_nombre']); ?>
+                                                </span>
+                                                <span class="badge badge-light border mx-2 px-2 py-1 text-xs font-weight-bold">
+                                                    VS
+                                                </span>
+                                                <span class="font-weight-bold text-left" style="flex: 1; color: <?php echo e($p['visitante_color'] ?? '#1E293B'); ?>;">
+                                                    <?php echo e($p['visitante_nombre']); ?>
+                                                </span>
+                                            </div>
+                                            <div class="text-xs text-muted mt-1">
+                                                <span class="mr-2"><?php echo e($p['delegacion_local']); ?></span>
+                                                &bull;
+                                                <span class="ml-2"><?php echo e($p['delegacion_visitante']); ?></span>
+                                            </div>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="align-middle text-sm">
                                         <?php if (!empty($p['cancha_nombre'])): ?>
@@ -275,12 +305,17 @@
                                         </span>
                                     </td>
                                     <td class="text-center align-middle text-nowrap">
-                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 8px;">
-                                            <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ficha del Partido y Ruta GPS">
-                                                Detalle
-                                            </a>
+                                        <div class="d-inline-flex align-items-center justify-content-center" style="gap: 6px;">
+                                            <?php if (AuthHelper::isAdmin()): ?>
+                                                <button type="button" class="btn btn-xs btn-warning font-weight-bold px-2 py-1" data-toggle="modal" data-target="#modalScore<?php echo $p['id']; ?>" title="Carga Rápida de Marcador">
+                                                    <i class="fas fa-edit mr-1"></i> Marcador
+                                                </button>
+                                            <?php endif; ?>
                                             <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/acta" class="btn btn-xs btn-outline-success font-weight-bold px-2 py-1" title="Acta Digital de Juego">
                                                 Acta
+                                            </a>
+                                            <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>" class="btn btn-xs btn-outline-primary font-weight-bold px-2 py-1" title="Ficha del Partido y Ruta GPS">
+                                                Detalle
                                             </a>
                                             <?php if (AuthHelper::isAdmin()): ?>
                                                 <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/editar" class="btn btn-xs btn-info font-weight-bold px-2 py-1" title="Reprogramar Encuentro">
@@ -294,6 +329,73 @@
                                                 </form>
                                             <?php endif; ?>
                                         </div>
+
+                                        <?php if (AuthHelper::isAdmin()): ?>
+                                            <!-- Modal Carga Rápida de Marcador -->
+                                            <div class="modal fade" id="modalScore<?php echo $p['id']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content text-left">
+                                                        <div class="modal-header bg-primary text-white">
+                                                            <h5 class="modal-title font-weight-bold">
+                                                                <i class="fas fa-edit mr-2"></i> Marcador: Encuentro #<?php echo $p['id']; ?>
+                                                            </h5>
+                                                            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <form action="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/resultado-rapido" method="post">
+                                                            <?php echo CsrfHelper::field(); ?>
+                                                            <input type="hidden" name="redirect_to" value="<?php echo BASE_URL; ?>/partidos">
+                                                            <div class="modal-body">
+                                                                <div class="text-center mb-3">
+                                                                    <span class="badge badge-light border text-muted font-weight-bold px-2 py-1">
+                                                                        <?php echo e($p['torneo_nombre']); ?> &bull; <?php echo e($p['fase']); ?> (<?php echo e($p['jornada']); ?>)
+                                                                    </span>
+                                                                </div>
+                                                                <div class="d-flex align-items-center justify-content-center text-center mb-3">
+                                                                    <div style="flex: 1;">
+                                                                        <h6 class="font-weight-bold mb-1" style="color: <?php echo e($p['local_color'] ?? '#0066B2'); ?>;">
+                                                                            <?php echo e($p['local_nombre']); ?>
+                                                                        </h6>
+                                                                        <small class="text-muted d-block mb-2"><?php echo e($p['delegacion_local']); ?></small>
+                                                                        <input type="number" min="0" max="999" name="marcador_local" value="<?php echo ($p['marcador_local'] !== null) ? (int)$p['marcador_local'] : ''; ?>" class="form-control form-control-lg text-center font-weight-bold mx-auto shadow-sm" style="max-width: 90px;" placeholder="0" required autofocus>
+                                                                    </div>
+                                                                    <div class="px-3 font-weight-bold text-muted" style="font-size: 1.5rem;">
+                                                                        VS
+                                                                    </div>
+                                                                    <div style="flex: 1;">
+                                                                        <h6 class="font-weight-bold mb-1" style="color: <?php echo e($p['visitante_color'] ?? '#28A745'); ?>;">
+                                                                            <?php echo e($p['visitante_nombre']); ?>
+                                                                        </h6>
+                                                                        <small class="text-muted d-block mb-2"><?php echo e($p['delegacion_visitante']); ?></small>
+                                                                        <input type="number" min="0" max="999" name="marcador_visitante" value="<?php echo ($p['marcador_visitante'] !== null) ? (int)$p['marcador_visitante'] : ''; ?>" class="form-control form-control-lg text-center font-weight-bold mx-auto shadow-sm" style="max-width: 90px;" placeholder="0" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group mb-0">
+                                                                    <label class="font-weight-bold text-xs text-muted">Estado del Partido</label>
+                                                                    <select name="estado" class="form-control font-weight-bold">
+                                                                        <option value="Finalizado" <?php echo ($p['estado'] === 'Finalizado' || $p['estado'] === 'Programado') ? 'selected' : ''; ?>>Finalizado</option>
+                                                                        <option value="En_Juego" <?php echo ($p['estado'] === 'En_Juego') ? 'selected' : ''; ?>>En Juego</option>
+                                                                        <option value="Programado" <?php echo ($p['estado'] === 'Programado') ? 'selected' : ''; ?>>Programado</option>
+                                                                        <option value="WO" <?php echo ($p['estado'] === 'WO') ? 'selected' : ''; ?>>W.O.</option>
+                                                                        <option value="Suspendido" <?php echo ($p['estado'] === 'Suspendido') ? 'selected' : ''; ?>>Suspendido</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer bg-light d-flex justify-content-between">
+                                                                <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/acta" class="btn btn-sm btn-outline-secondary">
+                                                                    <i class="fas fa-file-alt mr-1"></i> Abrir Acta Completa
+                                                                </a>
+                                                                <div>
+                                                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                                                    <button type="submit" class="btn btn-primary btn-sm font-weight-bold">
+                                                                        <i class="fas fa-save mr-1"></i> Guardar Marcador
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

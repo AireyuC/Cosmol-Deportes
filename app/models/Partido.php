@@ -288,34 +288,8 @@ class Partido extends Model {
      * @return array|null
      */
     public function verificarColisionCancha($canchaId, $fecha, $hora, $excludePartidoId = null) {
-        if (empty($canchaId) || empty($fecha) || empty($hora)) {
-            return null;
-        }
-
-        $params = [
-            'cancha_id' => (int)$canchaId,
-            'fecha'     => $fecha,
-            'hora'      => $hora
-        ];
-
-        $excludeSql = "";
-        if ($excludePartidoId !== null && (int)$excludePartidoId > 0) {
-            $excludeSql = "AND p.id != :exclude_id";
-            $params['exclude_id'] = (int)$excludePartidoId;
-        }
-
-        $sql = "SELECT p.*, el.nombre AS local_nombre, ev.nombre AS visitante_nombre
-                FROM partidos p
-                INNER JOIN equipos el ON p.equipo_local_id = el.id
-                INNER JOIN equipos ev ON p.equipo_visitante_id = ev.id
-                WHERE p.cancha_id = :cancha_id
-                  AND p.fecha_partido = :fecha
-                  AND p.estado NOT IN ('Finalizado', 'Suspendido', 'WO')
-                  AND ABS(TIME_TO_SEC(TIMEDIFF(p.hora_partido, :hora))) < 5400
-                  {$excludeSql}
-                LIMIT 1";
-
-        return $this->fetch($sql, $params);
+        // Restricción levantada: Se permite programar múltiples partidos en el mismo coliseo/cancha sin restricciones de horario.
+        return null;
     }
 
     /**

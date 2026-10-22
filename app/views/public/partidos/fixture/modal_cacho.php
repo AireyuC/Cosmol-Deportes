@@ -30,18 +30,40 @@ if (!function_exists('cachoMatchData')) {
 $cLocalA = cachoMatchData($cachoMap, 'Llave A', 'local_nombre', 'COSMOL');
 $cVisitA = cachoMatchData($cachoMap, 'Llave A', 'visitante_nombre', 'SELA');
 $cHoraA  = !empty($cachoMap['Llave A']['hora_partido']) ? substr($cachoMap['Llave A']['hora_partido'], 0, 5) : '20:00';
+$cScoreLA = (isset($cachoMap['Llave A']['marcador_local']) && $cachoMap['Llave A']['marcador_local'] !== null && $cachoMap['Llave A']['marcador_local'] !== '') ? (int)$cachoMap['Llave A']['marcador_local'] : null;
+$cScoreVA = (isset($cachoMap['Llave A']['marcador_visitante']) && $cachoMap['Llave A']['marcador_visitante'] !== null && $cachoMap['Llave A']['marcador_visitante'] !== '') ? (int)$cachoMap['Llave A']['marcador_visitante'] : null;
+$cFinA = isset($cachoMap['Llave A']['estado']) && $cachoMap['Llave A']['estado'] === 'Finalizado';
 
 $cLocalB = cachoMatchData($cachoMap, 'Llave B', 'local_nombre', 'SAGUAPAC');
 $cVisitB = cachoMatchData($cachoMap, 'Llave B', 'visitante_nombre', 'EMAPYC');
 $cHoraB  = !empty($cachoMap['Llave B']['hora_partido']) ? substr($cachoMap['Llave B']['hora_partido'], 0, 5) : '20:30';
+$cScoreLB = (isset($cachoMap['Llave B']['marcador_local']) && $cachoMap['Llave B']['marcador_local'] !== null && $cachoMap['Llave B']['marcador_local'] !== '') ? (int)$cachoMap['Llave B']['marcador_local'] : null;
+$cScoreVB = (isset($cachoMap['Llave B']['marcador_visitante']) && $cachoMap['Llave B']['marcador_visitante'] !== null && $cachoMap['Llave B']['marcador_visitante'] !== '') ? (int)$cachoMap['Llave B']['marcador_visitante'] : null;
+$cFinB = isset($cachoMap['Llave B']['estado']) && $cachoMap['Llave B']['estado'] === 'Finalizado';
 
 $cLocalC = cachoMatchData($cachoMap, 'Llave C', 'local_nombre', 'ELAPAS');
 $cVisitC = cachoMatchData($cachoMap, 'Llave C', 'visitante_nombre', 'COSAALT');
 $cHoraC  = !empty($cachoMap['Llave C']['hora_partido']) ? substr($cachoMap['Llave C']['hora_partido'], 0, 5) : '21:00';
+$cScoreLC = (isset($cachoMap['Llave C']['marcador_local']) && $cachoMap['Llave C']['marcador_local'] !== null && $cachoMap['Llave C']['marcador_local'] !== '') ? (int)$cachoMap['Llave C']['marcador_local'] : null;
+$cScoreVC = (isset($cachoMap['Llave C']['marcador_visitante']) && $cachoMap['Llave C']['marcador_visitante'] !== null && $cachoMap['Llave C']['marcador_visitante'] !== '') ? (int)$cachoMap['Llave C']['marcador_visitante'] : null;
+$cFinC = isset($cachoMap['Llave C']['estado']) && $cachoMap['Llave C']['estado'] === 'Finalizado';
 
 $cLocalD = cachoMatchData($cachoMap, 'Llave D', 'local_nombre', 'SEMAPA');
 $cVisitD = cachoMatchData($cachoMap, 'Llave D', 'visitante_nombre', 'SAMAPA');
 $cHoraD  = !empty($cachoMap['Llave D']['hora_partido']) ? substr($cachoMap['Llave D']['hora_partido'], 0, 5) : '21:30';
+$cScoreLD = (isset($cachoMap['Llave D']['marcador_local']) && $cachoMap['Llave D']['marcador_local'] !== null && $cachoMap['Llave D']['marcador_local'] !== '') ? (int)$cachoMap['Llave D']['marcador_local'] : null;
+$cScoreVD = (isset($cachoMap['Llave D']['marcador_visitante']) && $cachoMap['Llave D']['marcador_visitante'] !== null && $cachoMap['Llave D']['marcador_visitante'] !== '') ? (int)$cachoMap['Llave D']['marcador_visitante'] : null;
+$cFinD = isset($cachoMap['Llave D']['estado']) && $cachoMap['Llave D']['estado'] === 'Finalizado';
+
+$ganadorA = ($cFinA && $cScoreLA !== null && $cScoreVA !== null) ? ($cScoreLA >= $cScoreVA ? $cLocalA : $cVisitA) : null;
+$ganadorB = ($cFinB && $cScoreLB !== null && $cScoreVB !== null) ? ($cScoreLB >= $cScoreVB ? $cLocalB : $cVisitB) : null;
+$ganadorC = ($cFinC && $cScoreLC !== null && $cScoreVC !== null) ? ($cScoreLC >= $cScoreVC ? $cLocalC : $cVisitC) : null;
+$ganadorD = ($cFinD && $cScoreLD !== null && $cScoreVD !== null) ? ($cScoreLD >= $cScoreVD ? $cLocalD : $cVisitD) : null;
+
+$perdedorA = ($cFinA && $cScoreLA !== null && $cScoreVA !== null) ? ($cScoreLA < $cScoreVA ? $cLocalA : $cVisitA) : null;
+$perdedorB = ($cFinB && $cScoreLB !== null && $cScoreVB !== null) ? ($cScoreLB < $cScoreVB ? $cLocalB : $cVisitB) : null;
+$perdedorC = ($cFinC && $cScoreLC !== null && $cScoreVC !== null) ? ($cScoreLC < $cScoreVC ? $cLocalC : $cVisitC) : null;
+$perdedorD = ($cFinD && $cScoreLD !== null && $cScoreVD !== null) ? ($cScoreLD < $cScoreVD ? $cLocalD : $cVisitD) : null;
 ?>
 <!-- MODAL INTERACTIVO: CUADRO DE ELIMINATORIA DE CACHO -->
 <div class="modal fade" id="modalLlaveCacho" tabindex="-1" role="dialog" aria-labelledby="modalLlaveCachoLabel" aria-hidden="true">
@@ -121,16 +143,28 @@ $cHoraD  = !empty($cachoMap['Llave D']['hora_partido']) ? substr($cachoMap['Llav
                                     <div class="card h-100 border shadow-sm" style="border-radius: 10px;">
                                         <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
                                             <span class="badge badge-dark">Llave A</span>
-                                            <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraA); ?></small>
+                                            <?php if ($cFinA && $cScoreLA !== null && $cScoreVA !== null): ?>
+                                                <span class="badge badge-success font-weight-bold"><?php echo $cScoreLA; ?> - <?php echo $cScoreVA; ?></span>
+                                            <?php else: ?>
+                                                <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraA); ?></small>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="card-body p-2 text-sm">
                                             <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
-                                                <span class="font-weight-bold text-dark"><?php echo e($cLocalA); ?></span>
-                                                <span class="badge badge-light border text-muted">Local</span>
+                                                <span class="font-weight-bold <?php echo ($cFinA && $cScoreLA > $cScoreVA) ? 'text-success font-weight-bold' : 'text-dark'; ?>"><?php echo e($cLocalA); ?></span>
+                                                <?php if ($cScoreLA !== null): ?>
+                                                    <span class="badge badge-secondary font-weight-bold px-2"><?php echo $cScoreLA; ?></span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-light border text-muted">Local</span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center py-1">
-                                                <span class="font-weight-bold text-dark"><?php echo e($cVisitA); ?></span>
-                                                <span class="badge badge-light border text-muted">Visitante</span>
+                                                <span class="font-weight-bold <?php echo ($cFinA && $cScoreVA > $cScoreLA) ? 'text-success font-weight-bold' : 'text-dark'; ?>"><?php echo e($cVisitA); ?></span>
+                                                <?php if ($cScoreVA !== null): ?>
+                                                    <span class="badge badge-secondary font-weight-bold px-2"><?php echo $cScoreVA; ?></span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-light border text-muted">Visitante</span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -141,16 +175,28 @@ $cHoraD  = !empty($cachoMap['Llave D']['hora_partido']) ? substr($cachoMap['Llav
                                     <div class="card h-100 border shadow-sm" style="border-radius: 10px;">
                                         <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
                                             <span class="badge badge-dark">Llave B</span>
-                                            <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraB); ?></small>
+                                            <?php if ($cFinB && $cScoreLB !== null && $cScoreVB !== null): ?>
+                                                <span class="badge badge-success font-weight-bold"><?php echo $cScoreLB; ?> - <?php echo $cScoreVB; ?></span>
+                                            <?php else: ?>
+                                                <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraB); ?></small>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="card-body p-2 text-sm">
                                             <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
-                                                <span class="font-weight-bold text-dark"><?php echo e($cLocalB); ?></span>
-                                                <span class="badge badge-light border text-muted">Local</span>
+                                                <span class="font-weight-bold <?php echo ($cFinB && $cScoreLB > $cScoreVB) ? 'text-success font-weight-bold' : 'text-dark'; ?>"><?php echo e($cLocalB); ?></span>
+                                                <?php if ($cScoreLB !== null): ?>
+                                                    <span class="badge badge-secondary font-weight-bold px-2"><?php echo $cScoreLB; ?></span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-light border text-muted">Local</span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center py-1">
-                                                <span class="font-weight-bold text-dark"><?php echo e($cVisitB); ?></span>
-                                                <span class="badge badge-light border text-muted">Visitante</span>
+                                                <span class="font-weight-bold <?php echo ($cFinB && $cScoreVB > $cScoreLB) ? 'text-success font-weight-bold' : 'text-dark'; ?>"><?php echo e($cVisitB); ?></span>
+                                                <?php if ($cScoreVB !== null): ?>
+                                                    <span class="badge badge-secondary font-weight-bold px-2"><?php echo $cScoreVB; ?></span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-light border text-muted">Visitante</span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -161,16 +207,28 @@ $cHoraD  = !empty($cachoMap['Llave D']['hora_partido']) ? substr($cachoMap['Llav
                                     <div class="card h-100 border shadow-sm" style="border-radius: 10px;">
                                         <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
                                             <span class="badge badge-dark">Llave C</span>
-                                            <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraC); ?></small>
+                                            <?php if ($cFinC && $cScoreLC !== null && $cScoreVC !== null): ?>
+                                                <span class="badge badge-success font-weight-bold"><?php echo $cScoreLC; ?> - <?php echo $cScoreVC; ?></span>
+                                            <?php else: ?>
+                                                <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraC); ?></small>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="card-body p-2 text-sm">
                                             <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
-                                                <span class="font-weight-bold text-dark"><?php echo e($cLocalC); ?></span>
-                                                <span class="badge badge-light border text-muted">Local</span>
+                                                <span class="font-weight-bold <?php echo ($cFinC && $cScoreLC > $cScoreVC) ? 'text-success font-weight-bold' : 'text-dark'; ?>"><?php echo e($cLocalC); ?></span>
+                                                <?php if ($cScoreLC !== null): ?>
+                                                    <span class="badge badge-secondary font-weight-bold px-2"><?php echo $cScoreLC; ?></span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-light border text-muted">Local</span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center py-1">
-                                                <span class="font-weight-bold text-dark"><?php echo e($cVisitC); ?></span>
-                                                <span class="badge badge-light border text-muted">Visitante</span>
+                                                <span class="font-weight-bold <?php echo ($cFinC && $cScoreVC > $cScoreLC) ? 'text-success font-weight-bold' : 'text-dark'; ?>"><?php echo e($cVisitC); ?></span>
+                                                <?php if ($cScoreVC !== null): ?>
+                                                    <span class="badge badge-secondary font-weight-bold px-2"><?php echo $cScoreVC; ?></span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-light border text-muted">Visitante</span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -181,16 +239,28 @@ $cHoraD  = !empty($cachoMap['Llave D']['hora_partido']) ? substr($cachoMap['Llav
                                     <div class="card h-100 border shadow-sm" style="border-radius: 10px;">
                                         <div class="card-header bg-white py-1 px-3 d-flex justify-content-between align-items-center border-bottom">
                                             <span class="badge badge-dark">Llave D</span>
-                                            <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraD); ?></small>
+                                            <?php if ($cFinD && $cScoreLD !== null && $cScoreVD !== null): ?>
+                                                <span class="badge badge-success font-weight-bold"><?php echo $cScoreLD; ?> - <?php echo $cScoreVD; ?></span>
+                                            <?php else: ?>
+                                                <small class="text-muted"><i class="far fa-clock mr-1"></i><?php echo e($cHoraD); ?></small>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="card-body p-2 text-sm">
                                             <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
-                                                <span class="font-weight-bold text-dark"><?php echo e($cLocalD); ?></span>
-                                                <span class="badge badge-light border text-muted">Local</span>
+                                                <span class="font-weight-bold <?php echo ($cFinD && $cScoreLD > $cScoreVD) ? 'text-success font-weight-bold' : 'text-dark'; ?>"><?php echo e($cLocalD); ?></span>
+                                                <?php if ($cScoreLD !== null): ?>
+                                                    <span class="badge badge-secondary font-weight-bold px-2"><?php echo $cScoreLD; ?></span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-light border text-muted">Local</span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center py-1">
-                                                <span class="font-weight-bold text-dark"><?php echo e($cVisitD); ?></span>
-                                                <span class="badge badge-light border text-muted">Visitante</span>
+                                                <span class="font-weight-bold <?php echo ($cFinD && $cScoreVD > $cScoreLD) ? 'text-success font-weight-bold' : 'text-dark'; ?>"><?php echo e($cVisitD); ?></span>
+                                                <?php if ($cScoreVD !== null): ?>
+                                                    <span class="badge badge-secondary font-weight-bold px-2"><?php echo $cScoreVD; ?></span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-light border text-muted">Visitante</span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -215,8 +285,20 @@ $cHoraD  = !empty($cachoMap['Llave D']['hora_partido']) ? substr($cachoMap['Llav
                                         <small class="text-muted"><i class="far fa-clock mr-1"></i>22:00</small>
                                     </div>
                                     <div class="card-body p-2 text-sm">
-                                        <div class="py-1 border-bottom font-weight-bold text-dark">Ganador Llave A (<?php echo e($cLocalA); ?> / <?php echo e($cVisitA); ?>)</div>
-                                        <div class="py-1 font-weight-bold text-dark">Ganador Llave C (<?php echo e($cLocalC); ?> / <?php echo e($cVisitC); ?>)</div>
+                                        <div class="py-1 border-bottom font-weight-bold text-dark">
+                                            <?php if ($ganadorA): ?>
+                                                <i class="fas fa-check text-success mr-1"></i> Ganador Llave A: <span class="text-primary"><?php echo e($ganadorA); ?></span>
+                                            <?php else: ?>
+                                                Ganador Llave A (<?php echo e($cLocalA); ?> / <?php echo e($cVisitA); ?>)
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="py-1 font-weight-bold text-dark">
+                                            <?php if ($ganadorC): ?>
+                                                <i class="fas fa-check text-success mr-1"></i> Ganador Llave C: <span class="text-primary"><?php echo e($ganadorC); ?></span>
+                                            <?php else: ?>
+                                                Ganador Llave C (<?php echo e($cLocalC); ?> / <?php echo e($cVisitC); ?>)
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -226,8 +308,20 @@ $cHoraD  = !empty($cachoMap['Llave D']['hora_partido']) ? substr($cachoMap['Llav
                                         <small class="text-muted"><i class="far fa-clock mr-1"></i>22:00</small>
                                     </div>
                                     <div class="card-body p-2 text-sm">
-                                        <div class="py-1 border-bottom font-weight-bold text-dark">Ganador Llave B (<?php echo e($cLocalB); ?> / <?php echo e($cVisitB); ?>)</div>
-                                        <div class="py-1 font-weight-bold text-dark">Ganador Llave D (<?php echo e($cLocalD); ?> / <?php echo e($cVisitD); ?>)</div>
+                                        <div class="py-1 border-bottom font-weight-bold text-dark">
+                                            <?php if ($ganadorB): ?>
+                                                <i class="fas fa-check text-success mr-1"></i> Ganador Llave B: <span class="text-primary"><?php echo e($ganadorB); ?></span>
+                                            <?php else: ?>
+                                                Ganador Llave B (<?php echo e($cLocalB); ?> / <?php echo e($cVisitB); ?>)
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="py-1 font-weight-bold text-dark">
+                                            <?php if ($ganadorD): ?>
+                                                <i class="fas fa-check text-success mr-1"></i> Ganador Llave D: <span class="text-primary"><?php echo e($ganadorD); ?></span>
+                                            <?php else: ?>
+                                                Ganador Llave D (<?php echo e($cLocalD); ?> / <?php echo e($cVisitD); ?>)
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

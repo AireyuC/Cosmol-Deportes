@@ -210,15 +210,16 @@ class PortalController extends Controller {
                 }
 
                 // Listas para compatibilidad general
-                if ($p['estado'] === 'Finalizado') {
-                    if (count($ultimosResultados) < 6) {
-                        $ultimosResultados[] = $p;
-                    }
+                if ($p['estado'] === 'Finalizado' || ($p['marcador_local'] !== null && $p['marcador_visitante'] !== null)) {
+                    $ultimosResultados[] = $p;
                 } else if ($p['estado'] === 'Programado' || $p['estado'] === 'En_Juego') {
-                    if (count($proximosPartidos) < 6) {
+                    if (count($proximosPartidos) < 12) {
                         $proximosPartidos[] = $p;
                     }
                 }
+            }
+            if (!empty($ultimosResultados)) {
+                $ultimosResultados = array_slice(array_reverse($ultimosResultados), 0, 8);
             }
         } catch (Exception $e) {
             $todosPartidos     = [];

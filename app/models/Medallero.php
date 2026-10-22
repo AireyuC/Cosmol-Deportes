@@ -196,4 +196,212 @@ class Medallero extends Model {
         $resumen = $this->getResumenPorOlimpiada($olimpiadaId);
         return array_slice($resumen, 0, 3);
     }
+
+    /**
+     * Calcula y asigna automáticamente el podio oficial (ORO, PLATA, BRONCE)
+     * para un torneo / disciplina en base a sus partidos finalizados y/o tabla de posiciones.
+     *
+     * @param int $torneoId
+     * @return array Resumen con las delegaciones asignadas
+     */
+    public function actualizarMedalleroAutomaticoPorTorneo($torneoId) {
+        $torneoId = (int)$torneoId;
+        $sqlTorneo = "SELECT t.*, o.id AS olimp_id
+                      FROM torneos t
+                      INNER JOIN olimpiadas o ON t.olimpiada_id = o.id
+                      WHERE t.id = :id LIMIT 1";
+        $torneo = $this->fetch($sqlTorneo, ['id' => $torneoId]);
+        if (!$torneo) {
+            return ['success' => false, 'error' => 'Torneo no encontrado'];
+        }
+
+        $olimpiadaId = (int)$torneo['olimpiada_id'];
+
+        // Obtener partidos del torneo
+        $sqlPartidos = "SELECT p.*,
+                               el.nombre AS local_nombre, el.delegacion_id AS local_delegacion_id,
+                               ev.nombre AS visitante_nombre, ev.delegacion_id AS visitante_delegacion_id
+                        FROM partidos p
+                        INNER JOIN equipos el ON p.equipo_local_id = el.id
+                        INNER JOIN equipos ev ON p.equipo_visitante_id = ev.id
+                        WHERE p.torneo_id = :torneo_id
+                        ORDER BY p.id ASC";
+        $partidos = $this->fetchAll($sqlPartidos, ['torneo_id' => $torneoId]);
+
+        $oroDelegacionId = null;
+        $plataDelegacionId = null;
+        $bronceDelegacionId = null;
+
+        // 1. Buscar si existe partido de Gran Final y Tercer Puesto
+        $partidoFinal = null;
+        $partidoTercerPuesto = null;
+        $partidosSemis = [];
+
+        foreach ($partidos as $p) {
+            $fase = trim($p['fase']);
+            $jornada = mb_strtolower(trim($p['jornada']), 'UTF-8');
+            $obs = mb_strtolower(trim(isset($p['observaciones']) ? $p['observaciones'] : ''), 'UTF-8');
+
+            $esFinal = ($fase === 'Final') ||
+                       (strpos($jornada, 'final') !== false && strpos($jornada, 'semi') === false && strpos($jornada, 'cuarto') === false && strpos($jornada, 'octavo') === false);
+
+            $esTercerPuesto = ($fase === 'Tercer_Puesto') ||
+                              strpos($jornada, 'tercer') !== false ||
+                              strpos($jornada, '3er') !== false ||
+                              strpos($jornada, '3°') !== false ||
+                              strpos($obs, 'tercer') !== false ||
+                              strpos($obs, 'bronce') !== false;
+
+            $esSemi = ($fase === 'Semifinal') || (strpos($jornada, 'semi') !== false);
+
+            if ($esFinal) {
+                $partidoFinal = $p;
+            } elseif ($esTercerPuesto) {
+                $partidoTercerPuesto = $p;
+            } elseif ($esSemi) {
+                $partidosSemis[] = $p;
+            }
+        }
+
+        // Gran Final
+        if ($partidoFinal && $partidoFinal['marcador_local'] !== null && $partidoFinal['marcador_visitante'] !== null) {
+            $mL = (int)$partidoFinal['marcador_local'];
+            $mV = (int)$partidoFinal['marcador_visitante'];
+
+            if ($mL > $mV) {
+                $oroDelegacionId   = (int)$partidoFinal['local_delegacion_id'];
+                $plataDelegacionId = (int)$partidoFinal['visitante_delegacion_id'];
+            } elseif ($mV > $mL) {
+                $oroDelegacionId   = (int)$partidoFinal['visitante_delegacion_id'];
+                $plataDelegacionId = (int)$partidoFinal['local_delegacion_id'];
+            } else {
+                $oroDelegacionId   = (int)$partidoFinal['local_delegacion_id'];
+                $plataDelegacionId = (int)$partidoFinal['visitante_delegacion_id'];
+            }
+        }
+
+        // Tercer Puesto
+        if ($partidoTercerPuesto && $partidoTercerPuesto['marcador_local'] !== null && $partidoTercerPuesto['marcador_visitante'] !== null) {
+            $mL = (int)$partidoTercerPuesto['marcador_local'];
+            $mV = (int)$partidoTercerPuesto['marcador_visitante'];
+
+            if ($mL >= $mV) {
+                $bronceDelegacionId = (int)$partidoTercerPuesto['local_delegacion_id'];
+            } else {
+                $bronceDelegacionId = (int)$partidoTercerPuesto['visitante_delegacion_id'];
+            }
+        }
+
+        // Si no hay Tercer Puesto explícito pero sí semifinales:
+        if (!$bronceDelegacionId && !empty($partidosSemis)) {
+            $perdedoresSemis = [];
+            foreach ($partidosSemis as $ps) {
+                if ($ps['marcador_local'] !== null && $ps['marcador_visitante'] !== null) {
+                    $smL = (int)$ps['marcador_local'];
+                    $smV = (int)$ps['marcador_visitante'];
+                    if ($smL > $smV) {
+                        $perdedoresSemis[] = [
+                            'delegacion_id' => (int)$ps['visitante_delegacion_id'],
+                            'score'         => $smV,
+                            'diff'          => $smV - $smL
+                        ];
+                    } else {
+                        $perdedoresSemis[] = [
+                            'delegacion_id' => (int)$ps['local_delegacion_id'],
+                            'score'         => $smL,
+                            'diff'          => $smL - $smV
+                        ];
+                    }
+                }
+            }
+            if (!empty($perdedoresSemis)) {
+                usort($perdedoresSemis, function($a, $b) {
+                    if ($a['diff'] !== $b['diff']) {
+                        return $b['diff'] - $a['diff'];
+                    }
+                    return $b['score'] - $a['score'];
+                });
+                $bronceDelegacionId = $perdedoresSemis[0]['delegacion_id'];
+            }
+        }
+
+        // 2. Si no se resolvió por llaves eliminatorias o faltan medallas, recurrir a la Tabla de Posiciones
+        if (!$oroDelegacionId || !$plataDelegacionId || !$bronceDelegacionId) {
+            require_once APP_PATH . '/models/Posicion.php';
+            $posicionModel = new Posicion();
+            $tabla = $posicionModel->calcularPorTorneo($torneoId);
+
+            if (!empty($tabla)) {
+                if (!$oroDelegacionId && isset($tabla[0]['delegacion_id']) && (int)$tabla[0]['delegacion_id'] > 0) {
+                    $oroDelegacionId = (int)$tabla[0]['delegacion_id'];
+                }
+                if (!$plataDelegacionId && isset($tabla[1]['delegacion_id']) && (int)$tabla[1]['delegacion_id'] > 0) {
+                    $plataDelegacionId = (int)$tabla[1]['delegacion_id'];
+                }
+                if (!$bronceDelegacionId && isset($tabla[2]['delegacion_id']) && (int)$tabla[2]['delegacion_id'] > 0) {
+                    $bronceDelegacionId = (int)$tabla[2]['delegacion_id'];
+                }
+            }
+        }
+
+        // 3. Fallback de contingencia con delegaciones participantes en el torneo
+        if (!$oroDelegacionId || !$plataDelegacionId || !$bronceDelegacionId) {
+            $delegacionesTorneo = $this->getDelegacionesPorTorneo($torneoId);
+            $usadas = array_filter([$oroDelegacionId, $plataDelegacionId, $bronceDelegacionId]);
+            foreach ($delegacionesTorneo as $dt) {
+                $dId = (int)$dt['id'];
+                if (in_array($dId, $usadas, true)) {
+                    continue;
+                }
+                if (!$oroDelegacionId) {
+                    $oroDelegacionId = $dId;
+                    $usadas[] = $dId;
+                } elseif (!$plataDelegacionId) {
+                    $plataDelegacionId = $dId;
+                    $usadas[] = $dId;
+                } elseif (!$bronceDelegacionId) {
+                    $bronceDelegacionId = $dId;
+                    $usadas[] = $dId;
+                }
+            }
+        }
+
+        // 4. Asignar las medallas en la tabla medallero (con sus puntos olímpicos: Oro 5, Plata 3, Bronce 1)
+        $asignadas = [];
+        if ($oroDelegacionId && $oroDelegacionId > 0) {
+            $this->asignarMedalla($olimpiadaId, $torneoId, $oroDelegacionId, 'ORO', 5);
+            $asignadas['ORO'] = $oroDelegacionId;
+        }
+        if ($plataDelegacionId && $plataDelegacionId > 0) {
+            $this->asignarMedalla($olimpiadaId, $torneoId, $plataDelegacionId, 'PLATA', 3);
+            $asignadas['PLATA'] = $plataDelegacionId;
+        }
+        if ($bronceDelegacionId && $bronceDelegacionId > 0) {
+            $this->asignarMedalla($olimpiadaId, $torneoId, $bronceDelegacionId, 'BRONCE', 1);
+            $asignadas['BRONCE'] = $bronceDelegacionId;
+        }
+
+        // Cargar nombres para el reporte/alerta
+        $nombres = [];
+        if (!empty($asignadas)) {
+            $ids = implode(',', array_map('intval', array_values($asignadas)));
+            if (!empty($ids)) {
+                $sqlNombres = "SELECT id, nombre, alias FROM delegaciones WHERE id IN ({$ids})";
+                $delRows = $this->fetchAll($sqlNombres);
+                foreach ($delRows as $dr) {
+                    $nombres[(int)$dr['id']] = !empty($dr['alias']) ? $dr['alias'] : $dr['nombre'];
+                }
+            }
+        }
+
+        return [
+            'success'   => true,
+            'asignadas' => $asignadas,
+            'nombres'   => $nombres,
+            'oro'       => $oroDelegacionId,
+            'plata'     => $plataDelegacionId,
+            'bronce'    => $bronceDelegacionId
+        ];
+    }
 }
+

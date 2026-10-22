@@ -11,6 +11,9 @@ require_once APP_PATH . '/models/Disciplina.php';
 require_once APP_PATH . '/models/ReglaPuntuacion.php';
 require_once APP_PATH . '/models/Grupo.php';
 require_once APP_PATH . '/models/Equipo.php';
+require_once APP_PATH . '/models/Partido.php';
+require_once APP_PATH . '/models/Medallero.php';
+require_once APP_PATH . '/models/Posicion.php';
 require_once APP_PATH . '/helpers/AuthHelper.php';
 require_once APP_PATH . '/helpers/CsrfHelper.php';
 require_once APP_PATH . '/helpers/Validator.php';
@@ -32,12 +35,24 @@ class DisciplinaController extends Controller {
     /** @var Equipo */
     private $equipoModel;
 
+    /** @var Partido */
+    private $partidoModel;
+
+    /** @var Medallero */
+    private $medalleroModel;
+
+    /** @var Posicion */
+    private $posicionModel;
+
     public function __construct() {
-        $this->torneoModel = new Torneo();
-        $this->olimpiadaModel = new Olimpiada();
+        $this->torneoModel     = new Torneo();
+        $this->olimpiadaModel  = new Olimpiada();
         $this->disciplinaModel = new Disciplina();
-        $this->grupoModel = new Grupo();
-        $this->equipoModel = new Equipo();
+        $this->grupoModel      = new Grupo();
+        $this->equipoModel     = new Equipo();
+        $this->partidoModel    = new Partido();
+        $this->medalleroModel  = new Medallero();
+        $this->posicionModel   = new Posicion();
     }
 
     /**
@@ -82,12 +97,24 @@ class DisciplinaController extends Controller {
         $equiposSinGrupo = $this->grupoModel->getEquiposSinGrupo($id);
         $todosEquipos = $this->equipoModel->getByTorneoId($id);
 
+        $partidos   = $this->partidoModel->getAll($id);
+        $medallas   = $this->medalleroModel->getMedallasPorTorneo($id);
+        $posiciones = [];
+        try {
+            $posiciones = $this->posicionModel->calcularPorTorneo($id);
+        } catch (Exception $e) {
+            $posiciones = [];
+        }
+
         $this->view('admin/disciplinas/show', [
-            'pageTitle'        => $torneo['nombre'] . ' | Grupos y Equipos',
+            'pageTitle'        => $torneo['nombre'] . ' | Control de Disciplina',
             'torneo'           => $torneo,
             'grupos'           => $gruposConEquipos,
             'equiposSinGrupo'  => $equiposSinGrupo,
-            'todosEquipos'     => $todosEquipos
+            'todosEquipos'     => $todosEquipos,
+            'partidos'         => $partidos,
+            'medallas'         => $medallas,
+            'posiciones'       => $posiciones
         ]);
     }
 
@@ -261,12 +288,203 @@ class DisciplinaController extends Controller {
 
         try {
             $this->torneoModel->updateTorneo($id, $_POST);
+
+            // Si se pasa a estado Finalizado, actualizar el medallero automáticamente
+            if (isset($_POST['estado']) && $_POST['estado'] === 'Finalizado') {
+                $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo($id);
+            }
+
             Session::setFlash('success', 'Disciplina actualizada correctamente.');
             $this->redirect('/disciplinas/' . $id);
         } catch (Exception $e) {
             Session::setFlash('error', 'Error al actualizar la disciplina: ' . $e->getMessage());
             $this->redirect('/disciplinas/' . $id . '/editar');
         }
+    }
+
+    /**
+     * Da por concluida una disciplina / torneo, finaliza sus encuentros pendientes
+     * y actualiza automáticamente el Medallero Olímpico Oficial.
+     * POST /disciplinas/{id}/concluir
+     *
+     * @param int $id
+     */
+    public function concluir($id) {
+        AuthHelper::requireAdmin();
+
+        if (!CsrfHelper::validate()) {
+            Session::setFlash('error', 'Token de seguridad inválido o expirado.');
+            $this->redirect('/disciplinas/' . (int)$id);
+            return;
+        }
+
+        $id = (int)$id;
+        $torneo = $this->torneoModel->getById($id);
+        if (!$torneo) {
+            Session::setFlash('error', 'La disciplina solicitada no existe.');
+            $this->redirect('/disciplinas');
+            return;
+        }
+
+        try {
+            // 1. Cambiar estado del torneo a Finalizado
+            $this->torneoModel->cambiarEstado($id, 'Finalizado');
+
+            // 2. Si hay partidos con marcador pero no finalizados, darlos por finalizados
+            $partidos = $this->partidoModel->getAll($id);
+            foreach ($partidos as $p) {
+                if ($p['estado'] !== 'Finalizado' && $p['marcador_local'] !== null && $p['marcador_visitante'] !== null) {
+                    $this->partidoModel->actualizarResultado($p['id'], $p['marcador_local'], $p['marcador_visitante'], 'Finalizado');
+                }
+            }
+
+            // 3. Actualizar automáticamente el Medallero Olímpico
+            $resPodio = $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo($id);
+
+            $msgPodio = '';
+            if (!empty($resPodio['nombres'])) {
+                $parts = [];
+                if (!empty($resPodio['asignadas']['ORO']) && isset($resPodio['nombres'][$resPodio['asignadas']['ORO']])) {
+                    $parts[] = '🥇 Oro: ' . $resPodio['nombres'][$resPodio['asignadas']['ORO']];
+                }
+                if (!empty($resPodio['asignadas']['PLATA']) && isset($resPodio['nombres'][$resPodio['asignadas']['PLATA']])) {
+                    $parts[] = '🥈 Plata: ' . $resPodio['nombres'][$resPodio['asignadas']['PLATA']];
+                }
+                if (!empty($resPodio['asignadas']['BRONCE']) && isset($resPodio['nombres'][$resPodio['asignadas']['BRONCE']])) {
+                    $parts[] = '🥉 Bronce: ' . $resPodio['nombres'][$resPodio['asignadas']['BRONCE']];
+                }
+                if (!empty($parts)) {
+                    $msgPodio = ' Podio proclamado: ' . implode(' | ', $parts) . '.';
+                }
+            }
+
+            Session::setFlash('success', '¡Disciplina "' . e($torneo['nombre']) . '" concluida exitosamente! El Medallero Olímpico se ha actualizado automáticamente.' . $msgPodio);
+        } catch (Exception $e) {
+            Session::setFlash('error', 'Error al dar por concluida la disciplina: ' . $e->getMessage());
+        }
+
+        $this->redirect('/disciplinas/' . $id);
+    }
+
+    /**
+     * Reabre una disciplina para continuar la programación o corrección de actas.
+     * POST /disciplinas/{id}/reabrir
+     *
+     * @param int $id
+     */
+    public function reabrir($id) {
+        AuthHelper::requireAdmin();
+
+        if (!CsrfHelper::validate()) {
+            Session::setFlash('error', 'Token de seguridad inválido o expirado.');
+            $this->redirect('/disciplinas/' . (int)$id);
+            return;
+        }
+
+        $id = (int)$id;
+        $torneo = $this->torneoModel->getById($id);
+        if (!$torneo) {
+            Session::setFlash('error', 'La disciplina no existe.');
+            $this->redirect('/disciplinas');
+            return;
+        }
+
+        try {
+            $nuevoEstado = ($torneo['tipo_torneo'] === 'Grupos_Playoff') ? 'Playoffs' : 'Fase_Grupos';
+            $this->torneoModel->cambiarEstado($id, $nuevoEstado);
+            Session::setFlash('info', 'La disciplina "' . e($torneo['nombre']) . '" ha sido reabierta en estado ' . $nuevoEstado . '.');
+        } catch (Exception $e) {
+            Session::setFlash('error', 'Error al reabrir la disciplina: ' . $e->getMessage());
+        }
+
+        $this->redirect('/disciplinas/' . $id);
+    }
+
+    /**
+     * Guarda resultados por lote de los partidos de una disciplina
+     * y opcionalmente la da por concluida en un solo paso.
+     * POST /disciplinas/{id}/resultados-rapidos
+     *
+     * @param int $id
+     */
+    public function guardarResultadosRapidos($id) {
+        AuthHelper::requireAdmin();
+
+        if (!CsrfHelper::validate()) {
+            Session::setFlash('error', 'Token de seguridad inválido o expirado.');
+            $this->redirect('/disciplinas/' . (int)$id);
+            return;
+        }
+
+        $id = (int)$id;
+        $torneo = $this->torneoModel->getById($id);
+        if (!$torneo) {
+            Session::setFlash('error', 'La disciplina no existe.');
+            $this->redirect('/disciplinas');
+            return;
+        }
+
+        $marcadoresLocal     = isset($_POST['marcador_local']) && is_array($_POST['marcador_local']) ? $_POST['marcador_local'] : [];
+        $marcadoresVisitante = isset($_POST['marcador_visitante']) && is_array($_POST['marcador_visitante']) ? $_POST['marcador_visitante'] : [];
+        $estados             = isset($_POST['estado_partido']) && is_array($_POST['estado_partido']) ? $_POST['estado_partido'] : [];
+
+        $actualizados = 0;
+        foreach ($marcadoresLocal as $partidoId => $scoreLocal) {
+            $partidoId = (int)$partidoId;
+            $scoreVisitante = isset($marcadoresVisitante[$partidoId]) ? $marcadoresVisitante[$partidoId] : null;
+
+            if (($scoreLocal !== '' && $scoreLocal !== null) || ($scoreVisitante !== '' && $scoreVisitante !== null)) {
+                $mL = ($scoreLocal !== '' && $scoreLocal !== null) ? (int)$scoreLocal : null;
+                $mV = ($scoreVisitante !== '' && $scoreVisitante !== null) ? (int)$scoreVisitante : null;
+                $est = !empty($estados[$partidoId]) ? trim($estados[$partidoId]) : 'Finalizado';
+
+                try {
+                    $this->partidoModel->actualizarResultado($partidoId, $mL, $mV, $est);
+                    $actualizados++;
+                } catch (Exception $e) {
+                    // continuar con los demás
+                }
+            }
+        }
+
+        // Si se seleccionó "Dar por concluida la disciplina"
+        $concluir = !empty($_POST['concluir_disciplina']);
+        $msgExtra = '';
+
+        if ($concluir) {
+            try {
+                $this->torneoModel->cambiarEstado($id, 'Finalizado');
+                $resPodio = $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo($id);
+
+                if (!empty($resPodio['nombres'])) {
+                    $parts = [];
+                    if (!empty($resPodio['asignadas']['ORO']) && isset($resPodio['nombres'][$resPodio['asignadas']['ORO']])) {
+                        $parts[] = '🥇 Oro: ' . $resPodio['nombres'][$resPodio['asignadas']['ORO']];
+                    }
+                    if (!empty($resPodio['asignadas']['PLATA']) && isset($resPodio['nombres'][$resPodio['asignadas']['PLATA']])) {
+                        $parts[] = '🥈 Plata: ' . $resPodio['nombres'][$resPodio['asignadas']['PLATA']];
+                    }
+                    if (!empty($resPodio['asignadas']['BRONCE']) && isset($resPodio['nombres'][$resPodio['asignadas']['BRONCE']])) {
+                        $parts[] = '🥉 Bronce: ' . $resPodio['nombres'][$resPodio['asignadas']['BRONCE']];
+                    }
+                    if (!empty($parts)) {
+                        $msgExtra = ' ¡Disciplina concluida y Medallero Olímpico actualizado! (' . implode(', ', $parts) . ').';
+                    }
+                }
+            } catch (Exception $e) {
+                $msgExtra = ' (Error al concluir: ' . $e->getMessage() . ')';
+            }
+        } elseif ($torneo['estado'] === 'Finalizado') {
+            // Si ya estaba finalizado, auto-sincronizar medallero
+            try {
+                $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo($id);
+            } catch (Exception $e) {
+                // silencioso
+            }
+        }
+
+        Session::setFlash('success', "Se actualizaron {$actualizados} encuentros de la disciplina." . $msgExtra);
+        $this->redirect('/disciplinas/' . $id . '#resultados');
     }
 
     /**
