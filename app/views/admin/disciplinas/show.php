@@ -25,6 +25,24 @@
                     <i class="fa fa-arrow-left mr-1"></i> Volver
                 </a>
                 <?php if (AuthHelper::isAdmin()): ?>
+                    <?php if ($torneo['estado'] !== 'Finalizado'): ?>
+                        <button type="button" class="btn btn-warning font-weight-bold mr-1 shadow-sm" data-toggle="modal" data-target="#modalConcluirDisciplina" title="Dar por concluida la disciplina y actualizar el medallero olímpico">
+                            <i class="fas fa-flag-checkered mr-1"></i> Concluir Disciplina
+                        </button>
+                    <?php else: ?>
+                        <form action="<?php echo BASE_URL; ?>/disciplinas/<?php echo (int)$torneo['id']; ?>/concluir" method="post" class="d-inline mr-1">
+                            <?php echo CsrfHelper::field(); ?>
+                            <button type="submit" class="btn btn-outline-warning font-weight-bold" title="Recalcular automáticamente medallas de esta disciplina">
+                                <i class="fas fa-sync-alt mr-1"></i> Sincronizar Medallas
+                            </button>
+                        </form>
+                        <form action="<?php echo BASE_URL; ?>/disciplinas/<?php echo (int)$torneo['id']; ?>/reabrir" method="post" class="d-inline mr-1" onsubmit="return confirm('¿Desea reabrir esta disciplina para reprogramar encuentros o modificar actas?');">
+                            <?php echo CsrfHelper::field(); ?>
+                            <button type="submit" class="btn btn-outline-secondary font-weight-bold" title="Reabrir disciplina">
+                                <i class="fas fa-unlock mr-1"></i> Reabrir
+                            </button>
+                        </form>
+                    <?php endif; ?>
                     <a href="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($torneo['id']); ?>/editar" class="btn btn-primary font-weight-bold">
                         Editar
                     </a>
@@ -108,6 +126,203 @@
                         <?php endif; ?>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- PODIO OFICIAL DE LA DISCIPLINA (Si ya se han proclamado medallas) -->
+        <?php if (!empty($medallas)): ?>
+            <?php 
+                $medallasIndex = [];
+                foreach ($medallas as $med) {
+                    $medallasIndex[$med['tipo_medalla']] = $med;
+                }
+            ?>
+            <div class="card shadow-sm mb-4 border" style="border-radius: 12px; border-left: 5px solid #FFD700 !important;">
+                <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
+                    <h3 class="card-title font-weight-bold text-dark mb-0">
+                        <i class="fas fa-medal text-warning mr-2"></i> Podio Oficial Proclamado: <?php echo e($torneo['nombre']); ?>
+                    </h3>
+                    <a href="<?php echo BASE_URL; ?>/medallero" class="btn btn-xs btn-outline-warning text-dark font-weight-bold">
+                        <i class="fas fa-trophy mr-1 text-warning"></i> Ver Medallero General
+                    </a>
+                </div>
+                <div class="card-body py-3">
+                    <div class="row text-center">
+                        <!-- ORO -->
+                        <div class="col-md-4 mb-2 mb-md-0">
+                            <div class="p-3 rounded shadow-sm border" style="background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); border-color: #FCD34D !important;">
+                                <div class="font-weight-bold text-warning text-uppercase text-xs mb-1">
+                                    🥇 Medalla de Oro (Campeón)
+                                </div>
+                                <h4 class="font-weight-bold text-dark mb-0">
+                                    <?php echo isset($medallasIndex['ORO']) ? e($medallasIndex['ORO']['delegacion_nombre']) : 'Por definir'; ?>
+                                </h4>
+                                <span class="badge badge-warning text-dark mt-1 font-weight-bold">+5 Puntos Olímpicos</span>
+                            </div>
+                        </div>
+                        <!-- PLATA -->
+                        <div class="col-md-4 mb-2 mb-md-0">
+                            <div class="p-3 rounded shadow-sm border" style="background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%); border-color: #CBD5E1 !important;">
+                                <div class="font-weight-bold text-secondary text-uppercase text-xs mb-1">
+                                    🥈 Medalla de Plata (Subcampeón)
+                                </div>
+                                <h4 class="font-weight-bold text-dark mb-0">
+                                    <?php echo isset($medallasIndex['PLATA']) ? e($medallasIndex['PLATA']['delegacion_nombre']) : 'Por definir'; ?>
+                                </h4>
+                                <span class="badge badge-secondary text-white mt-1 font-weight-bold">+3 Puntos Olímpicos</span>
+                            </div>
+                        </div>
+                        <!-- BRONCE -->
+                        <div class="col-md-4">
+                            <div class="p-3 rounded shadow-sm border" style="background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%); border-color: #FDBA74 !important;">
+                                <div class="font-weight-bold text-uppercase text-xs mb-1" style="color: #C2410C;">
+                                    🥉 Medalla de Bronce (3er Lugar)
+                                </div>
+                                <h4 class="font-weight-bold text-dark mb-0">
+                                    <?php echo isset($medallasIndex['BRONCE']) ? e($medallasIndex['BRONCE']['delegacion_nombre']) : 'Por definir'; ?>
+                                </h4>
+                                <span class="badge text-white mt-1 font-weight-bold" style="background-color: #C2410C;">+1 Punto Olímpico</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- SECCIÓN: ENCUENTROS Y CARGA DE RESULTADOS DE LA DISCIPLINA -->
+        <a id="resultados"></a>
+        <div class="card card-outline card-primary shadow-sm mb-4">
+            <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                <h3 class="card-title font-weight-bold mb-0 text-dark">
+                    <i class="fas fa-clipboard-list text-primary mr-2"></i> Encuentros y Carga de Resultados
+                    <span class="badge badge-info ml-2 font-weight-normal"><?php echo count($partidos); ?> registrados</span>
+                </h3>
+                <div class="card-tools">
+                    <a href="<?php echo BASE_URL; ?>/partidos/crear?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-primary font-weight-bold">
+                        <i class="fas fa-plus mr-1"></i> Programar Partido
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <?php if (empty($partidos)): ?>
+                    <div class="p-4 text-center text-muted">
+                        <i class="fas fa-calendar-times fa-2x mb-2 text-secondary d-block"></i>
+                        Aún no se han programado partidos para esta disciplina.
+                        <div class="mt-2">
+                            <a href="<?php echo BASE_URL; ?>/partidos/crear?torneo_id=<?php echo e($torneo['id']); ?>" class="btn btn-sm btn-primary font-weight-bold">
+                                <i class="fas fa-plus mr-1"></i> Programar Primer Partido
+                            </a>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <form action="<?php echo BASE_URL; ?>/disciplinas/<?php echo e($torneo['id']); ?>/resultados-rapidos" method="post">
+                        <?php echo CsrfHelper::field(); ?>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th style="width: 45px;">#</th>
+                                        <th style="width: 125px;">Fecha / Hora</th>
+                                        <th style="width: 130px;">Fase / Jornada</th>
+                                        <th class="text-right" style="width: 25%;">Equipo Local</th>
+                                        <th class="text-center" style="width: 180px;">Marcador</th>
+                                        <th class="text-left" style="width: 25%;">Equipo Visitante</th>
+                                        <th style="width: 140px;">Estado</th>
+                                        <th class="text-center" style="width: 130px;">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($partidos as $p): ?>
+                                        <tr>
+                                            <td class="text-muted font-weight-bold align-middle">
+                                                #<?php echo e($p['id']); ?>
+                                            </td>
+                                            <td class="align-middle">
+                                                <?php if (!empty($p['fecha_partido'])): ?>
+                                                    <div class="font-weight-bold text-dark text-xs">
+                                                        <?php echo date('d/m/Y', strtotime($p['fecha_partido'])); ?>
+                                                    </div>
+                                                    <div class="text-muted text-xs">
+                                                        <i class="far fa-clock mr-1"></i>
+                                                        <?php echo !empty($p['hora_partido']) ? substr($p['hora_partido'], 0, 5) : 'Por def.'; ?>
+                                                    </div>
+                                                <?php else: ?>
+                                                    <span class="text-muted text-xs italic">Por definir</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span class="badge badge-light border text-dark font-weight-bold px-2 py-1 text-xs">
+                                                    <?php echo e($p['fase']); ?>
+                                                </span>
+                                                <div class="text-muted text-xs mt-1">
+                                                    <?php echo e($p['jornada']); ?>
+                                                </div>
+                                            </td>
+                                            <td class="text-right align-middle">
+                                                <span class="font-weight-bold text-dark d-block">
+                                                    <?php echo e($p['local_nombre']); ?>
+                                                </span>
+                                                <small class="badge" style="background-color: <?php echo e($p['local_color'] ?? '#0066B2'); ?>; color: #fff;">
+                                                    <?php echo e($p['delegacion_local']); ?>
+                                                </small>
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                <div class="d-inline-flex align-items-center justify-content-center">
+                                                    <input type="number" min="0" max="999" name="marcador_local[<?php echo $p['id']; ?>]" value="<?php echo ($p['marcador_local'] !== null) ? (int)$p['marcador_local'] : ''; ?>" class="form-control form-control-sm text-center font-weight-bold shadow-sm" style="width: 60px;" placeholder="0">
+                                                    <span class="font-weight-bold mx-2 text-muted">&ndash;</span>
+                                                    <input type="number" min="0" max="999" name="marcador_visitante[<?php echo $p['id']; ?>]" value="<?php echo ($p['marcador_visitante'] !== null) ? (int)$p['marcador_visitante'] : ''; ?>" class="form-control form-control-sm text-center font-weight-bold shadow-sm" style="width: 60px;" placeholder="0">
+                                                </div>
+                                            </td>
+                                            <td class="text-left align-middle">
+                                                <span class="font-weight-bold text-dark d-block">
+                                                    <?php echo e($p['visitante_nombre']); ?>
+                                                </span>
+                                                <small class="badge" style="background-color: <?php echo e($p['visitante_color'] ?? '#28A745'); ?>; color: #fff;">
+                                                    <?php echo e($p['delegacion_visitante']); ?>
+                                                </small>
+                                            </td>
+                                            <td class="align-middle">
+                                                <select name="estado_partido[<?php echo $p['id']; ?>]" class="form-control form-control-sm font-weight-bold">
+                                                    <option value="Finalizado" <?php echo ($p['estado'] === 'Finalizado') ? 'selected' : ''; ?>>Finalizado</option>
+                                                    <option value="Programado" <?php echo ($p['estado'] === 'Programado') ? 'selected' : ''; ?>>Programado</option>
+                                                    <option value="En_Juego" <?php echo ($p['estado'] === 'En_Juego') ? 'selected' : ''; ?>>En Juego</option>
+                                                    <option value="WO" <?php echo ($p['estado'] === 'WO') ? 'selected' : ''; ?>>W.O.</option>
+                                                    <option value="Suspendido" <?php echo ($p['estado'] === 'Suspendido') ? 'selected' : ''; ?>>Suspendido</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-center align-middle text-nowrap">
+                                                <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>/acta" class="btn btn-xs btn-outline-success font-weight-bold px-2 py-1 mr-1" title="Acta Oficial Digital de Mesa">
+                                                    <i class="fas fa-file-alt mr-1"></i> Acta
+                                                </a>
+                                                <a href="<?php echo BASE_URL; ?>/partidos/<?php echo $p['id']; ?>" class="btn btn-xs btn-outline-info font-weight-bold px-2 py-1" title="Ver Detalle y Ruta GPS">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Barra de Acciones de Resultados -->
+                        <div class="card-footer bg-light py-3 d-flex flex-wrap align-items-center justify-content-between">
+                            <div class="text-muted text-sm mb-2 mb-md-0">
+                                <i class="fas fa-info-circle text-info mr-1"></i>
+                                Ingrese marcadores y guarde en lote. Al presionar <strong>"Guardar y Concluir Disciplina"</strong>, el <strong>Medallero Olímpico se actualiza automáticamente</strong>.
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" name="accion" value="guardar" class="btn btn-primary font-weight-bold mr-2 shadow-sm">
+                                    <i class="fas fa-save mr-1"></i> Guardar Resultados
+                                </button>
+                                <?php if ($torneo['estado'] !== 'Finalizado'): ?>
+                                    <button type="submit" name="concluir_disciplina" value="1" class="btn btn-success font-weight-bold shadow-sm" onclick="return confirm('¿Guardar los resultados y dar por CONCLUIDA esta disciplina? El sistema actualizará el Medallero Olímpico automáticamente para todos los usuarios.');">
+                                        <i class="fas fa-trophy mr-1"></i> Guardar y Concluir Disciplina
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -443,3 +658,35 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Concluir Disciplina -->
+<div class="modal fade" id="modalConcluirDisciplina" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title font-weight-bold">
+                    <i class="fas fa-flag-checkered mr-2"></i> Dar por Concluida la Disciplina
+                </h5>
+                <button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="<?php echo BASE_URL; ?>/disciplinas/<?php echo (int)$torneo['id']; ?>/concluir" method="post">
+                <?php echo CsrfHelper::field(); ?>
+                <div class="modal-body text-left">
+                    <p class="mb-2">¿Está seguro de que desea dar por concluida la disciplina <strong><?php echo e($torneo['nombre']); ?></strong>?</p>
+                    <div class="alert alert-info py-2 px-3 text-sm mb-0">
+                        <i class="fas fa-medal mr-1 text-warning"></i>
+                        <strong>Actualización Automática del Medallero:</strong><br>
+                        El sistema evaluará los encuentros disputados (la Gran Final o la Tabla Acumulada de Posiciones) y asignará automáticamente las medallas de <strong>Oro 🥇</strong>, <strong>Plata 🥈</strong> y <strong>Bronce 🥉</strong> a las delegaciones correspondientes, mostrándolas en tiempo real a todos los deportistas y público en general.
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning font-weight-bold text-dark">
+                        <i class="fas fa-trophy mr-1"></i> Sí, Concluir y Proclamar Medallero
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

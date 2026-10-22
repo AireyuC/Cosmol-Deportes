@@ -110,7 +110,7 @@ foreach ($partidos as $p) {
                                 </div>
 
                                 <div class="fixture-score-center">
-                                    <?php if ($isFinalizado && !$esRecreativa): ?>
+                                    <?php if ($isFinalizado || ($p['marcador_local'] !== null && $p['marcador_visitante'] !== null)): ?>
                                         <span class="fixture-score-pill">
                                             <?php echo (int)$p['marcador_local']; ?> - <?php echo (int)$p['marcador_visitante']; ?>
                                         </span>

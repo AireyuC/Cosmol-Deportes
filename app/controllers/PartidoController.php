@@ -14,6 +14,7 @@ require_once APP_PATH . '/models/Equipo.php';
 require_once APP_PATH . '/models/Jugador.php';
 require_once APP_PATH . '/models/Cancha.php';
 require_once APP_PATH . '/models/Sede.php';
+require_once APP_PATH . '/models/Medallero.php';
 require_once APP_PATH . '/helpers/AuthHelper.php';
 require_once APP_PATH . '/helpers/CsrfHelper.php';
 require_once APP_PATH . '/helpers/Validator.php';
@@ -44,6 +45,9 @@ class PartidoController extends Controller {
     /** @var Cancha */
     private $canchaModel;
 
+    /** @var Medallero */
+    private $medalleroModel;
+
     public function __construct() {
         $this->partidoModel    = new Partido();
         $this->partidoSetModel = new PartidoSet();
@@ -53,6 +57,7 @@ class PartidoController extends Controller {
         $this->equipoModel     = new Equipo();
         $this->jugadorModel    = new Jugador();
         $this->canchaModel     = new Cancha();
+        $this->medalleroModel  = new Medallero();
     }
 
     /**
@@ -116,24 +121,58 @@ class PartidoController extends Controller {
             $this->redirect('/partidos');
         }
 
+        $torneoId = isset($_POST['torneo_id']) ? (int)$_POST['torneo_id'] : 0;
+        $esPopulares = $this->esDisciplinaJuegosPopulares($torneoId);
+
+        if ($esPopulares) {
+            // En Juegos Populares compiten todas las delegaciones simultáneamente en prueba única.
+            // Para satisfacer la integridad referencial NOT NULL de la base de datos sin alterarla,
+            // asignamos de forma transparente los primeros equipos habilitados de la competencia si no vienen fijados.
+            $equiposTorneo = $this->equipoModel->getAll($torneoId);
+            if (empty($_POST['equipo_local_id']) && !empty($equiposTorneo)) {
+                $_POST['equipo_local_id'] = $equiposTorneo[0]['id'];
+            }
+            if (empty($_POST['equipo_visitante_id']) && !empty($equiposTorneo)) {
+                $_POST['equipo_visitante_id'] = isset($equiposTorneo[1]) ? $equiposTorneo[1]['id'] : $equiposTorneo[0]['id'];
+            }
+            if (empty($_POST['fase'])) {
+                $_POST['fase'] = 'Final';
+            }
+            if (empty($_POST['jornada'])) {
+                $torneoInfo = $this->torneoModel->getById($torneoId);
+                $nomT = mb_strtolower(($torneoInfo['nombre'] ?? '') . ' ' . ($torneoInfo['disciplina_nombre'] ?? ''), 'UTF-8');
+                if (strpos($nomT, 'karaoke') !== false) {
+                    $_POST['jornada'] = 'Noche de Talentos';
+                } elseif (strpos($nomT, 'maratón') !== false || strpos($nomT, 'maraton') !== false) {
+                    $_POST['jornada'] = 'Carrera Pedestre 5K';
+                } else {
+                    $_POST['jornada'] = 'Prueba Única';
+                }
+            }
+        }
+
+        $rules = [
+            'torneo_id' => 'required|numeric',
+            'fase'      => 'required',
+            'jornada'   => 'required'
+        ];
+        if (!$esPopulares) {
+            $rules['equipo_local_id']     = 'required|numeric';
+            $rules['equipo_visitante_id'] = 'required|numeric';
+        }
+
         $validator = new Validator();
-        $isValid = $validator->validate($_POST, [
-            'torneo_id'           => 'required|numeric',
-            'equipo_local_id'     => 'required|numeric',
-            'equipo_visitante_id' => 'required|numeric',
-            'fase'                => 'required',
-            'jornada'             => 'required'
-        ]);
+        $isValid = $validator->validate($_POST, $rules);
 
         if (!$isValid) {
             Session::setFlash('error', $validator->getFirstError());
-            $this->redirect('/partidos/crear');
+            $this->redirect('/partidos/crear?torneo_id=' . $torneoId);
         }
 
-        $localId     = (int)$_POST['equipo_local_id'];
-        $visitanteId = (int)$_POST['equipo_visitante_id'];
+        $localId     = (int)($_POST['equipo_local_id'] ?? 0);
+        $visitanteId = (int)($_POST['equipo_visitante_id'] ?? 0);
 
-        if ($localId === $visitanteId) {
+        if (!$esPopulares && $localId === $visitanteId) {
             Session::setFlash('error', 'El equipo local y el equipo visitante no pueden ser el mismo.');
             $this->redirect('/partidos/crear?torneo_id=' . (int)$_POST['torneo_id']);
         }
@@ -142,16 +181,8 @@ class PartidoController extends Controller {
         $fecha    = !empty($_POST['fecha_partido']) ? trim($_POST['fecha_partido']) : null;
         $hora     = !empty($_POST['hora_partido']) ? trim($_POST['hora_partido']) : null;
 
-        // Detección de colisión en cancha
-        if ($canchaId && $fecha && $hora) {
-            $colisionCancha = $this->partidoModel->verificarColisionCancha($canchaId, $fecha, $hora);
-            if ($colisionCancha) {
-                Session::setFlash('error', 'Conflicto de programación: La cancha seleccionada ya tiene programado el encuentro "' .
-                    e($colisionCancha['local_nombre']) . ' vs ' . e($colisionCancha['visitante_nombre']) . '" a las ' .
-                    substr($colisionCancha['hora_partido'], 0, 5) . '.');
-                $this->redirect('/partidos/crear?torneo_id=' . (int)$_POST['torneo_id']);
-            }
-
+        // Validación de colisión de equipos (se omite para juegos populares donde compiten todos a la vez)
+        if (!$esPopulares && $fecha && $hora) {
             // Detección de colisión de equipos
             $colisionLocal = $this->partidoModel->verificarColisionEquipo($localId, $fecha, $hora);
             if ($colisionLocal) {
@@ -254,24 +285,59 @@ class PartidoController extends Controller {
             $this->redirect('/partidos');
         }
 
+        $torneoId = isset($_POST['torneo_id']) ? (int)$_POST['torneo_id'] : (int)$partido['torneo_id'];
+        $esPopulares = $this->esDisciplinaJuegosPopulares($torneoId);
+
+        if ($esPopulares) {
+            $equiposTorneo = $this->equipoModel->getAll($torneoId);
+            if (empty($_POST['equipo_local_id']) && !empty($equiposTorneo)) {
+                $_POST['equipo_local_id'] = $equiposTorneo[0]['id'];
+            } elseif (empty($_POST['equipo_local_id'])) {
+                $_POST['equipo_local_id'] = $partido['equipo_local_id'];
+            }
+            if (empty($_POST['equipo_visitante_id']) && !empty($equiposTorneo)) {
+                $_POST['equipo_visitante_id'] = isset($equiposTorneo[1]) ? $equiposTorneo[1]['id'] : $equiposTorneo[0]['id'];
+            } elseif (empty($_POST['equipo_visitante_id'])) {
+                $_POST['equipo_visitante_id'] = $partido['equipo_visitante_id'];
+            }
+            if (empty($_POST['fase'])) {
+                $_POST['fase'] = 'Final';
+            }
+            if (empty($_POST['jornada'])) {
+                $torneoInfo = $this->torneoModel->getById($torneoId);
+                $nomT = mb_strtolower(($torneoInfo['nombre'] ?? '') . ' ' . ($torneoInfo['disciplina_nombre'] ?? ''), 'UTF-8');
+                if (strpos($nomT, 'karaoke') !== false) {
+                    $_POST['jornada'] = 'Noche de Talentos';
+                } elseif (strpos($nomT, 'maratón') !== false || strpos($nomT, 'maraton') !== false) {
+                    $_POST['jornada'] = 'Carrera Pedestre 5K';
+                } else {
+                    $_POST['jornada'] = 'Prueba Única';
+                }
+            }
+        }
+
+        $rules = [
+            'torneo_id' => 'required|numeric',
+            'fase'      => 'required',
+            'jornada'   => 'required'
+        ];
+        if (!$esPopulares) {
+            $rules['equipo_local_id']     = 'required|numeric';
+            $rules['equipo_visitante_id'] = 'required|numeric';
+        }
+
         $validator = new Validator();
-        $isValid = $validator->validate($_POST, [
-            'torneo_id'           => 'required|numeric',
-            'equipo_local_id'     => 'required|numeric',
-            'equipo_visitante_id' => 'required|numeric',
-            'fase'                => 'required',
-            'jornada'             => 'required'
-        ]);
+        $isValid = $validator->validate($_POST, $rules);
 
         if (!$isValid) {
             Session::setFlash('error', $validator->getFirstError());
             $this->redirect('/partidos/' . (int)$id . '/editar');
         }
 
-        $localId     = (int)$_POST['equipo_local_id'];
-        $visitanteId = (int)$_POST['equipo_visitante_id'];
+        $localId     = (int)($_POST['equipo_local_id'] ?? 0);
+        $visitanteId = (int)($_POST['equipo_visitante_id'] ?? 0);
 
-        if ($localId === $visitanteId) {
+        if (!$esPopulares && $localId === $visitanteId) {
             Session::setFlash('error', 'El equipo local y el equipo visitante no pueden ser el mismo.');
             $this->redirect('/partidos/' . (int)$id . '/editar');
         }
@@ -280,16 +346,8 @@ class PartidoController extends Controller {
         $fecha    = !empty($_POST['fecha_partido']) ? trim($_POST['fecha_partido']) : null;
         $hora     = !empty($_POST['hora_partido']) ? trim($_POST['hora_partido']) : null;
 
-        // Detección de colisión excluyendo el partido actual
-        if ($canchaId && $fecha && $hora) {
-            $colisionCancha = $this->partidoModel->verificarColisionCancha($canchaId, $fecha, $hora, $id);
-            if ($colisionCancha) {
-                Session::setFlash('error', 'Conflicto de cancha: Ya está ocupada para "' .
-                    e($colisionCancha['local_nombre']) . ' vs ' . e($colisionCancha['visitante_nombre']) . '" a las ' .
-                    substr($colisionCancha['hora_partido'], 0, 5) . '.');
-                $this->redirect('/partidos/' . (int)$id . '/editar');
-            }
-
+        // Validación de horarios (se omite colisión de equipos en juegos populares)
+        if (!$esPopulares && $fecha && $hora) {
             $colisionLocal = $this->partidoModel->verificarColisionEquipo($localId, $fecha, $hora, $id);
             if ($colisionLocal) {
                 Session::setFlash('error', 'Conflicto de equipo: El equipo local ya tiene otro partido programado en esta fecha y horario.');
@@ -390,6 +448,15 @@ class PartidoController extends Controller {
         $marcadorLocal     = isset($_POST['marcador_local']) && $_POST['marcador_local'] !== '' ? (int)$_POST['marcador_local'] : null;
         $marcadorVisitante = isset($_POST['marcador_visitante']) && $_POST['marcador_visitante'] !== '' ? (int)$_POST['marcador_visitante'] : null;
         $estado            = !empty($_POST['estado']) ? trim($_POST['estado']) : $partido['estado'];
+
+        if ($marcadorLocal !== null && $marcadorVisitante === null) {
+            $marcadorVisitante = 0;
+        } elseif ($marcadorVisitante !== null && $marcadorLocal === null) {
+            $marcadorLocal = 0;
+        } elseif (in_array($estado, ['Finalizado', 'WO']) && $marcadorLocal === null && $marcadorVisitante === null) {
+            $marcadorLocal = 0;
+            $marcadorVisitante = 0;
+        }
         $observaciones     = isset($_POST['observaciones']) ? trim($_POST['observaciones']) : null;
         $fotoPlanilla      = null;
 
@@ -475,12 +542,68 @@ class PartidoController extends Controller {
 
         try {
             $this->partidoModel->actualizarResultado($id, $marcadorLocal, $marcadorVisitante, $estado, $observaciones, $fotoPlanilla);
+
+            // Si el encuentro quedó Finalizado y el torneo está Finalizado (o es Gran Final/Tercer Puesto), auto-actualizar medallero
+            if ($estado === 'Finalizado' && !empty($partido['torneo_id'])) {
+                $torneo = $this->torneoModel->getById((int)$partido['torneo_id']);
+                if ($torneo && ($torneo['estado'] === 'Finalizado' || $partido['fase'] === 'Final' || $partido['fase'] === 'Tercer_Puesto')) {
+                    $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo((int)$partido['torneo_id']);
+                }
+            }
+
             Session::setFlash('success', 'Resultado, estado y acta del encuentro actualizados.');
         } catch (Exception $e) {
             Session::setFlash('error', 'Error al guardar el resultado: ' . $e->getMessage());
         }
 
         $this->redirect('/partidos/' . (int)$id . '/acta');
+    }
+
+    /**
+     * Carga rápida de resultado para mesa de control desde listados o modales
+     * POST /partidos/{id}/resultado-rapido
+     *
+     * @param int $id
+     */
+    public function guardarResultadoRapido($id) {
+        AuthHelper::requireAdmin();
+
+        if (!CsrfHelper::validate()) {
+            Session::setFlash('error', 'Token de seguridad inválido o expirado.');
+            $this->redirect($_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : '/partidos');
+            return;
+        }
+
+        $id = (int)$id;
+        $partido = $this->partidoModel->getById($id);
+        if (!$partido) {
+            Session::setFlash('error', 'El partido no existe.');
+            $this->redirect($_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : '/partidos');
+            return;
+        }
+
+        $marcadorLocal     = isset($_POST['marcador_local']) && $_POST['marcador_local'] !== '' ? (int)$_POST['marcador_local'] : null;
+        $marcadorVisitante = isset($_POST['marcador_visitante']) && $_POST['marcador_visitante'] !== '' ? (int)$_POST['marcador_visitante'] : null;
+        $estado            = !empty($_POST['estado']) ? trim($_POST['estado']) : 'Finalizado';
+
+        try {
+            $this->partidoModel->actualizarResultado($id, $marcadorLocal, $marcadorVisitante, $estado);
+
+            // Auto-sincronizar medallero si aplica
+            if (!empty($partido['torneo_id'])) {
+                $torneo = $this->torneoModel->getById((int)$partido['torneo_id']);
+                if ($torneo && ($torneo['estado'] === 'Finalizado' || $partido['fase'] === 'Final' || $partido['fase'] === 'Tercer_Puesto')) {
+                    $this->medalleroModel->actualizarMedalleroAutomaticoPorTorneo((int)$partido['torneo_id']);
+                }
+            }
+
+            Session::setFlash('success', 'Resultado guardado exitosamente para el encuentro #' . $id . '.');
+        } catch (Exception $e) {
+            Session::setFlash('error', 'Error al registrar resultado: ' . $e->getMessage());
+        }
+
+        $redirectUrl = !empty($_POST['redirect_to']) ? $_POST['redirect_to'] : (!empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/disciplinas/' . (int)$partido['torneo_id']);
+        $this->redirect($redirectUrl);
     }
 
     /**
@@ -653,4 +776,30 @@ class PartidoController extends Controller {
             'grupos'  => $grupos
         ]);
     }
+
+    /**
+     * Determina si un torneo pertenece a una disciplina de competencia colectiva simultánea
+     * (Juegos Populares, Karaoke, Media Maratón) donde compiten todas las delegaciones a la vez en prueba única
+     *
+     * @param int $torneoId
+     * @return bool
+     */
+    private function esDisciplinaJuegosPopulares($torneoId) {
+        if (!$torneoId) {
+            return false;
+        }
+        $torneo = $this->torneoModel->getById((int)$torneoId);
+        if (!$torneo) {
+            return false;
+        }
+        $nom = mb_strtolower(($torneo['nombre'] ?? '') . ' ' . ($torneo['disciplina_nombre'] ?? ''), 'UTF-8');
+        return (
+            strpos($nom, 'populares') !== false ||
+            strpos($nom, 'tradicionales') !== false ||
+            strpos($nom, 'karaoke') !== false ||
+            strpos($nom, 'maratón') !== false ||
+            strpos($nom, 'maraton') !== false
+        );
+    }
 }
+

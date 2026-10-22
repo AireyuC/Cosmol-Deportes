@@ -115,6 +115,9 @@ Router::get('/disciplinas/{id}', 'DisciplinaController@show');
 Router::get('/disciplinas/{id}/editar', 'DisciplinaController@edit');
 Router::post('/disciplinas/{id}/actualizar', 'DisciplinaController@update');
 Router::post('/disciplinas/{id}/eliminar', 'DisciplinaController@delete');
+Router::post('/disciplinas/{id}/concluir', 'DisciplinaController@concluir');
+Router::post('/disciplinas/{id}/reabrir', 'DisciplinaController@reabrir');
+Router::post('/disciplinas/{id}/resultados-rapidos', 'DisciplinaController@guardarResultadosRapidos');
 
 // 2. Módulo de Gestión de Grupos por Disciplina
 Router::post('/disciplinas/{id}/grupos/guardar', 'GrupoController@store');
@@ -131,6 +134,9 @@ Router::get('/torneos/{id}', 'DisciplinaController@show');
 Router::get('/torneos/{id}/editar', 'DisciplinaController@edit');
 Router::post('/torneos/{id}/actualizar', 'DisciplinaController@update');
 Router::post('/torneos/{id}/eliminar', 'DisciplinaController@delete');
+Router::post('/torneos/{id}/concluir', 'DisciplinaController@concluir');
+Router::post('/torneos/{id}/reabrir', 'DisciplinaController@reabrir');
+Router::post('/torneos/{id}/resultados-rapidos', 'DisciplinaController@guardarResultadosRapidos');
 Router::post('/torneos/{id}/grupos/guardar', 'GrupoController@store');
 Router::get('/api/torneos/{id}/grupos', 'EquipoController@gruposJson');
 
@@ -163,6 +169,7 @@ Router::post('/partidos/{id}/actualizar', 'PartidoController@update');
 Router::post('/partidos/{id}/eliminar', 'PartidoController@delete');
 Router::get('/partidos/{id}/acta', 'PartidoController@acta');
 Router::post('/partidos/{id}/resultado', 'PartidoController@guardarResultado');
+Router::post('/partidos/{id}/resultado-rapido', 'PartidoController@guardarResultadoRapido');
 Router::post('/partidos/{id}/sets/guardar', 'PartidoController@guardarSet');
 Router::post('/partidos/{id}/sets/eliminar', 'PartidoController@eliminarSet');
 Router::post('/partidos/{id}/incidencias/guardar', 'PartidoController@guardarIncidencia');

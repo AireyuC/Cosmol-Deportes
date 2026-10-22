@@ -7,12 +7,41 @@
  * @var array $incidencias
  */
 ?>
+<?php
+$nomDiscShow = mb_strtolower(($partido['torneo_nombre'] ?? '') . ' ' . ($partido['disciplina_nombre'] ?? ''), 'UTF-8');
+$esKaraokeShow = (strpos($nomDiscShow, 'karaoke') !== false);
+$esMaratonShow = (strpos($nomDiscShow, 'maratón') !== false || strpos($nomDiscShow, 'maraton') !== false);
+$esPopularesShow = (strpos($nomDiscShow, 'populares') !== false || strpos($nomDiscShow, 'tradicionales') !== false);
+$esColectivoShow = ($esKaraokeShow || $esMaratonShow || $esPopularesShow);
+
+$tituloColectivo = 'Competencia General Simultánea';
+$iconoColectivo  = 'fa-users';
+$subColectivo    = 'Participación general simultánea &bull; Prueba Única';
+
+if ($esKaraokeShow) {
+    $tituloColectivo = 'Concurso Oficial de Karaoke (Noche de Talentos)';
+    $iconoColectivo  = 'fa-microphone-alt';
+    $subColectivo    = 'Presentación general simultánea &bull; Todos cantan y el jurado califica';
+} elseif ($esMaratonShow) {
+    $tituloColectivo = 'Carrera Pedestre Media Maratón (5K)';
+    $iconoColectivo  = 'fa-running';
+    $subColectivo    = 'Carrera general simultánea &bull; Llegada a meta define al ganador';
+} elseif ($esPopularesShow) {
+    $tituloColectivo = 'Competencia General de Juegos Populares';
+    $iconoColectivo  = 'fa-users';
+    $subColectivo    = 'Participación general simultánea &bull; Prueba Única';
+}
+?>
 <div class="content-header pb-2">
     <div class="container-fluid">
         <div class="row mb-2 align-items-center">
             <div class="col-sm-6">
                 <h1 class="card-title mb-0 card-title-cosmol">
-                    Encuentro #<?php echo e($partido['id']); ?>: <?php echo e($partido['local_nombre']); ?> vs <?php echo e($partido['visitante_nombre']); ?>
+                    <?php if ($esColectivoShow): ?>
+                        Encuentro #<?php echo e($partido['id']); ?>: Todas las Delegaciones (<?php echo e($partido['disciplina_nombre']); ?>)
+                    <?php else: ?>
+                        Encuentro #<?php echo e($partido['id']); ?>: <?php echo e($partido['local_nombre']); ?> vs <?php echo e($partido['visitante_nombre']); ?>
+                    <?php endif; ?>
                 </h1>
                 <span class="text-muted text-sm ml-2">
                     <?php echo e($partido['disciplina_nombre']); ?> &bull; <?php echo e($partido['fase']); ?>
@@ -43,87 +72,117 @@
             <div class="card-body py-4">
                 <div class="row align-items-center text-center">
                     
-                    <!-- Equipo Local -->
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="d-inline-block p-2 rounded-circle mb-2" style="background-color: <?php echo e($partido['local_color'] ?? '#E2E8F0'); ?>22; border: 2px solid <?php echo e($partido['local_color'] ?? '#CBD5E1'); ?>;">
-                            <i class="fas fa-shield-alt fa-3x" style="color: <?php echo e($partido['local_color'] ?? '#0066B2'); ?>;"></i>
-                        </div>
-                        <h3 class="font-weight-bold mb-1 text-dark"><?php echo e($partido['local_nombre']); ?></h3>
-                        <span class="badge py-1 px-2" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;">
-                            <?php echo e($partido['delegacion_local']); ?>
-                        </span>
-                        <?php if (!empty($partido['local_indumentaria'])): ?>
-                            <div class="text-xs text-muted mt-1">Indumentaria: <?php echo e($partido['local_indumentaria']); ?></div>
-                        <?php endif; ?>
-                    </div>
+                    <?php
+                    $badgeClass = 'secondary';
+                    switch ($partido['estado']) {
+                        case 'Programado':
+                            $badgeClass = 'info';
+                            break;
+                        case 'En_Juego':
+                            $badgeClass = 'primary';
+                            break;
+                        case 'Finalizado':
+                            $badgeClass = 'success';
+                            break;
+                        case 'Suspendido':
+                            $badgeClass = 'danger';
+                            break;
+                        case 'WO':
+                            $badgeClass = 'dark';
+                            break;
+                    }
+                    ?>
 
-                    <!-- Marcador y Estado Central -->
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="mb-2">
-                            <?php
-                            $badgeClass = 'secondary';
-                            switch ($partido['estado']) {
-                                case 'Programado':
-                                    $badgeClass = 'info';
-                                    break;
-                                case 'En_Juego':
-                                    $badgeClass = 'primary';
-                                    break;
-                                case 'Finalizado':
-                                    $badgeClass = 'success';
-                                    break;
-                                case 'Suspendido':
-                                    $badgeClass = 'danger';
-                                    break;
-                                case 'WO':
-                                    $badgeClass = 'dark';
-                                    break;
-                            }
-                            ?>
-                            <span class="badge badge-<?php echo $badgeClass; ?> px-3 py-1 font-weight-bold text-uppercase" style="letter-spacing: 1px;">
-                                <?php echo str_replace('_', ' ', e($partido['estado'])); ?>
-                            </span>
-                        </div>
-
-                        <div class="display-4 font-weight-bold text-dark my-2">
-                            <?php if ($partido['marcador_local'] !== null && $partido['marcador_visitante'] !== null): ?>
-                                <?php echo (int)$partido['marcador_local']; ?> <span class="text-muted text-sm">&mdash;</span> <?php echo (int)$partido['marcador_visitante']; ?>
-                            <?php else: ?>
-                                <span class="text-muted" style="font-size: 2.2rem;">VS</span>
-                            <?php endif; ?>
-                        </div>
-
-                        <div class="text-muted text-sm mt-2">
-                            <?php if (!empty($partido['fecha_partido'])): ?>
-                                <i class="far fa-calendar-alt mr-1"></i> <?php echo date('d/m/Y', strtotime($partido['fecha_partido'])); ?>
-                                <?php if (!empty($partido['hora_partido'])): ?>
-                                    &bull; <i class="far fa-clock mr-1"></i> <?php echo substr($partido['hora_partido'], 0, 5); ?> hrs
-                                <?php endif; ?>
-                            <?php else: ?>
-                                <span>Fecha y hora por definir</span>
-                            <?php endif; ?>
-                        </div>
-
-                        <?php if (!empty($partido['nombre_grupo'])): ?>
-                            <div class="text-xs text-muted mt-1">
-                                <span class="badge badge-light border"><?php echo e($partido['nombre_grupo']); ?></span>
+                    <?php if ($esColectivoShow): ?>
+                        <div class="col-12 py-3">
+                            <div class="d-inline-block p-3 rounded-circle mb-3" style="background-color: #E0F2FE; border: 2px solid #BAE6FD;">
+                                <i class="fas <?php echo $iconoColectivo; ?> fa-3x" style="color: #0284C7;"></i>
                             </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Equipo Visitante -->
-                    <div class="col-md-4">
-                        <div class="d-inline-block p-2 rounded-circle mb-2" style="background-color: <?php echo e($partido['visitante_color'] ?? '#E2E8F0'); ?>22; border: 2px solid <?php echo e($partido['visitante_color'] ?? '#CBD5E1'); ?>;">
-                            <i class="fas fa-shield-alt fa-3x" style="color: <?php echo e($partido['visitante_color'] ?? '#64748B'); ?>;"></i>
+                            <h2 class="font-weight-bold mb-2 text-dark"><?php echo $tituloColectivo; ?></h2>
+                            <span class="badge badge-info px-3 py-2 text-sm mb-3">
+                                <i class="fas fa-flag-checkered mr-1"></i> <?php echo $subColectivo; ?>
+                            </span>
+                            <div class="mt-2">
+                                <span class="badge badge-<?php echo $badgeClass; ?> px-3 py-1 font-weight-bold text-uppercase" style="letter-spacing: 1px;">
+                                    <?php echo str_replace('_', ' ', e($partido['estado'])); ?>
+                                </span>
+                            </div>
+                            <div class="text-muted text-sm mt-3">
+                                <?php if (!empty($partido['fecha_partido'])): ?>
+                                    <i class="far fa-calendar-alt mr-1"></i> <?php echo date('d/m/Y', strtotime($partido['fecha_partido'])); ?>
+                                    <?php if (!empty($partido['hora_partido'])): ?>
+                                        &bull; <i class="far fa-clock mr-1"></i> <?php echo substr($partido['hora_partido'], 0, 5); ?> hrs
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span>Fecha y hora por definir</span>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                        <h3 class="font-weight-bold mb-1 text-dark"><?php echo e($partido['visitante_nombre']); ?></h3>
-                        <span class="badge py-1 px-2" style="background-color: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">
-                            <?php echo e($partido['delegacion_visitante']); ?>
-                        </span>
-                        <?php if (!empty($partido['visitante_indumentaria'])): ?>
-                            <div class="text-xs text-muted mt-1">Indumentaria: <?php echo e($partido['visitante_indumentaria']); ?></div>
-                        <?php endif; ?>
-                    </div>
+                    <?php else: ?>
+
+                        <!-- Equipo Local -->
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="d-inline-block p-2 rounded-circle mb-2" style="background-color: <?php echo e($partido['local_color'] ?? '#E2E8F0'); ?>22; border: 2px solid <?php echo e($partido['local_color'] ?? '#CBD5E1'); ?>;">
+                                <i class="fas fa-shield-alt fa-3x" style="color: <?php echo e($partido['local_color'] ?? '#0066B2'); ?>;"></i>
+                            </div>
+                            <h3 class="font-weight-bold mb-1 text-dark"><?php echo e($partido['local_nombre']); ?></h3>
+                            <span class="badge py-1 px-2" style="background-color: #EAF4FB; color: #0066B2; border: 1px solid #BFE2F7;">
+                                <?php echo e($partido['delegacion_local']); ?>
+                            </span>
+                            <?php if (!empty($partido['local_indumentaria'])): ?>
+                                <div class="text-xs text-muted mt-1">Indumentaria: <?php echo e($partido['local_indumentaria']); ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Marcador y Estado Central -->
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="mb-2">
+                                <span class="badge badge-<?php echo $badgeClass; ?> px-3 py-1 font-weight-bold text-uppercase" style="letter-spacing: 1px;">
+                                    <?php echo str_replace('_', ' ', e($partido['estado'])); ?>
+                                </span>
+                            </div>
+
+                            <div class="display-4 font-weight-bold text-dark my-2">
+                                <?php if ($partido['marcador_local'] !== null && $partido['marcador_visitante'] !== null): ?>
+                                    <?php echo (int)$partido['marcador_local']; ?> <span class="text-muted text-sm">&mdash;</span> <?php echo (int)$partido['marcador_visitante']; ?>
+                                <?php else: ?>
+                                    <span class="text-muted" style="font-size: 2.2rem;">VS</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="text-muted text-sm mt-2">
+                                <?php if (!empty($partido['fecha_partido'])): ?>
+                                    <i class="far fa-calendar-alt mr-1"></i> <?php echo date('d/m/Y', strtotime($partido['fecha_partido'])); ?>
+                                    <?php if (!empty($partido['hora_partido'])): ?>
+                                        &bull; <i class="far fa-clock mr-1"></i> <?php echo substr($partido['hora_partido'], 0, 5); ?> hrs
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span>Fecha y hora por definir</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <?php if (!empty($partido['nombre_grupo'])): ?>
+                                <div class="text-xs text-muted mt-1">
+                                    <span class="badge badge-light border"><?php echo e($partido['nombre_grupo']); ?></span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Equipo Visitante -->
+                        <div class="col-md-4">
+                            <div class="d-inline-block p-2 rounded-circle mb-2" style="background-color: <?php echo e($partido['visitante_color'] ?? '#E2E8F0'); ?>22; border: 2px solid <?php echo e($partido['visitante_color'] ?? '#CBD5E1'); ?>;">
+                                <i class="fas fa-shield-alt fa-3x" style="color: <?php echo e($partido['visitante_color'] ?? '#64748B'); ?>;"></i>
+                            </div>
+                            <h3 class="font-weight-bold mb-1 text-dark"><?php echo e($partido['visitante_nombre']); ?></h3>
+                            <span class="badge py-1 px-2" style="background-color: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">
+                                <?php echo e($partido['delegacion_visitante']); ?>
+                            </span>
+                            <?php if (!empty($partido['visitante_indumentaria'])): ?>
+                                <div class="text-xs text-muted mt-1">Indumentaria: <?php echo e($partido['visitante_indumentaria']); ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                    <?php endif; ?>
 
                 </div>
             </div>

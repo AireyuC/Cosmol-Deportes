@@ -44,7 +44,7 @@ class Posicion extends Model {
             $equipoParams['grupo_id'] = (int)$grupoId;
         }
 
-        $sqlEquipos = "SELECT e.id, e.nombre, e.nombre_corto, e.logo_url, e.grupo_id,
+        $sqlEquipos = "SELECT e.id, e.nombre, e.nombre_corto, e.logo_url, e.grupo_id, e.delegacion_id,
                               d.nombre AS delegacion_nombre, d.color_representativo,
                               g.nombre_grupo
                        FROM equipos e
@@ -81,6 +81,7 @@ class Posicion extends Model {
         foreach ($equipos as $eq) {
             $stats[$eq['id']] = [
                 'equipo_id'          => (int)$eq['id'],
+                'delegacion_id'      => (int)$eq['delegacion_id'],
                 'nombre'             => $eq['nombre'],
                 'nombre_corto'       => $eq['nombre_corto'],
                 'logo_url'           => $eq['logo_url'],
