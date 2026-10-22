@@ -6,6 +6,8 @@
 # Archivos subidos por usuarios (excepto .gitkeep)
 public/uploads/*
 !public/uploads/.gitkeep
+!public/uploads/planillas/
+!public/uploads/planillas/.gitkeep
 
 # Archivos del Sistema Operativo e IDEs
 .DS_Store

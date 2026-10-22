@@ -132,7 +132,7 @@
                                     <option value="Suspendido" <?php echo ($partido['estado'] === 'Suspendido') ? 'selected' : ''; ?>>Suspendido</option>
                                     <option value="WO" <?php echo ($partido['estado'] === 'WO') ? 'selected' : ''; ?>>W.O. (No Presentación)</option>
                                 </select>
-                                <small class="form-text text-muted">Al marcar "Finalizado", el resultado computa para las tablas de posiciones.</small>
+                                <small class="form-text text-muted">Al marcar "Finalizado" o "W.O.", el resultado computa para las tablas de posiciones (en caso de W.O., coloque el marcador a favor del equipo que asistió; el que no asistió se queda con 0 puntos).</small>
                             </div>
 
                             <div class="form-group mb-3">

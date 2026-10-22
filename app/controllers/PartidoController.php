@@ -395,37 +395,57 @@ class PartidoController extends Controller {
 
         // Procesar carga de fotografía de planilla oficial si se ha enviado un archivo
         if (isset($_FILES['foto_planilla']) && $_FILES['foto_planilla']['error'] !== UPLOAD_ERR_NO_FILE) {
-            if ($_FILES['foto_planilla']['error'] !== UPLOAD_ERR_OK) {
-                Session::setFlash('error', 'Error al subir el archivo de la planilla. Verifique que no supere el límite permitido.');
+            $errCode = $_FILES['foto_planilla']['error'];
+            if ($errCode !== UPLOAD_ERR_OK) {
+                $uploadErrors = [
+                    UPLOAD_ERR_INI_SIZE   => 'El archivo excede el tamaño máximo permitido por el servidor (upload_max_filesize). Comprima la foto o aumente el límite.',
+                    UPLOAD_ERR_FORM_SIZE  => 'El archivo excede el tamaño máximo configurado en el formulario.',
+                    UPLOAD_ERR_PARTIAL    => 'El archivo se subió de forma incompleta. Intente de nuevo.',
+                    UPLOAD_ERR_NO_TMP_DIR => 'Falta la carpeta temporal en el servidor para almacenar subidas.',
+                    UPLOAD_ERR_CANT_WRITE => 'Error al escribir el archivo en el disco del servidor. Verifique permisos.',
+                    UPLOAD_ERR_EXTENSION  => 'Una extensión del servidor detuvo la subida del archivo.'
+                ];
+                $msg = isset($uploadErrors[$errCode]) ? $uploadErrors[$errCode] : 'Error al subir el archivo (Código ' . $errCode . ').';
+                Session::setFlash('error', $msg);
                 $this->redirect('/partidos/' . (int)$id . '/acta');
                 return;
             }
 
             $file = $_FILES['foto_planilla'];
-            $allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+            $allowedMimes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/webp', 'application/pdf', 'application/x-pdf'];
             $allowedExts  = ['jpg', 'jpeg', 'png', 'webp', 'pdf'];
 
             $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $mime = finfo_file($finfo, $file['tmp_name']);
-            finfo_close($finfo);
+            $mime = '';
+            if (function_exists('finfo_open')) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, $file['tmp_name']);
+                finfo_close($finfo);
+            } elseif (function_exists('mime_content_type')) {
+                $mime = mime_content_type($file['tmp_name']);
+            }
 
-            if (!in_array($ext, $allowedExts, true) || !in_array($mime, $allowedMimes, true)) {
+            if (!in_array($ext, $allowedExts, true) || (!empty($mime) && !in_array($mime, $allowedMimes, true))) {
                 Session::setFlash('error', 'Formato no permitido. Solo se aceptan imágenes (JPG, PNG, WEBP) o documentos PDF.');
                 $this->redirect('/partidos/' . (int)$id . '/acta');
                 return;
             }
 
-            if ($file['size'] > 8 * 1024 * 1024) { // 8 MB
-                Session::setFlash('error', 'El archivo de la planilla es demasiado pesado (máximo 8 MB).');
+            if ($file['size'] > 12 * 1024 * 1024) { // 12 MB
+                Session::setFlash('error', 'El archivo de la planilla es demasiado pesado (máximo 12 MB).');
                 $this->redirect('/partidos/' . (int)$id . '/acta');
                 return;
             }
 
             $uploadDir = PUBLIC_PATH . DS . 'uploads' . DS . 'planillas';
             if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
+                if (!@mkdir($uploadDir, 0777, true) && !is_dir($uploadDir)) {
+                    Session::setFlash('error', 'No se pudo crear la carpeta "public/uploads/planillas" en el servidor. Asigne permisos de escritura (chmod 775 o 777).');
+                    $this->redirect('/partidos/' . (int)$id . '/acta');
+                    return;
+                }
             }
+            @chmod($uploadDir, 0777);
 
             // Eliminar foto anterior si existe en disco
             $fotoAnterior = isset($partido['foto_planilla']) ? $partido['foto_planilla'] : null;
@@ -438,6 +458,11 @@ class PartidoController extends Controller {
 
             if (move_uploaded_file($file['tmp_name'], $destPath)) {
                 $fotoPlanilla = 'uploads/planillas/' . $fileName;
+                @chmod($destPath, 0664);
+            } else {
+                Session::setFlash('error', 'Error del servidor: no se pudo mover el archivo subido a "public/uploads/planillas/". Verifique los permisos de escritura del servidor web.');
+                $this->redirect('/partidos/' . (int)$id . '/acta');
+                return;
             }
         } elseif (isset($_POST['eliminar_foto_planilla']) && $_POST['eliminar_foto_planilla'] === '1') {
             // Eliminar foto actual si se solicitó explícitamente

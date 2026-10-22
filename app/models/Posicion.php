@@ -58,8 +58,8 @@ class Posicion extends Model {
             return [];
         }
 
-        // 3. Obtener todos los partidos FINALIZADOS del torneo (o del grupo)
-        $partidoParams = ['torneo_id' => $torneoId, 'estado' => 'Finalizado'];
+        // 3. Obtener todos los partidos FINALIZADOS o con W.O. del torneo (o del grupo)
+        $partidoParams = ['torneo_id' => $torneoId];
         $grupoPartidoWhere = '';
         if ($grupoId !== null && $grupoId > 0) {
             $grupoPartidoWhere = 'AND p.grupo_id = :grupo_id';
@@ -71,7 +71,7 @@ class Posicion extends Model {
                                p.grupo_id
                         FROM partidos p
                         WHERE p.torneo_id = :torneo_id
-                          AND p.estado = :estado
+                          AND p.estado IN ('Finalizado', 'WO')
                           {$grupoPartidoWhere}
                         ORDER BY p.id ASC";
         $partidos = $this->fetchAll($sqlPartidos, $partidoParams);
@@ -179,18 +179,22 @@ class Posicion extends Model {
             $stats[$visitante]['gf'] += $mv;
             $stats[$visitante]['gc'] += $ml;
 
+            $esWO = ($p['estado'] === 'WO');
+
             if ($ml > $mv) {
-                // Victoria Local
+                // Victoria Local (el que asistió gana los puntos de victoria)
                 $stats[$local]['pg']++;
                 $stats[$local]['pts'] += $ptsVic;
                 $stats[$visitante]['pp']++;
-                $stats[$visitante]['pts'] += $ptsDer;
+                // En W.O., el que no se presentó recibe 0 pts (incluso en Básquet donde una derrota normal daría 1 pt)
+                $stats[$visitante]['pts'] += ($esWO ? 0 : $ptsDer);
             } elseif ($mv > $ml) {
-                // Victoria Visitante
+                // Victoria Visitante (el que asistió gana los puntos de victoria)
                 $stats[$visitante]['pg']++;
                 $stats[$visitante]['pts'] += $ptsVic;
                 $stats[$local]['pp']++;
-                $stats[$local]['pts'] += $ptsDer;
+                // En W.O., el que no se presentó recibe 0 pts
+                $stats[$local]['pts'] += ($esWO ? 0 : $ptsDer);
             } else {
                 // Empate (si está permitido por la regla)
                 if ($permiteEmp) {

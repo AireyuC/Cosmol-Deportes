@@ -1,0 +1,5 @@
+# Evitar ejecución de scripts en la carpeta de uploads
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps)$">
+    Deny from all
+</FilesMatch>
+Options -Indexes -ExecCGI
