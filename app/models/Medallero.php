@@ -60,31 +60,105 @@ class Medallero extends Model {
     }
 
     /**
+     * Retorna la escala oficial de puntos olímpicos (Oro, Plata, Bronce)
+     * correspondiente a una disciplina/torneo según el reglamento oficial de las Olimpiadas.
+     *
+     * 1. Fútbol once (11): 45 / 30 / 15
+     * 2. Fútbol de salón Cinco (5): 40 / 30 / 15
+     * 3. Voleibol mixto: 30 / 20 / 10
+     * 4. Básquetbol mixto: 30 / 20 / 10
+     * 5. Raqueta frontón: 30 / 20 / 10
+     * 6. Media maratón (5 km Libre): 30 / 20 / 10
+     * 7. Competencias técnicas deportivas: 20 / 15 / 10
+     * 8. Cacho: 15 / 10 / 5
+     * 10. Billar: 15 / 10 / 5
+     * Recreativas / Juegos de salón (Karaoke, Juegos Populares): 15 / 10 / 5
+     *
+     * @param string $nombre Nombre de la disciplina o torneo
+     * @return array Array asociativo con ['ORO' => int, 'PLATA' => int, 'BRONCE' => int]
+     */
+    public static function getPuntosOficialesPorDisciplina($nombre) {
+        $nom = mb_strtolower(trim((string)$nombre), 'UTF-8');
+
+        // 1. Cacho (15 / 10 / 5)
+        if (strpos($nom, 'cacho') !== false) {
+            return ['ORO' => 15, 'PLATA' => 10, 'BRONCE' => 5];
+        }
+
+        // 2. Billar (15 / 10 / 5)
+        if (strpos($nom, 'billar') !== false) {
+            return ['ORO' => 15, 'PLATA' => 10, 'BRONCE' => 5];
+        }
+
+        // 3. Fútbol de salón Cinco (5) (40 / 30 / 15)
+        if (strpos($nom, 'futsal') !== false || 
+            strpos($nom, 'futbol 5') !== false || 
+            strpos($nom, 'fútbol 5') !== false || 
+            (strpos($nom, 'futbol') !== false && (strpos($nom, 'salon') !== false || strpos($nom, 'salón') !== false)) ||
+            (strpos($nom, 'fútbol') !== false && (strpos($nom, 'salon') !== false || strpos($nom, 'salón') !== false))) {
+            return ['ORO' => 40, 'PLATA' => 30, 'BRONCE' => 15];
+        }
+
+        // 4. Fútbol once (11) (45 / 30 / 15)
+        if (strpos($nom, 'once') !== false || 
+            strpos($nom, 'futbol 11') !== false || 
+            strpos($nom, 'fútbol 11') !== false || 
+            strpos($nom, 'futbol') !== false || 
+            strpos($nom, 'fútbol') !== false) {
+            return ['ORO' => 45, 'PLATA' => 30, 'BRONCE' => 15];
+        }
+
+        // 5. Voleibol mixto (30 / 20 / 10)
+        if (strpos($nom, 'volei') !== false || strpos($nom, 'voley') !== false || strpos($nom, 'vóley') !== false) {
+            return ['ORO' => 30, 'PLATA' => 20, 'BRONCE' => 10];
+        }
+
+        // 6. Basquetbol mixto (30 / 20 / 10)
+        if (strpos($nom, 'basquet') !== false || strpos($nom, 'básquet') !== false || strpos($nom, 'baloncesto') !== false) {
+            return ['ORO' => 30, 'PLATA' => 20, 'BRONCE' => 10];
+        }
+
+        // 7. Raqueta frontón (30 / 20 / 10)
+        if (strpos($nom, 'raqueta') !== false || strpos($nom, 'fronton') !== false || strpos($nom, 'frontón') !== false) {
+            return ['ORO' => 30, 'PLATA' => 20, 'BRONCE' => 10];
+        }
+
+        // 8. Media maratón (5 km Libre) (30 / 20 / 10)
+        if (strpos($nom, 'marat') !== false || strpos($nom, 'atletismo') !== false || strpos($nom, '5 km') !== false || strpos($nom, '5k') !== false) {
+            return ['ORO' => 30, 'PLATA' => 20, 'BRONCE' => 10];
+        }
+
+        // 9. Competencias técnicas deportivas (20 / 15 / 10)
+        if (strpos($nom, 'tecnica') !== false || strpos($nom, 'técnica') !== false) {
+            return ['ORO' => 20, 'PLATA' => 15, 'BRONCE' => 10];
+        }
+
+        // 10. Recreativas y de salón por defecto (Karaoke, Juegos Populares) (15 / 10 / 5)
+        return ['ORO' => 15, 'PLATA' => 10, 'BRONCE' => 5];
+    }
+
+    /**
      * Obtiene todos los registros del medallero de una olimpiada agrupados por torneo
-     * para facilitar la visualización del podio (ORO / PLATA / BRONCE) por torneo.
+     * para facilitar la visualización del podio (ORO / PLATA / BRONCE) por torneo,
+     * incluyendo las disciplinas pendientes con su escala oficial de puntuación.
      *
      * @param int $olimpiadaId
      * @return array Array indexado por torneo_id, luego por tipo_medalla
      */
     public function getPodiosPorOlimpiada($olimpiadaId) {
-        $detalle = $this->getDetallePorTorneo($olimpiadaId);
+        $sqlTorneos = "SELECT t.id AS torneo_id, t.nombre AS torneo_nombre, t.rama AS torneo_rama,
+                              disc.nombre AS disciplina_nombre, disc.icono AS disciplina_icono
+                       FROM torneos t
+                       INNER JOIN disciplinas disc ON t.disciplina_id = disc.id
+                       WHERE t.olimpiada_id = :olimpiada_id
+                       ORDER BY disc.nombre ASC, t.rama ASC";
+        $torneos = $this->fetchAll($sqlTorneos, ['olimpiada_id' => (int)$olimpiadaId]);
 
-        $podios = [];
+        $detalle = $this->getDetallePorTorneo($olimpiadaId);
+        $medallasPorTorneo = [];
         foreach ($detalle as $row) {
             $tid = $row['torneo_id'];
-            if (!isset($podios[$tid])) {
-                $podios[$tid] = [
-                    'torneo_id'          => $row['torneo_id'],
-                    'torneo_nombre'      => $row['torneo_nombre'],
-                    'torneo_rama'        => $row['torneo_rama'],
-                    'disciplina_nombre'  => $row['disciplina_nombre'],
-                    'disciplina_icono'   => $row['disciplina_icono'],
-                    'ORO'    => null,
-                    'PLATA'  => null,
-                    'BRONCE' => null
-                ];
-            }
-            $podios[$tid][$row['tipo_medalla']] = [
+            $medallasPorTorneo[$tid][$row['tipo_medalla']] = [
                 'medalla_id'        => $row['id'],
                 'delegacion_id'     => $row['delegacion_id'],
                 'delegacion_nombre' => $row['delegacion_nombre'],
@@ -94,7 +168,24 @@ class Medallero extends Model {
             ];
         }
 
-        return array_values($podios);
+        $podios = [];
+        foreach ($torneos as $t) {
+            $tid = $t['torneo_id'];
+            $puntosDefecto = self::getPuntosOficialesPorDisciplina($t['disciplina_nombre'] . ' ' . $t['torneo_nombre']);
+            $podios[] = [
+                'torneo_id'          => $t['torneo_id'],
+                'torneo_nombre'      => $t['torneo_nombre'],
+                'torneo_rama'        => $t['torneo_rama'],
+                'disciplina_nombre'  => $t['disciplina_nombre'],
+                'disciplina_icono'   => $t['disciplina_icono'],
+                'puntos_defecto'     => $puntosDefecto,
+                'ORO'    => isset($medallasPorTorneo[$tid]['ORO']) ? $medallasPorTorneo[$tid]['ORO'] : null,
+                'PLATA'  => isset($medallasPorTorneo[$tid]['PLATA']) ? $medallasPorTorneo[$tid]['PLATA'] : null,
+                'BRONCE' => isset($medallasPorTorneo[$tid]['BRONCE']) ? $medallasPorTorneo[$tid]['BRONCE'] : null,
+            ];
+        }
+
+        return $podios;
     }
 
     /**
@@ -153,7 +244,8 @@ class Medallero extends Model {
     }
 
     /**
-     * Retorna los torneos finalizados de una olimpiada con indicador de si ya tienen podio asignado.
+     * Retorna todos los torneos / disciplinas de una olimpiada con indicador de si ya tienen podio asignado.
+     * Permite al administrador visualizar y editar el medallero de todas las disciplinas.
      *
      * @param int $olimpiadaId
      * @return array
@@ -172,6 +264,7 @@ class Medallero extends Model {
 
     /**
      * Obtiene las delegaciones disponibles para asignar como ganadoras.
+     * Si no hay equipos inscritos específicamente en el torneo, retorna todas las delegaciones de la olimpiada.
      *
      * @param int $torneoId
      * @return array
@@ -182,7 +275,14 @@ class Medallero extends Model {
                 INNER JOIN delegaciones d ON e.delegacion_id = d.id
                 WHERE e.torneo_id = :torneo_id
                 ORDER BY d.nombre ASC";
-        return $this->fetchAll($sql, ['torneo_id' => (int)$torneoId]);
+        $delegaciones = $this->fetchAll($sql, ['torneo_id' => (int)$torneoId]);
+
+        if (empty($delegaciones)) {
+            $sqlTodas = "SELECT id, nombre, alias, color_representativo FROM delegaciones ORDER BY nombre ASC";
+            $delegaciones = $this->fetchAll($sqlTodas);
+        }
+
+        return $delegaciones;
     }
 
     /**
@@ -205,9 +305,10 @@ class Medallero extends Model {
      */
     public function actualizarMedalleroAutomaticoPorTorneo($torneoId) {
         $torneoId = (int)$torneoId;
-        $sqlTorneo = "SELECT t.*, o.id AS olimp_id
+        $sqlTorneo = "SELECT t.*, o.id AS olimp_id, d.nombre AS disciplina_nombre
                       FROM torneos t
                       INNER JOIN olimpiadas o ON t.olimpiada_id = o.id
+                      INNER JOIN disciplinas d ON t.disciplina_id = d.id
                       WHERE t.id = :id LIMIT 1";
         $torneo = $this->fetch($sqlTorneo, ['id' => $torneoId]);
         if (!$torneo) {
@@ -365,18 +466,23 @@ class Medallero extends Model {
             }
         }
 
-        // 4. Asignar las medallas en la tabla medallero (con sus puntos olímpicos: Oro 5, Plata 3, Bronce 1)
+        // 4. Asignar las medallas en la tabla medallero según la escala oficial de la disciplina
+        $escalaPuntos = self::getPuntosOficialesPorDisciplina(
+            (isset($torneo['disciplina_nombre']) ? $torneo['disciplina_nombre'] : '') . ' ' .
+            (isset($torneo['nombre']) ? $torneo['nombre'] : '')
+        );
+
         $asignadas = [];
         if ($oroDelegacionId && $oroDelegacionId > 0) {
-            $this->asignarMedalla($olimpiadaId, $torneoId, $oroDelegacionId, 'ORO', 5);
+            $this->asignarMedalla($olimpiadaId, $torneoId, $oroDelegacionId, 'ORO', $escalaPuntos['ORO']);
             $asignadas['ORO'] = $oroDelegacionId;
         }
         if ($plataDelegacionId && $plataDelegacionId > 0) {
-            $this->asignarMedalla($olimpiadaId, $torneoId, $plataDelegacionId, 'PLATA', 3);
+            $this->asignarMedalla($olimpiadaId, $torneoId, $plataDelegacionId, 'PLATA', $escalaPuntos['PLATA']);
             $asignadas['PLATA'] = $plataDelegacionId;
         }
         if ($bronceDelegacionId && $bronceDelegacionId > 0) {
-            $this->asignarMedalla($olimpiadaId, $torneoId, $bronceDelegacionId, 'BRONCE', 1);
+            $this->asignarMedalla($olimpiadaId, $torneoId, $bronceDelegacionId, 'BRONCE', $escalaPuntos['BRONCE']);
             $asignadas['BRONCE'] = $bronceDelegacionId;
         }
 

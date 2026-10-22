@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Vista: Asignación de Podio (Oro, Plata, Bronce) para un Torneo
  *
@@ -67,16 +68,17 @@
                                 </div>
                                 <div class="form-group mb-0">
                                     <label for="puntos_oro">Puntos Olímpicos:</label>
+                                    <?php $ptsDefOro = isset($puntosDefecto['ORO']) ? (int)$puntosDefecto['ORO'] : 5; ?>
                                     <input type="number" name="puntos_oro" id="puntos_oro" class="form-control"
-                                           value="<?php echo isset($asignadas['ORO']) ? (int)$asignadas['ORO']['puntos_olimpicos'] : 10; ?>"
-                                           min="0" max="100" required>
-                                    <small class="form-text text-muted">Estándar internacional: 10 puntos</small>
+                                        value="<?php echo isset($asignadas['ORO']['puntos_olimpicos']) ? (int)$asignadas['ORO']['puntos_olimpicos'] : $ptsDefOro; ?>"
+                                        min="0" max="100" required>
+                                    <small class="form-text text-muted font-weight-bold" style="color: #0066B2 !important;">Reglamento oficial: <?php echo $ptsDefOro; ?> puntos</small>
                                 </div>
                             </div>
                             <?php if (isset($asignadas['ORO'])): ?>
                                 <div class="card-footer bg-light text-center py-2">
                                     <small class="text-success font-weight-bold">
-                                        <i class="fas fa-check mr-1"></i> Asignada actualmente
+                                        <i class="fas fa-check mr-1"></i> Asignada actualmente (<?php echo (int)$asignadas['ORO']['puntos_olimpicos']; ?> pts)
                                     </small>
                                 </div>
                             <?php endif; ?>
@@ -107,16 +109,17 @@
                                 </div>
                                 <div class="form-group mb-0">
                                     <label for="puntos_plata">Puntos Olímpicos:</label>
+                                    <?php $ptsDefPlata = isset($puntosDefecto['PLATA']) ? (int)$puntosDefecto['PLATA'] : 3; ?>
                                     <input type="number" name="puntos_plata" id="puntos_plata" class="form-control"
-                                           value="<?php echo isset($asignadas['PLATA']) ? (int)$asignadas['PLATA']['puntos_olimpicos'] : 7; ?>"
-                                           min="0" max="100" required>
-                                    <small class="form-text text-muted">Estándar internacional: 7 puntos</small>
+                                        value="<?php echo isset($asignadas['PLATA']['puntos_olimpicos']) ? (int)$asignadas['PLATA']['puntos_olimpicos'] : $ptsDefPlata; ?>"
+                                        min="0" max="100" required>
+                                    <small class="form-text text-muted font-weight-bold" style="color: #0066B2 !important;">Reglamento oficial: <?php echo $ptsDefPlata; ?> puntos</small>
                                 </div>
                             </div>
                             <?php if (isset($asignadas['PLATA'])): ?>
                                 <div class="card-footer bg-light text-center py-2">
                                     <small class="text-success font-weight-bold">
-                                        <i class="fas fa-check mr-1"></i> Asignada actualmente
+                                        <i class="fas fa-check mr-1"></i> Asignada actualmente (<?php echo (int)$asignadas['PLATA']['puntos_olimpicos']; ?> pts)
                                     </small>
                                 </div>
                             <?php endif; ?>
@@ -147,16 +150,17 @@
                                 </div>
                                 <div class="form-group mb-0">
                                     <label for="puntos_bronce">Puntos Olímpicos:</label>
+                                    <?php $ptsDefBronce = isset($puntosDefecto['BRONCE']) ? (int)$puntosDefecto['BRONCE'] : 1; ?>
                                     <input type="number" name="puntos_bronce" id="puntos_bronce" class="form-control"
-                                           value="<?php echo isset($asignadas['BRONCE']) ? (int)$asignadas['BRONCE']['puntos_olimpicos'] : 5; ?>"
-                                           min="0" max="100" required>
-                                    <small class="form-text text-muted">Estándar internacional: 5 puntos</small>
+                                        value="<?php echo isset($asignadas['BRONCE']['puntos_olimpicos']) ? (int)$asignadas['BRONCE']['puntos_olimpicos'] : $ptsDefBronce; ?>"
+                                        min="0" max="100" required>
+                                    <small class="form-text text-muted font-weight-bold" style="color: #0066B2 !important;">Reglamento oficial: <?php echo $ptsDefBronce; ?> puntos</small>
                                 </div>
                             </div>
                             <?php if (isset($asignadas['BRONCE'])): ?>
                                 <div class="card-footer bg-light text-center py-2">
                                     <small class="text-success font-weight-bold">
-                                        <i class="fas fa-check mr-1"></i> Asignada actualmente
+                                        <i class="fas fa-check mr-1"></i> Asignada actualmente (<?php echo (int)$asignadas['BRONCE']['puntos_olimpicos']; ?> pts)
                                     </small>
                                 </div>
                             <?php endif; ?>
@@ -165,13 +169,21 @@
                 </div>
 
                 <div class="card shadow-sm mb-4">
-                    <div class="card-body text-right">
-                        <a href="<?php echo BASE_URL; ?>/medallero/gestion" class="btn btn-secondary mr-2">
-                            <i class="fas fa-times mr-1"></i> Cancelar
-                        </a>
-                        <button type="submit" class="btn btn-success font-weight-bold px-4">
-                            <i class="fas fa-save mr-1"></i> Guardar Podio
-                        </button>
+                    <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="custom-control custom-checkbox my-1">
+                            <input type="checkbox" class="custom-control-input" id="marcar_concluido" name="marcar_concluido" value="1" <?php echo ($torneo['estado'] === 'Finalizado') ? 'checked' : 'checked'; ?>>
+                            <label class="custom-control-label font-weight-bold text-dark" for="marcar_concluido">
+                                <i class="fas fa-flag-checkered text-success mr-1"></i> Marcar la disciplina como "Finalizada" al guardar
+                            </label>
+                        </div>
+                        <div class="my-1">
+                            <a href="<?php echo BASE_URL; ?>/medallero/gestion" class="btn btn-secondary mr-2">
+                                <i class="fas fa-times mr-1"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-success font-weight-bold px-4">
+                                <i class="fas fa-save mr-1"></i> Guardar Podio
+                            </button>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -216,8 +228,8 @@
                                                 </td>
                                                 <td class="text-right">
                                                     <form action="<?php echo BASE_URL; ?>/medallero/<?php echo (int)$asignadas[$tipo]['id']; ?>/eliminar"
-                                                          method="POST" style="display:inline-block;"
-                                                          onsubmit="return confirm('¿Está seguro de eliminar la medalla de <?php echo $tipo; ?>?');">
+                                                        method="POST" style="display:inline-block;"
+                                                        onsubmit="return confirm('¿Está seguro de eliminar la medalla de <?php echo $tipo; ?>?');">
                                                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8'); ?>">
                                                         <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar medalla">
                                                             <i class="fas fa-trash mr-1"></i> Eliminar

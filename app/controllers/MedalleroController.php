@@ -146,12 +146,18 @@ class MedalleroController extends Controller {
             $asignadas[$m['tipo_medalla']] = $m;
         }
 
+        // Obtener escala de puntos oficial para esta disciplina
+        $puntosDefecto = Medallero::getPuntosOficialesPorDisciplina(
+            (isset($torneo['disciplina_nombre']) ? $torneo['disciplina_nombre'] : '') . ' ' . $torneo['nombre']
+        );
+
         $this->view('admin/medallero/asignar', [
-            'pageTitle'   => 'Asignar Podio — ' . $torneo['nombre'],
-            'torneo'      => $torneo,
-            'delegaciones' => $delegaciones,
-            'asignadas'   => $asignadas,
-            'csrfToken'   => CsrfHelper::getToken()
+            'pageTitle'     => 'Asignar Podio — ' . $torneo['nombre'],
+            'torneo'        => $torneo,
+            'delegaciones'  => $delegaciones,
+            'asignadas'     => $asignadas,
+            'puntosDefecto' => $puntosDefecto,
+            'csrfToken'     => CsrfHelper::getToken()
         ]);
     }
 
@@ -187,12 +193,10 @@ class MedalleroController extends Controller {
 
         $olimpiadaId = (int)$torneo['olimpiada_id'];
 
-        // Puntajes olímpicos por posición según estándar (configurable)
-        $puntajesPorMedalla = [
-            'ORO'    => 5,
-            'PLATA'  => 3,
-            'BRONCE' => 1
-        ];
+        // Escala de puntos oficial para esta disciplina específica
+        $puntosDefecto = Medallero::getPuntosOficialesPorDisciplina(
+            (isset($torneo['disciplina_nombre']) ? $torneo['disciplina_nombre'] : '') . ' ' . $torneo['nombre']
+        );
 
         $errores = [];
         $tiposMedallas = ['ORO', 'PLATA', 'BRONCE'];
@@ -205,9 +209,9 @@ class MedalleroController extends Controller {
                 continue; // Medalla opcional si no se selecciona delegación
             }
 
-            $puntaje = isset($_POST['puntos_' . strtolower($tipo)])
+            $puntaje = (isset($_POST['puntos_' . strtolower($tipo)]) && $_POST['puntos_' . strtolower($tipo)] !== '')
                 ? (int)$_POST['puntos_' . strtolower($tipo)]
-                : $puntajesPorMedalla[$tipo];
+                : $puntosDefecto[$tipo];
 
             try {
                 $this->medalleroModel->asignarMedalla(
@@ -225,13 +229,14 @@ class MedalleroController extends Controller {
         if (!empty($errores)) {
             Session::setFlash('error', implode(' / ', $errores));
         } else {
-            // Marcar el torneo como Finalizado oficialmente al asignar podio
-            try {
-                $this->torneoModel->updateEstado($torneoId, 'Finalizado');
-            } catch (Exception $e) {
-                // continuar
+            if (!empty($_POST['marcar_concluido'])) {
+                try {
+                    $this->torneoModel->cambiarEstado($torneoId, 'Finalizado');
+                } catch (Exception $e) {
+                    // silencioso
+                }
             }
-            Session::setFlash('success', 'Podio del torneo "' . $torneo['nombre'] . '" asignado correctamente y disciplina finalizada.');
+            Session::setFlash('success', 'Podio del torneo "' . $torneo['nombre'] . '" asignado correctamente.');
         }
 
         $this->redirect('/medallero/gestion');

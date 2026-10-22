@@ -63,9 +63,7 @@
                                             $oro = (int)(isset($m['oro']) ? $m['oro'] : 0);
                                             $plata = (int)(isset($m['plata']) ? $m['plata'] : 0);
                                             $bronce = (int)(isset($m['bronce']) ? $m['bronce'] : 0);
-                                            $pts = isset($m['puntos_olimpicos']) && (int)$m['puntos_olimpicos'] > 0 
-                                                ? (int)$m['puntos_olimpicos'] 
-                                                : (($oro * 5) + ($plata * 3) + ($bronce * 1));
+                                            $pts = (int)(isset($m['puntos_olimpicos']) ? $m['puntos_olimpicos'] : 0);
                                         ?>
                                         <tr>
                                             <td class="pos-col-rank">
@@ -116,7 +114,7 @@
                         </table>
                     </div>
                     <div class="p-3 border-top text-center text-muted" style="background-color: #F8FAFC; font-size: 0.82rem; border-color: #E2E8F0 !important;">
-                        <span><strong>Cómputo Olímpico Oficial:</strong> Oro = 5 pts &bull; Plata = 3 pts &bull; Bronce = 1 pt</span>
+                        <span><strong>Cómputo Olímpico Oficial:</strong> Puntuación según escala reglamentaria por disciplina (Fútbol 11: 45/30/15 &bull; Futsal: 40/30/15 &bull; Vóley/Básquet/Frontón/Maratón: 30/20/10 &bull; Técnicas: 20/15/10 &bull; Cacho/Billar: 15/10/5).</span>
                     </div>
                 </div>
             </div>
@@ -140,17 +138,23 @@
                                         
                                         <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.86rem;">
                                             <span><span class="pos-medal-num pos-medal-oro mr-1">Oro</span> <?php echo !empty($p['ORO']) ? e($p['ORO']['delegacion_nombre']) : '<span class="text-muted">Por definir</span>'; ?></span>
-                                            <strong style="color: #0066B2;">5 pts</strong>
+                                            <strong style="color: #0066B2;">
+                                                <?php echo !empty($p['ORO']['puntos_olimpicos']) ? (int)$p['ORO']['puntos_olimpicos'] . ' pts' : (isset($p['puntos_defecto']['ORO']) ? (int)$p['puntos_defecto']['ORO'] . ' pts' : '—'); ?>
+                                            </strong>
                                         </div>
                                         
                                         <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.86rem;">
                                             <span><span class="pos-medal-num pos-medal-plata mr-1">Plata</span> <?php echo !empty($p['PLATA']) ? e($p['PLATA']['delegacion_nombre']) : '<span class="text-muted">Por definir</span>'; ?></span>
-                                            <strong style="color: #0066B2;">3 pts</strong>
+                                            <strong style="color: #0066B2;">
+                                                <?php echo !empty($p['PLATA']['puntos_olimpicos']) ? (int)$p['PLATA']['puntos_olimpicos'] . ' pts' : (isset($p['puntos_defecto']['PLATA']) ? (int)$p['puntos_defecto']['PLATA'] . ' pts' : '—'); ?>
+                                            </strong>
                                         </div>
                                         
                                         <div class="d-flex justify-content-between align-items-center" style="font-size: 0.86rem;">
                                             <span><span class="pos-medal-num pos-medal-bronce mr-1">Bronce</span> <?php echo !empty($p['BRONCE']) ? e($p['BRONCE']['delegacion_nombre']) : '<span class="text-muted">Por definir</span>'; ?></span>
-                                            <strong style="color: #0066B2;">1 pt</strong>
+                                            <strong style="color: #0066B2;">
+                                                <?php echo !empty($p['BRONCE']['puntos_olimpicos']) ? (int)$p['BRONCE']['puntos_olimpicos'] . ' pts' : (isset($p['puntos_defecto']['BRONCE']) ? (int)$p['puntos_defecto']['BRONCE'] . ' pts' : '—'); ?>
+                                            </strong>
                                         </div>
                                     </div>
                                 </div>

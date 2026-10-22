@@ -200,16 +200,15 @@
                                     <?php foreach (['ORO', 'PLATA', 'BRONCE'] as $tipo): ?>
                                         <td class="text-center align-middle">
                                             <?php if (!empty($podio[$tipo])): ?>
-                                                <span class="font-weight-bold" style="color:<?php
-                                                    if ($tipo === 'ORO') echo '#0a0a0aff';
-                                                    elseif ($tipo === 'PLATA') echo '#0d0d0eff';
-                                                    else echo '#0c0c0cff';
-                                                ?>;">
+                                                <span class="font-weight-bold">
                                                     <?php echo htmlspecialchars($podio[$tipo]['delegacion_nombre'], ENT_QUOTES, 'UTF-8'); ?>
                                                 </span>
-                                                <br><small class="text-muted"><?php echo (int)$podio[$tipo]['puntos_olimpicos']; ?> pts</small>
+                                                <br><small class="badge badge-primary px-2 py-1 font-weight-bold"><?php echo (int)$podio[$tipo]['puntos_olimpicos']; ?> pts</small>
                                             <?php else: ?>
-                                                <span class="text-muted">—</span>
+                                                <span class="text-muted font-italic">Por definir</span>
+                                                <?php if (isset($podio['puntos_defecto'][$tipo])): ?>
+                                                    <br><small class="text-muted font-weight-bold">(<?php echo (int)$podio['puntos_defecto'][$tipo]; ?> pts)</small>
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                         </td>
                                     <?php endforeach; ?>

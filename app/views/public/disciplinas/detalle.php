@@ -113,8 +113,72 @@
                             <span class="badge badge-primary mr-2" style="background-color: #0066B2;"><?php echo e($torneo['rama']); ?></span>
                             <?php echo e($torneo['nombre']); ?>
                         </h3>
-                        <span class="badge badge-light border text-muted px-2 py-1">Modalidad: <?php echo e(str_replace('_', ' ', $torneo['tipo_torneo'])); ?></span>
+                        <div>
+                            <?php if ($torneo['estado'] === 'Finalizado'): ?>
+                                <span class="badge badge-success px-3 py-1 font-weight-bold mr-1"><i class="fas fa-trophy mr-1"></i> Concluido</span>
+                            <?php else: ?>
+                                <span class="badge badge-info px-2 py-1 mr-1"><?php echo e(str_replace('_', ' ', $torneo['estado'])); ?></span>
+                            <?php endif; ?>
+                            <span class="badge badge-light border text-muted px-2 py-1">Modalidad: <?php echo e(str_replace('_', ' ', $torneo['tipo_torneo'])); ?></span>
+                        </div>
                     </div>
+
+                    <?php if (!empty($item['podio'])): ?>
+                        <div class="card mb-4 border-0 shadow-sm" style="background: linear-gradient(135deg, #002D52 0%, #004D8C 100%); color: #FFFFFF; border-radius: 10px;">
+                            <div class="card-body p-3 p-md-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-medal text-warning fa-2x mr-2"></i>
+                                    <div>
+                                        <h5 class="font-weight-bold mb-0 text-white">Podio Olímpico Oficial</h5>
+                                        <small class="text-light" style="opacity: 0.85;">Puntuación computada para el Medallero General de las Olimpiadas COSMOL 2026</small>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <?php 
+                                        $medOro = null; $medPlata = null; $medBronce = null;
+                                        foreach ($item['podio'] as $m) {
+                                            if ($m['tipo_medalla'] === 'ORO') $medOro = $m;
+                                            if ($m['tipo_medalla'] === 'PLATA') $medPlata = $m;
+                                            if ($m['tipo_medalla'] === 'BRONCE') $medBronce = $m;
+                                        }
+                                    ?>
+                                    <?php
+                                        $escalaDef = Medallero::getPuntosOficialesPorDisciplina(
+                                            (!empty($disciplina['nombre']) ? $disciplina['nombre'] : '') . ' ' .
+                                            (!empty($torneo['nombre']) ? $torneo['nombre'] : '')
+                                        );
+                                        $ptsOro = !empty($medOro['puntos_olimpicos']) ? (int)$medOro['puntos_olimpicos'] : $escalaDef['ORO'];
+                                        $ptsPlata = !empty($medPlata['puntos_olimpicos']) ? (int)$medPlata['puntos_olimpicos'] : $escalaDef['PLATA'];
+                                        $ptsBronce = !empty($medBronce['puntos_olimpicos']) ? (int)$medBronce['puntos_olimpicos'] : $escalaDef['BRONCE'];
+                                    ?>
+                                    <div class="col-md-4 mb-2 mb-md-0">
+                                        <div class="p-2 rounded" style="background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.4);">
+                                            <div class="font-weight-bold text-warning" style="font-size: 1.1rem;">🥇 ORO (<?php echo $ptsOro; ?> pts)</div>
+                                            <div class="h6 font-weight-bold text-white mb-0 mt-1">
+                                                <?php echo $medOro ? e($medOro['delegacion_nombre']) : '<span class="text-light">Por definir</span>'; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-2 mb-md-0">
+                                        <div class="p-2 rounded" style="background: rgba(226, 232, 240, 0.15); border: 1px solid rgba(226, 232, 240, 0.4);">
+                                            <div class="font-weight-bold text-light" style="font-size: 1.1rem;">🥈 PLATA (<?php echo $ptsPlata; ?> pts)</div>
+                                            <div class="h6 font-weight-bold text-white mb-0 mt-1">
+                                                <?php echo $medPlata ? e($medPlata['delegacion_nombre']) : '<span class="text-light">Por definir</span>'; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="p-2 rounded" style="background: rgba(205, 127, 50, 0.15); border: 1px solid rgba(205, 127, 50, 0.4);">
+                                            <div class="font-weight-bold" style="color: #F6AD55; font-size: 1.1rem;">🥉 BRONCE (<?php echo $ptsBronce; ?> pts)</div>
+                                            <div class="h6 font-weight-bold text-white mb-0 mt-1">
+                                                <?php echo $medBronce ? e($medBronce['delegacion_nombre']) : '<span class="text-light">Por definir</span>'; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="row">
                         <!-- Tabla de Posiciones -->
