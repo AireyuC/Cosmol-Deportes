@@ -165,7 +165,6 @@ class Medallero extends Model {
                 FROM torneos t
                 INNER JOIN disciplinas d ON t.disciplina_id = d.id
                 WHERE t.olimpiada_id = :olimpiada_id
-                  AND t.estado IN ('Playoffs', 'Finalizado')
                 ORDER BY d.nombre ASC, t.rama ASC";
 
         return $this->fetchAll($sql, ['olimpiada_id' => (int)$olimpiadaId]);
